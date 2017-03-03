@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ALCDialog</class>
+ <widget class="QDialog" name="ALCDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>688</width>
+    <height>404</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ALC设置</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="8">
+    <widget class="QPushButton" name="delUAlcButton">
+     <property name="text">
+      <string>删除用户权限</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="8">
+    <widget class="QPushButton" name="okButton">
+     <property name="text">
+      <string>确定</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="6">
+    <widget class="QCheckBox" name="execheckBox">
+     <property name="text">
+      <string>执行</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="8">
+    <widget class="QTextBrowser" name="textBrowser"/>
+   </item>
+   <item row="4" column="1" colspan="4">
+    <widget class="QCheckBox" name="subcheckBox">
+     <property name="text">
+      <string>应用于子文件</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="8">
+    <widget class="QPushButton" name="delGAlcButton">
+     <property name="text">
+      <string>删除组权限</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="5">
+    <widget class="QCheckBox" name="wcheckBox">
+     <property name="text">
+      <string>写</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="6">
+    <widget class="QCheckBox" name="execheckBox_2">
+     <property name="text">
+      <string>执行</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>文件名:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="8">
+    <widget class="QPushButton" name="getalcButton">
+     <property name="text">
+      <string>查看ALC</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="7">
+    <widget class="QPushButton" name="setGAlcButton">
+     <property name="text">
+      <string>设置组权限</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="7">
+    <widget class="QPushButton" name="cancelButton">
+     <property name="text">
+      <string>取消</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="7">
+    <widget class="QPushButton" name="setUAlcButton">
+     <property name="text">
+      <string>设置用户权限</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="5">
+    <widget class="QCheckBox" name="wcheckBox_2">
+     <property name="text">
+      <string>写</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4" colspan="4">
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="4">
+    <widget class="QCheckBox" name="rcheckBox_2">
+     <property name="text">
+      <string>读</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>用户名:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4">
+    <widget class="QCheckBox" name="rcheckBox">
+     <property name="text">
+      <string>读</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2" colspan="2">
+    <widget class="QComboBox" name="userComboBox"/>
+   </item>
+   <item row="3" column="2" colspan="2">
+    <widget class="QComboBox" name="groupComboBox"/>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>属组名:</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

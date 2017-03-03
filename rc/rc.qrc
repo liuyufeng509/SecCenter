@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>style.qss</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file>arrow-down.png</file>
+        <file>arrow-down-hover.png</file>
+        <file>arrow-down-pressed.png</file>
+        <file>arrow-left.png</file>
+        <file>arrow-left-hover.png</file>
+        <file>arrow-left-pressed.png</file>
+        <file>arrow-right.png</file>
+        <file>arrow-right-hover.png</file>
+        <file>arrow-right-pressed.png</file>
+        <file>arrow-up.png</file>
+        <file>arrow-up-hover.png</file>
+        <file>arrow-up-pressed.png</file>
+        <file>branch-closed.png</file>
+        <file>branch-closed-hover.png</file>
+        <file>branch-closed-selected-hover.png</file>
+        <file>branch-open.png</file>
+        <file>branch-open-hover.png</file>
+        <file>branch-open-selected-hover.png</file>
+    </qresource>
+</RCC>

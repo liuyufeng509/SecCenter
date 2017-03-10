@@ -61,3 +61,11 @@ DISTFILES += \
     testQtCreator_english.ts \
 
 unix:!macx: LIBS +=  -lDacDemo
+
+
+LIBS+= -lglib-2.0 -lgtop-2.0
+
+INCLUDEPATH += /usr/include/glib-2.0 \
+                          /usr/lib64/glib-2.0/include   \
+                         /usr/include/libgtop-2.0   \
+

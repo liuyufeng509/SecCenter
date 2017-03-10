@@ -10,6 +10,29 @@
 #include<QMenu>
 #include<QAction>
 #include<QMap>
+#include<QProgressBar>
+#include<QLabel>
+#include<vector>
+#include<qglobal.h>
+#include <glibtop/cpu.h>
+#include<glibtop/mem.h>
+#include<glibtop/swap.h>
+#include <glibtop/sysinfo.h>
+#include <unistd.h>
+#include <QTimer>
+#include<QSettings>
+#include<QTextBrowser>
+#include<QDateTime>
+#include<QPushButton>
+#include <QLineEdit>
+#include<QScrollArea>
+
+#include <glibtop/mountlist.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include <glibtop/fsusage.h>
+#include <glibtop/mountlist.h>
+
 enum ROLE{
     ROOT,
     SECADMIN,
@@ -71,6 +94,12 @@ struct ServiceInfo
     RUNSTATE runStat;
 };
 
+struct CPUGrap
+{
+    QProgressBar *progressBar;
+    QLabel          *label;
+};
+
 ROLE get_user_role();
 QString GetCmdRes(QString cmd);
 QStringList get_users();
@@ -95,6 +124,54 @@ QString change_groups(UserInfo userinfo);
 QString del_user(UserInfo userinfo);
 
 
+//cpu and mem
+enum {
+    CPU_TOTAL,
+    CPU_USED,
+    N_CPU_STATES
+};
+
+struct cpu_record
+{
+    int now;
+    long times[2][GLIBTOP_MAX_CPU][GLIBTOP_NCPU];
+};
+
+struct CPU
+{
+    float total;
+    float used;
+    float useage;
+};
+
+struct MeM
+{
+    quint64 total;          //Byte
+    quint64 used;          //Byte
+    float      percent;
+};
+
+struct SWAP
+{
+    quint64 total;          //Byte
+    quint64 used;          //Byte
+    float      percent;
+};
+
+struct DISK
+{
+    quint64 devid;
+    QString devName;
+    QString  mountDir;
+    QString ftype;
+    guint64 used;
+    guint64 bfree;
+    guint64 bavail;
+    guint64 btotal;
+    int         percent;
+};
+
+
 //service option
 bool get_services(QList<ServiceInfo> &sevrs);
 
@@ -106,5 +183,23 @@ bool down_service_when_start(QString sname);
 
 bool stop_service(QString sname);
 bool start_service(QString sname);
+
+
+//cpu and mem
+int  get_n_cpu();
+void get_load (std::vector<CPU>  &cpus);
+
+void getmem(MeM &memInfo);
+void get_swap(SWAP &swapInfo);
+QString getHintNum(quint64 bytesNum);
+
+//config.ini
+QString getCwdPath();
+
+//file system
+void fsusage_stats(const glibtop_fsusage *buf,
+              guint64 *bused, guint64 *bfree, guint64 *bavail, guint64 *btotal,
+              gint *percentage);
+void get_fsInfo(QList<DISK> &disks);
 
 #endif // COMMON_H

@@ -16,6 +16,7 @@ public:
     ~TabSysPage();
     void UpdateToUI();
     void UpdateToSvrUI();
+    void UpdateToFS();
 public slots:
     void on_tableWidget_customContextMenuRequested(QPoint pos);
     void on_svrTableWidget_customContextMenuRequested(QPoint pos);
@@ -26,6 +27,25 @@ public slots:
 
     void set_up_down_when_start();
     void start_stop_service();
+
+   void  updateToCPU();
+   void updateToMem();
+
+   void openCputButtonClicked();
+   void clearLogButtonClicked();
+   void setWarnButtonClicked();
+
+   void openMemSwapButtonClicked();
+   void clearMemSwapButtonClicked();
+   void setWarnMemSwapButtonClicked();
+
+private slots:
+   void on_freshButton_clicked();
+
+   void on_cleanwarnButton_clicked();
+
+   void on_setWarnButton_clicked();
+
 private:
     Ui::TabSysPage *ui;
 
@@ -44,6 +64,37 @@ private:
     QAction *upAction;
     QAction *svrCtrlAction;
 
+
+    //cpu
+    QList<CPUGrap> cpuGraps;
+    int cpu_num;
+    QTimer *cpuTimer;
+    int cpuWarning;
+
+    QTextBrowser *browser;
+    QPushButton *openCpuButton;
+    QPushButton *clearLogButton;
+    QPushButton *setWarnButton;
+    QSettings  *configIniRead;
+
+
+    //mem and swap
+    QProgressBar *memProgressBar;
+    QLabel          *memLabel;
+    QProgressBar *swapProgressBar;
+    QLabel          *swapLabel;
+    QTextBrowser *memAndSwapBrowser;
+    QPushButton *openMemSwapButton;
+    QPushButton *clearMemSwapButton;
+    QPushButton *setWarnMemSwapButton;
+    int memWarning;
+    int swapWarning;
+    QTimer *memTimer;
+
+
+    //file system
+    QList<DISK> disks;
+    int diskwarning;
 };
 
 #endif // TABSYSPAGE_H

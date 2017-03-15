@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include"common.h"
+#include"logmainwindow.h"
 namespace Ui {
 class TabSysPage;
 }
@@ -54,6 +55,8 @@ private slots:
 
    void on_rebootButton_clicked();
 
+   void on_logButton_clicked();
+
 private:
     Ui::TabSysPage *ui;
 
@@ -103,6 +106,9 @@ private:
     //file system
     QList<DISK> disks;
     int diskwarning;
+
+    //log
+    LogMainWindow *logw;
 };
 
 #endif // TABSYSPAGE_H

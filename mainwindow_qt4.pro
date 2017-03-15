@@ -21,7 +21,8 @@ SOURCES += main.cpp\
         INDEX/indexwidget.cpp \
         SEC/tabsecritypage.cpp \
         SYS/tabsyspage.cpp \
-    SYS/userinfodialog.cpp
+    SYS/userinfodialog.cpp \
+    SYS/logmainwindow.cpp
 
 HEADERS  += mainwindow.h \
                common.h \
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h \
             INDEX/indexwidget.h \
             SEC/tabsecritypage.h \
             SYS/tabsyspage.h \
-    SYS/userinfodialog.h
+    SYS/userinfodialog.h \
+    SYS/logmainwindow.h
 
 FORMS    += mainwindow.ui \
      AUD/tabauditpage.ui \
@@ -41,7 +43,8 @@ FORMS    += mainwindow.ui \
     INDEX/indexwidget.ui \
     SEC/tabsecritypage.ui \
     SYS/tabsyspage.ui \
-    SYS/userinfodialog.ui
+    SYS/userinfodialog.ui \
+    SYS/logmainwindow.ui
 
 
 TRANSLATIONS += securityCenter.ts

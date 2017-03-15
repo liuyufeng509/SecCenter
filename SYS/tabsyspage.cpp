@@ -2,6 +2,7 @@
 #include "ui_tabsyspage.h"
 #include"userinfodialog.h"
 #include"time.h"
+#include"logmainwindow.h"
 TabSysPage::TabSysPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TabSysPage)
@@ -183,6 +184,8 @@ TabSysPage::TabSysPage(QWidget *parent) :
         ui->listWidget->item(3)->setHidden(true);
         ui->listWidget->item(2)->setHidden(true);
     }
+
+    logw = new LogMainWindow(this);
 }
 
 void TabSysPage::openMemSwapButtonClicked()
@@ -682,4 +685,9 @@ void TabSysPage::on_rebootButton_clicked()
     QMessageBox::StandardButton rb = QMessageBox::question(this, tr("警告"), tr("将要进行重启操作，请确保数据全部保存"),QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
     if(rb == QMessageBox::Yes)
         reboot();
+}
+
+void TabSysPage::on_logButton_clicked()
+{
+    logw->show();
 }

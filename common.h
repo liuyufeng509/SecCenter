@@ -124,6 +124,7 @@ QString change_groups(UserInfo userinfo);
 QString del_user(UserInfo userinfo);
 
 
+
 //cpu and mem
 enum {
     CPU_TOTAL,
@@ -184,6 +185,9 @@ bool down_service_when_start(QString sname);
 bool stop_service(QString sname);
 bool start_service(QString sname);
 
+void shutdown();
+void reboot();
+void logout();
 
 //cpu and mem
 int  get_n_cpu();

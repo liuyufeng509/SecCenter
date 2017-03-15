@@ -17,6 +17,8 @@ public:
     void UpdateToUI();
     void UpdateToSvrUI();
     void UpdateToFS();
+
+
 public slots:
     void on_tableWidget_customContextMenuRequested(QPoint pos);
     void on_svrTableWidget_customContextMenuRequested(QPoint pos);
@@ -45,6 +47,12 @@ private slots:
    void on_cleanwarnButton_clicked();
 
    void on_setWarnButton_clicked();
+
+   void on_shutdowButton_clicked();
+
+   void on_logoutButton_clicked();
+
+   void on_rebootButton_clicked();
 
 private:
     Ui::TabSysPage *ui;

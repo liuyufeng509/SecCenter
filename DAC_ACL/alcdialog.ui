@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ALC设置</string>
+   <string>ACL设置</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="8">
@@ -76,7 +76,7 @@
    <item row="0" column="8">
     <widget class="QPushButton" name="getalcButton">
      <property name="text">
-      <string>查看ALC</string>
+      <string>查看ACL</string>
      </property>
     </widget>
    </item>

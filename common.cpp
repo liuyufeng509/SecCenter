@@ -525,3 +525,20 @@ void get_fsInfo(QList<DISK> &disks)
    g_free(entries);
 }
 
+void shutdown()
+{
+    QString cmd = "shutdown now";
+    cmd = GetCmdRes(cmd);
+}
+
+void reboot()
+{
+    QString cmd = "reboot";
+    cmd = GetCmdRes(cmd);
+}
+
+void logout()
+{
+    QString cmd = "gnome-session-quit --logout --no-prompt";
+    cmd = GetCmdRes(cmd);
+}

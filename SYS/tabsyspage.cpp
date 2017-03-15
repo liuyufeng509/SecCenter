@@ -104,7 +104,6 @@ TabSysPage::TabSysPage(QWidget *parent) :
     configIniRead = new QSettings(path, QSettings::IniFormat);
     cpuWarning = configIniRead->value("CPU/warning").toInt();
     //hidden cpu function
-    ui->listWidget->item(2)->setHidden(true);
 
 
     //mem and swap
@@ -165,8 +164,6 @@ TabSysPage::TabSysPage(QWidget *parent) :
     memTimer = new QTimer(this);
     connect(memTimer, SIGNAL(timeout()), this, SLOT(updateToMem()));
     }
-    ui->listWidget->item(3)->setHidden(true);
-
 
     //file system
 
@@ -178,8 +175,14 @@ TabSysPage::TabSysPage(QWidget *parent) :
     ui->fsTableWidget->setEditTriggers ( QAbstractItemView::NoEditTriggers );
     diskwarning = configIniRead->value("DISK/warning").toInt();
     UpdateToFS();
-    ui->listWidget->item(4)->setHidden(true);
 
+    int isHid = configIniRead->value("Hid/hidden").toInt();
+    if(isHid)
+    {
+        ui->listWidget->item(4)->setHidden(true);
+        ui->listWidget->item(3)->setHidden(true);
+        ui->listWidget->item(2)->setHidden(true);
+    }
 }
 
 void TabSysPage::openMemSwapButtonClicked()
@@ -658,4 +661,25 @@ void TabSysPage::UpdateToFS()
             progress->setStyleSheet("");
         ui->fsTableWidget->setCellWidget(i, 6, progress);
     }
+}
+
+void TabSysPage::on_shutdowButton_clicked()
+{
+    QMessageBox::StandardButton rb = QMessageBox::question(this, tr("警告"), tr("将要进行关机操作，请确保数据全部保存"),QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    if(rb == QMessageBox::Yes)
+        shutdown();
+}
+
+void TabSysPage::on_logoutButton_clicked()
+{
+    QMessageBox::StandardButton rb = QMessageBox::question(this, tr("警告"), tr("将要进行注销操作，请确保数据全部保存"),QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    if(rb == QMessageBox::Yes)
+        logout();
+}
+
+void TabSysPage::on_rebootButton_clicked()
+{
+    QMessageBox::StandardButton rb = QMessageBox::question(this, tr("警告"), tr("将要进行重启操作，请确保数据全部保存"),QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    if(rb == QMessageBox::Yes)
+        reboot();
 }

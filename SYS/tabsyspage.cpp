@@ -3,6 +3,7 @@
 #include"userinfodialog.h"
 #include"time.h"
 #include"logmainwindow.h"
+#include"qreadconfig.h"
 TabSysPage::TabSysPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TabSysPage)
@@ -101,16 +102,14 @@ TabSysPage::TabSysPage(QWidget *parent) :
     connect(cpuTimer, SIGNAL(timeout()), this, SLOT(updateToCPU()));
     //cpuTimer->start(1000);
 
-    QString path = getCwdPath()+"config.ini";
-    configIniRead = new QSettings(path, QSettings::IniFormat);
-    cpuWarning = configIniRead->value("CPU/warning").toInt();
+    cpuWarning = QReadConfig::getInstance()->sysCfgInfo.cpu_warning;
     //hidden cpu function
 
 
     //mem and swap
     {
-    memWarning = configIniRead->value("MEM/warning").toInt();
-    swapWarning = configIniRead->value("SWAP/warning").toInt();
+    memWarning = QReadConfig::getInstance()->sysCfgInfo.mem_warning;
+    swapWarning = QReadConfig::getInstance()->sysCfgInfo.swap_warning;
 
     QVBoxLayout * vmemAndSwaplayout = new QVBoxLayout(ui->groupBox_5);
     memLabel = new QLabel(QString("内存：0M(0.0%),共0G"));
@@ -174,16 +173,21 @@ TabSysPage::TabSysPage(QWidget *parent) :
     ui->fsTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->fsTableWidget->setSelectionMode ( QAbstractItemView::SingleSelection); //设置选择模式，选择单行
     ui->fsTableWidget->setEditTriggers ( QAbstractItemView::NoEditTriggers );
-    diskwarning = configIniRead->value("DISK/warning").toInt();
+    diskwarning = QReadConfig::getInstance()->sysCfgInfo.disk_warning;
     UpdateToFS();
 
-    int isHid = configIniRead->value("Hid/hidden").toInt();
-    if(isHid)
-    {
-        ui->listWidget->item(4)->setHidden(true);
-        ui->listWidget->item(3)->setHidden(true);
-        ui->listWidget->item(2)->setHidden(true);
-    }
+    ui->listWidget->item(0)->setHidden(QReadConfig::getInstance()->sysCfgInfo.user_hidden);
+    ui->idfyPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.user_hidden);
+    ui->listWidget->item(1)->setHidden(QReadConfig::getInstance()->sysCfgInfo.serv_hidden);
+    ui->svrPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.serv_hidden);
+    ui->listWidget->item(2)->setHidden(QReadConfig::getInstance()->sysCfgInfo.cpu_hidden);
+    ui->cpuPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.cpu_hidden);
+    ui->listWidget->item(3)->setHidden(QReadConfig::getInstance()->sysCfgInfo.mem_hidden);
+    ui->memPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.mem_hidden);
+    ui->listWidget->item(4)->setHidden(QReadConfig::getInstance()->sysCfgInfo.disk_hidden);
+    ui->fsPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.disk_hidden);
+    ui->listWidget->item(5)->setHidden(QReadConfig::getInstance()->sysCfgInfo.other_hidden);
+    ui->otherPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.other_hidden);
 
     logw = new LogMainWindow(this);
 }
@@ -253,8 +257,9 @@ void TabSysPage::setWarnMemSwapButtonClicked()
         else
         {
             QMessageBox::information(this, tr("提示"), tr("报警界限设置成功"));
-            configIniRead->setValue("MEM/warning",lineEdit->text().toInt());
-            configIniRead->setValue("SWAP/warning",lineEdit2->text().toInt());
+            QReadConfig::getInstance()->sysCfgInfo.mem_warning = lineEdit->text().toInt();
+            QReadConfig::getInstance()->sysCfgInfo.swap_warning = lineEdit2->text().toInt();
+            QReadConfig::getInstance()->setSysCfgInfoToFile();
              memWarning = lineEdit->text().toInt();
              swapWarning = lineEdit2->text().toInt();
         }
@@ -310,7 +315,8 @@ void TabSysPage::setWarnButtonClicked()
         else
         {
             QMessageBox::information(this, tr("提示"), tr("报警界限设置成功"));
-            configIniRead->setValue("CPU/warning",lineEdit->text().toInt());
+            QReadConfig::getInstance()->sysCfgInfo.cpu_warning=lineEdit->text().toInt();
+            QReadConfig::getInstance()->setSysCfgInfoToFile();
             cpuWarning = lineEdit->text().toInt();
         }
     }
@@ -630,7 +636,8 @@ void TabSysPage::on_setWarnButton_clicked()
         else
         {
             QMessageBox::information(this, tr("提示"), tr("报警界限设置成功"));
-            configIniRead->setValue("DISK/warning",lineEdit->text().toInt());
+            QReadConfig::getInstance()->sysCfgInfo.disk_warning=lineEdit->text().toInt();
+            QReadConfig::getInstance()->setSysCfgInfoToFile();
             diskwarning = lineEdit->text().toInt();
         }
     }

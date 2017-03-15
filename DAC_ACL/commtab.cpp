@@ -5,6 +5,7 @@
 #include"common.h"
 #include<QFileInfo>
 #include"alcdialog.h"
+#include"qreadconfig.h"
 CommTab::CommTab(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CommTab)
@@ -26,6 +27,11 @@ CommTab::CommTab(QWidget *parent) :
 //    connect(ui->rCheckBox_3, SIGNAL(clicked(bool)), this, SLOT(persionSet(bool)));
 //    connect(ui->wCheckBox_3, SIGNAL(clicked(bool)), this, SLOT(persionSet(bool)));
 //    connect(ui->exeCheckBox_3, SIGNAL(clicked(bool)), this, SLOT(persionSet(bool)));
+
+    ui->listWidget->item(0)->setHidden(QReadConfig::getInstance()->comInfo.dac_hidden);
+    ui->dacPage->setHidden(QReadConfig::getInstance()->comInfo.dac_hidden);
+    ui->listWidget->item(1)->setHidden(QReadConfig::getInstance()->comInfo.other_hidden);
+    ui->otherPage->setHidden(QReadConfig::getInstance()->comInfo.other_hidden);
 }
 
 void CommTab::SetUiEnable(bool enable)

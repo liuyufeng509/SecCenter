@@ -53,7 +53,7 @@ void ALCDialog::on_getalcButton_clicked()
     char Message[1024]={};
     char filename[1024]={};
     strcpy(filename, fileAttr.fileName.toStdString().c_str());
-    if(GetFileAcl(filename, Message, sizeof(Message))==0)
+    if(getFileAcl(filename, Message, sizeof(Message))==0)
         ui->textBrowser->setText(QString(Message));
     else
         ui->textBrowser->setText("查看ACL信息失败:"+QString(Message));
@@ -73,7 +73,7 @@ void ALCDialog::on_setUAlcButton_clicked()
     QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+ "  -m u:"+user + ":"+(ui->rcheckBox->isChecked()?"r":"-")
             + (ui->wcheckBox->isChecked()?"w":"-")+(ui->execheckBox->isChecked()?"x":"-") + " "+ fileAttr.fileName;
 
-   if(SetFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
+   if(setFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
    {
        qDebug()<<Message;
    }else
@@ -93,7 +93,7 @@ void ALCDialog::on_delUAlcButton_clicked()
     char Message[512]={};
     QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+"  -x u:"+user + " " +fileAttr.fileName;
 
-   if(SetFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
+   if(setFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
    {
        qDebug()<<Message;
    }else
@@ -113,7 +113,7 @@ void ALCDialog::on_setGAlcButton_clicked()
     QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+ "  -m g:"+group + ":"+(ui->rcheckBox_2->isChecked()?"r":"-")
             + (ui->wcheckBox_2->isChecked()?"w":"-")+(ui->execheckBox_2->isChecked()?"x":"-") + " "+ fileAttr.fileName;
 
-   if(SetFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
+   if(setFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
    {
        qDebug()<<Message;
    }else
@@ -133,7 +133,7 @@ void ALCDialog::on_delGAlcButton_clicked()
     char Message[512]={};
     QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+"  -x g:"+group +" "+ fileAttr.fileName;
 
-   if(SetFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
+   if(setFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
    {
        qDebug()<<Message;
    }else

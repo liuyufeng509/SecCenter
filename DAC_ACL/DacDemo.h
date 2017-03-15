@@ -13,15 +13,15 @@
 #include <grp.h>
 #include <fcntl.h>
 #include <sys/types.h>
-extern "C"
-{
+//extern "C"
+//{
 /*
  *函数名称： 
  *函数功能：
  *输入参数：
  *函数返回：
  * */
-int CheckFileProperties(char* FileName,struct stat *buf,int *error);
+int checkFileProperties(char* FileName,struct stat *buf,int *error);
 
 /*
  *函数名称：GetFileUserAndPerssion 
@@ -31,7 +31,7 @@ int CheckFileProperties(char* FileName,struct stat *buf,int *error);
 	    Othererssion其他权限
  *函数返回：正确返回0错误返回-1
  * */
-int GetFileUserAndPerssion(char * ErrorMes,char *FileName,int *SPermission,char *UserName,int *UserPerssion,
+int getFileUserAndPerssion(char * ErrorMes,char *FileName,int *SPermission,char *UserName,int *UserPerssion,
 		char *GroupName, int *GrpPerssion,int *OtherPerssion);
 
 /*
@@ -40,7 +40,7 @@ int GetFileUserAndPerssion(char * ErrorMes,char *FileName,int *SPermission,char 
  *输入参数：path文见名称，mode 文件权限码，ErrorMes 错误信息
  *函数返回：正确返回0错误返回-1
  * */
-int SetFilePerssion(char* path,mode_t mode,char *ErrorMes);
+int setFilePerssion(char* path,mode_t mode,char *ErrorMes);
 
 
 /*
@@ -49,7 +49,7 @@ int SetFilePerssion(char* path,mode_t mode,char *ErrorMes);
  *输入参数：FileName 文件名称，Message文件acl信息，MessageLong 信息长度 
  *函数返回：正确返回0，错误返回-1
  * */
-int GetFileAcl(char *FileName,char *Message,int MessageLong);
+int getFileAcl(char *FileName,char *Message,int essageLong);
 
 
 //int SetFileAcl(char* opition,char *name,char *perssion,char *file,char* Message)
@@ -59,7 +59,7 @@ int GetFileAcl(char *FileName,char *Message,int MessageLong);
  *输入参数：cmd 设置命令，message 返回信息
  *函数返回：正确返回0，错误返回-1
  * */
-int SetFileAcl(char* cmd,char* Message);
-}
+int setFileAcl(char* cmd,char* Message);
+//}
 
 

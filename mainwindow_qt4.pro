@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = mainwindow_qt4
+TARGET = nfs-security-center
 TEMPLATE = app
 
 
@@ -22,7 +22,9 @@ SOURCES += main.cpp\
         SEC/tabsecritypage.cpp \
         SYS/tabsyspage.cpp \
     SYS/userinfodialog.cpp \
-    SYS/logmainwindow.cpp
+    SYS/logmainwindow.cpp \
+    DAC_ACL/DacDemo.cpp \
+    qreadconfig.cpp
 
 HEADERS  += mainwindow.h \
                common.h \
@@ -34,7 +36,8 @@ HEADERS  += mainwindow.h \
             SEC/tabsecritypage.h \
             SYS/tabsyspage.h \
     SYS/userinfodialog.h \
-    SYS/logmainwindow.h
+    SYS/logmainwindow.h \
+    qreadconfig.h
 
 FORMS    += mainwindow.ui \
      AUD/tabauditpage.ui \
@@ -62,8 +65,6 @@ RESOURCES += \
 DISTFILES += \
     testQtCreator_english.qm \
     testQtCreator_english.ts \
-
-unix:!macx: LIBS +=  -lDacDemo
 
 
 LIBS+= -lglib-2.0 -lgtop-2.0

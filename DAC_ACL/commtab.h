@@ -5,6 +5,7 @@
 #include<unistd.h>
 #include <sys/stat.h>
 #include"common.h"
+#include<QSettings>
 namespace Ui {
 class CommTab;
 }

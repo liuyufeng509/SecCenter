@@ -86,8 +86,6 @@ private:
     QPushButton *openCpuButton;
     QPushButton *clearLogButton;
     QPushButton *setWarnButton;
-    QSettings  *configIniRead;
-
 
     //mem and swap
     QProgressBar *memProgressBar;

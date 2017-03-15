@@ -5,7 +5,7 @@
 #include<QString>
 #include<QStringList>
 #include"commtab.h"
-
+#include"qreadconfig.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+
+    QReadConfig::getInstance()->readConfigFile();
 
     tabSecrityPage = new TabSecrityPage(ui->tabWidget);
     tabSysPage = new TabSysPage(ui->tabWidget);

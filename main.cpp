@@ -4,7 +4,7 @@
 #include<QtDebug>
 #include <QFile>
 #include <QTextCodec>
-
+#include"qreadconfig.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
       a.setStyleSheet(styleSheet);
       qss->close();
       qss->deleteLater();
+
 
       MainWindow w;
       w.show();

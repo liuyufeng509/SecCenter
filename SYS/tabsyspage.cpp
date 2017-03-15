@@ -11,6 +11,7 @@ TabSysPage::TabSysPage(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
+    ui->listWidget->setCurrentRow(0);
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     QHeaderView* headerView = ui->tableWidget->verticalHeader();
     headerView->setHidden(true);

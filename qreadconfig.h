@@ -33,6 +33,7 @@ public:
            {
                m_pInstance = new QReadConfig();
                QString path = getCwdPath()+"config.ini";
+               //QString path = "/etc/config.ini";
                m_pInstance->configIniRead = new QSettings(path, QSettings::IniFormat);
            }
            return m_pInstance;

@@ -11,7 +11,6 @@ TabSysPage::TabSysPage(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
-    ui->listWidget->setCurrentRow(0);
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     QHeaderView* headerView = ui->tableWidget->verticalHeader();
     headerView->setHidden(true);
@@ -177,18 +176,20 @@ TabSysPage::TabSysPage(QWidget *parent) :
     diskwarning = QReadConfig::getInstance()->sysCfgInfo.disk_warning;
     UpdateToFS();
 
-    ui->listWidget->item(0)->setHidden(QReadConfig::getInstance()->sysCfgInfo.user_hidden);
-    ui->idfyPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.user_hidden);
+     ui->listWidget->item(0)->setHidden(QReadConfig::getInstance()->sysCfgInfo.user_hidden);
     ui->listWidget->item(1)->setHidden(QReadConfig::getInstance()->sysCfgInfo.serv_hidden);
-    ui->svrPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.serv_hidden);
     ui->listWidget->item(2)->setHidden(QReadConfig::getInstance()->sysCfgInfo.cpu_hidden);
-    ui->cpuPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.cpu_hidden);
     ui->listWidget->item(3)->setHidden(QReadConfig::getInstance()->sysCfgInfo.mem_hidden);
-    ui->memPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.mem_hidden);
     ui->listWidget->item(4)->setHidden(QReadConfig::getInstance()->sysCfgInfo.disk_hidden);
-    ui->fsPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.disk_hidden);
     ui->listWidget->item(5)->setHidden(QReadConfig::getInstance()->sysCfgInfo.other_hidden);
-    ui->otherPage->setHidden(QReadConfig::getInstance()->sysCfgInfo.other_hidden);
+    for(int i=0; i<ui->listWidget->count(); i++)
+    {
+        if(!ui->listWidget->item(i)->isHidden())
+        {
+            ui->listWidget->setCurrentRow(i);
+            break;
+        }
+    }
 
     logw = new LogMainWindow(this);
 }

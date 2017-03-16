@@ -28,6 +28,8 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
 void TabSecrityPage::get_services()
 {
     //enhanced-trylock  -l
+    QString cmd = "enhanced-trylock  -l;echo $?";
+    cmd = GetCmdRes(cmd);
     services<<"login"<<"ssh"<<"gdm";
 
 }

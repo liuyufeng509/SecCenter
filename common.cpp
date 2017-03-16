@@ -21,8 +21,15 @@ QString GetCmdRes(QString cmd)
 
 ROLE get_user_role()
 {
-    QString cmd = "id -u";
+    QString cmd = "id -u; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
+    QStringList strl = cmd.split('\n');
+    if(strl[strl.length()-1].toInt()!=0)
+    {
+        qDebug()<<"id -u execute failed";
+        return NORMALUSER;
+    }
+    cmd = strl[0];
     ROLE res = NORMALUSER;
     if(cmd.toInt()==0)
     {
@@ -44,29 +51,45 @@ ROLE get_user_role()
 
 QStringList get_users()
 {
-    QString cmd = "awk -F: \'{print $1}\' /etc/passwd";
-    cmd = GetCmdRes(cmd);
+    QString cmd = "awk -F: \'{print $1}\' /etc/passwd; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList strl = cmd.split('\n');
+    if(strl[strl.length()-1].toInt()!=0)
+    {
+        qDebug()<<"get_users command:\"awk -F: \'{print $1}\' /etc/passwd\" execute failed";
+        return QStringList();
+    }
     qDebug()<<cmd;
-    //return cmd;
-    QStringList list = cmd.split('\n');
-    list.removeAt(list.length()-1);
-    return list;
+
+    strl.removeLast();
+    return strl;
 }
 
 QStringList get_groups()
 {
-    QString cmd = "awk -F: \'{print $1}\' /etc/group";
-    cmd = GetCmdRes(cmd);
+    QString cmd = "awk -F: \'{print $1}\' /etc/group; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+     QStringList strl = cmd.split('\n');
+    if(strl[strl.length()-1].toInt()!=0)
+    {
+        qDebug()<<"get_groupss command:\"awk -F: \'{print $1}\' /etc/passwd\" execute failed";
+        return QStringList();
+    }
     qDebug()<<cmd;
-    QStringList list = cmd.split('\n');
-    list.removeAt(list.length()-1);
-    return list;
+    strl.removeLast();
+    return strl;
 }
 
 QString get_cur_user()
 {
-    QString cmd = "whoami";
+    QString cmd = "whoami; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
+    QStringList strl = cmd.split('\n');
+   if(strl.last().toInt()!=0)
+   {
+       qDebug()<<"get_cur_user command:\"awk -F: \'{print $1}\' /etc/passwd\" execute failed";
+       return "";
+   }
     return cmd;
 }
 

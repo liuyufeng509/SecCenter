@@ -32,8 +32,8 @@ public:
            if(m_pInstance == NULL)
            {
                m_pInstance = new QReadConfig();
-               QString path = getCwdPath()+"config.ini";
-               //QString path = "/etc/config.ini";
+               //QString path = getCwdPath()+"config.ini";
+               QString path = "/etc/sysctl.d/Security.conf";
                m_pInstance->configIniRead = new QSettings(path, QSettings::IniFormat);
            }
            return m_pInstance;

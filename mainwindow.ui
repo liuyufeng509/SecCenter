@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>818</width>
+    <height>599</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,6 +17,9 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QLabel" name="label">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -33,7 +36,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="mainwindow.qrc">:/new/index/image/index.jpg</pixmap>
+       <pixmap resource="mainwindow.qrc">:/new/index/image/index.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -49,7 +52,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
   <include location="mainwindow.qrc"/>

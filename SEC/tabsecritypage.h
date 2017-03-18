@@ -20,6 +20,10 @@ private slots:
     
     void on_unlockButton_clicked();
 
+    void on_open_closeButton_clicked();
+
+    void on_setPwButton_clicked();
+
 private:
     Ui::TabSecrityPage *ui;
     QStringList services;

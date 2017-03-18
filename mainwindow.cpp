@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->tabWidget->addTab(tabSecrityPage, tr("安全管理员"));
         ui->tabWidget->addTab(tabSysPage, tr("系统管理员"));
         ui->tabWidget->addTab(tabAuditPage, tr("审计管理员"));
-        ui->tabWidget->addTab(tabCommPage, tr("常规"));
+       ui->tabWidget->addTab(tabCommPage, tr("常规"));
         break;
     case SECADMIN:
 //        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabSysPage));
@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         ui->tabWidget->addTab(indexWidget, tr("欢迎信息"));
         ui->tabWidget->addTab(tabAuditPage, tr("审计管理员"));
-        ui->tabWidget->addTab(tabCommPage, tr("常规"));
+       ui->tabWidget->addTab(tabCommPage, tr("常规"));
         break;
     case NORMALUSER:
 //        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabSecrityPage));
@@ -71,11 +71,12 @@ MainWindow::MainWindow(QWidget *parent) :
         indexWidget = new IndexWidget(ui->tabWidget);
 
         ui->tabWidget->addTab(indexWidget, tr("欢迎信息"));
-        ui->tabWidget->addTab(tabCommPage, tr("常规"));
+       ui->tabWidget->addTab(tabCommPage, tr("常规"));
         break;
     default:
         break;
     }
+    ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabCommPage));
     ui->tabWidget->setCurrentIndex(0);
 }
 

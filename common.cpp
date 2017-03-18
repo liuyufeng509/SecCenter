@@ -565,3 +565,80 @@ void logout()
     QString cmd = "gnome-session-quit --logout --no-prompt";
     cmd = GetCmdRes(cmd);
 }
+
+bool get_trylock_services(QStringList &list)
+{
+    list.clear();
+    QString cmd = "enhanced-trylock  -l;echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    list = cmd.split("\n");
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"enhanced-trylock -l failed";
+        list.clear();
+        return false;
+    }
+    list.removeFirst();     //delete "avilable:"
+    list.removeLast();
+    return true;
+}
+
+bool trylock_service(QString cmd)
+{
+     cmd = GetCmdRes(cmd).trimmed();
+     QStringList list = cmd.split("\n");
+     if(list.last().toInt()!=0)
+     {
+         qDebug()<<"trylock service failed";
+         return false;
+     }
+     return true;
+}
+
+//bool get_all_locked_users(QStringList &list)
+//{
+//    QString cmd = "pam_tally2 |sed \'s/ / /\' | awk \'{print $1}\'; echo $?";
+//    cmd = GetCmdRes(cmd).trimmed();
+//    list = cmd.split('\n');
+//    list.removeFirst();
+//    if(list.last().toInt()!=0)
+//    {
+
+//    }
+//}
+
+bool unlock_all_users()
+{
+    QString cmd = "pam_tally2 -r; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split("\n");
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"pam_tally2 -r failed";
+        return false;
+    }
+    return true;
+}
+
+bool set_pwd_rule(QString cmd)
+{
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split("\n");
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"set_pwd_rule failed";
+        return false;
+    }
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+

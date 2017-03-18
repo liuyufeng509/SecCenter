@@ -123,7 +123,12 @@ bool is_group_exist(QString groupname);
 QString change_groups(UserInfo userinfo);
 QString del_user(UserInfo userinfo);
 
+bool get_trylock_services(QStringList &list);
+bool trylock_service(QString cmd);
 
+//bool get_all_locked_users(QStringList &list);
+bool unlock_all_users();
+bool set_pwd_rule(QString cmd);
 
 //cpu and mem
 enum {

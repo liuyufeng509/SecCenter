@@ -24,7 +24,11 @@ SOURCES += main.cpp\
     SYS/userinfodialog.cpp \
     SYS/logmainwindow.cpp \
     DAC_ACL/DacDemo.cpp \
-    qreadconfig.cpp
+    qreadconfig.cpp \
+    AUD/querydialog.cpp \
+    AUD/reportdialog.cpp \
+    AUD/ruledialog.cpp \
+    AUD/configdialog.cpp
 
 HEADERS  += mainwindow.h \
                common.h \
@@ -37,7 +41,11 @@ HEADERS  += mainwindow.h \
             SYS/tabsyspage.h \
     SYS/userinfodialog.h \
     SYS/logmainwindow.h \
-    qreadconfig.h
+    qreadconfig.h \
+    AUD/querydialog.h \
+    AUD/reportdialog.h \
+    AUD/ruledialog.h \
+    AUD/configdialog.h
 
 FORMS    += mainwindow.ui \
      AUD/tabauditpage.ui \
@@ -47,7 +55,11 @@ FORMS    += mainwindow.ui \
     SEC/tabsecritypage.ui \
     SYS/tabsyspage.ui \
     SYS/userinfodialog.ui \
-    SYS/logmainwindow.ui
+    SYS/logmainwindow.ui \
+    AUD/querydialog.ui \
+    AUD/reportdialog.ui \
+    AUD/ruledialog.ui \
+    AUD/configdialog.ui
 
 
 TRANSLATIONS += securityCenter.ts

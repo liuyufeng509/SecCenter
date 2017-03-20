@@ -632,11 +632,71 @@ bool set_pwd_rule(QString cmd)
     return true;
 }
 
+bool get_sec_status(SecStatus &status)
+{
+    QString cmd = "sestatus | awk -F:\ '{print $2}\'| awk \'{sub(\"^ *\",\"\");sub(\" *$\",\"\");print}\'; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"get_security_status failed,errno:"<<list.last();
+        return false;
+    }
+    list.removeLast();
+    status.selinux_status = list[0];
+    status.selinux_fs_mount = list[1];
+    status.selinux_root_dir = list[2];
+    status.load_policy_name = list[3];
+    status.curr_mode = list[4];
+    status.mode_frm_cfg = list[5];
+    status.mls_status = list[6];
+    status.policy_deny_stat = list[7];
+    status.max_kern_policy_version=list[8];
+    return true;
+
+}
 
 
+bool open_close_sec_policy(bool open)
+{
+    QString cmd = QString("setenforce ") + (open?"1":"0" )+ " ; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"open/close security policy failed errno:"<<list.last();
+        return false;
+    }
+    return true;
+}
 
 
+bool get_user_taginfo(QList<UserTag> &reslist)
+{
+    QString cmd = "semanage user -l | awk \'NR>4 {print $1,$3}\' ; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"get_user_taginfo failed,errorno:"<<list.last();
+        return false;
+    }
+    list.removeLast();
+    reslist.clear();
+    for(int i=0; i<list.length(); i++)
+    {
 
+        QStringList tmpl = list[i].split(' ');
+        UserTag usrinfo;
+        usrinfo.username = tmpl[0];
+        usrinfo.safeTag = tmpl[1];
+        usrinfo.wholeTag = tmpl[1];
+        reslist.append(usrinfo);
+    }
+
+    return true;
+}
 
 
 

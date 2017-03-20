@@ -3,9 +3,12 @@
 
 #include <QWidget>
 #include"common.h"
+
 namespace Ui {
 class TabSecrityPage;
 }
+
+
 
 class TabSecrityPage : public QWidget
 {
@@ -15,6 +18,8 @@ public:
     explicit TabSecrityPage(QWidget *parent = 0);
     ~TabSecrityPage();
     void get_services();
+    void UpdateToSecStatus();
+    void initSecStatusUI();
 private slots:
     void on_setusButton_clicked();
     
@@ -24,9 +29,14 @@ private slots:
 
     void on_setPwButton_clicked();
 
+    void on_fresh_staButton_clicked();
+
 private:
     Ui::TabSecrityPage *ui;
     QStringList services;
+    SecStatus secStatus;
+
+    QList<UserTag> user_list;
 };
 
 #endif // TABSECRITYPAGE_H

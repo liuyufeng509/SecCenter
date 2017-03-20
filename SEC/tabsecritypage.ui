@@ -84,7 +84,7 @@
    <item row="0" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="idfyPage">
       <layout class="QGridLayout" name="gridLayout_3">
@@ -269,7 +269,7 @@
       <widget class="QPushButton" name="open_closeButton">
        <property name="geometry">
         <rect>
-         <x>170</x>
+         <x>290</x>
          <y>340</y>
          <width>141</width>
          <height>29</height>
@@ -298,8 +298,11 @@
         </item>
         <item row="0" column="1">
          <widget class="QLineEdit" name="seStaEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>enabled</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -312,8 +315,11 @@
         </item>
         <item row="1" column="1">
          <widget class="QLineEdit" name="fsMountEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>/sys/fs/selinux</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -326,8 +332,11 @@
         </item>
         <item row="2" column="1">
          <widget class="QLineEdit" name="rootDirEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>/etc/selinux</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -340,8 +349,11 @@
         </item>
         <item row="3" column="1">
          <widget class="QLineEdit" name="polnameEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>targeted</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -354,8 +366,11 @@
         </item>
         <item row="4" column="1">
          <widget class="QLineEdit" name="modeEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>enforcing</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -368,8 +383,11 @@
         </item>
         <item row="5" column="1">
          <widget class="QLineEdit" name="modeCfgEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>enforcing</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -382,8 +400,11 @@
         </item>
         <item row="6" column="1">
          <widget class="QLineEdit" name="mlsEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>enabled</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -396,8 +417,11 @@
         </item>
         <item row="7" column="1">
          <widget class="QLineEdit" name="denyEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>allowed</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -410,21 +434,22 @@
         </item>
         <item row="8" column="1">
          <widget class="QLineEdit" name="versionEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>28</string>
+           <string/>
           </property>
          </widget>
         </item>
        </layout>
       </widget>
-     </widget>
-     <widget class="QWidget" name="userSecPage">
-      <widget class="QPushButton" name="freshButton">
+      <widget class="QPushButton" name="fresh_staButton">
        <property name="geometry">
         <rect>
-         <x>80</x>
-         <y>250</y>
-         <width>101</width>
+         <x>60</x>
+         <y>340</y>
+         <width>141</width>
          <height>29</height>
         </rect>
        </property>
@@ -432,69 +457,47 @@
         <string>刷新</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="setButton">
+     </widget>
+     <widget class="QWidget" name="userSecPage">
+      <widget class="QGroupBox" name="groupBox_5">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
-         <x>310</x>
-         <y>250</y>
-         <width>121</width>
-         <height>29</height>
+         <x>10</x>
+         <y>10</y>
+         <width>543</width>
+         <height>458</height>
         </rect>
        </property>
-       <property name="text">
-        <string>设置</string>
+       <property name="title">
+        <string>用户管理</string>
        </property>
-      </widget>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>70</x>
-         <y>50</y>
-         <width>361</width>
-         <height>161</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_9">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_18">
-          <property name="text">
-           <string>用户名：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="usernameEdit">
-          <property name="text">
-           <string>user_u</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_19">
-          <property name="text">
-           <string>安全性标记：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="u_sec_tagEdit">
-          <property name="text">
-           <string>s0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_20">
-          <property name="text">
-           <string>完整性标记：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="u_whole_tagEdit">
-          <property name="text">
-           <string>s0-s0:c0.c1023</string>
-          </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QTableWidget" name="tableWidget">
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>171</number>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>用户名</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>用户编号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>所属组</string>
+           </property>
+          </column>
          </widget>
         </item>
        </layout>

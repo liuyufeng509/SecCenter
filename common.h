@@ -130,6 +130,43 @@ bool trylock_service(QString cmd);
 bool unlock_all_users();
 bool set_pwd_rule(QString cmd);
 
+//about Security
+struct SecStatus
+{
+    QString selinux_status;
+    QString selinux_fs_mount;
+    QString selinux_root_dir;
+    QString load_policy_name;
+    QString curr_mode;
+    QString mode_frm_cfg;
+    QString mls_status;
+    QString policy_deny_stat;
+    QString max_kern_policy_version;
+    void clear()
+    {
+        selinux_status="";
+        selinux_fs_mount="";
+        selinux_root_dir="";
+        load_policy_name="";
+        curr_mode="";
+        mode_frm_cfg="";
+        mls_status="";
+        policy_deny_stat="";
+        max_kern_policy_version="";
+    }
+};
+
+bool get_sec_status(SecStatus &status);
+bool open_close_sec_policy(bool open);
+
+struct UserTag
+{
+    QString username;
+    QString safeTag;
+    QString wholeTag;
+};
+bool get_user_taginfo(QList<UserTag> &reslist);
+
 //cpu and mem
 enum {
     CPU_TOTAL,

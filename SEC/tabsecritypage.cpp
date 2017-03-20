@@ -23,6 +23,53 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     ui->secLineEdit->setText("30");
     ui->comboBox->setCurrentIndex(0);
 
+
+    //security status
+    initSecStatusUI();
+    if(!get_sec_status(secStatus))
+    {
+        secStatus.clear();
+    }else
+    {
+        UpdateToSecStatus();
+    }
+
+    if(secStatus.curr_mode == tr("enforcing"))
+        ui->open_closeButton->setText(tr("关闭安全策略"));
+    else
+        ui->open_closeButton->setText(tr("开启安全策略"));
+
+
+    //user security tag
+    get_user_taginfo(user_list);
+}
+
+
+
+void TabSecrityPage::UpdateToSecStatus()
+{
+    ui->seStaEdit->setText(secStatus.selinux_status);
+    ui->fsMountEdit->setText(secStatus.selinux_fs_mount);
+    ui->rootDirEdit->setText(secStatus.selinux_root_dir);
+    ui->polnameEdit->setText(secStatus.load_policy_name);
+    ui->modeEdit->setText(secStatus.curr_mode);
+    ui->modeCfgEdit->setText(secStatus.mode_frm_cfg);
+    ui->mlsEdit->setText(secStatus.mls_status);
+    ui->denyEdit->setText(secStatus.policy_deny_stat);
+    ui->versionEdit->setText(secStatus.max_kern_policy_version);
+}
+
+void TabSecrityPage::initSecStatusUI()
+{
+    ui->seStaEdit->setReadOnly(true);
+    ui->fsMountEdit->setReadOnly(true);
+    ui->rootDirEdit->setReadOnly(true);
+    ui->polnameEdit->setReadOnly(true);
+    ui->modeEdit->setReadOnly(true);
+    ui->modeCfgEdit->setReadOnly(true);
+    ui->mlsEdit->setReadOnly(true);
+    ui->denyEdit->setReadOnly(true);
+    ui->versionEdit->setReadOnly(true);
 }
 
 void TabSecrityPage::get_services()
@@ -81,6 +128,28 @@ void TabSecrityPage::on_setPwButton_clicked()
 
 void TabSecrityPage::on_open_closeButton_clicked()
 {
-
+    if(ui->open_closeButton->text() == tr("关闭安全策略"))
+    {
+        open_close_sec_policy(false);
+        ui->open_closeButton->setText(tr("开启安全策略"));
+    }
+    else
+    {
+        open_close_sec_policy(true);
+        ui->open_closeButton->setText(tr("关闭安全策略"));
+    }
+    on_fresh_staButton_clicked();
 }
 
+
+void TabSecrityPage::on_fresh_staButton_clicked()
+{
+    initSecStatusUI();
+    if(!get_sec_status(secStatus))
+    {
+        secStatus.clear();
+    }else
+    {
+        UpdateToSecStatus();
+    }
+}

@@ -33,6 +33,7 @@ QTextEdit {
    background-color: #666666;
    color: #cccccc;
 }
+
 QScrollBar:horizontal {
    height: 20px;
 }

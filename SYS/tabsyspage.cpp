@@ -11,6 +11,7 @@ TabSysPage::TabSysPage(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
+    connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(init_data_of_page(int)));
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     QHeaderView* headerView = ui->tableWidget->verticalHeader();
     headerView->setHidden(true);
@@ -28,7 +29,7 @@ TabSysPage::TabSysPage(QWidget *parent) :
    connect(edtusrAction, SIGNAL(triggered()), this, SLOT(edit_user_action()));
    connect(delusrAction, SIGNAL(triggered()), this, SLOT(del_user_action()));
 
-    UpdateToUI();
+    UpdateToUsersUI();
 
     //about service manager
     ui->svrTableWidget->horizontalHeader()->setStretchLastSection(true);
@@ -55,8 +56,8 @@ TabSysPage::TabSysPage(QWidget *parent) :
     connect(upAction, SIGNAL(triggered()), this, SLOT(set_up_down_when_start()));
     connect(svrCtrlAction, SIGNAL(triggered()), this, SLOT(start_stop_service()));
 
-    get_services(sevrs);
-    UpdateToSvrUI();
+//    get_services(sevrs);
+//    UpdateToSvrUI();
     //time_t t2 = time(NULL);
    // qDebug()<<t2-t1;
 
@@ -212,6 +213,16 @@ void TabSysPage::openMemSwapButtonClicked()
         swapLabel->setText(tr("交换：0M(0.0%),共0G"));
     }
 
+}
+
+void TabSysPage::init_data_of_page(int page)
+{
+    if(page == 1)       //servies
+    {
+        get_services(sevrs);
+        UpdateToSvrUI();
+        disconnect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(init_data_of_page(int)));
+    }
 }
 
 void TabSysPage::clearMemSwapButtonClicked()
@@ -479,7 +490,7 @@ void TabSysPage::UpdateToSvrUI()
     }
 }
 
-void TabSysPage::UpdateToUI()
+void TabSysPage::UpdateToUsersUI()
 {
     set_userinfo(users);
     set_userinfos_groups(users);
@@ -503,6 +514,8 @@ void TabSysPage::UpdateToUI()
             groups += users[i].othgroups[users[i].othgroups.length()-1];
             ui->tableWidget->setItem(i, 2, new QTableWidgetItem(groups));
         }
+        if(!users[i].isShow)
+            ui->tableWidget->setRowHidden(i, true);
     }
 }
 
@@ -566,7 +579,7 @@ void TabSysPage::add_user_action()
        if(usrdialog.exec()==QDialog::Accepted)
        {
                 users.append(userinfo);
-                UpdateToUI();
+                UpdateToUsersUI();
        }
 }
 
@@ -581,7 +594,7 @@ void TabSysPage::edit_user_action()
     UserInfoDialog usrdialog(users[row], Edt);
     if(usrdialog.exec()==QDialog::Accepted)
     {
-             UpdateToUI();
+             UpdateToUsersUI();
     }
 
 }
@@ -595,7 +608,7 @@ void TabSysPage::del_user_action()
     }
 
     del_user(users[row]);
-    UpdateToUI();
+    UpdateToUsersUI();
 }
 
 

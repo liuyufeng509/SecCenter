@@ -15,7 +15,7 @@ class TabSysPage : public QWidget
 public:
     explicit TabSysPage(QWidget *parent = 0);
     ~TabSysPage();
-    void UpdateToUI();
+    void UpdateToUsersUI();
     void UpdateToSvrUI();
     void UpdateToFS();
 
@@ -56,6 +56,8 @@ private slots:
    void on_rebootButton_clicked();
 
    void on_logButton_clicked();
+
+   void init_data_of_page(int page);
 
 private:
     Ui::TabSysPage *ui;

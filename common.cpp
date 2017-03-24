@@ -146,6 +146,33 @@ QString get_user_str_role()
     return cmd;
 }
 
+bool set_userinfo_etc_shaddow(QList<UserInfo> &users)
+{
+    QString cmd = "awk -F: '{print $2}' /etc/shadow ; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"set userinfo in /etc/shaddow failed, errono:"<<list.last();
+        return false;
+    }
+    list.removeLast();
+    if(list.length()!=users.length())
+    {
+        qDebug()<<"/etc/shaddow list's length is not equal to users list";
+        return false;
+    }
+    for(int i=0; i<users.length();i++)
+    {
+        if(list[i] == "!!!")
+            users[i].isShow = false;
+        else
+            users[i].isShow = true;
+    }
+
+    return true;
+}
+
 void set_userinfo(QList<UserInfo> &users)
 {
     QString cmd = "awk -F: \'{print $3,$1}\'  /etc/passwd";
@@ -161,6 +188,7 @@ void set_userinfo(QList<UserInfo> &users)
         usrinfo.uname = tmpl[1].trimmed();
         users.append(usrinfo);
     }
+    set_userinfo_etc_shaddow(users);
 }
 
 void set_userinfos_groups(QList<UserInfo> &users)
@@ -672,7 +700,7 @@ bool open_close_sec_policy(bool open)
 }
 
 
-bool get_user_taginfo(QList<UserTag> &reslist)
+bool get_user_taginfos(QList<UserTag> &reslist)
 {
     QString cmd = "semanage user -l | awk \'NR>4 {print $1,$3}\' ; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
@@ -695,10 +723,126 @@ bool get_user_taginfo(QList<UserTag> &reslist)
         reslist.append(usrinfo);
     }
 
+    if(reslist.size()<=0)
+        return false;
+    else
+        return true;
+}
+
+
+bool set_user_tagInfo(UserTag usrtag, bool add)
+{
+    QString cmd = "semanage user " +
+            (add? QString("-a "):QString("-m ")) + usrtag.username+
+            " -L "+ usrtag.safeTag + " -R user_r -r s0-s0 ; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"set user taginfo failed, errorno:"<<list.last();
+        return false;
+    }
+
+    return true;
+}
+
+bool get_filetag_info(FileTag &fileinfo)
+{
+    QString cmd = " ;echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"get_filetag_info failed , errorno:"<<list.last();
+        return false;
+    }
+    return true;
+}
+
+bool set_filetag_info(FileTag fileinfo)
+{
+    QString cmd = " ;echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"set_filetag_info failed , errorno:"<<list.last();
+        return false;
+    }
     return true;
 }
 
 
+bool get_te_rules(QList<TERule> &telist)
+{
+    telist.clear();
+    QString cmd = "sesearch --allow | awk \'NR>1 {$1=\"\";$4=\"\";$NF=\"\";print $0}\' ; echo $?";
+   // QString cmd = "cat /home/sesearch/1.txt  ; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    //qDebug()<<cmd;
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"get_te_rules failed errono:"<<list.last();
+        return false;
+    }
+    list.removeLast();
+    list.removeLast();
+    QRegExp regexp = QRegExp("\\s+");
+    for(int i=0; i<list.length(); i++)
+    {
+        TERule terule;
+      //  qDebug()<<list[i];
+        QStringList tmpl = list[i].trimmed().split(regexp);
+       // QStringList tmpl = list[i].trimmed().split(' ');
+        int begindex = list[i].indexOf('{'), endindex = list[i].indexOf('}');
+        if(begindex!=-1 &&  endindex!=-1)
+            terule.permmisions = list[i].mid(begindex+1, endindex-begindex-1 ).trimmed();
+        else
+            terule.permmisions =  tmpl[3];
+        terule.domain_type = tmpl[0];
+        terule.file_type = tmpl[1];
+        terule.class_type = tmpl[2];
+        telist.append(terule);
+    }
+    return true;
+}
 
+bool get_f_p_types(QList<FileProConV> &fpconvs)
+{
+    fpconvs.clear();
+    QString cmd = "sesearch --type  | awk \'NR>1 {print $2,$3,$5,$6}\' ; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"get_f_p_types failed errono:"<<list.last();
+        return false;
+    }
+    list.removeLast();
+    list.removeLast();
+    QRegExp regexp = QRegExp("\\s+");
+    for(int i=0; i<list.length(); i++)
+    {
+        FileProConV fpconv;
+        list[i] = list[i].trimmed();
+        if(list[i].length()!=0)
+        {
+            if(list[i].right(1)==";")
+                list[i] = list[i].left(list[i].length()-1);
+            QStringList tmpl = list[i].trimmed().split(regexp);
+            fpconv.src_type = tmpl[0];
+            fpconv.targ_type = tmpl[1];
+            fpconv.class_type = tmpl[2];
+            fpconv.default_type = tmpl[3];
+            fpconvs.append(fpconv);
+        }else
+            i++;
 
+    }
+    return true;
+}
 

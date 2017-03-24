@@ -26,12 +26,15 @@
 #include<QPushButton>
 #include <QLineEdit>
 #include<QScrollArea>
+#include<QSet>
 
 #include <glibtop/mountlist.h>
 #include<sys/types.h>
 #include<sys/stat.h>
 #include <glibtop/fsusage.h>
 #include <glibtop/mountlist.h>
+
+#include <time.h>
 
 enum ROLE{
     ROOT,
@@ -64,6 +67,7 @@ struct UserInfo
     QString uname;
     QString group;
     QStringList othgroups;
+    bool isShow;
 
 };
 enum UserOpt
@@ -164,8 +168,13 @@ struct UserTag
     QString username;
     QString safeTag;
     QString wholeTag;
+    bool operator ==(const UserTag& d)
+    {
+        return username == d.username;
+    }
 };
-bool get_user_taginfo(QList<UserTag> &reslist);
+bool get_user_taginfos(QList<UserTag> &reslist);
+bool set_user_tagInfo(UserTag usrtag, bool add);
 
 //cpu and mem
 enum {
@@ -247,5 +256,40 @@ void fsusage_stats(const glibtop_fsusage *buf,
               guint64 *bused, guint64 *bfree, guint64 *bavail, guint64 *btotal,
               gint *percentage);
 void get_fsInfo(QList<DISK> &disks);
+
+
+//security file tag
+struct FileTag
+{
+    QString filename;
+    QString safeTag;
+    QString wholeTag;
+};
+
+bool get_filetag_info(FileTag &fileinfo);
+bool set_filetag_info(FileTag fileinfo);
+
+
+//security rule
+struct TERule
+{
+    QString domain_type;
+    QString file_type;
+    QString class_type;
+    QString permmisions;
+};
+
+bool get_te_rules(QList<TERule> &terulist);
+
+//security file process conversion
+struct FileProConV
+{
+    QString src_type;
+    QString targ_type;
+    QString class_type;
+    QString default_type;
+};
+
+bool get_f_p_types(QList<FileProConV> &fpconvs);
 
 #endif // COMMON_H

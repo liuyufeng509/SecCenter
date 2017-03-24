@@ -16,7 +16,7 @@ public:
     ~TabAuditPage();
 
 private slots:
-    void on_openButton_clicked();
+//    void on_openButton_clicked();
 
 //    void on_queryButton_clicked();
 

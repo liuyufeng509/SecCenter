@@ -19,10 +19,10 @@ TabAuditPage::~TabAuditPage()
     delete ui;
 }
 
-void TabAuditPage::on_openButton_clicked()
-{
-    QFileDialog::getOpenFileName(this, tr("打开文件"), ".", NULL);
-}
+//void TabAuditPage::on_openButton_clicked()
+//{
+//    QFileDialog::getOpenFileName(this, tr("打开文件"), ".", NULL);
+//}
 
 //void TabAuditPage::on_queryButton_clicked()
 //{

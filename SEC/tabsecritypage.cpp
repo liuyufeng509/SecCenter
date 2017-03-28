@@ -50,6 +50,14 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
         ui->u_whole_tagEdit->setText(user_list[0].wholeTag);
     }
 
+    //file security tag
+    QRegExp regExp1("s[0-9][0-5]");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$
+
+    ui->f_sec_tagEdit->setValidator(new QRegExpValidator(regExp1, this));
+    ui->f_whole_tagEdit->setValidator(new QRegExpValidator(regExp1, this));
+    ui->u_sec_tagEdit->setValidator(new QRegExpValidator(regExp1, this));
+    ui->u_whole_tagEdit->setValidator(new QRegExpValidator(regExp1, this));
+
     //te policy
 
 }
@@ -187,7 +195,7 @@ TabSecrityPage::~TabSecrityPage()
 
 void TabSecrityPage::on_setusButton_clicked()
 {
-    QString cmd = "enhanced-trylock -d "+ui->tmsLineEdit->text() + (ui->evrCheckBox->isChecked()? " -e -r ":" -u ")
+    QString cmd = "nfs-enhanced-trylock -d "+ui->tmsLineEdit->text() + (ui->evrCheckBox->isChecked()? " -e -r ":" -u ")
             + ui->secLineEdit->text()+ " -s " + ui->comboBox->currentText() + "; echo $?";
 
     if(trylock_service(cmd))
@@ -208,7 +216,7 @@ void TabSecrityPage::on_unlockButton_clicked()
 
 void TabSecrityPage::on_setPwButton_clicked()
 {
-    QString cmd = "enhanced-passwd "+
+    QString cmd = "nfs-enhanced-trylock "+
             (ui->minlenEdit->text().toInt()!=0? ("-m "+ui->minlenEdit->text()+ " "): " ")+
             (ui->dlenEdit->text().toInt()!=0? ("-d -"+ui->dlenEdit->text()+ " "): " ")+
             (ui->uplenEdit->text().toInt()!=0? ("-u -"+ui->uplenEdit->text()+ " "): " ")+
@@ -291,7 +299,6 @@ void TabSecrityPage::on_setButton_clicked()
     usrtag.wholeTag = usrtag.safeTag;
     //usrtag.wholeTag = ui->u_whole_tagEdit->text();
 
-    bool isadd =user_list.contains(usrtag);
 
     if(set_user_tagInfo(usrtag, !user_list.contains(usrtag)))
     {
@@ -314,6 +321,7 @@ void TabSecrityPage::on_f_freshButton_clicked()
 
     FileTag fileinfo;
     fileinfo.filename = filePath;
+    fileinfo.isDir = isDir;
     if(get_filetag_info(fileinfo))
     {
         ui->f_sec_tagEdit->setText(fileinfo.safeTag);
@@ -328,9 +336,11 @@ void TabSecrityPage::on_browserButton_clicked()
     if(ui->isDirheckBox->isChecked())
     {
         filePath = QFileDialog::getExistingDirectory(this, tr("选择目录"), "./");
+        isDir = true;
     }else
     {
           filePath = QFileDialog::getOpenFileName(this, tr("打开文件"), ".", NULL);
+          isDir = false;
     }
 
     if(filePath.length() == 0) {
@@ -340,6 +350,7 @@ void TabSecrityPage::on_browserButton_clicked()
     }
 
     ui->filenameEdit->setText(filePath);
+    on_f_freshButton_clicked();
 }
 
 void TabSecrityPage::on_f_setButton_clicked()

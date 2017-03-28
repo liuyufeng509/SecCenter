@@ -3,9 +3,9 @@
 #include "DacDemo.h"
 
 ALCDialog::ALCDialog(FileAttr &fileAttr, QWidget *parent) :
-    fileAttr(fileAttr),
-    QDialog(parent),
-    ui(new Ui::ALCDialog)
+     QDialog(parent),
+     ui(new Ui::ALCDialog),
+     m_fileAttr(fileAttr)
 {
     ui->setupUi(this);
     ui->lineEdit->setText(fileAttr.fileName);
@@ -52,7 +52,7 @@ void ALCDialog::on_getalcButton_clicked()
 {
     char Message[1024]={};
     char filename[1024]={};
-    strcpy(filename, fileAttr.fileName.toStdString().c_str());
+    strcpy(filename, m_fileAttr.fileName.toStdString().c_str());
     if(getFileAcl(filename, Message, sizeof(Message))==0)
         ui->textBrowser->setText(QString(Message));
     else
@@ -71,7 +71,7 @@ void ALCDialog::on_setUAlcButton_clicked()
 
     char Message[512]={};
     QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+ "  -m u:"+user + ":"+(ui->rcheckBox->isChecked()?"r":"-")
-            + (ui->wcheckBox->isChecked()?"w":"-")+(ui->execheckBox->isChecked()?"x":"-") + " "+ fileAttr.fileName;
+            + (ui->wcheckBox->isChecked()?"w":"-")+(ui->execheckBox->isChecked()?"x":"-") + " "+ m_fileAttr.fileName;
 
    if(setFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
    {
@@ -91,7 +91,7 @@ void ALCDialog::on_delUAlcButton_clicked()
             user = ui->userComboBox->currentText();
 
     char Message[512]={};
-    QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+"  -x u:"+user + " " +fileAttr.fileName;
+    QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+"  -x u:"+user + " " +m_fileAttr.fileName;
 
    if(setFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
    {
@@ -111,7 +111,7 @@ void ALCDialog::on_setGAlcButton_clicked()
 
     char Message[512]={};
     QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+ "  -m g:"+group + ":"+(ui->rcheckBox_2->isChecked()?"r":"-")
-            + (ui->wcheckBox_2->isChecked()?"w":"-")+(ui->execheckBox_2->isChecked()?"x":"-") + " "+ fileAttr.fileName;
+            + (ui->wcheckBox_2->isChecked()?"w":"-")+(ui->execheckBox_2->isChecked()?"x":"-") + " "+ m_fileAttr.fileName;
 
    if(setFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
    {
@@ -131,7 +131,7 @@ void ALCDialog::on_delGAlcButton_clicked()
             group = ui->groupComboBox->currentText();
 
     char Message[512]={};
-    QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+"  -x g:"+group +" "+ fileAttr.fileName;
+    QString cmd = QString("setfacl ") + (ui->subcheckBox->isChecked()? "-R":"")+"  -x g:"+group +" "+ m_fileAttr.fileName;
 
    if(setFileAcl((char*)cmd.toStdString().c_str(), Message)==-1)
    {

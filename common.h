@@ -117,7 +117,7 @@ QString get_usr_id_by_name(QString name);
 QString get_enforce();
 QString get_user_str_role();
 
-void set_userinfo(QList<UserInfo> &users);
+bool set_userinfo(QList<UserInfo> &users);
 void set_userinfos_groups(QList<UserInfo> &users);
 
 QString add_user(UserInfo userinfo);
@@ -176,6 +176,7 @@ struct UserTag
 bool get_user_taginfos(QList<UserTag> &reslist);
 bool set_user_tagInfo(UserTag usrtag, bool add);
 
+
 //cpu and mem
 enum {
     CPU_TOTAL,
@@ -223,6 +224,7 @@ struct DISK
     int         percent;
 };
 
+bool is_command_exist(QString cmd);
 
 //service option
 bool get_services(QList<ServiceInfo> &sevrs);
@@ -264,6 +266,7 @@ struct FileTag
     QString filename;
     QString safeTag;
     QString wholeTag;
+    bool isDir;
 };
 
 bool get_filetag_info(FileTag &fileinfo);

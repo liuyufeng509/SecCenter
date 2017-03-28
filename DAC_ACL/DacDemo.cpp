@@ -60,7 +60,7 @@ int getFileUserAndPerssion(char * ErrorMes,char *FileName,int *SPermission,char 
 	struct group *FileGroup;
 	FileGroup = getgrgid(FilePasswd->pw_gid);
 	strcpy(GroupName,FileGroup->gr_name);
-	int p_r = 0,p_w = 0,p_x = 0,p_s = 0;
+    int p_r = 0,p_w = 0,p_x = 0/*,p_s = 0*/;
 	printf("%x,ssss,%x\n",FileStat.st_mode&S_IRUSR,S_IRUSR);
 
 	p_r = (FileStat.st_mode & S_ISUID) == S_ISUID ?  4 : 0;

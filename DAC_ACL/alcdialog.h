@@ -32,7 +32,7 @@ private slots:
 
 private:
     Ui::ALCDialog *ui;
-    FileAttr & fileAttr;
+    FileAttr & m_fileAttr;
 
 };
 

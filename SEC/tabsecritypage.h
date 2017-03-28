@@ -60,6 +60,7 @@ private:
     QList<UserTag> user_list;
 
     QString filePath;
+    bool isDir;
 
     //te policy rule
     QList<TERule> terules;
@@ -72,6 +73,8 @@ private:
     QSet<QString> src_types;
     QSet<QString> targ_types;
     QSet<QString> class_types_of_fp;
+
+    //
 };
 
 #endif // TABSECRITYPAGE_H

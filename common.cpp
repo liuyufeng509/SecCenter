@@ -19,6 +19,20 @@ QString GetCmdRes(QString cmd)
     return res;
 }
 
+bool is_command_exist(QString cmd)
+{
+    QString str = cmd + " ;echo $?";
+    str = GetCmdRes(str).trimmed();
+    QStringList list = str.split('\n');
+    if(list.last().toInt()==127)
+    {
+        qDebug()<<"command:"<<cmd <<" is not exist";
+        return false;
+    }
+    else
+        return true;
+}
+
 ROLE get_user_role()
 {
     QString cmd = "id -u; echo $?";
@@ -39,11 +53,11 @@ ROLE get_user_role()
     cmd = get_user_str_role();
     if(cmd == "unconfined_r" && res !=ROOT)
         res = NORMALUSER;
-    else if(cmd == "secadmin_r")
+    else if(cmd == "secadm_r")
         res = SECADMIN;
-    else if(cmd == "sysadmin_r")
+    else if(cmd == "sysadm_r")
         res = SYSADMIN;
-    else if(cmd == "audadmin_r")
+    else if(cmd == "auditadm_r")
         res = AUDIADMIN;
 
     return res;
@@ -54,7 +68,7 @@ QStringList get_users()
     QString cmd = "awk -F: \'{print $1}\' /etc/passwd; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
     QStringList strl = cmd.split('\n');
-    if(strl[strl.length()-1].toInt()!=0)
+    if(strl.last().toInt()!=0)
     {
         qDebug()<<"get_users command:\"awk -F: \'{print $1}\' /etc/passwd\" execute failed";
         return QStringList();
@@ -70,7 +84,7 @@ QStringList get_groups()
     QString cmd = "awk -F: \'{print $1}\' /etc/group; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
      QStringList strl = cmd.split('\n');
-    if(strl[strl.length()-1].toInt()!=0)
+    if(strl.last().toInt()!=0)
     {
         qDebug()<<"get_groupss command:\"awk -F: \'{print $1}\' /etc/passwd\" execute failed";
         return QStringList();
@@ -95,24 +109,42 @@ QString get_cur_user()
 
 int get_cur_user_id()
 {
-    QString cmd = "id -u";
-    cmd = GetCmdRes(cmd);
-    return cmd.toInt();
+    QString cmd = "id -u; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"get_cur_user_id failed errorno:"<<list.last();
+        return 127;
+    }
+    return list.first().toInt();
 }
 
 
 QString get_cur_group()
 {
     QString cmd = "id -gn";
-    cmd = GetCmdRes(cmd);
-    return cmd;
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"get_cur_group failed errorno:"<<list.last();
+        return "";
+    }
+    return list.first();
 }
 
 int get_cur_group_id()
 {
     QString cmd = "id -g";
     cmd = GetCmdRes(cmd).trimmed();
-    return cmd.toInt();
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"get_cur_group_id failed errorno:"<<list.last();
+        return 127;
+    }
+    return list.first().toInt();
 }
 
 QString get_usr_name_by_id(int id)
@@ -132,15 +164,23 @@ QString get_usr_id_by_name(QString name)
 
 QString get_enforce()
 {
-    QString cmd = "getenforce";
+    QString cmd = "getenforce; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
-    return cmd;
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"get_enforce failed errorno:"<<list.last();
+        return "";
+    }
+    return list.first();
 }
 
 QString get_user_str_role()
 {
     if(get_cur_user()=="root")
         return "root_r";
+    if(!is_command_exist("id"))
+        return "unconfined_r";
     QString cmd = "id -Z | awk -F \':\' \'{print $2}\'";
     cmd = GetCmdRes(cmd).trimmed();
     return cmd;
@@ -173,12 +213,17 @@ bool set_userinfo_etc_shaddow(QList<UserInfo> &users)
     return true;
 }
 
-void set_userinfo(QList<UserInfo> &users)
+bool set_userinfo(QList<UserInfo> &users)
 {
-    QString cmd = "awk -F: \'{print $3,$1}\'  /etc/passwd";
-    cmd =GetCmdRes(cmd);
+    QString cmd = "awk -F: \'{print $3,$1}\'  /etc/passwd; echo $?";
+    cmd =GetCmdRes(cmd).trimmed();
     QStringList list = cmd.split('\n');
-    list.removeAt(list.length()-1);
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"set_userinfo failed errno:"<<list.last();
+        return false;
+    }
+    list.removeLast();
     users.clear();
     for(int i=0; i<list.length(); i++)
     {
@@ -189,6 +234,7 @@ void set_userinfo(QList<UserInfo> &users)
         users.append(usrinfo);
     }
     set_userinfo_etc_shaddow(users);
+    return true;
 }
 
 void set_userinfos_groups(QList<UserInfo> &users)
@@ -337,7 +383,8 @@ bool up_service_when_start(QString sname)
     if(cmd.contains("no [Install] section"))
     {
         return false;
-    }
+    }else
+        return true;
 }
 
 
@@ -365,6 +412,7 @@ bool stop_service(QString sname)
 
     if(cmd.contains("Failed to stop"))
         return false;
+    return true;
 }
 
 bool start_service(QString sname)
@@ -379,7 +427,7 @@ bool start_service(QString sname)
 }
 
 
-struct cpu_record g = { 0, };
+struct cpu_record g = { 0,0 };
 
 int  get_n_cpu()
 {
@@ -391,7 +439,7 @@ int  get_n_cpu()
 
 void get_load (std::vector<CPU>  &cpus)
 {
-    guint i;
+    int i;
     glibtop_cpu cpu;
     glibtop_get_cpu (&cpu);
     int n_cpu = get_n_cpu();
@@ -458,7 +506,7 @@ void getmem(MeM &memInfo)
     memInfo.used = mem.used;
     memInfo.percent = mempercent;
 
-    g_print("mem.total = %d   mem.used=%d mempercent=%.3f\n", mem.total,mem.used,mempercent);
+    g_print("mem.total = %d   mem.used=%d mempercent=%.3f\n", (int)mem.total,(int)mem.used,mempercent);
 }
 
 void get_swap(SWAP &swapInfo)
@@ -471,7 +519,7 @@ void get_swap(SWAP &swapInfo)
     swapInfo.used = swap.used;
     swapInfo.percent = swappercent;
 
-     g_print("swap.total = %d   swap.used=%d swappercent=%.3f\n", swap.total,swap.used,swappercent);
+     g_print("swap.total = %d   swap.used=%d swappercent=%.3f\n", (int)swap.total,(int)swap.used,swappercent);
 }
 
 #define MAX_SIZE  255
@@ -500,9 +548,9 @@ QString getCwdPath()
 
 QString getHintNum(quint64 size)
 {
-    long g = 1024 * 1024 * 1024;
-    long m = 1024 * 1024;
-    long k = 1024;
+    quint64 g = 1024 * 1024 * 1024;
+    quint64 m = 1024 * 1024;
+    quint64 k = 1024;
     if (size < k && size >= 1)
     {
         return QString("%1B").arg(size);
@@ -597,12 +645,12 @@ void logout()
 bool get_trylock_services(QStringList &list)
 {
     list.clear();
-    QString cmd = "enhanced-trylock  -l;echo $?";
+    QString cmd = "nfs-enhanced-trylock  -l;echo $?";
     cmd = GetCmdRes(cmd).trimmed();
     list = cmd.split("\n");
     if(list.last().toInt()!=0)
     {
-        qDebug()<<"enhanced-trylock -l failed";
+        qDebug()<<"nfs-enhanced-trylock -l failed";
         list.clear();
         return false;
     }
@@ -662,7 +710,11 @@ bool set_pwd_rule(QString cmd)
 
 bool get_sec_status(SecStatus &status)
 {
-    QString cmd = "sestatus | awk -F:\ '{print $2}\'| awk \'{sub(\"^ *\",\"\");sub(\" *$\",\"\");print}\'; echo $?";
+    if(!is_command_exist("sestatus"))
+    {
+        return false;
+    }
+    QString cmd = "sestatus | awk -F: \'{print $2}\'| awk \'{sub(\"^ *\",\"\");sub(\" *$\",\"\");print}\'; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
     QStringList list = cmd.split('\n');
     if(list.last().toInt()!=0)
@@ -702,6 +754,10 @@ bool open_close_sec_policy(bool open)
 
 bool get_user_taginfos(QList<UserTag> &reslist)
 {
+    if(!is_command_exist("semanage user"))
+    {
+        return false;
+    }
     QString cmd = "semanage user -l | awk \'NR>4 {print $1,$3}\' ; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
     QStringList list = cmd.split('\n');
@@ -732,6 +788,10 @@ bool get_user_taginfos(QList<UserTag> &reslist)
 
 bool set_user_tagInfo(UserTag usrtag, bool add)
 {
+    if(!is_command_exist("semanage user"))
+    {
+        return false;
+    }
     QString cmd = "semanage user " +
             (add? QString("-a "):QString("-m ")) + usrtag.username+
             " -L "+ usrtag.safeTag + " -R user_r -r s0-s0 ; echo $?";
@@ -749,23 +809,27 @@ bool set_user_tagInfo(UserTag usrtag, bool add)
 
 bool get_filetag_info(FileTag &fileinfo)
 {
-    QString cmd = " ;echo $?";
-    cmd = GetCmdRes(cmd).trimmed();
-
-    QStringList list = cmd.split('\n');
-    if(list.last().toInt()!=0)
+    if(!is_command_exist("ls"))
     {
-        qDebug()<<"get_filetag_info failed , errorno:"<<list.last();
         return false;
     }
+    QString cmd = " ls " + (fileinfo.isDir? QString("-d "):" ")
+            + " --scontext " +fileinfo.filename +" | awk -F \':\' \'{print $4}\' | awk \'{print $1}\'";
+    cmd = GetCmdRes(cmd).trimmed();
+    if(cmd.length()<2 || cmd.length()>3)
+    {
+        qDebug()<<"get_fileTag_info failed, res:"<<cmd;
+        return false;
+    }
+    fileinfo.safeTag = cmd;
+    fileinfo.wholeTag = cmd;
     return true;
 }
 
 bool set_filetag_info(FileTag fileinfo)
 {
-    QString cmd = " ;echo $?";
+    QString cmd = " chcon -l " + fileinfo.safeTag + " "+ fileinfo.filename+ " ;echo $?";
     cmd = GetCmdRes(cmd).trimmed();
-
     QStringList list = cmd.split('\n');
     if(list.last().toInt()!=0)
     {
@@ -778,6 +842,11 @@ bool set_filetag_info(FileTag fileinfo)
 
 bool get_te_rules(QList<TERule> &telist)
 {
+
+    if(!is_command_exist("sesearch"))
+    {
+        return false;
+    }
     telist.clear();
     QString cmd = "sesearch --allow | awk \'NR>1 {$1=\"\";$4=\"\";$NF=\"\";print $0}\' ; echo $?";
    // QString cmd = "cat /home/sesearch/1.txt  ; echo $?";
@@ -813,6 +882,10 @@ bool get_te_rules(QList<TERule> &telist)
 
 bool get_f_p_types(QList<FileProConV> &fpconvs)
 {
+    if(!is_command_exist("sesearch"))
+    {
+        return false;
+    }
     fpconvs.clear();
     QString cmd = "sesearch --type  | awk \'NR>1 {print $2,$3,$5,$6}\' ; echo $?";
     cmd = GetCmdRes(cmd).trimmed();

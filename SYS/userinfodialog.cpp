@@ -2,10 +2,11 @@
 #include "ui_userinfodialog.h"
 
 UserInfoDialog::UserInfoDialog(UserInfo &usinfo,int type,QWidget *parent) :
-    userinfo(usinfo),
-    m_type(type),
     QDialog(parent),
-    ui(new Ui::UserInfoDialog)
+    ui(new Ui::UserInfoDialog),
+     userinfo(usinfo),
+    m_type(type)
+
 {
     ui->setupUi(this);
     ui->uidLineEdit->setText(userinfo.uid);

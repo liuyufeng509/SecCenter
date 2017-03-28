@@ -4,6 +4,7 @@ QReadConfig* QReadConfig::m_pInstance = NULL;
 
 void QReadConfig::readConfigFile(QString filePath)
 {
+    filePath = "";
     sysCfgInfo.cpu_warning =   configIniRead->value("SYSTEM/cpu_warning").toInt();
     sysCfgInfo.mem_warning = configIniRead->value("SYSTEM/mem_warning").toInt();
     sysCfgInfo.disk_warning =  configIniRead->value("SYSTEM/disk_warning").toInt();

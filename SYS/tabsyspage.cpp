@@ -525,10 +525,12 @@ void TabSysPage::on_tableWidget_customContextMenuRequested(QPoint pos)
     userMenu->addAction(edtusrAction);
     userMenu->addAction(delusrAction);
     userMenu->exec(QCursor::pos());
+    pos.isNull();
 }
 
 void TabSysPage::on_svrTableWidget_customContextMenuRequested(QPoint pos)
 {
+    pos.isNull();
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
         return;

@@ -189,6 +189,7 @@ void CommTab::on_ownerComboBox_currentIndexChanged(int index)
     QString cmd = "chown "+fileAttr.owner +  " " + fileAttr.fileName;
     cmd = GetCmdRes(cmd);
     messageInfo(cmd);
+    index++;
 }
 
 void CommTab::on_groupComboBox_currentIndexChanged(int index)
@@ -197,6 +198,7 @@ void CommTab::on_groupComboBox_currentIndexChanged(int index)
     QString cmd = "chgrp "+fileAttr.groupName +  " " + fileAttr.fileName;
     cmd = GetCmdRes(cmd);
     messageInfo(cmd);
+    index++;
 }
 
 void CommTab::persionSet(bool)

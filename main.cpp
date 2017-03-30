@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 //    QTranslator qtTranslator;
 //   if(qtTranslator.load("testQtCreator_english.qm"))
 //   {
-//        qDebug()<<"sucess";
+        qDebug()<<"sucess";
 //   }else
 //       qDebug()<<"fail";
 //   a.installTranslator(&qtTranslator);

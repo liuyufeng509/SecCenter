@@ -402,28 +402,44 @@ bool down_service_when_start(QString sname)
 
 bool stop_service(QString sname)
 {
-    QString cmd = "systemctl stop  " + sname;
+    //QString cmd = "systemctl stop  " + sname + ";echo $?";
+    QString cmd = "service " + sname + " stop;echo $?";
     cmd = GetCmdRes(cmd).trimmed();
-    if(cmd.length()==0)
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
     {
-        return true;
-    }else
+        qDebug()<<"stop service "<<sname<<" failed,errono:"<<list.last();
         return false;
+    }
 
-    if(cmd.contains("Failed to stop"))
+    return true;
+}
+
+bool config_key_exist(QString key)
+{
+    QString cmd = "grep -Rn \""+key+"\" /etc/audit/auditd.conf ; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"find key:"<<key<<" failed";
         return false;
+    }
     return true;
 }
 
 bool start_service(QString sname)
 {
-    QString cmd = "systemctl start  " + sname;
+    //QString cmd = "systemctl start  " + sname + ";echo $?";
+    QString cmd = "service " + sname + " start;echo $?";
     cmd = GetCmdRes(cmd).trimmed();
-    RUNSTATE st = is_serv_running(sname);
-    if(st==RUNNING || st==EXIT)
-        return true;
-    else
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"start service "<<sname<<" failed, errono:"<<list.last();
         return false;
+    }
+    return true;
 }
 
 
@@ -919,3 +935,39 @@ bool get_f_p_types(QList<FileProConV> &fpconvs)
     return true;
 }
 
+bool excute_aud_cmd(QString cmd, QString &res)
+{
+    QString cmd1 = cmd.trimmed() +  ";echo $?";
+    res = GetCmdRes(cmd1).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"excute aud query cmd failed ,errono:"<<list.last()<<" cmd:"<<cmd1;
+        return false;
+    }
+    res = res.left(res.length()-1);
+    return true;
+}
+
+bool get_kern_aud_param(KernAudParam &param)
+{
+    if(!is_command_exist("auditctl"))
+    {
+        return false;
+    }
+    QString cmd = "auditctl -s | awk -F \' \' \'{print $2}\'";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.length()<8)
+    {
+        qDebug()<<"list lenth < 8";
+        return false;
+    }
+
+    param.backlog_limit = list[4];
+    param.enable = list[0];
+    param.fail_flag = list[1];
+    param.rate_limit = list[3];
+
+    return true;
+}

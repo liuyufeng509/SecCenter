@@ -428,7 +428,7 @@ void TabSysPage::start_stop_service()
     //qDebug()<<svrCtrlAction->text();
     if(svrCtrlAction->text()==tr("关闭运行"))
     {
-       if( stop_service(sevrs[row].sName))
+       if( stop_service(sevrs[row].sName.left(sevrs[row].sName.indexOf('.'))))
        {
            QMessageBox::information(this,  tr("提示"), tr("设置成功"));
            sevrs[row].runStat = DEAD;
@@ -436,7 +436,7 @@ void TabSysPage::start_stop_service()
            QMessageBox::information(this,  tr("提示"), tr("设置失败"));
     }else
     {
-        if(start_service(sevrs[row].sName))
+        if(start_service(sevrs[row].sName.left(sevrs[row].sName.indexOf('.'))))
         {
             QMessageBox::information(this,  tr("提示"), tr("设置成功"));
             sevrs[row].runStat = is_serv_running(sevrs[row].sName);

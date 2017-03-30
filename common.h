@@ -295,4 +295,41 @@ struct FileProConV
 
 bool get_f_p_types(QList<FileProConV> &fpconvs);
 
+
+//audit manager
+
+//query sentence set
+bool excute_aud_cmd(QString cmd, QString &res);
+
+//audit rules
+struct KernAudParam
+{
+    QString backlog_limit;
+    QString enable;
+    QString fail_flag;
+    QString rate_limit;
+    bool bignore;
+};
+
+bool get_kern_aud_param(KernAudParam &param);
+
+//audit config
+struct AudConfigInfo
+{
+    QString log_file;
+    QString max_log_file;
+    QString max_log_file_action;
+    QString num_logs;
+    QString admin_space_left;
+    QString admin_space_left_action;
+    QString space_left;
+    QString space_left_action;
+    QString disk_full_action;
+    QString disk_error_action;
+    QString warning_mail;
+    QString warning_tel;
+};
+
+bool config_key_exist(QString key);
+
 #endif // COMMON_H

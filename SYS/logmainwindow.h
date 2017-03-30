@@ -35,6 +35,7 @@ private:
     QPushButton *nexButton;
      QPushButton *preButton;
     QLineEdit *lineEdit;
+
 };
 
 #endif // LOGMAINWINDOW_H

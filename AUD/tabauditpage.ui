@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>842</width>
+    <width>868</width>
     <height>611</height>
    </rect>
   </property>
@@ -14,10 +14,77 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox_7">
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>功能列表</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QListWidget" name="listWidget">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <item>
+         <property name="text">
+          <string>开启/关闭审计</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>查询设置</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>审计报告</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>审计规则</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>审计配置</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>审计信息展示</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="0" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="open_closePage">
       <layout class="QGridLayout" name="gridLayout_22">
@@ -84,100 +151,20 @@
          <layout class="QGridLayout" name="gridLayout_11">
           <item row="0" column="0" colspan="4">
            <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="0">
-             <widget class="QCheckBox" name="evidCheckBox">
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="syscall_lineEdit"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QCheckBox" name="euid_checkBox">
               <property name="text">
-               <string>event id</string>
+               <string>effective uid</string>
               </property>
              </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="evid_lineEdit"/>
-            </item>
-            <item row="0" column="2">
-             <widget class="QCheckBox" name="gid_checkBox">
-              <property name="text">
-               <string>gid</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QLineEdit" name="gid_lineEdit"/>
-            </item>
-            <item row="0" column="4">
-             <widget class="QCheckBox" name="agid_checkBox">
-              <property name="text">
-               <string>all ground id</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="5">
-             <widget class="QLineEdit" name="agid_lineEdit"/>
-            </item>
-            <item row="1" column="0">
-             <widget class="QCheckBox" name="egid_checkBox">
-              <property name="text">
-               <string>effective gid</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="egid_lineEdit"/>
             </item>
             <item row="1" column="2">
              <widget class="QCheckBox" name="kw_checkBox">
               <property name="text">
                <string>key word</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="3">
-             <widget class="QLineEdit" name="kw_lineEdit"/>
-            </item>
-            <item row="1" column="4">
-             <widget class="QCheckBox" name="hn_checkBox">
-              <property name="text">
-               <string>host name</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="5">
-             <widget class="QLineEdit" name="hn_lineEdit"/>
-            </item>
-            <item row="2" column="0">
-             <widget class="QCheckBox" name="mt_checkBox">
-              <property name="text">
-               <string>message type</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="mt_lineEdit"/>
-            </item>
-            <item row="2" column="2">
-             <widget class="QCheckBox" name="rs_checkBox">
-              <property name="text">
-               <string>return success</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="3">
-             <widget class="QLineEdit" name="rs_lineEdit_9"/>
-            </item>
-            <item row="2" column="4">
-             <widget class="QCheckBox" name="ppid_checkBox">
-              <property name="text">
-               <string>parent pid</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="5">
-             <widget class="QLineEdit" name="ppid_lineEdit"/>
-            </item>
-            <item row="3" column="0">
-             <widget class="QCheckBox" name="pid_checkBox">
-              <property name="text">
-               <string>pid</string>
               </property>
              </widget>
             </item>
@@ -188,95 +175,38 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QCheckBox" name="euid_checkBox">
+            <item row="2" column="5">
+             <widget class="QLineEdit" name="ppid_lineEdit"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="mt_checkBox">
               <property name="text">
-               <string>effective uid</string>
+               <string>message type</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="euid_lineEdit"/>
-            </item>
-            <item row="5" column="2">
-             <widget class="QCheckBox" name="dac_set_checkBox">
+            <item row="2" column="2">
+             <widget class="QCheckBox" name="rs_checkBox">
               <property name="text">
-               <string>DAC setfacl</string>
+               <string>return success</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="3">
-             <widget class="QLineEdit" name="dac_set_lineEdit"/>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="mt_lineEdit"/>
             </item>
-            <item row="6" column="0">
-             <widget class="QCheckBox" name="luid_checkBox">
+            <item row="0" column="4">
+             <widget class="QCheckBox" name="agid_checkBox">
               <property name="text">
-               <string>login uid</string>
+               <string>all ground id</string>
               </property>
              </widget>
             </item>
-            <item row="6" column="1">
-             <widget class="QLineEdit" name="luid_lineEdit"/>
+            <item row="2" column="3">
+             <widget class="QLineEdit" name="rs_lineEdit"/>
             </item>
-            <item row="6" column="2">
-             <widget class="QCheckBox" name="dac_get_checkBox">
-              <property name="text">
-               <string>DAC getfacl</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="3">
-             <widget class="QLineEdit" name="dac_get_lineEdit"/>
-            </item>
-            <item row="7" column="0">
-             <widget class="QCheckBox" name="syscall_checkBox">
-              <property name="text">
-               <string>system call</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QLineEdit" name="syscall_lineEdit"/>
-            </item>
-            <item row="3" column="2">
-             <widget class="QCheckBox" name="fn_checkBox">
-              <property name="text">
-               <string>filename</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="3">
-             <widget class="QLineEdit" name="fn_lineEdit"/>
-            </item>
-            <item row="4" column="0">
-             <widget class="QCheckBox" name="auid_checkBox">
-              <property name="text">
-               <string>all uid</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLineEdit" name="auid_lineEdit"/>
-            </item>
-            <item row="4" column="2">
-             <widget class="QCheckBox" name="term_checkBox">
-              <property name="text">
-               <string>terminal</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="3">
-             <widget class="QLineEdit" name="term_lineEdit"/>
-            </item>
-            <item row="3" column="4">
-             <widget class="QCheckBox" name="word_checkBox">
-              <property name="text">
-               <string>word</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="5">
-             <widget class="QLineEdit" name="word_lineEdit"/>
+            <item row="1" column="3">
+             <widget class="QLineEdit" name="kw_lineEdit"/>
             </item>
             <item row="4" column="4">
              <widget class="QCheckBox" name="ef_checkBox">
@@ -285,28 +215,135 @@
               </property>
              </widget>
             </item>
+            <item row="1" column="4">
+             <widget class="QCheckBox" name="hn_checkBox">
+              <property name="text">
+               <string>host name</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QCheckBox" name="syscall_checkBox">
+              <property name="text">
+               <string>system call</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QCheckBox" name="gid_checkBox">
+              <property name="text">
+               <string>gid</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="3">
+             <widget class="QLineEdit" name="term_lineEdit"/>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="egid_lineEdit"/>
+            </item>
+            <item row="1" column="5">
+             <widget class="QLineEdit" name="hn_lineEdit"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QCheckBox" name="auid_checkBox">
+              <property name="text">
+               <string>all uid</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QCheckBox" name="fn_checkBox">
+              <property name="text">
+               <string>filename</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="4">
+             <widget class="QCheckBox" name="ppid_checkBox">
+              <property name="text">
+               <string>parent pid</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="euid_lineEdit"/>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="auid_lineEdit"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="egid_checkBox">
+              <property name="text">
+               <string>effective gid</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="evidCheckBox">
+              <property name="text">
+               <string>event id</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="evid_lineEdit"/>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLineEdit" name="gid_lineEdit"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="pid_checkBox">
+              <property name="text">
+               <string>pid</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="5">
+             <widget class="QLineEdit" name="agid_lineEdit"/>
+            </item>
+            <item row="4" column="2">
+             <widget class="QCheckBox" name="term_checkBox">
+              <property name="text">
+               <string>terminal</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="3">
+             <widget class="QLineEdit" name="fn_lineEdit"/>
+            </item>
+            <item row="3" column="4">
+             <widget class="QCheckBox" name="word_checkBox">
+              <property name="text">
+               <string>word</string>
+              </property>
+             </widget>
+            </item>
             <item row="4" column="5">
              <widget class="QLineEdit" name="ef_lineEdit"/>
             </item>
-            <item row="5" column="4">
+            <item row="3" column="5">
+             <widget class="QLineEdit" name="word_lineEdit"/>
+            </item>
+            <item row="5" column="2">
              <widget class="QCheckBox" name="uid_checkBox">
               <property name="text">
                <string>uid</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="5">
+            <item row="5" column="3">
              <widget class="QLineEdit" name="uid_lineEdit"/>
             </item>
-            <item row="6" column="4">
-             <widget class="QCheckBox" name="avc_checkBox">
+            <item row="5" column="4">
+             <widget class="QCheckBox" name="luid_checkBox">
               <property name="text">
-               <string>AVC</string>
+               <string>login uid</string>
               </property>
              </widget>
             </item>
-            <item row="6" column="5">
-             <widget class="QLineEdit" name="avc_lineEdit"/>
+            <item row="5" column="5">
+             <widget class="QLineEdit" name="luid_lineEdit"/>
             </item>
            </layout>
           </item>
@@ -314,13 +351,6 @@
            <widget class="QCheckBox" name="st_checkBox">
             <property name="text">
              <string>start time</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QTimeEdit" name="st_timeEdit">
-            <property name="displayFormat">
-             <string>yyyy/MM/dd hh:mm:ss</string>
             </property>
            </widget>
           </item>
@@ -351,29 +381,22 @@
             </property>
            </spacer>
           </item>
-          <item row="1" column="3">
-           <widget class="QTimeEdit" name="et_timeEdit">
-            <property name="displayFormat">
-             <string>yyyy/MM/dd hh:mm:ss</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="1" colspan="3">
-           <widget class="QLineEdit" name="lineEdit_25"/>
+           <widget class="QLineEdit" name="query_sent_lineEdit"/>
           </item>
           <item row="3" column="0" colspan="4">
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
-             <widget class="QPushButton" name="aplButton">
+             <widget class="QPushButton" name="query_produceButton">
               <property name="text">
-               <string>应用</string>
+               <string>生成查询语句</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="cancelButton">
+             <widget class="QPushButton" name="aplButton">
               <property name="text">
-               <string>取消</string>
+               <string>应用</string>
               </property>
              </widget>
             </item>
@@ -385,6 +408,20 @@
              </widget>
             </item>
            </layout>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDateTimeEdit" name="st_timeEdit">
+            <property name="displayFormat">
+             <string>MM/dd/yy hh:mm:ss</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QDateTimeEdit" name="et_timeEdit">
+            <property name="displayFormat">
+             <string>MM/dd/yy hh:mm:ss</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -409,9 +446,12 @@
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
              <item row="0" column="0">
-              <widget class="QCheckBox" name="checkBox_25">
+              <widget class="QCheckBox" name="res_checkBox">
                <property name="text">
                 <string>结果:</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -429,10 +469,16 @@
               </spacer>
              </item>
              <item row="1" column="1">
-              <widget class="QRadioButton" name="radioButton">
+              <widget class="QRadioButton" name="sucButton">
                <property name="text">
                 <string>成功</string>
                </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup</string>
+               </attribute>
               </widget>
              </item>
              <item row="1" column="2">
@@ -449,10 +495,13 @@
               </spacer>
              </item>
              <item row="1" column="3">
-              <widget class="QRadioButton" name="radioButton_2">
+              <widget class="QRadioButton" name="failButton">
                <property name="text">
                 <string>失败</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup</string>
+               </attribute>
               </widget>
              </item>
              <item row="1" column="4">
@@ -469,7 +518,7 @@
               </spacer>
              </item>
              <item row="2" column="0">
-              <widget class="QCheckBox" name="checkBox_26">
+              <widget class="QCheckBox" name="tm_sec_checkBox">
                <property name="text">
                 <string>时段:</string>
                </property>
@@ -483,9 +532,12 @@
               </widget>
              </item>
              <item row="3" column="2" colspan="3">
-              <widget class="QDateTimeEdit" name="dateTimeEdit">
+              <widget class="QDateTimeEdit" name="st_TimeEdit">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="displayFormat">
-                <string>yyyy/MM/dd HH:mm</string>
+                <string>MM/dd/yy hh:mm:ss</string>
                </property>
               </widget>
              </item>
@@ -497,14 +549,17 @@
               </widget>
              </item>
              <item row="4" column="2" colspan="3">
-              <widget class="QDateTimeEdit" name="dateTimeEdit_2">
+              <widget class="QDateTimeEdit" name="et_TimeEdit">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="displayFormat">
-                <string>yyyy/MM/dd HH:mm</string>
+                <string>MM/dd/yy hh:mm:ss</string>
                </property>
               </widget>
              </item>
              <item row="5" column="0" colspan="3">
-              <widget class="QCheckBox" name="checkBox_27">
+              <widget class="QCheckBox" name="rep_gener_checkBox">
                <property name="text">
                 <string>只报告汇总思想（不是所有选项都支持）</string>
                </property>
@@ -526,87 +581,126 @@
             </property>
             <layout class="QGridLayout" name="gridLayout_12">
              <item row="0" column="0">
-              <widget class="QRadioButton" name="radioButton_14">
+              <widget class="QRadioButton" name="avc_radioButton">
                <property name="text">
                 <string>AVC</string>
                </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QRadioButton" name="radioButton_13">
+              <widget class="QRadioButton" name="file_radioButton">
                <property name="text">
                 <string>文件</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QRadioButton" name="radioButton_3">
+              <widget class="QRadioButton" name="logt_radioButton">
                <property name="text">
                 <string>登陆时间</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QRadioButton" name="radioButton_4">
+              <widget class="QRadioButton" name="config_radioButton">
                <property name="text">
-                <string>DAC</string>
+                <string>配置修改</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="2" column="0">
-              <widget class="QRadioButton" name="radioButton_6">
+              <widget class="QRadioButton" name="acc_change_radioButton">
                <property name="text">
                 <string>账户修改</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QRadioButton" name="radioButton_5">
+              <widget class="QRadioButton" name="pid_radioButton">
                <property name="text">
                 <string>PID</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="3" column="0">
-              <widget class="QRadioButton" name="radioButton_11">
+              <widget class="QRadioButton" name="sys_call_radioButton">
                <property name="text">
                 <string>系统调用</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QRadioButton" name="radioButton_12">
+              <widget class="QRadioButton" name="term_radioButton">
                <property name="text">
                 <string>终端</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="4" column="0">
-              <widget class="QRadioButton" name="radioButton_7">
+              <widget class="QRadioButton" name="aud_evt_radioButton">
                <property name="text">
                 <string>审计事件</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="4" column="1">
-              <widget class="QRadioButton" name="radioButton_8">
+              <widget class="QRadioButton" name="exe_file_radioButton">
                <property name="text">
                 <string>可执行文件</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="5" column="0">
-              <widget class="QRadioButton" name="radioButton_9">
+              <widget class="QRadioButton" name="user_radioButton">
                <property name="text">
                 <string>用户</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
              <item row="5" column="1">
-              <widget class="QRadioButton" name="radioButton_10">
+              <widget class="QRadioButton" name="kw_radioButton">
                <property name="text">
                 <string>关键字</string>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_2</string>
+               </attribute>
               </widget>
              </item>
             </layout>
@@ -615,16 +709,9 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_15">
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="okButton">
               <property name="text">
                <string>确定</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_2">
-              <property name="text">
-               <string>退出</string>
               </property>
              </widget>
             </item>
@@ -665,52 +752,7 @@
              <property name="title">
               <string>内核审计参数</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout_18">
-              <item row="3" column="0" colspan="3">
-               <widget class="QLabel" name="label_4">
-                <property name="text">
-                 <string>当从一个文件中读取规则是忽略错误</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="4" colspan="2">
-               <widget class="QPushButton" name="pushButton_12">
-                <property name="text">
-                 <string>保存到文件</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" colspan="2">
-               <widget class="QRadioButton" name="radioButton_20">
-                <property name="text">
-                 <string>启用</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3" colspan="2">
-               <widget class="QRadioButton" name="radioButton_18">
-                <property name="text">
-                 <string>通知</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0" colspan="2">
-               <widget class="QPushButton" name="pushButton_10">
-                <property name="text">
-                 <string>应用</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="3" colspan="2">
-               <widget class="QLineEdit" name="lineEdit_26"/>
-              </item>
-              <item row="4" column="0" colspan="3">
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>以每秒钟消息条数为单位的速率限制:</string>
-                </property>
-               </widget>
-              </item>
+             <layout class="QGridLayout" name="gridLayout_13">
               <item row="0" column="0" colspan="3">
                <widget class="QLabel" name="label_6">
                 <property name="text">
@@ -718,38 +760,13 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="5">
-               <widget class="QRadioButton" name="radioButton_15">
-                <property name="text">
-                 <string> 不忽略</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="2" colspan="2">
-               <widget class="QPushButton" name="pushButton_11">
-                <property name="text">
-                 <string>取消</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3" colspan="2">
-               <widget class="QRadioButton" name="radioButton_19">
-                <property name="text">
-                 <string>禁用</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="5">
-               <widget class="QRadioButton" name="radioButton_17">
-                <property name="text">
-                 <string>不通知</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0" colspan="3">
-               <widget class="QLabel" name="label_3">
-                <property name="text">
-                 <string>设置通知内核处理关键错误的标识 </string>
+              <item row="0" column="3" colspan="2">
+               <widget class="QLineEdit" name="max_noaud_buf_lineEdit">
+                <property name="maximumSize">
+                 <size>
+                  <width>50</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                </widget>
               </item>
@@ -760,13 +777,122 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="3" colspan="2">
-               <widget class="QLineEdit" name="lineEdit_27"/>
+              <item row="1" column="1">
+               <widget class="QRadioButton" name="enable_radioButton">
+                <property name="text">
+                 <string>启用</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_3</string>
+                </attribute>
+               </widget>
               </item>
-              <item row="3" column="3" colspan="2">
-               <widget class="QRadioButton" name="radioButton_16">
+              <item row="1" column="3">
+               <widget class="QRadioButton" name="disable_radioButton">
+                <property name="text">
+                 <string>禁用</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_3</string>
+                </attribute>
+               </widget>
+              </item>
+              <item row="2" column="0" colspan="3">
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>设置通知内核处理关键错误的标识 </string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3" colspan="3">
+               <layout class="QHBoxLayout" name="horizontalLayout_16">
+                <item>
+                 <widget class="QRadioButton" name="silent_radioButton">
+                  <property name="text">
+                   <string>无动作</string>
+                  </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">buttonGroup_4</string>
+                  </attribute>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="printk_radioButton">
+                  <property name="text">
+                   <string>通知</string>
+                  </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">buttonGroup_4</string>
+                  </attribute>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="panic_radioButton">
+                  <property name="text">
+                   <string>混乱</string>
+                  </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">buttonGroup_4</string>
+                  </attribute>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="0" colspan="3">
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>当从一个文件中读取规则是忽略错误</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QRadioButton" name="audctl_i_radioButton">
                 <property name="text">
                  <string>忽略</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_5</string>
+                </attribute>
+               </widget>
+              </item>
+              <item row="3" column="5">
+               <widget class="QRadioButton" name="audctl_c_radioButton">
+                <property name="text">
+                 <string> 不忽略</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_5</string>
+                </attribute>
+               </widget>
+              </item>
+              <item row="4" column="0" colspan="3">
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>以每秒钟消息条数为单位的速率限制:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0" colspan="2">
+               <widget class="QPushButton" name="apl_kern_paramButton">
+                <property name="text">
+                 <string>应用</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="4" colspan="2">
+               <widget class="QPushButton" name="save_rules_fileButton">
+                <property name="text">
+                 <string>保存到文件</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3" colspan="2">
+               <widget class="QLineEdit" name="rate_limit_lineEdit">
+                <property name="maximumSize">
+                 <size>
+                  <width>50</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                </widget>
               </item>
@@ -1313,35 +1439,28 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
-             <widget class="QCheckBox" name="checkBox_35">
+             <widget class="QLabel" name="label_21">
               <property name="text">
                <string>审计日志保存位置</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_44"/>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_17">
-              <property name="text">
-               <string>...</string>
-              </property>
-             </widget>
+             <widget class="QLineEdit" name="log_filelineEdit"/>
             </item>
            </layout>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
-             <widget class="QCheckBox" name="checkBox_36">
+             <widget class="QLabel" name="label_22">
               <property name="text">
                <string>当日志增长到      </string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_40">
+             <widget class="QLineEdit" name="max_log_filelineEdit">
               <property name="minimumSize">
                <size>
                 <width>30</width>
@@ -1364,7 +1483,33 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_36"/>
+             <widget class="QComboBox" name="max_log_file_action_comboBox">
+              <item>
+               <property name="text">
+                <string>IGNORE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SYSLOG</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SUSPEND</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>ROTATE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>KEEP_LOGS</string>
+               </property>
+              </item>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_15">
@@ -1374,7 +1519,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_37">
+             <widget class="QLineEdit" name="num_logslineEdit">
               <property name="minimumSize">
                <size>
                 <width>30</width>
@@ -1399,7 +1544,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_33">
+           <widget class="QLabel" name="label_23">
             <property name="text">
              <string>循环日志并保存所有</string>
             </property>
@@ -1408,14 +1553,14 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_9">
             <item>
-             <widget class="QCheckBox" name="checkBox_41">
+             <widget class="QLabel" name="label_24">
               <property name="text">
                <string>当磁盘剩余空间达到</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_38">
+             <widget class="QLineEdit" name="admin_space_left_lineEdit">
               <property name="minimumSize">
                <size>
                 <width>30</width>
@@ -1438,7 +1583,33 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_42"/>
+             <widget class="QComboBox" name="admin_space_left_action_comboBox">
+              <item>
+               <property name="text">
+                <string>IGNORE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SYSLOG</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>EMAIL</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SUSPEND</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SINGLEHALT</string>
+               </property>
+              </item>
+             </widget>
             </item>
             <item>
              <spacer name="horizontalSpacer_9">
@@ -1458,14 +1629,14 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_10">
             <item>
-             <widget class="QCheckBox" name="checkBox_32">
+             <widget class="QLabel" name="label_25">
               <property name="text">
                <string>当磁盘剩余空间达到</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_43">
+             <widget class="QLineEdit" name="space_left_lineEdit">
               <property name="minimumSize">
                <size>
                 <width>30</width>
@@ -1488,7 +1659,38 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_41"/>
+             <widget class="QComboBox" name="space_left_action_comboBox">
+              <item>
+               <property name="text">
+                <string>IGNORE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SYSLOG</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>EMAIL</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SUSPEND</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SINGLE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>HALT</string>
+               </property>
+              </item>
+             </widget>
             </item>
             <item>
              <spacer name="horizontalSpacer_10">
@@ -1507,25 +1709,90 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout_20">
+            <item row="0" column="2">
+             <widget class="QComboBox" name="disk_full_action_comboBox">
+              <item>
+               <property name="text">
+                <string>IGNORE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SYSLOG</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SUSPEND</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SINGLE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>HALT</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <spacer name="horizontalSpacer_14">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>142</width>
+                <height>26</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="2">
+             <widget class="QComboBox" name="disk_error_action_comboBox">
+              <item>
+               <property name="text">
+                <string>IGNORE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SYSLOG</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SUSPEND</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SINGLE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>HALT</string>
+               </property>
+              </item>
+             </widget>
+            </item>
             <item row="0" column="0">
-             <widget class="QCheckBox" name="checkBox_31">
+             <widget class="QLabel" name="label_26">
               <property name="text">
                <string>当磁盘满时</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_35"/>
-            </item>
             <item row="1" column="0">
-             <widget class="QCheckBox" name="checkBox_34">
+             <widget class="QLabel" name="label_27">
               <property name="text">
                <string>当磁盘输入错误时</string>
               </property>
              </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_39"/>
             </item>
            </layout>
           </item>
@@ -1536,24 +1803,24 @@
             </property>
             <layout class="QGridLayout" name="gridLayout_6">
              <item row="0" column="1">
-              <widget class="QLineEdit" name="lineEdit_45"/>
+              <widget class="QLineEdit" name="mail_lineEdit"/>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="msg_lineEdit"/>
              </item>
              <item row="0" column="0">
-              <widget class="QCheckBox" name="checkBox_38">
+              <widget class="QLabel" name="label_28">
                <property name="text">
                 <string>收件人:</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="checkBox_40">
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_29">
                <property name="text">
                 <string>短信:</string>
                </property>
               </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="lineEdit_47"/>
              </item>
             </layout>
            </widget>
@@ -1561,23 +1828,9 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_11">
             <item>
-             <widget class="QPushButton" name="pushButton_16">
+             <widget class="QPushButton" name="apl_cfg_Button">
               <property name="text">
                <string>应用</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_18">
-              <property name="text">
-               <string>取消</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_19">
-              <property name="text">
-               <string>确定</string>
               </property>
              </widget>
             </item>
@@ -1626,7 +1879,7 @@
            </spacer>
           </item>
           <item row="0" column="1">
-           <widget class="QPushButton" name="pushButton_20">
+           <widget class="QPushButton" name="open_pushButton">
             <property name="text">
              <string>打开</string>
             </property>
@@ -1646,7 +1899,7 @@
            </spacer>
           </item>
           <item row="0" column="3">
-           <widget class="QPushButton" name="pushButton_21">
+           <widget class="QPushButton" name="fresh_pushButton">
             <property name="text">
              <string>刷新</string>
             </property>
@@ -1675,75 +1928,15 @@
      </widget>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox_7">
-     <property name="minimumSize">
-      <size>
-       <width>200</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>功能列表</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QListWidget" name="listWidget">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <item>
-         <property name="text">
-          <string>开启/关闭审计</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>查询设置</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>审计报告</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>审计规则</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>审计配置</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>审计信息展示</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
   </layout>
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup_3"/>
+  <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup_4"/>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_5"/>
+ </buttongroups>
 </ui>

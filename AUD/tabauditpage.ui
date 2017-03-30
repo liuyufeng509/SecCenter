@@ -1865,18 +1865,11 @@
           <string>审计信息展示</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_21">
-          <item row="0" column="0">
-           <spacer name="horizontalSpacer_12">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>112</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
+          <item row="1" column="0" colspan="6">
+           <widget class="QTextBrowser" name="textBrowser"/>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLineEdit" name="findlineEdit"/>
           </item>
           <item row="0" column="1">
            <widget class="QPushButton" name="open_pushButton">
@@ -1886,40 +1879,46 @@
            </widget>
           </item>
           <item row="0" column="2">
-           <spacer name="horizontalSpacer_11">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>112</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="3">
            <widget class="QPushButton" name="fresh_pushButton">
+            <property name="toolTip">
+             <string>fresh</string>
+            </property>
             <property name="text">
              <string>刷新</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="4">
-           <spacer name="horizontalSpacer_13">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
+          <item row="0" column="5">
+           <widget class="QPushButton" name="next_pushButton">
+            <property name="maximumSize">
              <size>
-              <width>112</width>
-              <height>20</height>
+              <width>20</width>
+              <height>16777215</height>
              </size>
             </property>
-           </spacer>
+            <property name="toolTip">
+             <string>fresh</string>
+            </property>
+            <property name="text">
+             <string>&gt;</string>
+            </property>
+           </widget>
           </item>
-          <item row="1" column="0" colspan="5">
-           <widget class="QTextBrowser" name="textBrowser"/>
+          <item row="0" column="4">
+           <widget class="QPushButton" name="pre_pushButton">
+            <property name="maximumSize">
+             <size>
+              <width>20</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>fresh</string>
+            </property>
+            <property name="text">
+             <string>&lt;</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -1935,8 +1934,8 @@
  <buttongroups>
   <buttongroup name="buttonGroup_3"/>
   <buttongroup name="buttonGroup_2"/>
-  <buttongroup name="buttonGroup_4"/>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_5"/>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_4"/>
  </buttongroups>
 </ui>

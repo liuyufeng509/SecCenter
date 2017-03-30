@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="en" sourcelanguage="zh_CN">
 <context>
     <name>ALCDialog</name>
     <message utf8="true">
         <location filename="DAC_ACL/alcdialog.ui" line="14"/>
         <source>ACL设置</source>
         <oldsource>ALC设置</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>ACL</translation>
     </message>
     <message utf8="true">
         <location filename="DAC_ACL/alcdialog.ui" line="100"/>

@@ -57,6 +57,8 @@ void TabAuditPage::read_and_display_file()
             QTextStream stream( &file );
             ui->textBrowser->setText(stream.readAll());
             file.close();
+            op_type = AUD_DISPLAY;
+            ui->fresh_pushButton->setToolTip(tr("刷新类型：审计日志"));
     }else
     {
         QMessageBox::information(this, tr("提示"), tr("日志文件打开失败"));
@@ -72,13 +74,25 @@ void TabAuditPage::on_open_pushButton_clicked()
     }
 
     read_and_display_file();
-    op_type = AUD_DISPLAY;
+
 }
 
 void TabAuditPage::on_fresh_pushButton_clicked()
 {
+    ui->textBrowser->setText("");
     switch (op_type) {
     case QUERY_SET:
+        on_aplButton_clicked();
+        break;
+    case AUD_REPORT:
+        on_okButton_clicked();
+        break;
+//    case KER_AUD_PARM:
+//        on_apl_kern_paramButton_clicked();
+
+//        break;
+    case AUD_DISPLAY:
+        read_and_display_file();
         break;
     default:
         break;
@@ -333,6 +347,7 @@ void TabAuditPage::on_aplButton_clicked()
         ui->listWidget->setCurrentRow(5);
         ui->textBrowser->setText(res);
         op_type = QUERY_SET;
+        ui->fresh_pushButton->setToolTip(tr("刷新类型：审计查询"));
     }else
     {
         QMessageBox::information(this, tr("提示"), tr("执行查询语句失败，请检查查询语句"));
@@ -394,6 +409,7 @@ void TabAuditPage::on_okButton_clicked()
         ui->listWidget->setCurrentRow(5);
         ui->textBrowser->setText(res);
         op_type=AUD_REPORT;
+        ui->fresh_pushButton->setToolTip(tr("刷新类型：审计报表"));
     }else
     {
         QMessageBox::information(this, tr("提示"), tr("生成报表失败"));
@@ -527,9 +543,22 @@ void TabAuditPage::on_apl_cfg_Button_clicked()
 }
 
 
+void TabAuditPage::on_pre_pushButton_clicked()
+{
+    if(ui->findlineEdit->text().isEmpty())
+    {
+        QMessageBox::information(this, tr("提示"), tr("请输入查找关键字"));
+        return;
+    }
+    ui->textBrowser->find(ui->findlineEdit->text(),QTextDocument::FindBackward);
+}
 
-
-
-
-
-
+void TabAuditPage::on_next_pushButton_clicked()
+{
+    if(ui->findlineEdit->text().isEmpty())
+    {
+        QMessageBox::information(this, tr("提示"), tr("请输入查找关键字"));
+        return;
+    }
+    ui->textBrowser->find(ui->findlineEdit->text());
+}

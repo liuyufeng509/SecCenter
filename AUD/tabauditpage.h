@@ -78,6 +78,10 @@ private slots:
 
     void on_fresh_pushButton_clicked();
 
+    void on_pre_pushButton_clicked();
+
+    void on_next_pushButton_clicked();
+
 private:
     Ui::TabAuditPage *ui;
     QString cmd;

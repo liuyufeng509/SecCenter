@@ -31,8 +31,11 @@ color: #cccccc;
 }
 QTextEdit {
    background-color: #666666;
-   color: #cccccc;
+   color: white;
+   selection-color: blue;
+   selection-background-color: yellow
 }
+
 
 QScrollBar:horizontal {
    height: 20px;

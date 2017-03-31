@@ -971,3 +971,23 @@ bool get_kern_aud_param(KernAudParam &param)
 
     return true;
 }
+
+
+bool set_file_rule(FileAudRule fileRule)
+{
+    QString cmd = "auditctl -w "+fileRule.file_name+
+            (fileRule.key_word.isEmpty()?"":" -k "+fileRule.key_word)+
+            (fileRule.auth.isEmpty()? "":" -p "+fileRule.auth)+
+            //+" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
+            ";echo $?";
+    QString res;
+    res = GetCmdRes(cmd).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"set_file_rule failed:"<<cmd;
+        return false;
+    }
+    return true;
+
+}

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>868</width>
-    <height>611</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,7 +84,7 @@
    <item row="0" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>5</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="open_closePage">
       <layout class="QGridLayout" name="gridLayout_22">
@@ -709,7 +709,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_15">
             <item>
-             <widget class="QPushButton" name="okButton">
+             <widget class="QPushButton" name="report_okButton">
               <property name="text">
                <string>确定</string>
               </property>
@@ -740,15 +740,63 @@
        <item row="0" column="0">
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
            <string>系统规则配置</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_17">
+           <item row="2" column="0">
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>70</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>80</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>文件追踪</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_18">
+              <item row="0" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_14">
+                <item>
+                 <widget class="QLabel" name="label_31">
+                  <property name="text">
+                   <string>追踪结果:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="track_lineEdit"/>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="trace_Button">
+                  <property name="text">
+                   <string>追踪</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item row="0" column="0">
             <widget class="QGroupBox" name="groupBox_13">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>230</height>
+              </size>
+             </property>
              <property name="title">
               <string>内核审计参数</string>
              </property>
@@ -872,20 +920,6 @@
                 </property>
                </widget>
               </item>
-              <item row="5" column="0" colspan="2">
-               <widget class="QPushButton" name="apl_kern_paramButton">
-                <property name="text">
-                 <string>应用</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="4" colspan="2">
-               <widget class="QPushButton" name="save_rules_fileButton">
-                <property name="text">
-                 <string>保存到文件</string>
-                </property>
-               </widget>
-              </item>
               <item row="4" column="3" colspan="2">
                <widget class="QLineEdit" name="rate_limit_lineEdit">
                 <property name="maximumSize">
@@ -896,34 +930,63 @@
                 </property>
                </widget>
               </item>
+              <item row="5" column="0" colspan="3">
+               <widget class="QPushButton" name="apl_kern_paramButton">
+                <property name="text">
+                 <string>应用</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="3" colspan="3">
+               <widget class="QPushButton" name="ker_aud_param_saveButton">
+                <property name="text">
+                 <string>保存到文件</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
            <item row="1" column="0">
             <widget class="QGroupBox" name="groupBox_14">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>200</height>
+              </size>
+             </property>
              <property name="title">
               <string>文件审计规则</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_8">
               <item row="0" column="0">
                <widget class="QLabel" name="label_8">
+                <property name="maximumSize">
+                 <size>
+                  <width>50</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>文件:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" colspan="2">
-               <widget class="QLineEdit" name="lineEdit_28">
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="file_lineEdit">
                 <property name="minimumSize">
                  <size>
                   <width>350</width>
                   <height>0</height>
                  </size>
                 </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
-              <item row="0" column="3">
-               <widget class="QPushButton" name="pushButton_3">
+              <item row="0" column="2">
+               <widget class="QPushButton" name="brow_pushButton">
                 <property name="minimumSize">
                  <size>
                   <width>3</width>
@@ -947,16 +1010,16 @@
               <item row="1" column="0" colspan="2">
                <layout class="QHBoxLayout" name="horizontalLayout_13">
                 <item>
-                 <widget class="QRadioButton" name="radioButton_27">
+                 <widget class="QLabel" name="label_30">
                   <property name="text">
                    <string>权限:</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QCheckBox" name="checkBox_28">
+                 <widget class="QCheckBox" name="r_checkBox">
                   <property name="enabled">
-                   <bool>false</bool>
+                   <bool>true</bool>
                   </property>
                   <property name="text">
                    <string>r</string>
@@ -964,9 +1027,9 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QCheckBox" name="checkBox_29">
+                 <widget class="QCheckBox" name="w_checkBox">
                   <property name="enabled">
-                   <bool>false</bool>
+                   <bool>true</bool>
                   </property>
                   <property name="text">
                    <string>w</string>
@@ -974,9 +1037,9 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QCheckBox" name="checkBox_30">
+                 <widget class="QCheckBox" name="x_checkBox">
                   <property name="enabled">
-                   <bool>false</bool>
+                   <bool>true</bool>
                   </property>
                   <property name="text">
                    <string>x</string>
@@ -985,33 +1048,6 @@
                 </item>
                </layout>
               </item>
-              <item row="1" column="2">
-               <layout class="QHBoxLayout" name="horizontalLayout_14">
-                <item>
-                 <widget class="QRadioButton" name="radioButton_28">
-                  <property name="text">
-                   <string>追踪</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="lineEdit_31"/>
-                </item>
-               </layout>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_9">
-                <property name="text">
-                 <string>生效时间:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLineEdit" name="lineEdit_29"/>
-              </item>
               <item row="3" column="0">
                <widget class="QLabel" name="label_10">
                 <property name="text">
@@ -1019,29 +1055,84 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="1" colspan="3">
-               <widget class="QLineEdit" name="lineEdit_30"/>
+              <item row="3" column="1" colspan="2">
+               <widget class="QLineEdit" name="kw_file_aud_lineEdit"/>
               </item>
-              <item row="4" column="0" colspan="4">
+              <item row="4" column="0" colspan="3">
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <item>
-                 <widget class="QPushButton" name="pushButton_13">
+                 <widget class="QPushButton" name="file_rule_aply_pushButton">
                   <property name="text">
                    <string>应用</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_14">
+                 <widget class="QPushButton" name="file_aud_param_saveButton">
                   <property name="text">
-                   <string>取消</string>
+                   <string>保存到文件</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="0" colspan="3">
+               <layout class="QHBoxLayout" name="horizontalLayout_17">
+                <item>
+                 <widget class="QLabel" name="label_9">
+                  <property name="text">
+                   <string>生效时间:</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_15">
+                 <widget class="QDateTimeEdit" name="file_aud_st_TimeEdit">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="date">
+                   <date>
+                    <year>2017</year>
+                    <month>3</month>
+                    <day>31</day>
+                   </date>
+                  </property>
+                  <property name="time">
+                   <time>
+                    <hour>0</hour>
+                    <minute>3</minute>
+                    <second>0</second>
+                   </time>
+                  </property>
+                  <property name="maximumDateTime">
+                   <datetime>
+                    <hour>23</hour>
+                    <minute>59</minute>
+                    <second>59</second>
+                    <year>7999</year>
+                    <month>12</month>
+                    <day>31</day>
+                   </datetime>
+                  </property>
+                  <property name="displayFormat">
+                   <string>MM/dd/yy hh:mm:ss</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_32">
                   <property name="text">
-                   <string>保存到文件</string>
+                   <string>生效时间:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDateTimeEdit" name="file_aud_et_TimeEdit">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="displayFormat">
+                   <string>MM/dd/yy hh:mm:ss</string>
                   </property>
                  </widget>
                 </item>
@@ -1050,246 +1141,283 @@
              </layout>
             </widget>
            </item>
+           <item row="3" column="0">
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
          </widget>
          <widget class="QWidget" name="tab_3">
           <attribute name="title">
            <string>系统调用规则</string>
           </attribute>
-          <layout class="QGridLayout" name="gridLayout_14">
+          <layout class="QGridLayout" name="gridLayout_30">
            <item row="0" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout_2">
+            <widget class="QGroupBox" name="groupBox_10">
+             <property name="title">
+              <string>链表</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_27">
+              <item>
+               <widget class="QRadioButton" name="entry_radioButton">
+                <property name="text">
+                 <string>entry</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="exit_radioButton">
+                <property name="text">
+                 <string>exit</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_48">
+                <property name="text">
+                 <string>生效时间:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDateTimeEdit" name="sys_call_st_TimeEdit">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="date">
+                 <date>
+                  <year>2017</year>
+                  <month>3</month>
+                  <day>31</day>
+                 </date>
+                </property>
+                <property name="time">
+                 <time>
+                  <hour>0</hour>
+                  <minute>3</minute>
+                  <second>0</second>
+                 </time>
+                </property>
+                <property name="maximumDateTime">
+                 <datetime>
+                  <hour>23</hour>
+                  <minute>59</minute>
+                  <second>59</second>
+                  <year>7999</year>
+                  <month>12</month>
+                  <day>31</day>
+                 </datetime>
+                </property>
+                <property name="displayFormat">
+                 <string>MM/dd/yy hh:mm:ss</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_47">
+                <property name="text">
+                 <string>生效时间:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDateTimeEdit" name="sys_call_et_TimeEdit">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="displayFormat">
+                 <string>MM/dd/yy hh:mm:ss</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_11">
+             <property name="title">
+              <string>动作</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QRadioButton" name="never_radioButton">
+                <property name="text">
+                 <string>never</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="always_radioButton">
+                <property name="text">
+                 <string>always</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QGroupBox" name="groupBox_12">
+             <property name="title">
+              <string>常用系统调用</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_15">
+              <item row="0" column="0">
+               <widget class="QRadioButton" name="open_radioButton">
+                <property name="text">
+                 <string>open</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QRadioButton" name="creat_radioButton">
+                <property name="text">
+                 <string>create</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QRadioButton" name="read_radioButton">
+                <property name="text">
+                 <string>read</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QRadioButton" name="write_radioButton">
+                <property name="text">
+                 <string>write</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QRadioButton" name="chmod_radioButton">
+                <property name="text">
+                 <string>chmod</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QRadioButton" name="chown_radioButton">
+                <property name="text">
+                 <string>chown</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QRadioButton" name="stat_radioButton">
+                <property name="text">
+                 <string>stat</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QRadioButton" name="link_radioButton">
+                <property name="text">
+                 <string>link</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QRadioButton" name="mount_radioButton">
+                <property name="text">
+                 <string>mount</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QRadioButton" name="rename_radioButton">
+                <property name="text">
+                 <string>rename</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QRadioButton" name="mkdir_radioButton">
+                <property name="text">
+                 <string>mkdir</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QRadioButton" name="rmdir_radioButton">
+                <property name="text">
+                 <string>rmdir</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QRadioButton" name="acct_radioButton">
+                <property name="text">
+                 <string>acct</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QRadioButton" name="kill_radioButton">
+                <property name="text">
+                 <string>kill</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QRadioButton" name="fork_radioButton">
+                <property name="text">
+                 <string>fork</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QRadioButton" name="execve_radioButton">
+                <property name="text">
+                 <string>execve</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item>
-              <widget class="QGroupBox" name="groupBox_10">
-               <property name="title">
-                <string>链表</string>
+              <widget class="QPushButton" name="sys_call_rule_apl_pushButton">
+               <property name="text">
+                <string>应用</string>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout">
-                <item>
-                 <widget class="QRadioButton" name="radioButton_21">
-                  <property name="text">
-                   <string>entry</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_22">
-                  <property name="text">
-                   <string>exit</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_4">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_11">
-                  <property name="text">
-                   <string>生效时间:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="lineEdit_32"/>
-                </item>
-               </layout>
               </widget>
              </item>
              <item>
-              <widget class="QGroupBox" name="groupBox_11">
-               <property name="title">
-                <string>动作</string>
+              <widget class="QPushButton" name="sys_call_save_pushButton">
+               <property name="text">
+                <string>保存到文件</string>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_2">
-                <item>
-                 <widget class="QRadioButton" name="radioButton_23">
-                  <property name="text">
-                   <string>never</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_24">
-                  <property name="text">
-                   <string>always</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_5">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
               </widget>
-             </item>
-             <item>
-              <widget class="QGroupBox" name="groupBox_12">
-               <property name="title">
-                <string>常用系统调用</string>
-               </property>
-               <layout class="QGridLayout" name="gridLayout_15">
-                <item row="0" column="0">
-                 <widget class="QRadioButton" name="radioButton_25">
-                  <property name="text">
-                   <string>open</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QRadioButton" name="radioButton_26">
-                  <property name="text">
-                   <string>create</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QRadioButton" name="radioButton_29">
-                  <property name="text">
-                   <string>read</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QRadioButton" name="radioButton_30">
-                  <property name="text">
-                   <string>write</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QRadioButton" name="radioButton_31">
-                  <property name="text">
-                   <string>chmod</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QRadioButton" name="radioButton_32">
-                  <property name="text">
-                   <string>chown</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QRadioButton" name="radioButton_33">
-                  <property name="text">
-                   <string>stat</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="3">
-                 <widget class="QRadioButton" name="radioButton_34">
-                  <property name="text">
-                   <string>link</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QRadioButton" name="radioButton_35">
-                  <property name="text">
-                   <string>mount</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QRadioButton" name="radioButton_36">
-                  <property name="text">
-                   <string>rename</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="2">
-                 <widget class="QRadioButton" name="radioButton_37">
-                  <property name="text">
-                   <string>mkdir</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="3">
-                 <widget class="QRadioButton" name="radioButton_38">
-                  <property name="text">
-                   <string>rmdir</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QRadioButton" name="radioButton_39">
-                  <property name="text">
-                   <string>acct</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QRadioButton" name="radioButton_40">
-                  <property name="text">
-                   <string>kill</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="2">
-                 <widget class="QRadioButton" name="radioButton_41">
-                  <property name="text">
-                   <string>fork</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="3">
-                 <widget class="QRadioButton" name="radioButton_42">
-                  <property name="text">
-                   <string>execve</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_12">
-               <item>
-                <widget class="QPushButton" name="pushButton_4">
-                 <property name="text">
-                  <string>应用</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_5">
-                 <property name="text">
-                  <string>取消</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_6">
-                 <property name="text">
-                  <string>保存到文件</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
              </item>
             </layout>
            </item>
-           <item row="1" column="0">
+           <item row="4" column="0">
             <spacer name="verticalSpacer_4">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -1308,26 +1436,9 @@
           <attribute name="title">
            <string>自定义规则</string>
           </attribute>
-          <layout class="QGridLayout" name="gridLayout_16">
-           <item row="0" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
             <layout class="QGridLayout" name="gridLayout_9">
-             <item row="1" column="0" colspan="2">
-              <widget class="QPushButton" name="pushButton_7">
-               <property name="text">
-                <string>清空当前所有规则</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1" colspan="3">
-              <widget class="QLineEdit" name="lineEdit_34"/>
-             </item>
-             <item row="1" column="3">
-              <widget class="QPushButton" name="pushButton_9">
-               <property name="text">
-                <string>清空规则文件内规则</string>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="0">
               <widget class="QLabel" name="label_14">
                <property name="text">
@@ -1335,61 +1446,15 @@
                </property>
               </widget>
              </item>
-             <item row="5" column="0" colspan="4">
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
-               <item>
-                <widget class="QPushButton" name="pushButton_22">
-                 <property name="text">
-                  <string>应用</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_24">
-                 <property name="text">
-                  <string>取消</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_23">
-                 <property name="text">
-                  <string>保存到文件</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+             <item row="0" column="1" colspan="3">
+              <widget class="QLineEdit" name="custom_rule_lineEdit"/>
              </item>
-             <item row="2" column="0" colspan="2">
-              <widget class="QPushButton" name="pushButton_8">
+             <item row="1" column="0" colspan="2">
+              <widget class="QPushButton" name="clean_all_rules_Button">
                <property name="text">
-                <string>显示当前规则列表</string>
+                <string>清空当前所有规则</string>
                </property>
               </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>已有规则:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0" colspan="4">
-              <widget class="QTextBrowser" name="textBrowser_2"/>
-             </item>
-             <item row="2" column="3">
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <item>
-                <widget class="QLabel" name="label_12">
-                 <property name="text">
-                  <string>生效时间:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEdit_33"/>
-               </item>
-              </layout>
              </item>
              <item row="1" column="2">
               <spacer name="horizontalSpacer_6">
@@ -1404,9 +1469,117 @@
                </property>
               </spacer>
              </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="QPushButton" name="display_cur_rules_Button">
+               <property name="text">
+                <string>显示当前规则列表</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2" colspan="2">
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item>
+                <widget class="QLabel" name="label_50">
+                 <property name="text">
+                  <string>生效时间:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDateTimeEdit" name="custom_rule_st_TimeEdit">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="date">
+                  <date>
+                   <year>2017</year>
+                   <month>3</month>
+                   <day>31</day>
+                  </date>
+                 </property>
+                 <property name="time">
+                  <time>
+                   <hour>0</hour>
+                   <minute>3</minute>
+                   <second>0</second>
+                  </time>
+                 </property>
+                 <property name="maximumDateTime">
+                  <datetime>
+                   <hour>23</hour>
+                   <minute>59</minute>
+                   <second>59</second>
+                   <year>7999</year>
+                   <month>12</month>
+                   <day>31</day>
+                  </datetime>
+                 </property>
+                 <property name="displayFormat">
+                  <string>MM/dd/yy hh:mm:ss</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="2" column="4">
+              <layout class="QHBoxLayout" name="horizontalLayout_28">
+               <item>
+                <widget class="QLabel" name="label_49">
+                 <property name="text">
+                  <string>生效时间:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDateTimeEdit" name="custom_rule_et_TimeEdit">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="displayFormat">
+                  <string>MM/dd/yy hh:mm:ss</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>已有规则:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="4">
+              <widget class="QPushButton" name="clean_all_rules_infile_Button">
+               <property name="text">
+                <string>清空规则文件内规则</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0" colspan="5">
+              <widget class="QTextBrowser" name="custom_rules_textBrowser"/>
+             </item>
+             <item row="5" column="0" colspan="5">
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <widget class="QPushButton" name="custom_rule_aply_pushButton">
+                 <property name="text">
+                  <string>应用</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="custom_rule_savepushButton">
+                 <property name="text">
+                  <string>保存到文件</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
             </layout>
            </item>
-           <item row="1" column="0">
+           <item>
             <spacer name="verticalSpacer_3">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -1932,10 +2105,10 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup_3"/>
-  <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup_5"/>
-  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup_3"/>
   <buttongroup name="buttonGroup_4"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>

@@ -332,4 +332,16 @@ struct AudConfigInfo
 
 bool config_key_exist(QString key);
 
+//file aud rules
+struct FileAudRule
+{
+    QString file_name;
+    QString auth;
+    QString ts_time;
+    QString te_time;
+    QString key_word;
+};
+
+bool set_file_rule(FileAudRule fileRule);
+
 #endif // COMMON_H

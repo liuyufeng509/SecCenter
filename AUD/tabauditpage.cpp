@@ -7,6 +7,7 @@
 #include"configdialog.h"
 #define SEV_NAME  "auditd"
 #define CONF_NAME "/etc/audit/auditd.conf"
+#define RULE_CONF_NAME "/etc/audit/rules.d/audit.rules"
 TabAuditPage::TabAuditPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TabAuditPage),
@@ -39,6 +40,10 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     kernAudParam.bignore = false;
     get_kern_aud_param(kernAudParam);
     update_kern_aud_param_ui();
+
+    //file rules
+    ui->file_aud_st_TimeEdit->setDateTime(QDateTime::currentDateTime());
+    ui->file_aud_et_TimeEdit->setDateTime(QDateTime::currentDateTime());
 
     //audit config
     get_aud_config_info();
@@ -85,7 +90,7 @@ void TabAuditPage::on_fresh_pushButton_clicked()
         on_aplButton_clicked();
         break;
     case AUD_REPORT:
-        on_okButton_clicked();
+        on_report_okButton_clicked();
         break;
 //    case KER_AUD_PARM:
 //        on_apl_kern_paramButton_clicked();
@@ -309,7 +314,7 @@ void TabAuditPage::on_query_produceButton_clicked()
         return;
     }
 
-    cmd = "ausearch "+
+    cmd = "ausearch -i "+
             (ui->evidCheckBox->isChecked()? "--event "+ui->evid_lineEdit->text():"")+" "+
             (ui->gid_checkBox->isChecked()? "-gi "+ui->gid_lineEdit->text():"") + " "+
             (ui->fn_checkBox->isChecked()? "-f "+ui->fn_lineEdit->text():"") + " "+
@@ -386,7 +391,7 @@ void TabAuditPage::on_tm_sec_checkBox_clicked()
     ui->et_TimeEdit->setDateTime(QDateTime::currentDateTime());
 }
 
-void TabAuditPage::on_okButton_clicked()
+void TabAuditPage::on_report_okButton_clicked()
 {
     cmd = QString("aureport ") + (ui->res_checkBox->isChecked()? (ui->sucButton->isChecked()?"--success ":" --failed "):"")+
             (ui->tm_sec_checkBox->isChecked()? ("-ts "+ui->st_TimeEdit->text() +" -te "+ui->et_TimeEdit->text()+ " "):"")+
@@ -463,7 +468,7 @@ void TabAuditPage::save_aud_config_from_ui()
     audCfgInfo.warning_tel = ui->msg_lineEdit->text();
 }
 
-void TabAuditPage::on_save_rules_fileButton_clicked()
+void TabAuditPage::on_ker_aud_param_saveButton_clicked()
 {
     save_kern_aud_param_from_ui();
     QString str = "/etc/audit/rules.d/audit.rules";
@@ -512,26 +517,26 @@ void TabAuditPage::on_apl_cfg_Button_clicked()
               QStringList lineargs = line.split("=");
               if(lineargs.length()!=2)
                 continue;
-              settings.insert(lineargs[0].trimmed(), lineargs[1].trimmed());
+              config_settings.insert(lineargs[0].trimmed(), lineargs[1].trimmed());
           }
            file.close();
-          settings.insert("log_file", audCfgInfo.log_file);
-          settings.insert("max_log_file", audCfgInfo.max_log_file);
-          settings.insert("max_log_file_action", audCfgInfo.max_log_file_action);
-          settings.insert("num_logs", audCfgInfo.num_logs);
-          settings.insert("admin_space_left", audCfgInfo.admin_space_left);
-          settings.insert("admin_space_left_action", audCfgInfo.admin_space_left_action);
-          settings.insert("space_left", audCfgInfo.space_left);
-          settings.insert("space_left_action", audCfgInfo.space_left_action);
-          settings.insert("disk_full_action", audCfgInfo.disk_full_action);
-          settings.insert("disk_error_action", audCfgInfo.disk_error_action);
+          config_settings.insert("log_file", audCfgInfo.log_file);
+          config_settings.insert("max_log_file", audCfgInfo.max_log_file);
+          config_settings.insert("max_log_file_action", audCfgInfo.max_log_file_action);
+          config_settings.insert("num_logs", audCfgInfo.num_logs);
+          config_settings.insert("admin_space_left", audCfgInfo.admin_space_left);
+          config_settings.insert("admin_space_left_action", audCfgInfo.admin_space_left_action);
+          config_settings.insert("space_left", audCfgInfo.space_left);
+          config_settings.insert("space_left_action", audCfgInfo.space_left_action);
+          config_settings.insert("disk_full_action", audCfgInfo.disk_full_action);
+          config_settings.insert("disk_error_action", audCfgInfo.disk_error_action);
 //          settings.insert("warning_mail", audCfgInfo.warning_mail);
 //          settings.insert("warning_tel", audCfgInfo.warning_tel);
     }
     if(file.open(QFile::WriteOnly | QFile::Text))
     {
         QTextStream stream( &file );
-        QMapIterator<QString, QString> i(settings);
+        QMapIterator<QString, QString> i(config_settings);
           while (i.hasNext())
           {
               i.next();
@@ -561,4 +566,85 @@ void TabAuditPage::on_next_pushButton_clicked()
         return;
     }
     ui->textBrowser->find(ui->findlineEdit->text());
+}
+
+void TabAuditPage::save_file_rules_from_ui()
+{
+    if(ui->file_lineEdit->text().isEmpty())
+    {
+        QMessageBox::information(this, tr("提示"), tr("文件名为空"));
+    }
+    fileRule.file_name = ui->file_lineEdit->text();
+    fileRule.auth = (ui->r_checkBox->isChecked()? QString("r"):QString(""))+
+            (ui->w_checkBox->isChecked()?"w":"")+
+            (ui->x_checkBox->isChecked()?"x":"");
+    fileRule.key_word = ui->kw_file_aud_lineEdit->text();
+    fileRule.ts_time = ui->file_aud_st_TimeEdit->text();
+    fileRule.te_time = ui->file_aud_et_TimeEdit->text();
+}
+
+void TabAuditPage::on_file_rule_aply_pushButton_clicked()
+{
+
+    save_file_rules_from_ui();
+    if(!set_file_rule(fileRule))
+    {
+        QMessageBox::information(this, tr("提示"), tr("文件审计规则设置失败"));
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("文件审计规则设置成功"));
+    }
+
+}
+
+void TabAuditPage::on_brow_pushButton_clicked()
+{
+    fileRule.file_name = QFileDialog::getOpenFileName(this, tr("Open File"), tr("."));
+    if(fileRule.file_name.isEmpty())
+    {
+        return;
+    }
+    ui->file_lineEdit->setText(fileRule.file_name);
+}
+
+void TabAuditPage::on_file_aud_param_saveButton_clicked()
+{
+    save_file_rules_from_ui();
+    QString cmd = "echo -w "+fileRule.file_name+
+            (fileRule.key_word.isEmpty()?"":" -k "+fileRule.key_word)+
+            (fileRule.auth.isEmpty()? "":" -p "+fileRule.auth)+
+            //+" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
+            ">>"+RULE_CONF_NAME+";echo $?";
+
+    QString res = GetCmdRes(cmd).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        QMessageBox::information(this, tr("提示"), tr("添加到配置文件失败"));
+        qDebug()<<"fail command:"<<cmd;
+    }else
+        QMessageBox::information(this, tr("提示"), tr("添加到配置文件成功"));
+}
+
+
+void TabAuditPage::on_trace_Button_clicked()
+{
+    if(ui->file_lineEdit->text().isEmpty())
+    {
+        QMessageBox::information(this, tr("提示"), tr("文件名为空"));
+    }
+    QString cmd = "autrace -r "+ui->file_lineEdit->text() +";echo $?";
+    QString res = GetCmdRes(cmd).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        ui->track_lineEdit->setText(tr("追踪文件失败"));
+        qDebug()<<"trace file command:"<<cmd;
+    }else
+    {
+       // ui->track_lineEdit->setText(res.right(res.length()-res.indexOf("with \'")));
+        list.removeLast();
+        ui->track_lineEdit->setText(list.last());
+    }
+
 }

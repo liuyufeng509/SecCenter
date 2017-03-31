@@ -40,6 +40,7 @@ public:
     //void set_config_content(QString key, QString value);
     void read_and_display_file();
 
+    void save_file_rules_from_ui();
 
 
 private slots:
@@ -66,11 +67,11 @@ private slots:
 
     void on_tm_sec_checkBox_clicked();
 
-    void on_okButton_clicked();
+    void on_report_okButton_clicked();
 
     void on_apl_kern_paramButton_clicked();
 
-    void on_save_rules_fileButton_clicked();
+    void on_ker_aud_param_saveButton_clicked();
 
     void on_apl_cfg_Button_clicked();
 
@@ -82,6 +83,14 @@ private slots:
 
     void on_next_pushButton_clicked();
 
+    void on_file_rule_aply_pushButton_clicked();
+
+    void on_brow_pushButton_clicked();
+
+    void on_file_aud_param_saveButton_clicked();
+
+    void on_trace_Button_clicked();
+
 private:
     Ui::TabAuditPage *ui;
     QString cmd;
@@ -91,8 +100,10 @@ private:
     AudConfigInfo audCfgInfo;
 
     QString fileName;
-    QMap<QString, QString> settings;
+    QMap<QString, QString> config_settings;
     OP_TYPE op_type;
+
+    FileAudRule fileRule;
 };
 
 #endif // TABAUDITPAGE_H

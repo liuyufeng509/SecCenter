@@ -45,6 +45,9 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     ui->file_aud_st_TimeEdit->setDateTime(QDateTime::currentDateTime());
     ui->file_aud_et_TimeEdit->setDateTime(QDateTime::currentDateTime());
 
+    //syscall rules
+    connect(ui->buttonGroup_6, SIGNAL(buttonClicked(int)), this, SLOT(on_sys_call_rule_apl_pushButton_clicked()));
+
     //audit config
     get_aud_config_info();
     update_aud_config_ui();
@@ -647,4 +650,77 @@ void TabAuditPage::on_trace_Button_clicked()
         ui->track_lineEdit->setText(list.last());
     }
 
+}
+
+void TabAuditPage::on_sys_call_rule_apl_pushButton_clicked()
+{
+    QString liststr="", actionstr="";
+    actionstr =ui->never_radioButton->isChecked()?"never ":"always ";
+    if(ui->entry_radioButton->isChecked())
+    {
+        liststr = QString("entry,") + actionstr;
+    }else if(ui->exit_radioButton->isChecked())
+    {
+        liststr = QString("exit,")+actionstr;
+    }else if(ui->user_syscall_radioButton->isChecked())
+    {
+        liststr = QString("user,")+actionstr;
+    }else if(ui->exclude_radioButton->isChecked())
+    {
+        liststr = QString("exclude,")+actionstr+ (ui->msgtype_lineEdit->text().isEmpty()?"":" -F msgtype="+ui->msgtype_lineEdit->text());
+    }
+
+
+    QString cmdstr = "auditctl -a "+liststr +" -S "+ui->buttonGroup_8->checkedButton()->text()+
+            " -ts "+ui->sys_call_st_TimeEdit->text()+" -te "+ui->sys_call_et_TimeEdit->text() + ";echo $?";
+    QString res= GetCmdRes(cmdstr).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"system call rules failed, command:"<<cmdstr;
+        QMessageBox::information(this, tr("提示"), tr("设置失败"));
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("设置成功"));
+    }
+
+}
+
+void TabAuditPage::on_sys_call_save_pushButton_clicked()
+{
+    QString liststr="", actionstr="";
+    actionstr =ui->never_radioButton->isChecked()?"never ":"always ";
+    if(ui->entry_radioButton->isChecked())
+    {
+        liststr = QString("entry,") + actionstr;
+    }else if(ui->exit_radioButton->isChecked())
+    {
+        liststr = QString("exit,")+actionstr;
+    }else if(ui->user_syscall_radioButton->isChecked())
+    {
+        liststr = QString("user,")+actionstr;
+    }else if(ui->exclude_radioButton->isChecked())
+    {
+        liststr = QString("exclude,")+actionstr+ (ui->msgtype_lineEdit->text().isEmpty()?"":" -F msgtype="+ui->msgtype_lineEdit->text());
+    }
+
+
+    QString cmdstr = "echo  \"-a "+liststr +" -S "+ui->buttonGroup_8->checkedButton()->text()+
+            " -ts "+ui->sys_call_st_TimeEdit->text()+" -te "+ui->sys_call_et_TimeEdit->text() + "\">>"+RULE_CONF_NAME+";echo $?";
+    QString res= GetCmdRes(cmdstr).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"system call rules failed, command:"<<cmdstr;
+        QMessageBox::information(this, tr("提示"), tr("保存失败"));
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("保存成功"));
+    }
+
+}
+
+void TabAuditPage::on_list_group_radioButton_clicked()
+{
+    ui->msgtype_lineEdit->setEnabled(ui->exclude_radioButton->isChecked());
 }

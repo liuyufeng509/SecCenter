@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>868</width>
-    <height>600</height>
+    <width>941</width>
+    <height>610</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -740,7 +740,7 @@
        <item row="0" column="0">
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -1166,29 +1166,42 @@
              <property name="title">
               <string>链表</string>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_27">
-              <item>
-               <widget class="QRadioButton" name="entry_radioButton">
-                <property name="text">
-                 <string>entry</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="exit_radioButton">
-                <property name="text">
-                 <string>exit</string>
-                </property>
-               </widget>
-              </item>
-              <item>
+             <layout class="QGridLayout" name="gridLayout_14">
+              <item row="0" column="3">
                <widget class="QLabel" name="label_48">
                 <property name="text">
                  <string>生效时间:</string>
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="2">
+               <widget class="QRadioButton" name="exit_radioButton">
+                <property name="text">
+                 <string>exit</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_6</string>
+                </attribute>
+               </widget>
+              </item>
+              <item row="0" column="6">
+               <widget class="QDateTimeEdit" name="sys_call_et_TimeEdit">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="displayFormat">
+                 <string>MM/dd/yy hh:mm:ss</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="5">
+               <widget class="QLabel" name="label_47">
+                <property name="text">
+                 <string>生效时间:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="4">
                <widget class="QDateTimeEdit" name="sys_call_st_TimeEdit">
                 <property name="enabled">
                  <bool>true</bool>
@@ -1222,20 +1235,50 @@
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QLabel" name="label_47">
+              <item row="0" column="0">
+               <widget class="QRadioButton" name="entry_radioButton">
                 <property name="text">
-                 <string>生效时间:</string>
+                 <string>entry</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_6</string>
+                </attribute>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QRadioButton" name="user_syscall_radioButton">
+                <property name="text">
+                 <string>user</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_6</string>
+                </attribute>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QRadioButton" name="exclude_radioButton">
+                <property name="text">
+                 <string>exclude</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_6</string>
+                </attribute>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="label_51">
+                <property name="text">
+                 <string>msgType:</string>
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QDateTimeEdit" name="sys_call_et_TimeEdit">
+              <item row="1" column="4">
+               <widget class="QLineEdit" name="msgtype_lineEdit">
                 <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <property name="displayFormat">
-                 <string>MM/dd/yy hh:mm:ss</string>
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -1253,6 +1296,12 @@
                 <property name="text">
                  <string>never</string>
                 </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_7</string>
+                </attribute>
                </widget>
               </item>
               <item>
@@ -1260,6 +1309,9 @@
                 <property name="text">
                  <string>always</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_7</string>
+                </attribute>
                </widget>
               </item>
               <item>
@@ -1289,6 +1341,12 @@
                 <property name="text">
                  <string>open</string>
                 </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="0" column="1">
@@ -1296,6 +1354,9 @@
                 <property name="text">
                  <string>create</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="0" column="2">
@@ -1303,6 +1364,9 @@
                 <property name="text">
                  <string>read</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="0" column="3">
@@ -1310,6 +1374,9 @@
                 <property name="text">
                  <string>write</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="1" column="0">
@@ -1317,6 +1384,9 @@
                 <property name="text">
                  <string>chmod</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="1" column="1">
@@ -1324,6 +1394,9 @@
                 <property name="text">
                  <string>chown</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="1" column="2">
@@ -1331,6 +1404,9 @@
                 <property name="text">
                  <string>stat</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="1" column="3">
@@ -1338,6 +1414,9 @@
                 <property name="text">
                  <string>link</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="2" column="0">
@@ -1345,6 +1424,9 @@
                 <property name="text">
                  <string>mount</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="2" column="1">
@@ -1352,6 +1434,9 @@
                 <property name="text">
                  <string>rename</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="2" column="2">
@@ -1359,6 +1444,9 @@
                 <property name="text">
                  <string>mkdir</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="2" column="3">
@@ -1366,6 +1454,9 @@
                 <property name="text">
                  <string>rmdir</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="3" column="0">
@@ -1373,6 +1464,9 @@
                 <property name="text">
                  <string>acct</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="3" column="1">
@@ -1380,6 +1474,9 @@
                 <property name="text">
                  <string>kill</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="3" column="2">
@@ -1387,6 +1484,9 @@
                 <property name="text">
                  <string>fork</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
               <item row="3" column="3">
@@ -1394,6 +1494,9 @@
                 <property name="text">
                  <string>execve</string>
                 </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_8</string>
+                </attribute>
                </widget>
               </item>
              </layout>
@@ -1526,7 +1629,7 @@
                <item>
                 <widget class="QLabel" name="label_49">
                  <property name="text">
-                  <string>生效时间:</string>
+                  <string>停止时间:</string>
                  </property>
                 </widget>
                </item>
@@ -2105,10 +2208,13 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup_5"/>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup_8"/>
+  <buttongroup name="buttonGroup_7"/>
+  <buttongroup name="buttonGroup_6"/>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_5"/>
   <buttongroup name="buttonGroup_3"/>
   <buttongroup name="buttonGroup_4"/>
-  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>

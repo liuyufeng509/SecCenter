@@ -91,6 +91,12 @@ private slots:
 
     void on_trace_Button_clicked();
 
+    void on_list_group_radioButton_clicked();
+
+    void on_sys_call_rule_apl_pushButton_clicked();
+    
+    void on_sys_call_save_pushButton_clicked();
+    
 private:
     Ui::TabAuditPage *ui;
     QString cmd;

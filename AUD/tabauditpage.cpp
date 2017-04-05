@@ -772,3 +772,35 @@ void TabAuditPage::on_display_cur_rules_Button_clicked()
         ui->custom_rules_textBrowser->setText(res.left(res.length()-1));
     }
 }
+
+void TabAuditPage::on_custom_rule_aply_pushButton_clicked()
+{
+    QString cmdstr = "auditctl "+ui->custom_rule_lineEdit->text() + ";echo $?";
+    QString res = GetCmdRes(cmdstr).trimmed();
+
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"apply custom rule failed, command:"<<cmdstr;
+        QMessageBox::information(this, tr("提示"), tr("设置失败"));
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("设置成功"));
+    }
+}
+
+void TabAuditPage::on_custom_rule_savepushButton_clicked()
+{
+    QString cmdstr = "echo "+ui->custom_rule_lineEdit->text()+">>"+RULE_CONF_NAME+";echo $?";
+    QString res= GetCmdRes(cmdstr).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"custom rules save failed, command:"<<cmdstr;
+        QMessageBox::information(this, tr("提示"), tr("保存失败"));
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("保存成功"));
+    }
+
+}

@@ -1545,7 +1545,7 @@
              <item row="0" column="0">
               <widget class="QLabel" name="label_14">
                <property name="text">
-                <string>自定义规则:</string>
+                <string>自定义规则(直接写规则):</string>
                </property>
               </widget>
              </item>
@@ -2130,12 +2130,12 @@
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup"/>
-  <buttongroup name="buttonGroup_2"/>
-  <buttongroup name="buttonGroup_6"/>
   <buttongroup name="buttonGroup_3"/>
-  <buttongroup name="buttonGroup_5"/>
   <buttongroup name="buttonGroup_8"/>
+  <buttongroup name="buttonGroup_6"/>
+  <buttongroup name="buttonGroup_5"/>
   <buttongroup name="buttonGroup_4"/>
+  <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup_7"/>
  </buttongroups>
 </ui>

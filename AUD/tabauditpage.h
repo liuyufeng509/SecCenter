@@ -103,6 +103,10 @@ private slots:
 
     void on_display_cur_rules_Button_clicked();
 
+    void on_custom_rule_aply_pushButton_clicked();
+
+    void on_custom_rule_savepushButton_clicked();
+
 private:
     Ui::TabAuditPage *ui;
     QString cmd;

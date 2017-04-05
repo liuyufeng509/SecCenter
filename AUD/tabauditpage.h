@@ -97,6 +97,12 @@ private slots:
     
     void on_sys_call_save_pushButton_clicked();
     
+    void on_clean_all_rules_Button_clicked();
+
+    void on_clean_all_rules_infile_Button_clicked();
+
+    void on_display_cur_rules_Button_clicked();
+
 private:
     Ui::TabAuditPage *ui;
     QString cmd;

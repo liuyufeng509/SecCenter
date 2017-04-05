@@ -7,7 +7,8 @@
 #include"configdialog.h"
 #define SEV_NAME  "auditd"
 #define CONF_NAME "/etc/audit/auditd.conf"
-#define RULE_CONF_NAME "/etc/audit/rules.d/audit.rules"
+#define RULE_CONF_NAME  QString("/etc/audit/rules.d/audit.rules")
+
 TabAuditPage::TabAuditPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TabAuditPage),
@@ -46,13 +47,13 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     ui->file_aud_et_TimeEdit->setDateTime(QDateTime::currentDateTime());
 
     //syscall rules
-    connect(ui->buttonGroup_6, SIGNAL(buttonClicked(int)), this, SLOT(on_sys_call_rule_apl_pushButton_clicked()));
+    connect(ui->buttonGroup_6, SIGNAL(buttonClicked(int)), this, SLOT(on_list_group_radioButton_clicked()));
+
+    //custom rules
 
     //audit config
     get_aud_config_info();
     update_aud_config_ui();
-
-
 
     //display
 
@@ -723,4 +724,51 @@ void TabAuditPage::on_sys_call_save_pushButton_clicked()
 void TabAuditPage::on_list_group_radioButton_clicked()
 {
     ui->msgtype_lineEdit->setEnabled(ui->exclude_radioButton->isChecked());
+}
+
+void TabAuditPage::on_clean_all_rules_Button_clicked()
+{
+    QString cmdstr = "auditctl -D; echo $?";
+    QString res = GetCmdRes(cmdstr).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"clean all rules failed, command:"<<cmdstr;
+        QMessageBox::information(this, tr("提示"), tr("清理失败"));
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("清理成功"));
+    }
+}
+
+void TabAuditPage::on_clean_all_rules_infile_Button_clicked()
+{
+    QString cmdstr = "echo >"+RULE_CONF_NAME+"; echo $?";
+    QString res = GetCmdRes(cmdstr).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"clean all file rules failed, command:"<<cmdstr;
+        QMessageBox::information(this, tr("提示"), tr("清理失败"));
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("清理成功"));
+    }
+}
+
+void TabAuditPage::on_display_cur_rules_Button_clicked()
+{
+    QString cmdstr = "auditctl -l; echo $?";
+    QString res = GetCmdRes(cmdstr).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"display all rules failed, command:"<<cmdstr;
+        QMessageBox::information(this, tr("提示"), tr("获取当前规则失败"));
+        ui->custom_rules_textBrowser->setText("");
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("获取当前规则成功"));
+        ui->custom_rules_textBrowser->setText(res.left(res.length()-1));
+    }
 }

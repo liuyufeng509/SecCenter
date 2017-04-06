@@ -443,100 +443,154 @@ bool start_service(QString sname)
 }
 
 
-struct cpu_record g = { 0,0 };
+//struct cpu_record g = { 0,0 };
 
-int  get_n_cpu()
-{
-    //cpu 个数
-    const glibtop_sysinfo *info;
-    info = glibtop_get_sysinfo();
-    return info->ncpu;
-}
+//int  get_n_cpu()
+//{
+//    //cpu 个数
+//    const glibtop_sysinfo *info;
+//    info = glibtop_get_sysinfo();
+//    return info->ncpu;
+//}
 
-void get_load (std::vector<CPU>  &cpus)
-{
-    int i;
-    glibtop_cpu cpu;
-    glibtop_get_cpu (&cpu);
-    int n_cpu = get_n_cpu();
-    cpus.clear();
+//void get_load (std::vector<CPU>  &cpus)
+//{
+//    int i;
+//    glibtop_cpu cpu;
+//    glibtop_get_cpu (&cpu);
+//    int n_cpu = get_n_cpu();
+//    cpus.clear();
 
-#undef NOW
-#undef LAST
-#define NOW (g.times[g.now])
-#define LAST (g.times[g.now ^ 1])
+//#undef NOW
+//#undef LAST
+//#define NOW (g.times[g.now])
+//#define LAST (g.times[g.now ^ 1])
 
-    if (n_cpu == 1)
-    {
-        NOW[0][CPU_TOTAL] = cpu.total;
-        NOW[0][CPU_USED] = cpu.user + cpu.nice + cpu.sys;
-    }
-    else
-    {
-        for (i = 0; i < n_cpu; i++)
-        {
-            NOW[i][CPU_TOTAL] = cpu.xcpu_total[i];
-            NOW[i][CPU_USED] = cpu.xcpu_user[i] + cpu.xcpu_nice[i]
-                + cpu.xcpu_sys[i];
-        }
+//    if (n_cpu == 1)
+//    {
+//        NOW[0][CPU_TOTAL] = cpu.total;
+//        NOW[0][CPU_USED] = cpu.user + cpu.nice + cpu.sys;
+//    }
+//    else
+//    {
+//        for (i = 0; i < n_cpu; i++)
+//        {
+//            NOW[i][CPU_TOTAL] = cpu.xcpu_total[i];
+//            NOW[i][CPU_USED] = cpu.xcpu_user[i] + cpu.xcpu_nice[i]
+//                + cpu.xcpu_sys[i];
+//        }
 
-    }
+//    }
 
-    // on the first call, LAST is 0
-    // which means data is set to the average load since boot
-    // that value has no meaning, we just want all the
-    // immediately
-    for (i = 0; i < n_cpu; i++)
-    {
-        float load;
-        float total, used;
+//    // on the first call, LAST is 0
+//    // which means data is set to the average load since boot
+//    // that value has no meaning, we just want all the
+//    // immediately
+//    for (i = 0; i < n_cpu; i++)
+//    {
+//        float load;
+//        float total, used;
 
-        total = NOW[i][CPU_TOTAL] - LAST[i][CPU_TOTAL];
-        used = NOW[i][CPU_USED] - LAST[i][CPU_USED];
+//        total = NOW[i][CPU_TOTAL] - LAST[i][CPU_TOTAL];
+//        used = NOW[i][CPU_USED] - LAST[i][CPU_USED];
 
-        load = used / MAX(total, 1.0f);
-        g_print("load[%d]=%.1f%%/n",i,load*100);
-        CPU cpu;
-        cpu.useage = load*100;
-        cpus.push_back(cpu);
+//        load = used / MAX(total, 1.0f);
+//        g_print("load[%d]=%.1f%%/n",i,load*100);
+//        CPU cpu;
+//        cpu.useage = load*100;
+//        cpus.push_back(cpu);
 
-    }
-    g.now ^= 1;
+//    }
+//    g.now ^= 1;
 
-#undef NOW
-#undef LAST
+//#undef NOW
+//#undef LAST
 
-}
+//}
 
-void getmem(MeM &memInfo)
-{
-    float mempercent;
+//void getmem(MeM &memInfo)
+//{
+//    float mempercent;
 
-    glibtop_mem mem;
+//    glibtop_mem mem;
 
-    glibtop_get_mem (&mem);
+//    glibtop_get_mem (&mem);
 
-    /* There's no swap on LiveCD : 0.0f is better than NaN :) */
-    mempercent  = (float)mem.user  / (float)mem.total;
-    memInfo.total = mem.total;
-    memInfo.used = mem.used;
-    memInfo.percent = mempercent;
+//    /* There's no swap on LiveCD : 0.0f is better than NaN :) */
+//    mempercent  = (float)mem.user  / (float)mem.total;
+//    memInfo.total = mem.total;
+//    memInfo.used = mem.used;
+//    memInfo.percent = mempercent;
 
-    g_print("mem.total = %d   mem.used=%d mempercent=%.3f\n", (int)mem.total,(int)mem.used,mempercent);
-}
+//    g_print("mem.total = %d   mem.used=%d mempercent=%.3f\n", (int)mem.total,(int)mem.used,mempercent);
+//}
 
-void get_swap(SWAP &swapInfo)
-{
-    float swappercent;
-     glibtop_swap swap;
-     glibtop_get_swap (&swap);
-     swappercent = (swap.total ? (float)swap.used / (float)swap.total : 0.0f);
-    swapInfo.total = swap.total;
-    swapInfo.used = swap.used;
-    swapInfo.percent = swappercent;
+//void get_swap(SWAP &swapInfo)
+//{
+//    float swappercent;
+//     glibtop_swap swap;
+//     glibtop_get_swap (&swap);
+//     swappercent = (swap.total ? (float)swap.used / (float)swap.total : 0.0f);
+//    swapInfo.total = swap.total;
+//    swapInfo.used = swap.used;
+//    swapInfo.percent = swappercent;
 
-     g_print("swap.total = %d   swap.used=%d swappercent=%.3f\n", (int)swap.total,(int)swap.used,swappercent);
-}
+//     g_print("swap.total = %d   swap.used=%d swappercent=%.3f\n", (int)swap.total,(int)swap.used,swappercent);
+//}
+
+//void
+//fsusage_stats(const glibtop_fsusage *buf,
+//              guint64 *bused, guint64 *bfree, guint64 *bavail, guint64 *btotal,
+//              gint *percentage)
+//{
+//    guint64 total = buf->blocks * buf->block_size;
+
+//    if (!total) {
+//        /* not a real device */
+//        *btotal = *bfree = *bavail = *bused = 0ULL;
+//        *percentage = 0;
+//    } else {
+//        int percent;
+//        *btotal = total;
+//        *bfree = buf->bfree * buf->block_size;
+//        *bavail = buf->bavail * buf->block_size;
+//        *bused = *btotal - *bfree;
+//        /* percent = 100.0f * *bused / *btotal; */
+//        percent = 100 * *bused / (*bused + *bavail);
+//        *percentage = CLAMP(percent, 0, 100);
+//    }
+//}
+
+//void get_fsInfo(QList<DISK> &disks)
+//{
+
+//    disks.clear();
+//    glibtop_mountlist list;
+//    glibtop_mountentry *entries = glibtop_get_mountlist(&list, 1);
+
+//    for (unsigned i = 0; i != list.number; ++i) {
+//        struct stat buf;
+
+//        if (stat(entries[i].devname, &buf) != -1)
+//        {
+//            DISK disk;
+//            disk.devid = buf.st_rdev;
+//            disk.devName = QString(entries[i].devname);
+//            disk.mountDir = QString(entries[i].mountdir);
+//            disk.ftype = QString(entries[i].type);
+
+//            glibtop_fsusage usage;
+
+//            glibtop_get_fsusage(&usage, entries[i].mountdir);
+
+//            fsusage_stats(&usage, &disk.used, &disk.bfree, &disk.bavail, &disk.btotal, &disk.percent);
+//            disks.append(disk);
+//        }
+//    }
+
+//   g_free(entries);
+//}
+
 
 #define MAX_SIZE  255
 
@@ -587,58 +641,6 @@ QString getHintNum(quint64 size)
 }
 
 
-void
-fsusage_stats(const glibtop_fsusage *buf,
-              guint64 *bused, guint64 *bfree, guint64 *bavail, guint64 *btotal,
-              gint *percentage)
-{
-    guint64 total = buf->blocks * buf->block_size;
-
-    if (!total) {
-        /* not a real device */
-        *btotal = *bfree = *bavail = *bused = 0ULL;
-        *percentage = 0;
-    } else {
-        int percent;
-        *btotal = total;
-        *bfree = buf->bfree * buf->block_size;
-        *bavail = buf->bavail * buf->block_size;
-        *bused = *btotal - *bfree;
-        /* percent = 100.0f * *bused / *btotal; */
-        percent = 100 * *bused / (*bused + *bavail);
-        *percentage = CLAMP(percent, 0, 100);
-    }
-}
-
-void get_fsInfo(QList<DISK> &disks)
-{
-
-    disks.clear();
-    glibtop_mountlist list;
-    glibtop_mountentry *entries = glibtop_get_mountlist(&list, 1);
-
-    for (unsigned i = 0; i != list.number; ++i) {
-        struct stat buf;
-
-        if (stat(entries[i].devname, &buf) != -1)
-        {
-            DISK disk;
-            disk.devid = buf.st_rdev;
-            disk.devName = QString(entries[i].devname);
-            disk.mountDir = QString(entries[i].mountdir);
-            disk.ftype = QString(entries[i].type);
-
-            glibtop_fsusage usage;
-
-            glibtop_get_fsusage(&usage, entries[i].mountdir);
-
-            fsusage_stats(&usage, &disk.used, &disk.bfree, &disk.bavail, &disk.btotal, &disk.percent);
-            disks.append(disk);
-        }
-    }
-
-   g_free(entries);
-}
 
 void shutdown()
 {

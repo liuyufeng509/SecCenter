@@ -14,10 +14,10 @@
 #include<QLabel>
 #include<vector>
 #include<qglobal.h>
-#include <glibtop/cpu.h>
-#include<glibtop/mem.h>
-#include<glibtop/swap.h>
-#include <glibtop/sysinfo.h>
+//#include <glibtop/cpu.h>
+//#include<glibtop/mem.h>
+//#include<glibtop/swap.h>
+//#include <glibtop/sysinfo.h>
 #include <unistd.h>
 #include <QTimer>
 #include<QSettings>
@@ -28,11 +28,11 @@
 #include<QScrollArea>
 #include<QSet>
 
-#include <glibtop/mountlist.h>
+//#include <glibtop/mountlist.h>
 #include<sys/types.h>
 #include<sys/stat.h>
-#include <glibtop/fsusage.h>
-#include <glibtop/mountlist.h>
+//#include <glibtop/fsusage.h>
+//#include <glibtop/mountlist.h>
 
 #include <time.h>
 
@@ -189,51 +189,51 @@ bool set_user_tagInfo(UserTag usrtag, bool add);
 
 
 //cpu and mem
-enum {
-    CPU_TOTAL,
-    CPU_USED,
-    N_CPU_STATES
-};
+//enum {
+//    CPU_TOTAL,
+//    CPU_USED,
+//    N_CPU_STATES
+//};
 
-struct cpu_record
-{
-    int now;
-    long times[2][GLIBTOP_MAX_CPU][GLIBTOP_NCPU];
-};
+//struct cpu_record
+//{
+//    int now;
+//    long times[2][GLIBTOP_MAX_CPU][GLIBTOP_NCPU];
+//};
 
-struct CPU
-{
-    float total;
-    float used;
-    float useage;
-};
+//struct CPU
+//{
+//    float total;
+//    float used;
+//    float useage;
+//};
 
-struct MeM
-{
-    quint64 total;          //Byte
-    quint64 used;          //Byte
-    float      percent;
-};
+//struct MeM
+//{
+//    quint64 total;          //Byte
+//    quint64 used;          //Byte
+//    float      percent;
+//};
 
-struct SWAP
-{
-    quint64 total;          //Byte
-    quint64 used;          //Byte
-    float      percent;
-};
+//struct SWAP
+//{
+//    quint64 total;          //Byte
+//    quint64 used;          //Byte
+//    float      percent;
+//};
 
-struct DISK
-{
-    quint64 devid;
-    QString devName;
-    QString  mountDir;
-    QString ftype;
-    guint64 used;
-    guint64 bfree;
-    guint64 bavail;
-    guint64 btotal;
-    int         percent;
-};
+//struct DISK
+//{
+//    quint64 devid;
+//    QString devName;
+//    QString  mountDir;
+//    QString ftype;
+//    guint64 used;
+//    guint64 bfree;
+//    guint64 bavail;
+//    guint64 btotal;
+//    int         percent;
+//};
 
 bool is_command_exist(QString cmd);
 
@@ -254,21 +254,23 @@ void reboot();
 void logout();
 
 //cpu and mem
-int  get_n_cpu();
-void get_load (std::vector<CPU>  &cpus);
+//int  get_n_cpu();
+//void get_load (std::vector<CPU>  &cpus);
 
-void getmem(MeM &memInfo);
-void get_swap(SWAP &swapInfo);
+//void getmem(MeM &memInfo);
+//void get_swap(SWAP &swapInfo);
 QString getHintNum(quint64 bytesNum);
+
+//file system
+//void fsusage_stats(const glibtop_fsusage *buf,
+//              guint64 *bused, guint64 *bfree, guint64 *bavail, guint64 *btotal,
+//              gint *percentage);
+//void get_fsInfo(QList<DISK> &disks);
+
 
 //config.ini
 QString getCwdPath();
 
-//file system
-void fsusage_stats(const glibtop_fsusage *buf,
-              guint64 *bused, guint64 *bfree, guint64 *bavail, guint64 *btotal,
-              gint *percentage);
-void get_fsInfo(QList<DISK> &disks);
 
 
 //security file tag

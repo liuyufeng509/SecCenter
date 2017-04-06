@@ -79,33 +79,33 @@ private:
 
 
     //cpu
-    QList<CPUGrap> cpuGraps;
-    int cpu_num;
-    QTimer *cpuTimer;
-    int cpuWarning;
+//    QList<CPUGrap> cpuGraps;
+//    int cpu_num;
+//    QTimer *cpuTimer;
+//    int cpuWarning;
 
-    QTextBrowser *browser;
-    QPushButton *openCpuButton;
-    QPushButton *clearLogButton;
-    QPushButton *setWarnButton;
+//    QTextBrowser *browser;
+//    QPushButton *openCpuButton;
+//    QPushButton *clearLogButton;
+//    QPushButton *setWarnButton;
 
-    //mem and swap
-    QProgressBar *memProgressBar;
-    QLabel          *memLabel;
-    QProgressBar *swapProgressBar;
-    QLabel          *swapLabel;
-    QTextBrowser *memAndSwapBrowser;
-    QPushButton *openMemSwapButton;
-    QPushButton *clearMemSwapButton;
-    QPushButton *setWarnMemSwapButton;
-    int memWarning;
-    int swapWarning;
-    QTimer *memTimer;
+//    //mem and swap
+//    QProgressBar *memProgressBar;
+//    QLabel          *memLabel;
+//    QProgressBar *swapProgressBar;
+//    QLabel          *swapLabel;
+//    QTextBrowser *memAndSwapBrowser;
+//    QPushButton *openMemSwapButton;
+//    QPushButton *clearMemSwapButton;
+//    QPushButton *setWarnMemSwapButton;
+//    int memWarning;
+//    int swapWarning;
+//    QTimer *memTimer;
 
 
-    //file system
-    QList<DISK> disks;
-    int diskwarning;
+//    //file system
+//    QList<DISK> disks;
+//    int diskwarning;
 
     //log
     LogMainWindow *logw;

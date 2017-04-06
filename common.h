@@ -135,6 +135,17 @@ bool unlock_all_users();
 bool set_pwd_rule(QString cmd);
 
 //about Security
+struct PwdInfo
+{
+    QString minLen;
+    QString dcredit;
+    QString ucredit;
+    QString lcredit;
+    QString ocredit;
+};
+bool get_cur_pwd_info(PwdInfo &pwd);
+
+
 struct SecStatus
 {
     QString selinux_status;

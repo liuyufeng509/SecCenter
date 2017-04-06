@@ -991,3 +991,37 @@ bool set_file_rule(FileAudRule fileRule)
     return true;
 
 }
+
+bool get_cur_pwd_info(PwdInfo &pwd)
+{
+    QString cmd = "cat /etc/pam.d/system-auth-ac | grep \"^password.*pam_pwquality.so\"";
+    QString res = GetCmdRes(cmd).simplified();
+    if(!res.contains("pam_pwquality.so"))
+    {
+        qDebug()<<"get current password rule failed :"<<cmd;
+        return false;
+    }
+
+    QStringList list  = res.split(" ");
+    for(int i=0; i<list.length(); i++)
+    {
+        if(list[i].contains("minlen"))
+        {
+            pwd.minLen = list[i].right(list[i].length()-list[i].indexOf('=')-1);
+        }else if(list[i].contains("dcredit"))
+        {
+            pwd.dcredit = list[i].right(list[i].length()-list[i].indexOf('-')-1);
+        }else if(list[i].contains("ucredit"))
+        {
+            pwd.ucredit = list[i].right(list[i].length()-list[i].indexOf('-')-1);
+        }else if(list[i].contains("lcredit"))
+        {
+            pwd.lcredit = list[i].right(list[i].length()-list[i].indexOf('-')-1);
+        }else if(list[i].contains("ocredit"))
+        {
+            pwd.ocredit = list[i].right(list[i].length()-list[i].indexOf('-')-1);
+        }
+    }
+
+    return true;
+}

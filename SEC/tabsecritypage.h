@@ -26,6 +26,8 @@ public:
 
     void InitFPTab();
     void UpdateFPTable(QList<FileProConV> &convs);
+
+    void display_cur_pwd_info();
 private slots:
     void on_setusButton_clicked();
     
@@ -54,6 +56,8 @@ private slots:
 
 private:
     Ui::TabSecrityPage *ui;
+    PwdInfo pwdInfo;
+
     QStringList services;
     SecStatus secStatus;
 

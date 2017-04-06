@@ -24,6 +24,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     ui->secLineEdit->setText("30");
     ui->comboBox->setCurrentIndex(0);
 
+    display_cur_pwd_info();
 
     //security status
     initSecStatusUI();
@@ -61,6 +62,21 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     //te policy
 
 }
+
+void TabSecrityPage::display_cur_pwd_info()
+{
+    if(get_cur_pwd_info(pwdInfo))
+    {
+        QString text = QString(tr("最小长度:"))+(pwdInfo.minLen.isEmpty()?tr("无限制"):pwdInfo.minLen)+" 数字个数:"+
+                (pwdInfo.dcredit.isEmpty()?tr("无限制"):pwdInfo.dcredit)+" 小写字母:"+
+                (pwdInfo.lcredit.isEmpty()?tr("无限制"):pwdInfo.lcredit)+" 大写字母:"+
+                (pwdInfo.ucredit.isEmpty()?tr("无限制"):pwdInfo.ucredit)+" 其他字符:"+
+                (pwdInfo.ocredit.isEmpty()?tr("无限制"):pwdInfo.ocredit);
+        ui->cur_pwd_lineEdit->setText(text);
+    }else
+        ui->cur_pwd_lineEdit->setText(tr("获取当前密码规则失败"));
+}
+
 void TabSecrityPage::InitRuleTab()
 {
     ui->ruleTableWidget->horizontalHeader()->setStretchLastSection(true);
@@ -227,6 +243,7 @@ void TabSecrityPage::on_setPwButton_clicked()
     if(set_pwd_rule(cmd))
     {
         QMessageBox::information(this, tr("提示"), tr("操作成功"));
+        display_cur_pwd_info();
     }else
         QMessageBox::warning(this, tr("提示"), tr("操作失败"));
 }

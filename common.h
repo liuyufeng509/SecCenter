@@ -117,7 +117,7 @@ QString get_usr_id_by_name(QString name);
 QString get_enforce();
 QString get_user_str_role();
 
-bool set_userinfo(QList<UserInfo> &users);
+bool get_userinfo(QList<UserInfo> &users);
 void set_userinfos_groups(QList<UserInfo> &users);
 
 QString add_user(UserInfo userinfo);

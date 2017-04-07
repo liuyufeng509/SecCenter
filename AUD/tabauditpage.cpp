@@ -336,14 +336,10 @@ void TabAuditPage::on_query_produceButton_clicked()
             (ui->term_checkBox->isChecked()? "-tm "+ui->term_lineEdit->text():"")+ " "+
             (ui->word_checkBox->isChecked()? "-w "+ui->word_lineEdit->text():"")+" "+
             (ui->euid_checkBox->isChecked()? "-ue "+ui->euid_lineEdit->text():"")+" "+
-            //(ui->dac_set_checkBox->isChecked()? "-")
-            //(ui->dac_get_checkBox->isChecked()? "-")
             (ui->luid_checkBox->isChecked()? "-ul "+ui->luid_lineEdit->text():"")+" "+
             (ui->ef_checkBox->isChecked()? "-x "+ui->ef_lineEdit->text():"")+" "+
             (ui->uid_checkBox->isChecked()? "-ui "+ui->uid_lineEdit->text():"")+" "+
-            (ui->syscall_checkBox->isChecked()? "-sc "+ui->syscall_lineEdit->text():"")+ " "+
-           // (ui->avc_checkBox->isChecked()? "-")
-            "";
+            (ui->syscall_checkBox->isChecked()? "-sc "+ui->syscall_lineEdit->text():"")+ "";
     ui->query_sent_lineEdit->setText(cmd);
 }
 
@@ -534,8 +530,8 @@ void TabAuditPage::on_apl_cfg_Button_clicked()
           config_settings.insert("space_left_action", audCfgInfo.space_left_action);
           config_settings.insert("disk_full_action", audCfgInfo.disk_full_action);
           config_settings.insert("disk_error_action", audCfgInfo.disk_error_action);
-//          settings.insert("warning_mail", audCfgInfo.warning_mail);
-//          settings.insert("warning_tel", audCfgInfo.warning_tel);
+          config_settings.insert("warning_mail", audCfgInfo.warning_mail);
+          config_settings.insert("warning_tel", audCfgInfo.warning_tel);
     }
     if(file.open(QFile::WriteOnly | QFile::Text))
     {
@@ -775,6 +771,11 @@ void TabAuditPage::on_display_cur_rules_Button_clicked()
 
 void TabAuditPage::on_custom_rule_aply_pushButton_clicked()
 {
+    if(ui->custom_rule_lineEdit->text().contains("auditctl"))
+    {
+        QMessageBox::information(this, tr("提示"), tr("不需要写auditctl命令，直接写规则"));
+        return;
+    }
     QString cmdstr = "auditctl "+ui->custom_rule_lineEdit->text() + ";echo $?";
     QString res = GetCmdRes(cmdstr).trimmed();
 

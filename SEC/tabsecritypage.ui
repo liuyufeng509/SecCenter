@@ -283,8 +283,8 @@
       <widget class="QPushButton" name="open_closeButton">
        <property name="geometry">
         <rect>
-         <x>290</x>
-         <y>340</y>
+         <x>330</x>
+         <y>370</y>
          <width>141</width>
          <height>29</height>
         </rect>
@@ -296,8 +296,8 @@
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>50</x>
-         <y>20</y>
+         <x>60</x>
+         <y>10</y>
          <width>411</width>
          <height>347</height>
         </rect>
@@ -462,7 +462,7 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>340</y>
+         <y>370</y>
          <width>141</width>
          <height>29</height>
         </rect>

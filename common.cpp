@@ -104,7 +104,7 @@ QString get_cur_user()
        qDebug()<<"get_cur_user command:\"awk -F: \'{print $1}\' /etc/passwd\" execute failed";
        return "";
    }
-    return cmd;
+    return strl.first();
 }
 
 int get_cur_user_id()
@@ -213,7 +213,7 @@ bool set_userinfo_etc_shaddow(QList<UserInfo> &users)
     return true;
 }
 
-bool set_userinfo(QList<UserInfo> &users)
+bool get_userinfo(QList<UserInfo> &users)
 {
     QString cmd = "awk -F: \'{print $3,$1}\'  /etc/passwd; echo $?";
     cmd =GetCmdRes(cmd).trimmed();
@@ -980,7 +980,7 @@ bool set_file_rule(FileAudRule fileRule)
     QString cmd = "auditctl -w "+fileRule.file_name+
             (fileRule.key_word.isEmpty()?"":" -k "+fileRule.key_word)+
             (fileRule.auth.isEmpty()? "":" -p "+fileRule.auth)+
-            //+" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
+            +" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
             ";echo $?";
     QString res;
     res = GetCmdRes(cmd).trimmed();

@@ -492,7 +492,7 @@ void TabSysPage::UpdateToSvrUI()
 
 void TabSysPage::UpdateToUsersUI()
 {
-    set_userinfo(users);
+    get_userinfo(users);
     set_userinfos_groups(users);
     ui->tableWidget->setRowCount(0);
     ui->tableWidget->setRowCount(users.size());

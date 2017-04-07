@@ -232,7 +232,7 @@ void TabSecrityPage::on_unlockButton_clicked()
 
 void TabSecrityPage::on_setPwButton_clicked()
 {
-    QString cmd = "nfs-enhanced-trylock "+
+    QString cmd = "nfs-enhanced-passwd "+
             (ui->minlenEdit->text().toInt()!=0? ("-m "+ui->minlenEdit->text()+ " "): " ")+
             (ui->dlenEdit->text().toInt()!=0? ("-d -"+ui->dlenEdit->text()+ " "): " ")+
             (ui->uplenEdit->text().toInt()!=0? ("-u -"+ui->uplenEdit->text()+ " "): " ")+

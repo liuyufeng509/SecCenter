@@ -52,9 +52,17 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     get_user_taginfos(user_list);
     if(user_list.size()>0)
     {
-        ui->unameEdit->setText(user_list[0].username);
+        for(int i=0; i<user_list.size();i++)
+            ui->users_comboBox->addItem(user_list[i].username);
+
+        ui->users_comboBox->setCurrentIndex(0);
         ui->u_sec_tagEdit->setText(user_list[0].safeTag);
         ui->u_whole_tagEdit->setText(user_list[0].wholeTag);
+    }else
+    {
+        ui->users_comboBox->addItem(tr("无"));
+        ui->u_sec_tagEdit->setText("");
+        ui->u_whole_tagEdit->setText("");
     }
 
     //file security tag
@@ -66,6 +74,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     ui->u_whole_tagEdit->setValidator(new QRegExpValidator(regExp1, this));
 
     //te policy
+
 
 }
 
@@ -289,7 +298,7 @@ void TabSecrityPage::on_freshButton_clicked()
         int index = 0;
         for(int i=0; i<user_list.length();i++)
         {
-            if(user_list[i].username == ui->unameEdit->text())
+            if(user_list[i].username == ui->users_comboBox->currentText())
             {
                 flag = true;
                 index = i;
@@ -309,13 +318,13 @@ void TabSecrityPage::on_freshButton_clicked()
 
 void TabSecrityPage::on_setButton_clicked()
 {
-    if(ui->unameEdit->text().trimmed().length()==0)
+    if(ui->users_comboBox->currentText().trimmed().length()==0)
     {
             QMessageBox::information(this,tr("提示"), tr("用户名不能为空!"));
             return;
     }
     UserTag usrtag;
-    usrtag.username = ui->unameEdit->text();
+    usrtag.username = ui->users_comboBox->currentText();
     usrtag.safeTag = ui->u_sec_tagEdit->text();
     usrtag.wholeTag = usrtag.safeTag;
     //usrtag.wholeTag = ui->u_whole_tagEdit->text();

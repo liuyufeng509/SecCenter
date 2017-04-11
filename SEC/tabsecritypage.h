@@ -80,7 +80,6 @@ private:
     QSet<QString> targ_types;
     QSet<QString> class_types_of_fp;
 
-    //
 };
 
 #endif // TABSECRITYPAGE_H

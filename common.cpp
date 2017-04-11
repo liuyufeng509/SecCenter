@@ -204,7 +204,7 @@ bool set_userinfo_etc_shaddow(QList<UserInfo> &users)
     }
     for(int i=0; i<users.length();i++)
     {
-        if(list[i] == "!!!")
+        if(list[i] == "!!!" || users[i].uid.toInt()<1000)
             users[i].isShow = false;
         else
             users[i].isShow = true;
@@ -308,11 +308,17 @@ QString change_groups(UserInfo userinfo)
     return cmd;
 }
 
-QString del_user(UserInfo userinfo)
+bool del_user(UserInfo userinfo)
 {
-    QString cmd = "userdel "+ userinfo.uname;
+    QString cmd = "userdel "+ userinfo.uname +"; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
-    return cmd;
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"delete user failed, errno:"<<list.last();
+        return false;
+    }
+    return true;
 }
 
 RUNSTATE is_serv_running(QString svName)
@@ -689,17 +695,26 @@ bool trylock_service(QString cmd)
      return true;
 }
 
-//bool get_all_locked_users(QStringList &list)
-//{
-//    QString cmd = "pam_tally2 |sed \'s/ / /\' | awk \'{print $1}\'; echo $?";
-//    cmd = GetCmdRes(cmd).trimmed();
-//    list = cmd.split('\n');
-//    list.removeFirst();
-//    if(list.last().toInt()!=0)
-//    {
-
-//    }
-//}
+bool get_all_locked_users(QStringList &list, int &errno)
+{
+    if(!is_command_exist("pam_tally2"))
+    {
+        qDebug()<<"there is no command pam_tally2";
+        errno=2;
+        return false;
+    }
+    QString cmd = "pam_tally2 |sed \'s/ / /\' | awk \'{print $1}\'";
+    cmd = GetCmdRes(cmd).trimmed();
+    list = cmd.split('\n');
+    if(list.length()<1)
+    {
+        qDebug()<<"no locked users";
+        errno=1;
+        return false;
+    }
+    list.removeFirst();
+    return true;
+}
 
 bool unlock_all_users()
 {
@@ -709,6 +724,19 @@ bool unlock_all_users()
     if(list.last().toInt()!=0)
     {
         qDebug()<<"pam_tally2 -r failed";
+        return false;
+    }
+    return true;
+}
+
+bool unlock_user(QString user)
+{
+    QString cmd = "pam_tally2 -u " +user+ " -r; echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split("\n");
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"pam_tally2 -u "<<user<<" failed";
         return false;
     }
     return true;
@@ -980,7 +1008,7 @@ bool set_file_rule(FileAudRule fileRule)
     QString cmd = "auditctl -w "+fileRule.file_name+
             (fileRule.key_word.isEmpty()?"":" -k "+fileRule.key_word)+
             (fileRule.auth.isEmpty()? "":" -p "+fileRule.auth)+
-            +" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
+            +" -ts "+fileRule.ts_time+" -te "+fileRule.te_time+
             ";echo $?";
     QString res;
     res = GetCmdRes(cmd).trimmed();

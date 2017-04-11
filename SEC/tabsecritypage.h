@@ -19,7 +19,6 @@ public:
     ~TabSecrityPage();
     void get_services();
     void UpdateToSecStatus();
-    void initSecStatusUI();
 
     void UpdateRuletabel(QList<TERule> &rules);
     void InitRuleTab();
@@ -54,8 +53,11 @@ private slots:
 
     void on_findButton2_clicked();
 
+    void on_getlockusrsButton_clicked();
+
 private:
     Ui::TabSecrityPage *ui;
+    QStringList  users;
     PwdInfo pwdInfo;
 
     QStringList services;

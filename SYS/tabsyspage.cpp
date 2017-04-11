@@ -310,8 +310,13 @@ void TabSysPage::del_user_action()
         return;
     }
 
-    del_user(users[row]);
-    UpdateToUsersUI();
+    if(del_user(users[row]))
+    {
+        UpdateToUsersUI();
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("删除失败"));
+    }
 }
 
 

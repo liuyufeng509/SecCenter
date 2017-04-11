@@ -125,13 +125,14 @@ QString add_user(UserInfo userinfo);
 bool is_group_exist(QString groupname);
 
 QString change_groups(UserInfo userinfo);
-QString del_user(UserInfo userinfo);
+bool del_user(UserInfo userinfo);
 
 bool get_trylock_services(QStringList &list);
 bool trylock_service(QString cmd);
 
-//bool get_all_locked_users(QStringList &list);
+bool get_all_locked_users(QStringList &list, int &errno);
 bool unlock_all_users();
+bool unlock_user(QString user);
 bool set_pwd_rule(QString cmd);
 
 //about Security

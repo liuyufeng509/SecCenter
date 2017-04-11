@@ -10,6 +10,8 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(init_data_of_page(int)));
     ui->listWidget->setCurrentRow(0);
 
+    on_getlockusrsButton_clicked();
+
     get_services();
 
     ui->comboBox->addItems(services);
@@ -23,11 +25,15 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     ui->tmsLineEdit->setText("3");
     ui->secLineEdit->setText("30");
     ui->comboBox->setCurrentIndex(0);
+    ui->minlenEdit->setValidator(new QRegExpValidator(regExp, this));
+    ui->dlenEdit->setValidator(new QRegExpValidator(regExp, this));
+    ui->uplenEdit->setValidator(new QRegExpValidator(regExp, this));
+    ui->lowlenEdit->setValidator(new QRegExpValidator(regExp, this));
+    ui->othlenEdit->setValidator(new QRegExpValidator(regExp, this));
 
     display_cur_pwd_info();
 
     //security status
-    initSecStatusUI();
     if(!get_sec_status(secStatus))
     {
         secStatus.clear();
@@ -72,9 +78,9 @@ void TabSecrityPage::display_cur_pwd_info()
                 (pwdInfo.lcredit.isEmpty()?tr("无限制"):pwdInfo.lcredit)+" 大写字母:"+
                 (pwdInfo.ucredit.isEmpty()?tr("无限制"):pwdInfo.ucredit)+" 其他字符:"+
                 (pwdInfo.ocredit.isEmpty()?tr("无限制"):pwdInfo.ocredit);
-        ui->cur_pwd_lineEdit->setText(text);
+        ui->cur_pwd_label->setText(tr("当前规则：")+text);
     }else
-        ui->cur_pwd_lineEdit->setText(tr("获取当前密码规则失败"));
+        ui->cur_pwd_label->setText(tr("当前规则：")+tr("获取当前密码规则失败"));
 }
 
 void TabSecrityPage::InitRuleTab()
@@ -170,29 +176,17 @@ void TabSecrityPage::init_data_of_page(int page)
 
 void TabSecrityPage::UpdateToSecStatus()
 {
-    ui->seStaEdit->setText(secStatus.selinux_status);
-    ui->fsMountEdit->setText(secStatus.selinux_fs_mount);
-    ui->rootDirEdit->setText(secStatus.selinux_root_dir);
-    ui->polnameEdit->setText(secStatus.load_policy_name);
-    ui->modeEdit->setText(secStatus.curr_mode);
-    ui->modeCfgEdit->setText(secStatus.mode_frm_cfg);
-    ui->mlsEdit->setText(secStatus.mls_status);
-    ui->denyEdit->setText(secStatus.policy_deny_stat);
-    ui->versionEdit->setText(secStatus.max_kern_policy_version);
+    ui->seStalabel->setText(secStatus.selinux_status);
+    ui->fsMountlabel->setText(secStatus.selinux_fs_mount);
+    ui->rootDirlabel->setText(secStatus.selinux_root_dir);
+    ui->polnamelabel->setText(secStatus.load_policy_name);
+    ui->cur_status_label->setText(tr("当前状态:       ")+secStatus.curr_mode);
+    ui->modeCfglabel->setText(secStatus.mode_frm_cfg);
+    ui->mlslabel->setText(secStatus.mls_status);
+    ui->denylabel->setText(secStatus.policy_deny_stat);
+    ui->versionlabel->setText(secStatus.max_kern_policy_version);
 }
 
-void TabSecrityPage::initSecStatusUI()
-{
-    ui->seStaEdit->setReadOnly(true);
-    ui->fsMountEdit->setReadOnly(true);
-    ui->rootDirEdit->setReadOnly(true);
-    ui->polnameEdit->setReadOnly(true);
-    ui->modeEdit->setReadOnly(true);
-    ui->modeCfgEdit->setReadOnly(true);
-    ui->mlsEdit->setReadOnly(true);
-    ui->denyEdit->setReadOnly(true);
-    ui->versionEdit->setReadOnly(true);
-}
 
 void TabSecrityPage::get_services()
 {
@@ -211,7 +205,7 @@ TabSecrityPage::~TabSecrityPage()
 
 void TabSecrityPage::on_setusButton_clicked()
 {
-    QString cmd = "nfs-enhanced-trylock -d "+ui->tmsLineEdit->text() + (ui->evrCheckBox->isChecked()? " -e -r ":" -u ")
+    QString cmd = "nfs-enhanced-trylock -d "+ui->tmsLineEdit->text() + " -u "
             + ui->secLineEdit->text()+ " -s " + ui->comboBox->currentText() + "; echo $?";
 
     if(trylock_service(cmd))
@@ -223,22 +217,33 @@ void TabSecrityPage::on_setusButton_clicked()
 
 void TabSecrityPage::on_unlockButton_clicked()
 {
-    if(unlock_all_users())
+//    if(unlock_all_users())
+//    {
+//        QMessageBox::information(this, tr("提示"), tr("操作成功"));
+//    }else
+//        QMessageBox::warning(this, tr("提示"), tr("操作失败"));
+    if(unlock_user(ui->locked_usr_comboBox->currentText()))
     {
         QMessageBox::information(this, tr("提示"), tr("操作成功"));
     }else
         QMessageBox::warning(this, tr("提示"), tr("操作失败"));
+    on_getlockusrsButton_clicked();
 }
 
 void TabSecrityPage::on_setPwButton_clicked()
 {
+    if(!ui->minlenEdit->text().isEmpty() && ui->minlenEdit->text().toInt()<8)
+    {
+         QMessageBox::information(this, tr("提示"), tr("最小长度不能小于8"));
+        return;
+    }
     QString cmd = "nfs-enhanced-passwd "+
             (ui->minlenEdit->text().toInt()!=0? ("-m "+ui->minlenEdit->text()+ " "): " ")+
             (ui->dlenEdit->text().toInt()!=0? ("-d -"+ui->dlenEdit->text()+ " "): " ")+
             (ui->uplenEdit->text().toInt()!=0? ("-u -"+ui->uplenEdit->text()+ " "): " ")+
             (ui->lowlenEdit->text().toInt()!=0? ("-l -"+ui->lowlenEdit->text()+ " "): " ")+
             (ui->othlenEdit->text().toInt()!=0? ("-o -"+ui->othlenEdit->text()+ " "): " ")+
-            (ui->evrCheckBox_2->isChecked()? "-e ": " ")+ " ; echo $?";
+            " ; echo $?";
 
     if(set_pwd_rule(cmd))
     {
@@ -267,7 +272,6 @@ void TabSecrityPage::on_open_closeButton_clicked()
 
 void TabSecrityPage::on_fresh_staButton_clicked()
 {
-    initSecStatusUI();
     if(!get_sec_status(secStatus))
     {
         secStatus.clear();
@@ -478,4 +482,21 @@ void TabSecrityPage::on_findButton2_clicked()
         }else
             UpdateFPTable(tmpconvs);
     }
+}
+
+void TabSecrityPage::on_getlockusrsButton_clicked()
+{
+    int erron=0;
+    get_all_locked_users(users, erron);
+    ui->locked_usr_comboBox->clear();
+    if(users.isEmpty())
+        ui->locked_usr_comboBox->addItem(tr("无"));
+    else
+    {
+        for(int i=0; i<users.size();i++)
+        {
+            ui->locked_usr_comboBox->addItem(users[i]);
+        }
+    }
+
 }

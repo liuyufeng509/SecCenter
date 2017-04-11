@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     AUD/querydialog.cpp \
     AUD/reportdialog.cpp \
     AUD/ruledialog.cpp \
-    AUD/configdialog.cpp
+    AUD/configdialog.cpp \
+    SYS/kernalparammanager.cpp
 
 HEADERS  += mainwindow.h \
                common.h \
@@ -45,7 +46,8 @@ HEADERS  += mainwindow.h \
     AUD/querydialog.h \
     AUD/reportdialog.h \
     AUD/ruledialog.h \
-    AUD/configdialog.h
+    AUD/configdialog.h \
+    SYS/kernalparammanager.h
 
 FORMS    += mainwindow.ui \
      AUD/tabauditpage.ui \
@@ -59,7 +61,8 @@ FORMS    += mainwindow.ui \
     AUD/querydialog.ui \
     AUD/reportdialog.ui \
     AUD/ruledialog.ui \
-    AUD/configdialog.ui
+    AUD/configdialog.ui \
+    SYS/kernalparammanager.ui
 
 
 TRANSLATIONS += securityCenter.ts

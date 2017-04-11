@@ -54,7 +54,7 @@ private slots:
 
 //    void on_setCfgButton_clicked();
 
-    void on_closeAduButton_clicked();
+//    void on_closeAduButton_clicked();
     void set_query_fun_ui();
 
     void on_query_produceButton_clicked();
@@ -106,6 +106,8 @@ private slots:
     void on_custom_rule_aply_pushButton_clicked();
 
     void on_custom_rule_savepushButton_clicked();
+
+    void on_restartAduButton_clicked();
 
 private:
     Ui::TabAuditPage *ui;

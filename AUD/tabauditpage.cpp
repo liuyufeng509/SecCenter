@@ -18,19 +18,20 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
 
     //open/close auditservice
-    if(is_serv_running(tr(SEV_NAME))!=RUNNING)
-    {
-        ui->closeAduButton->setText(tr("开启审计服务"));
-        ui->audStatusEdit->setText(tr("审计服务未运行"));
-    }else
-    {
-        ui->closeAduButton->setText(tr("关闭审计服务"));
-        ui->audStatusEdit->setText(tr("审计服务正在运行"));
-    }
+//    if(is_serv_running(tr(SEV_NAME))!=RUNNING)
+//    {
+//        ui->closeAduButton->setText(tr("开启审计服务"));
+//        ui->audStatusEdit->setText(tr("审计服务未运行"));
+//    }else
+//    {
+//        ui->closeAduButton->setText(tr("关闭审计服务"));
+//        ui->audStatusEdit->setText(tr("审计服务正在运行"));
+//    }
 
     //query fun
     set_query_fun_ui();
     set_signal_slot();
+    ui->sv_to_fileButton->setHidden(true);
 
     //report fun
 
@@ -189,28 +190,28 @@ TabAuditPage::~TabAuditPage()
     delete ui;
 }
 
-void TabAuditPage::on_closeAduButton_clicked()
-{
-    if(ui->closeAduButton->text() == tr("开启审计服务"))
-    {
-        if(!start_service(SEV_NAME))
-        {
-            QMessageBox::information(this, tr("提示"), tr("启动失败"));
-            return;
-        }
-        ui->closeAduButton->setText(tr("关闭审计服务"));
-        ui->audStatusEdit->setText(tr("审计服务正在运行"));
-    }else
-    {
-        if(!stop_service(SEV_NAME))
-        {
-            QMessageBox::information(this, tr("提示"), tr("停止失败"));
-            return;
-        }
-        ui->closeAduButton->setText(tr("开启审计服务"));
-        ui->audStatusEdit->setText(tr("审计服务未运行"));
-    }
-}
+//void TabAuditPage::on_closeAduButton_clicked()
+//{
+//    if(ui->closeAduButton->text() == tr("开启审计服务"))
+//    {
+//        if(!start_service(SEV_NAME))
+//        {
+//            QMessageBox::information(this, tr("提示"), tr("启动失败"));
+//            return;
+//        }
+//        ui->closeAduButton->setText(tr("关闭审计服务"));
+//        ui->audStatusEdit->setText(tr("审计服务正在运行"));
+//    }else
+//    {
+//        if(!stop_service(SEV_NAME))
+//        {
+//            QMessageBox::information(this, tr("提示"), tr("停止失败"));
+//            return;
+//        }
+//        ui->closeAduButton->setText(tr("开启审计服务"));
+//        ui->audStatusEdit->setText(tr("审计服务未运行"));
+//    }
+//}
 
 void TabAuditPage::set_signal_slot()
 {
@@ -229,11 +230,8 @@ void TabAuditPage::set_signal_slot()
     connect(ui->term_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
     connect(ui->ef_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
     connect(ui->euid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-   // connect(ui->dac_set_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
     connect(ui->uid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
     connect(ui->luid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
- //   connect(ui->dac_get_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-//    connect(ui->avc_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
     connect(ui->syscall_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
 
     connect(ui->st_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
@@ -258,11 +256,8 @@ void TabAuditPage::set_query_fun_ui()
     ui->term_lineEdit->setEnabled(ui->term_checkBox->isChecked());
     ui->ef_lineEdit->setEnabled(ui->ef_checkBox->isChecked());
     ui->euid_lineEdit->setEnabled(ui->euid_checkBox->isChecked());
- //   ui->dac_set_lineEdit->setEnabled(ui->dac_set_checkBox->isChecked());
     ui->uid_lineEdit->setEnabled(ui->uid_checkBox->isChecked());
     ui->luid_lineEdit->setEnabled(ui->luid_checkBox->isChecked());
-//    ui->dac_get_lineEdit->setEnabled(ui->dac_get_checkBox->isChecked());
- //   ui->avc_lineEdit->setEnabled(ui->avc_checkBox->isChecked());
     ui->syscall_lineEdit->setEnabled(ui->syscall_checkBox->isChecked());
     ui->st_timeEdit->setEnabled(ui->st_checkBox->isChecked());
     ui->et_timeEdit->setEnabled(ui->et_checkBox->isChecked());
@@ -804,4 +799,15 @@ void TabAuditPage::on_custom_rule_savepushButton_clicked()
         QMessageBox::information(this, tr("提示"), tr("保存成功"));
     }
 
+}
+
+void TabAuditPage::on_restartAduButton_clicked()
+{
+    if(restart_service(SEV_NAME))
+    {
+         QMessageBox::information(this, tr("提示"), tr("重启成功"));
+    }else
+    {
+        QMessageBox::information(this, tr("提示"), tr("重启失败"));
+    }
 }

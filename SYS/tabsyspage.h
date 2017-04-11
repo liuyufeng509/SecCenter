@@ -4,6 +4,7 @@
 #include <QWidget>
 #include"common.h"
 #include"logmainwindow.h"
+#include"kernalparammanager.h"
 namespace Ui {
 class TabSysPage;
 }
@@ -35,6 +36,8 @@ private slots:
 
    void init_data_of_page(int page);
 
+   void on_logButton_clicked();
+
 private:
     Ui::TabSysPage *ui;
 
@@ -53,9 +56,13 @@ private:
     QAction *upAction;
     QAction *svrCtrlAction;
     bool is_first;
+    QSet<QString> noShowSvrs;
 
     //log
     LogMainWindow *logw;
+
+    KernParmMngWidget *kerParamWidget;
+
 };
 
 #endif // TABSYSPAGE_H

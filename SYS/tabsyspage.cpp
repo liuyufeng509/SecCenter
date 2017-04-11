@@ -57,15 +57,13 @@ TabSysPage::TabSysPage(QWidget *parent) :
     connect(upAction, SIGNAL(triggered()), this, SLOT(set_up_down_when_start()));
     connect(svrCtrlAction, SIGNAL(triggered()), this, SLOT(start_stop_service()));
 
-
-//     ui->listWidget->item(0)->setHidden(QReadConfig::getInstance()->sysCfgInfo.user_hidden);
-//    ui->listWidget->item(1)->setHidden(QReadConfig::getInstance()->sysCfgInfo.serv_hidden);
-//    ui->listWidget->item(2)->setHidden(QReadConfig::getInstance()->sysCfgInfo.cpu_hidden);
+    noShowSvrs<<"auditd.service";
 
     logw = new LogMainWindow(this);
-    QWidget * widget = new QWidget;
-    ui->stackedWidget->addWidget(widget);
-  //  ui->stackedWidget->addWidget(logw);
+
+    //kernal param set
+    kerParamWidget = new KernParmMngWidget;
+    ui->stackedWidget->addWidget(kerParamWidget);
 }
 
 
@@ -76,13 +74,25 @@ void TabSysPage::init_data_of_page(int page)
         if(is_first)
         {
             get_services(sevrs);
+            QList<ServiceInfo> sevrstmp;
+            for(int i=0;i<sevrs.size();i++)
+            {
+                if(noShowSvrs.contains(sevrs[i].sName))
+                    continue;
+                sevrstmp.append(sevrs[i]);
+            }
+            sevrs = sevrstmp;
+//            for(int i=0; i<sevrs.size();i++)
+//            {
+//                qDebug()<<sevrs[i].sName;
+//            }
             UpdateToSvrUI();
             is_first = false;
         }
        // disconnect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(init_data_of_page(int)));
     }else if(page==2)
     {
-        logw->show();
+      //  logw->show();
     }
 }
 
@@ -326,3 +336,8 @@ TabSysPage::~TabSysPage()
 }
 
 
+
+void TabSysPage::on_logButton_clicked()
+{
+    logw->show();
+}

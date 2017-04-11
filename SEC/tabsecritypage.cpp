@@ -1,6 +1,7 @@
 #include "tabsecritypage.h"
 #include "ui_tabsecritypage.h"
 #include<QFileDialog>
+#define SEV_NAME  "auditd"
 TabSecrityPage::TabSecrityPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TabSecrityPage)
@@ -56,26 +57,38 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
             ui->users_comboBox->addItem(user_list[i].username);
 
         ui->users_comboBox->setCurrentIndex(0);
-        ui->u_sec_tagEdit->setText(user_list[0].safeTag);
-        ui->u_whole_tagEdit->setText(user_list[0].wholeTag);
+        for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
+        {
+            if(ui->u_sec_tagcomboBox->itemText(i)==user_list[0].safeTag)
+                ui->u_sec_tagcomboBox->setCurrentIndex(i);
+        }
+        for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
+        {
+            if(ui->u_whole_tagcomboBox->itemText(i)==user_list[0].wholeTag)
+                ui->u_whole_tagcomboBox->setCurrentIndex(i);
+        }
+
     }else
     {
         ui->users_comboBox->addItem(tr("无"));
-        ui->u_sec_tagEdit->setText("");
-        ui->u_whole_tagEdit->setText("");
+        ui->u_sec_tagcomboBox->setCurrentIndex(0);
+        ui->u_whole_tagcomboBox->setCurrentIndex(0);
     }
 
     //file security tag
-    QRegExp regExp1("s[0-9][0-5]");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$
-
-    ui->f_sec_tagEdit->setValidator(new QRegExpValidator(regExp1, this));
-    ui->f_whole_tagEdit->setValidator(new QRegExpValidator(regExp1, this));
-    ui->u_sec_tagEdit->setValidator(new QRegExpValidator(regExp1, this));
-    ui->u_whole_tagEdit->setValidator(new QRegExpValidator(regExp1, this));
 
     //te policy
 
-
+    //audit service start/stop
+    if(is_serv_running(tr(SEV_NAME))!=RUNNING)
+    {
+        ui->closeAduButton->setText(tr("开启审计服务"));
+        ui->audStatusEdit->setText(tr("审计服务未运行"));
+    }else
+    {
+        ui->closeAduButton->setText(tr("关闭审计服务"));
+        ui->audStatusEdit->setText(tr("审计服务正在运行"));
+    }
 }
 
 void TabSecrityPage::display_cur_pwd_info()
@@ -310,8 +323,16 @@ void TabSecrityPage::on_freshButton_clicked()
             QMessageBox::information(this, tr("提示"), tr("用户不存在!"));
         }else
         {
-            ui->u_sec_tagEdit->setText(user_list[index].safeTag);
-            ui->u_whole_tagEdit->setText(user_list[index].wholeTag);
+            for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
+            {
+                if(ui->u_sec_tagcomboBox->itemText(i)==user_list[index].safeTag)
+                    ui->u_sec_tagcomboBox->setCurrentIndex(i);
+            }
+            for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
+            {
+                if(ui->u_whole_tagcomboBox->itemText(i)==user_list[index].wholeTag)
+                    ui->u_whole_tagcomboBox->setCurrentIndex(i);
+            }
         }
     }
 }
@@ -325,7 +346,7 @@ void TabSecrityPage::on_setButton_clicked()
     }
     UserTag usrtag;
     usrtag.username = ui->users_comboBox->currentText();
-    usrtag.safeTag = ui->u_sec_tagEdit->text();
+    usrtag.safeTag = ui->u_sec_tagcomboBox->currentText();
     usrtag.wholeTag = usrtag.safeTag;
     //usrtag.wholeTag = ui->u_whole_tagEdit->text();
 
@@ -354,8 +375,17 @@ void TabSecrityPage::on_f_freshButton_clicked()
     fileinfo.isDir = isDir;
     if(get_filetag_info(fileinfo))
     {
-        ui->f_sec_tagEdit->setText(fileinfo.safeTag);
-        ui->f_whole_tagEdit->setText(fileinfo.wholeTag);
+        for(int i=0; i<ui->f_sec_tagcomboBox->count();i++)
+        {
+            if(ui->f_sec_tagcomboBox->itemText(i)==fileinfo.safeTag)
+                ui->f_sec_tagcomboBox->setCurrentIndex(i);
+        }
+
+        for(int i=0; i<ui->f_whole_tagcomboBox->count();i++)
+        {
+            if(ui->f_whole_tagcomboBox->itemText(i)==fileinfo.wholeTag)
+                ui->f_whole_tagcomboBox->setCurrentIndex(i);
+        }
     }else
         QMessageBox::information(this, tr("提示"), tr("刷新失败"));
 
@@ -393,8 +423,8 @@ void TabSecrityPage::on_f_setButton_clicked()
 
     FileTag fileinfo;
     fileinfo.filename = filePath;
-    fileinfo.safeTag = ui->f_sec_tagEdit->text();
-    fileinfo.wholeTag = ui->f_whole_tagEdit->text();
+    fileinfo.safeTag = ui->f_sec_tagcomboBox->currentText();
+    fileinfo.wholeTag = ui->f_whole_tagcomboBox->currentText();
     if(set_filetag_info(fileinfo))
     {
         QMessageBox::information(this,tr("提示"), tr("设置成功!"));
@@ -508,4 +538,27 @@ void TabSecrityPage::on_getlockusrsButton_clicked()
         }
     }
 
+}
+
+void TabSecrityPage::on_closeAduButton_clicked()
+{
+    if(ui->closeAduButton->text() == tr("开启审计服务"))
+    {
+        if(!start_service(SEV_NAME))
+        {
+            QMessageBox::information(this, tr("提示"), tr("启动失败"));
+            return;
+        }
+        ui->closeAduButton->setText(tr("关闭审计服务"));
+        ui->audStatusEdit->setText(tr("审计服务正在运行"));
+    }else
+    {
+        if(!stop_service(SEV_NAME))
+        {
+            QMessageBox::information(this, tr("提示"), tr("停止失败"));
+            return;
+        }
+        ui->closeAduButton->setText(tr("开启审计服务"));
+        ui->audStatusEdit->setText(tr("审计服务未运行"));
+    }
 }

@@ -55,6 +55,8 @@ private slots:
 
     void on_getlockusrsButton_clicked();
 
+    void on_closeAduButton_clicked();
+
 private:
     Ui::TabSecrityPage *ui;
     QStringList  users;

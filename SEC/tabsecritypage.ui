@@ -73,7 +73,7 @@
         </item>
         <item>
          <property name="text">
-          <string>其他</string>
+          <string>审计服务开关</string>
          </property>
         </item>
        </widget>
@@ -84,7 +84,7 @@
    <item row="0" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="idfyPage">
       <layout class="QGridLayout" name="gridLayout_3">
@@ -197,67 +197,75 @@
             <layout class="QGridLayout" name="gridLayout_7">
              <item row="0" column="0">
               <layout class="QGridLayout" name="gridLayout_6">
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="lowlenEdit"/>
-               </item>
-               <item row="1" column="4">
-                <widget class="QLabel" name="label_3">
-                 <property name="text">
-                  <string>大写字母个数:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="minlenEdit"/>
-               </item>
-               <item row="1" column="3">
-                <widget class="QLineEdit" name="dlenEdit"/>
-               </item>
-               <item row="1" column="2">
-                <widget class="QLabel" name="label_2">
-                 <property name="text">
-                  <string>数字位数:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="5">
-                <widget class="QLineEdit" name="uplenEdit"/>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label">
-                 <property name="text">
-                  <string>最短长度:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="3">
-                <widget class="QLineEdit" name="othlenEdit"/>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_4">
-                 <property name="text">
-                  <string>小写字母个数:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2">
-                <widget class="QLabel" name="label_5">
-                 <property name="text">
-                  <string>特殊字符个数:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="4" colspan="2">
+               <item row="3" column="4" colspan="2">
                 <widget class="QPushButton" name="setPwButton">
                  <property name="text">
                   <string>设置</string>
                  </property>
                 </widget>
                </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="minlenEdit"/>
+               </item>
+               <item row="2" column="3">
+                <widget class="QLineEdit" name="dlenEdit"/>
+               </item>
+               <item row="2" column="4">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>大写字母个数:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QLabel" name="label_2">
+                 <property name="text">
+                  <string>数字位数:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>最短长度:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="lowlenEdit"/>
+               </item>
                <item row="0" column="0" colspan="6">
                 <widget class="QLabel" name="cur_pwd_label">
                  <property name="text">
                   <string>当前规则:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="5">
+                <widget class="QLineEdit" name="uplenEdit"/>
+               </item>
+               <item row="3" column="2">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>特殊字符个数:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="3">
+                <widget class="QLineEdit" name="othlenEdit"/>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>小写字母个数:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" colspan="6">
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>规则说明：每增加一种密码类型，最小长度要求减一。
+如最小长度12时，增加小写字母限制，最小长度可以为11位.</string>
                  </property>
                 </widget>
                </item>
@@ -289,7 +297,7 @@
        <property name="geometry">
         <rect>
          <x>12</x>
-         <y>53</y>
+         <y>20</y>
          <width>551</width>
          <height>321</height>
         </rect>
@@ -427,7 +435,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>380</y>
+         <y>350</y>
          <width>551</width>
          <height>67</height>
         </rect>
@@ -477,13 +485,6 @@
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_9">
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="u_whole_tagEdit">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_20">
           <property name="text">
@@ -495,13 +496,6 @@
          <widget class="QLabel" name="label_18">
           <property name="text">
            <string>用户名：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="u_sec_tagEdit">
-          <property name="text">
-           <string/>
           </property>
          </widget>
         </item>
@@ -517,6 +511,190 @@
           <property name="editable">
            <bool>true</bool>
           </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="u_sec_tagcomboBox">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s0</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s6</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s7</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s8</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s9</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s10</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s11</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s12</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s13</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s14</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s15</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="u_whole_tagcomboBox">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s0</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s6</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s7</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s8</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s9</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s10</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s11</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s12</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s13</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s14</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s15</string>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>
@@ -624,17 +802,187 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="f_sec_tagEdit">
-          <property name="text">
-           <string/>
+         <widget class="QComboBox" name="f_sec_tagcomboBox">
+          <property name="editable">
+           <bool>true</bool>
           </property>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s0</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s6</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s7</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s8</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s9</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s10</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s11</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s12</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s13</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s14</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s15</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="f_whole_tagEdit">
-          <property name="text">
-           <string/>
+         <widget class="QComboBox" name="f_whole_tagcomboBox">
+          <property name="editable">
+           <bool>true</bool>
           </property>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s0</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s6</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s7</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s8</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s9</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s10</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s11</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s12</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s13</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s14</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>s15</string>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>
@@ -829,7 +1177,46 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="otherPage"/>
+     <widget class="QWidget" name="otherPage">
+      <layout class="QGridLayout" name="gridLayout_16">
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="groupBox_8">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="title">
+          <string>开启/关闭审计服务</string>
+         </property>
+         <widget class="QPushButton" name="closeAduButton">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>150</y>
+            <width>141</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>开启审计服务</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="audStatusEdit">
+          <property name="geometry">
+           <rect>
+            <x>270</x>
+            <y>150</y>
+            <width>281</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

@@ -9,7 +9,9 @@ UserInfoDialog::UserInfoDialog(UserInfo &usinfo,int type,QWidget *parent) :
 
 {
     ui->setupUi(this);
+
     ui->uidLineEdit->setText(userinfo.uid);
+    ui->uidLineEdit->setEnabled(m_type==Add);
     ui->unameLineEdit->setText(userinfo.uname);
     type==Add? ui->unameLineEdit->setEnabled(true):ui->unameLineEdit->setEnabled(false);
     ui->grpLineEdit->setText(userinfo.group);
@@ -23,6 +25,8 @@ UserInfoDialog::UserInfoDialog(UserInfo &usinfo,int type,QWidget *parent) :
         ui->grpsLineEdit->setText(othgrps);
     }else
         ui->grpsLineEdit->setText("");
+
+    this->setWindowTitle((m_type==Add? tr("添加用户信息"):tr("修改用户信息")));
 }
 
 UserInfoDialog::~UserInfoDialog()
@@ -44,6 +48,7 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
         usrTmp.uname = ui->unameLineEdit->text();
         usrTmp.group = ui->grpLineEdit->text();
         usrTmp.othgroups = ui->grpsLineEdit->text().trimmed().split(',');
+        usrTmp.uid = ui->uidLineEdit->text();
         for(int i=0; i<usrTmp.othgroups.length(); i++)
         {
             if(usrTmp.othgroups[i].length()==0)

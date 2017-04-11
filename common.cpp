@@ -276,7 +276,8 @@ QString add_user(UserInfo userinfo)
     }
     QString cmd = "useradd " +
             (userinfo.group.length()!=0 && userinfo.group!=userinfo.uname ?" -g "+userinfo.group: " ")+
-            (userinfo.othgroups.length()==0?" ":" -G " +othgrps) +" "+ userinfo.uname;
+            (userinfo.othgroups.length()==0?" ":" -G " +othgrps) +" "+ userinfo.uname +
+            (userinfo.uid.isEmpty()? "":" -u "+userinfo.uid);
     cmd = GetCmdRes(cmd).trimmed();
     return cmd;
 }
@@ -447,6 +448,21 @@ bool start_service(QString sname)
     }
     return true;
 }
+
+bool restart_service(QString sname)
+{
+    //QString cmd = "systemctl start  " + sname + ";echo $?";
+    QString cmd = "service " + sname + " restart;echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"restart service "<<sname<<" failed, errono:"<<list.last();
+        return false;
+    }
+    return true;
+}
+
 
 
 //struct cpu_record g = { 0,0 };

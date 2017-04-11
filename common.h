@@ -249,6 +249,7 @@ bool down_service_when_start(QString sname);
 
 bool stop_service(QString sname);
 bool start_service(QString sname);
+bool restart_service(QString sname);
 
 void shutdown();
 void reboot();

@@ -60,7 +60,7 @@ TabSysPage::TabSysPage(QWidget *parent) :
     noShowSvrs<<"auditd.service";
 
     logw = new LogMainWindow(this);
-
+    ui->stackedWidget->addWidget(logw);
     //kernal param set
     kerParamWidget = new KernParmMngWidget;
     ui->stackedWidget->addWidget(kerParamWidget);
@@ -333,11 +333,4 @@ void TabSysPage::del_user_action()
 TabSysPage::~TabSysPage()
 {
     delete ui;
-}
-
-
-
-void TabSysPage::on_logButton_clicked()
-{
-    logw->show();
 }

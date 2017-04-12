@@ -57,6 +57,8 @@ private slots:
 
     void on_closeAduButton_clicked();
 
+    void on_close_client_reuse_Button_clicked();
+
 private:
     Ui::TabSecrityPage *ui;
     QStringList  users;

@@ -803,6 +803,11 @@ void TabAuditPage::on_custom_rule_savepushButton_clicked()
 
 void TabAuditPage::on_restartAduButton_clicked()
 {
+    if(!is_serv_running(SEV_NAME))
+    {
+        QMessageBox::information(this, tr("提示"), tr("审计服务未运行，请联系安全管理员启动"));
+        return;
+    }
     if(restart_service(SEV_NAME))
     {
          QMessageBox::information(this, tr("提示"), tr("重启成功"));

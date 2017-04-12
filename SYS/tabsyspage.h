@@ -36,8 +36,6 @@ private slots:
 
    void init_data_of_page(int page);
 
-   void on_logButton_clicked();
-
 private:
     Ui::TabSysPage *ui;
 

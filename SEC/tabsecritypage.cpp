@@ -83,11 +83,11 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     if(is_serv_running(tr(SEV_NAME))!=RUNNING)
     {
         ui->closeAduButton->setText(tr("开启审计服务"));
-        ui->audStatusEdit->setText(tr("审计服务未运行"));
+        ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
     }else
     {
         ui->closeAduButton->setText(tr("关闭审计服务"));
-        ui->audStatusEdit->setText(tr("审计服务正在运行"));
+        ui->cur_audstatus_label->setText(tr("当前状态：       正在运行"));
     }
 }
 
@@ -550,7 +550,7 @@ void TabSecrityPage::on_closeAduButton_clicked()
             return;
         }
         ui->closeAduButton->setText(tr("关闭审计服务"));
-        ui->audStatusEdit->setText(tr("审计服务正在运行"));
+        ui->cur_audstatus_label->setText(tr("当前状态：       正在运行"));
     }else
     {
         if(!stop_service(SEV_NAME))
@@ -559,6 +559,11 @@ void TabSecrityPage::on_closeAduButton_clicked()
             return;
         }
         ui->closeAduButton->setText(tr("开启审计服务"));
-        ui->audStatusEdit->setText(tr("审计服务未运行"));
+        ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
     }
+}
+
+void TabSecrityPage::on_close_client_reuse_Button_clicked()
+{
+
 }

@@ -27,6 +27,8 @@ public:
     void UpdateFPTable(QList<FileProConV> &convs);
 
     void display_cur_pwd_info();
+
+    void init_sak_ui();
 private slots:
     void on_setusButton_clicked();
     
@@ -59,6 +61,10 @@ private slots:
 
     void on_close_client_reuse_Button_clicked();
 
+    void on_open_close_sak_Button_clicked();
+
+    void on_open_close_def_sak_Button_clicked();
+
 private:
     Ui::TabSecrityPage *ui;
     QStringList  users;
@@ -83,6 +89,9 @@ private:
     QSet<QString> src_types;
     QSet<QString> targ_types;
     QSet<QString> class_types_of_fp;
+
+    //open/close manager
+    SakInfo sakinfo;
 
 };
 

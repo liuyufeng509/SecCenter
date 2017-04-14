@@ -188,6 +188,14 @@ struct UserTag
 bool get_user_taginfos(QList<UserTag> &reslist);
 bool set_user_tagInfo(UserTag usrtag, bool add);
 
+struct SakInfo
+{
+    QString current_mode;
+    QString default_mode;
+};
+bool get_sak_info(SakInfo &sakinfo);
+bool set_cur_sak(QString sta);
+bool set_def_sak(QString sta);
 
 //cpu and mem
 //enum {

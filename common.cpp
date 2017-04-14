@@ -869,6 +869,51 @@ bool set_user_tagInfo(UserTag usrtag, bool add)
     return true;
 }
 
+bool get_sak_info(SakInfo &sakinfo)
+{
+    if(!is_command_exist("nfs-getsak"))
+    {
+        qDebug()<<"command nfs-getsak is not exist";
+        return false;
+    }
+    QString cmd = "nfs-getsak  | awk -F \' \'  \'{print $4}\'";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+    if(list.length()<2)
+        return false;
+    sakinfo.current_mode = list[0];
+    sakinfo.default_mode = list[1];
+    return true;
+}
+
+bool set_cur_sak(QString sta)
+{
+    QString cmd = "nfs-setsak "+sta+";echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"nfs-setsak "<<sta<<" failed,errono:"<<list.last();
+        return false;
+    }
+    return true;
+}
+
+bool set_def_sak(QString sta)
+{
+    QString cmd = "nfs-setsak default_"+sta+";echo $?";
+    cmd = GetCmdRes(cmd).trimmed();
+    QStringList list = cmd.split('\n');
+
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"nfs-setsak default_"<<sta<<" failed,errono:"<<list.last();
+        return false;
+    }
+    return true;
+}
+
 bool get_filetag_info(FileTag &fileinfo)
 {
     if(!is_command_exist("ls"))

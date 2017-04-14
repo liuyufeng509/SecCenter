@@ -89,6 +89,42 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
         ui->closeAduButton->setText(tr("关闭审计服务"));
         ui->cur_audstatus_label->setText(tr("当前状态：       正在运行"));
     }
+
+    //open/close manager
+    init_sak_ui();
+}
+
+void TabSecrityPage::init_sak_ui()
+{
+    if(!get_sak_info(sakinfo))
+    {
+        sakinfo.current_mode="disable";
+        sakinfo.default_mode="disable";
+        ui->cur_sakstatus_label->setText(tr("获取当前sak状态失败!"));
+        ui->def_sakstatus_label->setText(tr("获取默认sak状态失败!"));
+        ui->open_close_sak_Button->setText(tr("开启当前SAK功能"));
+        ui->open_close_def_sak_Button->setText(tr("开启默认SAK功能"));
+    }else
+    {
+        if(sakinfo.current_mode=="enable")
+        {
+            ui->cur_sakstatus_label->setText(tr("当前sak状态: 开启"));
+            ui->open_close_sak_Button->setText(tr("关闭当前SAK功能"));
+        }else
+        {
+            ui->cur_sakstatus_label->setText(tr("当前sak状态: 未开启"));
+            ui->open_close_sak_Button->setText(tr("开启当前SAK功能"));
+        }
+        if(sakinfo.default_mode=="enable")
+        {
+            ui->def_sakstatus_label->setText(tr("默认sak状态: 开启"));
+            ui->open_close_def_sak_Button->setText(tr("关闭默认SAK功能"));
+        }else
+        {
+            ui->def_sakstatus_label->setText(tr("默认sak状态: 未开启"));
+            ui->open_close_def_sak_Button->setText(tr("开启默认SAK功能"));
+        }
+    }
 }
 
 void TabSecrityPage::display_cur_pwd_info()
@@ -566,4 +602,26 @@ void TabSecrityPage::on_closeAduButton_clicked()
 void TabSecrityPage::on_close_client_reuse_Button_clicked()
 {
 
+}
+
+void TabSecrityPage::on_open_close_sak_Button_clicked()
+{
+    if(sakinfo.current_mode=="enable")
+    {
+        set_cur_sak("disable");
+    }else
+        set_cur_sak("enable");
+
+    init_sak_ui();
+}
+
+void TabSecrityPage::on_open_close_def_sak_Button_clicked()
+{
+    if(sakinfo.default_mode=="enable")
+    {
+        set_def_sak("disable");
+    }else
+        set_def_sak("enable");
+
+     init_sak_ui();
 }

@@ -367,4 +367,21 @@ struct FileAudRule
 
 bool set_file_rule(FileAudRule fileRule);
 
+struct UkeyInfo
+{
+    QString cur_pin;
+    QString new_pin;
+    QString user;
+    int type;
+};
+
+struct ErrorInfo
+{
+    QString errorno;
+    QString err_str;
+};
+
+bool modify_pin_of_ukey(UkeyInfo ukif, ErrorInfo &err);
+bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err);
+
 #endif // COMMON_H

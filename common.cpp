@@ -1116,3 +1116,46 @@ bool get_cur_pwd_info(PwdInfo &pwd)
 
     return true;
 }
+
+bool modify_pin_of_ukey(UkeyInfo ukif, ErrorInfo &err)
+{
+    QString cmd = "nfsukey "+ ukif.cur_pin+ " -s "+ukif.new_pin+";echo $?";
+    QString res = GetCmdRes(cmd).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"modify pin of ukey failed:"<<cmd;
+        err.err_str = res.left(res.length()-list.last().length());
+        err.errorno = list.last();
+        return false;
+    }
+    err.err_str = "";
+    err.errorno = "0";
+    return true;
+}
+bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err)
+{
+    QString cmd = "nfsukey "+ ukif.cur_pin;
+    switch(ukif.type)
+    {
+    case 1:
+        cmd += " -b "+ukif.user+";echo $?";
+        break;
+    case 2:
+        cmd += " -d "+ukif.user+";echo $?";
+        break;
+    }
+
+    QString res = GetCmdRes(cmd).trimmed();
+    QStringList list = res.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        qDebug()<<"set user info of ukey failed:"<<cmd;
+        err.err_str = res.left(res.length()-list.last().length());
+        err.errorno = list.last();
+        return false;
+    }
+    err.err_str = "";
+    err.errorno = "0";
+    return true;
+}

@@ -1,6 +1,7 @@
 #include "tabsecritypage.h"
 #include "ui_tabsecritypage.h"
 #include<QFileDialog>
+#include"ukeydialog.h"
 #define SEV_NAME  "auditd"
 TabSecrityPage::TabSecrityPage(QWidget *parent) :
     QWidget(parent),
@@ -624,4 +625,17 @@ void TabSecrityPage::on_open_close_def_sak_Button_clicked()
         set_def_sak("enable");
 
      init_sak_ui();
+}
+
+
+void TabSecrityPage::on_ukey_pinButton_clicked()
+{
+    UkeyDialog ukdialog(UkeyDialog::Reset_PIN, this);
+    ukdialog.exec();
+}
+
+void TabSecrityPage::on_ukey_userButton_clicked()
+{
+    UkeyDialog ukdialog(UkeyDialog::BUND_User, this);
+    ukdialog.exec();
 }

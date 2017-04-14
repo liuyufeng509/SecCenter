@@ -65,6 +65,10 @@ private slots:
 
     void on_open_close_def_sak_Button_clicked();
 
+    void on_ukey_pinButton_clicked();
+
+    void on_ukey_userButton_clicked();
+
 private:
     Ui::TabSecrityPage *ui;
     QStringList  users;

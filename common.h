@@ -35,14 +35,7 @@
 //#include <glibtop/mountlist.h>
 
 #include <time.h>
-
-enum ROLE{
-    ROOT,
-    SECADMIN,
-    SYSADMIN,
-    AUDIADMIN,
-    NORMALUSER,
-};
+#include "datadefine.h"
 
 struct FileAttr
 {
@@ -59,21 +52,6 @@ struct FileAttr
     qint8       groupauth;
     qint8       ohterauth;
     QString     umask;
-};
-
-struct UserInfo
-{
-    QString uid;
-    QString uname;
-    QString group;
-    QStringList othgroups;
-    bool isShow;
-
-};
-enum UserOpt
-{
-    Add,
-    Edt,
 };
 
 enum SevCfgStatus
@@ -97,14 +75,13 @@ struct ServiceInfo
     SevCfgStatus cfgStatus;
     RUNSTATE runStat;
 };
-
+ typedef QList<ServiceInfo>   SEVLIST;
 struct CPUGrap
 {
     QProgressBar *progressBar;
     QLabel          *label;
 };
 
-ROLE get_user_role();
 QString GetCmdRes(QString cmd);
 QStringList get_users();
 QStringList get_groups();
@@ -384,4 +361,5 @@ struct ErrorInfo
 bool modify_pin_of_ukey(UkeyInfo ukif, ErrorInfo &err);
 bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err);
 
+void messageBox(QString str);
 #endif // COMMON_H

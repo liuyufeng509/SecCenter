@@ -51,60 +51,60 @@ void CommTab::SetUiEnable(bool enable)
 
 void CommTab::updateUI()
 {
-    ui->ownerComboBox->clear();
-    ui->groupComboBox->clear();
-    switch (get_user_role()) {
-    case ROOT:
-    {
-        QStringList users = get_users();
-        for(int i=0; i<users.length(); i++)
-        {
-            ui->ownerComboBox->addItem(users[i]);
-        }
-        if(ui->ownerComboBox->findText(fileAttr.owner)==-1)
-            qDebug()<<"ownerCombox can't find owner.";
-        else
-            ui->ownerComboBox->setCurrentIndex(ui->ownerComboBox->findText(fileAttr.owner));
-        ui->rCheckBox->setChecked(fileAttr.ownerauth & 0x4);
-        ui->wCheckBox->setChecked(fileAttr.ownerauth & 0x2);
-        ui->exeCheckBox->setChecked(fileAttr.ownerauth & 0x1);
+//    ui->ownerComboBox->clear();
+//    ui->groupComboBox->clear();
+//    switch (get_user_role()) {
+//    case ROOT:
+//    {
+//        QStringList users = get_users();
+//        for(int i=0; i<users.length(); i++)
+//        {
+//            ui->ownerComboBox->addItem(users[i]);
+//        }
+//        if(ui->ownerComboBox->findText(fileAttr.owner)==-1)
+//            qDebug()<<"ownerCombox can't find owner.";
+//        else
+//            ui->ownerComboBox->setCurrentIndex(ui->ownerComboBox->findText(fileAttr.owner));
+//        ui->rCheckBox->setChecked(fileAttr.ownerauth & 0x4);
+//        ui->wCheckBox->setChecked(fileAttr.ownerauth & 0x2);
+//        ui->exeCheckBox->setChecked(fileAttr.ownerauth & 0x1);
 
-        QStringList groups = get_groups();
-        for(int i=0; i<groups.length(); i++)
-        {
-            ui->groupComboBox->addItem(groups[i]);
-        }
-        if(ui->groupComboBox->findText(fileAttr.groupName)==-1)
-            qDebug()<<"groupCombox can't find groupName.";
-        else
-            ui->groupComboBox->setCurrentIndex(ui->groupComboBox->findText(fileAttr.groupName));
+//        QStringList groups = get_groups();
+//        for(int i=0; i<groups.length(); i++)
+//        {
+//            ui->groupComboBox->addItem(groups[i]);
+//        }
+//        if(ui->groupComboBox->findText(fileAttr.groupName)==-1)
+//            qDebug()<<"groupCombox can't find groupName.";
+//        else
+//            ui->groupComboBox->setCurrentIndex(ui->groupComboBox->findText(fileAttr.groupName));
 
-        ui->rCheckBox_2->setChecked(fileAttr.groupauth & 0x4);
-        ui->wCheckBox_2->setChecked(fileAttr.groupauth & 0x2);
-        ui->exeCheckBox_2->setChecked(fileAttr.groupauth & 0x1);
+//        ui->rCheckBox_2->setChecked(fileAttr.groupauth & 0x4);
+//        ui->wCheckBox_2->setChecked(fileAttr.groupauth & 0x2);
+//        ui->exeCheckBox_2->setChecked(fileAttr.groupauth & 0x1);
 
-        ui->rCheckBox_3->setChecked(fileAttr.ohterauth & 0x4);
-        ui->wCheckBox_3->setChecked(fileAttr.ohterauth & 0x2);
-        ui->exeCheckBox_3->setChecked(fileAttr.ohterauth & 0x1);
-        SetUiEnable(true);
-    }
-        break;
-    default:
-    {
-        ui->ownerComboBox->addItem(fileAttr.owner);
-        ui->ownerComboBox->setCurrentIndex(ui->ownerComboBox->findText(fileAttr.owner));
-        ui->groupComboBox->setCurrentIndex(ui->groupComboBox->findText(fileAttr.groupName));
+//        ui->rCheckBox_3->setChecked(fileAttr.ohterauth & 0x4);
+//        ui->wCheckBox_3->setChecked(fileAttr.ohterauth & 0x2);
+//        ui->exeCheckBox_3->setChecked(fileAttr.ohterauth & 0x1);
+//        SetUiEnable(true);
+//    }
+//        break;
+//    default:
+//    {
+//        ui->ownerComboBox->addItem(fileAttr.owner);
+//        ui->ownerComboBox->setCurrentIndex(ui->ownerComboBox->findText(fileAttr.owner));
+//        ui->groupComboBox->setCurrentIndex(ui->groupComboBox->findText(fileAttr.groupName));
 
-        if(fileAttr.owner == get_cur_user() )
-        {
-            SetUiEnable(true);
-        }else
-        {
-            SetUiEnable(false);
-        }
-    }
-        break;
-    }
+//        if(fileAttr.owner == get_cur_user() )
+//        {
+//            SetUiEnable(true);
+//        }else
+//        {
+//            SetUiEnable(false);
+//        }
+//    }
+//        break;
+//    }
 
 }
 

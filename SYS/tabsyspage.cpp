@@ -4,6 +4,7 @@
 #include"time.h"
 #include"logmainwindow.h"
 #include"qreadconfig.h"
+#include "waitdialog.h"
 TabSysPage::TabSysPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TabSysPage)
@@ -64,8 +65,67 @@ TabSysPage::TabSysPage(QWidget *parent) :
     //kernal param set
     kerParamWidget = new KernParmMngWidget;
     ui->stackedWidget->addWidget(kerParamWidget);
+
+    thread = new QThread;
+
+    m_sysFunModel.moveToThread(thread);
+
+    qRegisterMetaType<SEVLIST> ("SEVLIST");
+    qRegisterMetaType<Exception>("Exception");
+    //获取服务列表
+    connect(this, SIGNAL(emitGetServsSignal(SEVLIST )), &m_sysFunModel, SLOT(getServicesSlot(SEVLIST )));
+    connect(&m_sysFunModel, SIGNAL(emitGetServicesDone(int ,Exception, SEVLIST)), this, SLOT(getServicesSlot(int ,Exception, SEVLIST)));
+    //设置开机启动
+    connect(this, SIGNAL(emitSetUpDownWhenBoot(QString, int)), &m_sysFunModel, SLOT(setUpDownWhenBootSlot(QString,int)));
+    connect(&m_sysFunModel, SIGNAL(emitSetUpDownWhenBootDone(int,Exception)), this, SLOT(setUpDownWhenBootSlot(int ,Exception)));
+    thread->start();
+    waitD = new WaitDialog(this);
 }
 
+void TabSysPage::getServicesSlot(int res, Exception exp, SEVLIST svs)     //获取用户列表线程结束，处理结果
+{
+    sevrs = svs;
+    waitD->accept();
+    if(res == 0)
+    {
+        QList<ServiceInfo> sevrstmp;
+        for(int i=0;i<sevrs.size();i++)
+        {
+            if(noShowSvrs.contains(sevrs[i].sName))
+                continue;
+            sevrstmp.append(sevrs[i]);
+        }
+        sevrs = sevrstmp;
+        UpdateToSvrUI();
+        is_first = false;
+    }else
+        {
+        messageBox(exp.getErroWhat());
+        is_first = true;
+    }
+}
+void TabSysPage::setUpDownWhenBootSlot(int res, Exception exp)
+{
+    waitD->accept();
+    int row = ui->svrTableWidget->currentRow();
+    if(row<0)
+    {
+        QMessageBox::information(this, tr("提示"), tr("请选择要操作的服务!"));
+        return;
+    }
+    if(res == 0)
+    {
+        if(upAction->text()==tr("设置开机启动"))
+            sevrs[row].cfgStatus = ENABLE;
+        else
+            sevrs[row].cfgStatus = DISABLE;
+       QMessageBox::information(this,  tr("提示"), tr("设置成功"));
+    }else
+        {
+        messageBox(exp.getErroWhat());
+    }
+    UpdateToSvrUI();
+}
 
 void TabSysPage::init_data_of_page(int page)
 {
@@ -73,29 +133,11 @@ void TabSysPage::init_data_of_page(int page)
     {
         if(is_first)
         {
-            get_services(sevrs);
-            QList<ServiceInfo> sevrstmp;
-            for(int i=0;i<sevrs.size();i++)
-            {
-                if(noShowSvrs.contains(sevrs[i].sName))
-                    continue;
-                sevrstmp.append(sevrs[i]);
-            }
-            sevrs = sevrstmp;
-//            for(int i=0; i<sevrs.size();i++)
-//            {
-//                qDebug()<<sevrs[i].sName;
-//            }
-            UpdateToSvrUI();
-            is_first = false;
-        }
-       // disconnect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(init_data_of_page(int)));
-    }else if(page==2)
-    {
-      //  logw->show();
+            emit emitGetServsSignal(sevrs);
+            waitD->exec();
+       }
     }
 }
-
 
 void TabSysPage::set_up_down_when_start()
 {
@@ -108,23 +150,12 @@ void TabSysPage::set_up_down_when_start()
 
     if(upAction->text()==tr("设置开机启动"))
     {
-       if( up_service_when_start(sevrs[row].sName))
-       {
-           QMessageBox::information(this,  tr("提示"), tr("设置成功"));
-           sevrs[row].cfgStatus = ENABLE;
-       }else
-           QMessageBox::information(this,  tr("提示"), tr("设置失败"));
+        emit emitSetUpDownWhenBoot(sevrs[row].sName, 0);
     }else
     {
-        if(down_service_when_start(sevrs[row].sName))
-        {
-            QMessageBox::information(this,  tr("提示"), tr("设置成功"));
-            sevrs[row].cfgStatus = DISABLE;
-        }else
-            QMessageBox::information(this,  tr("提示"), tr("设置失败"));
+        emit emitSetUpDownWhenBoot(sevrs[row].sName, 1);
     }
-
-    UpdateToSvrUI();
+    waitD->exec();
 }
 
 void TabSysPage::start_stop_service()
@@ -203,30 +234,35 @@ void TabSysPage::UpdateToSvrUI()
 
 void TabSysPage::UpdateToUsersUI()
 {
-    get_userinfo(users);
-    set_userinfos_groups(users);
-    ui->tableWidget->setRowCount(0);
-    ui->tableWidget->setRowCount(users.size());
-    for(int i=0; i<users.length(); i++)
+    try
     {
-        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(users[i].uname));
-        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(users[i].uid));
-        if(users[i].othgroups.length()<1)
+        m_sysFunModel.getUserList(users);
+        ui->tableWidget->setRowCount(0);
+        ui->tableWidget->setRowCount(users.size());
+        for(int i=0; i<users.length(); i++)
         {
-             QString groups=users[i].group;
-             ui->tableWidget->setItem(i, 2, new QTableWidgetItem(groups));
-        }else
-        {
-            QString groups=users[i].group+ ":";
-            for(int j=0; j<users[i].othgroups.length()-1;j++)
+            ui->tableWidget->setItem(i, 0, new QTableWidgetItem(users[i].uname));
+            ui->tableWidget->setItem(i, 1, new QTableWidgetItem(users[i].uid));
+            if(users[i].ogroups.length()<1)
             {
-                groups += users[i].othgroups[j]+":";
+                 QString groups=users[i].group;
+                 ui->tableWidget->setItem(i, 2, new QTableWidgetItem(groups));
+            }else
+            {
+                QString groups=users[i].group+ ":";
+                for(int j=0; j<users[i].ogroups.length()-1;j++)
+                {
+                    groups += users[i].ogroups[j]+":";
+                }
+                groups += users[i].ogroups[users[i].ogroups.length()-1];
+                ui->tableWidget->setItem(i, 2, new QTableWidgetItem(groups));
             }
-            groups += users[i].othgroups[users[i].othgroups.length()-1];
-            ui->tableWidget->setItem(i, 2, new QTableWidgetItem(groups));
+            if(!users[i].isShow)
+                ui->tableWidget->setRowHidden(i, true);
         }
-        if(!users[i].isShow)
-            ui->tableWidget->setRowHidden(i, true);
+    }catch(Exception exp)
+            {
+        messageBox(exp.getErroWhat());
     }
 }
 
@@ -319,13 +355,13 @@ void TabSysPage::del_user_action()
         QMessageBox::information(this, tr("提示"), tr("请选中要删除的行"));
         return;
     }
-
-    if(del_user(users[row]))
+    try
     {
+        m_sysFunModel.delUser(users[row]);
         UpdateToUsersUI();
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("删除失败"));
+    }catch(Exception exp)
+            {
+        messageBox(exp.getErroWhat());
     }
 }
 

@@ -1,13 +1,13 @@
 #include "indexwidget.h"
 #include "ui_indexwidget.h"
 
-IndexWidget::IndexWidget(QWidget *parent) :
+IndexWidget::IndexWidget(ROLE curRole,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::IndexWidget)
 {
     ui->setupUi(this);
 
-    switch(get_user_role())
+    switch(curRole)
     {
     case ROOT:
         ui->textEdit->setText(tr("    root用户具有所有角色的权限，能够使用安全管理员、系统管理员、审计管理员以及常规操作的所有功能。"));
@@ -21,9 +21,9 @@ IndexWidget::IndexWidget(QWidget *parent) :
     case AUDIADMIN:
         ui->textEdit->setText(tr("    审计管理员负责审计系统的相关功能，比如查看审计信息、生成审计报表、修改审计规则等。"));
         break;
-    case NORMALUSER:
-        ui->textEdit->setText(tr("    常规用户只能使用客体重用和自主访问控制等功能。"));
-        break;
+//    case NORMALUSER:
+//        ui->textEdit->setText(tr("    常规用户只能使用客体重用和自主访问控制等功能。"));
+//        break;
     default:
         break;
     }

@@ -8,7 +8,7 @@
 #include"tabsyspage.h"
 #include"common.h"
 #include "indexwidget.h"
-
+#include"mainfunclass.h"
 namespace Ui {
 class MainWindow;
 }
@@ -20,7 +20,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
 protected:
 
 
@@ -33,6 +32,9 @@ private:
      TabAuditPage *tabAuditPage;
      TabSysPage *tabSysPage;
      IndexWidget *indexWidget;
+
+     MainFunClass m_MainModel;
+     ROLE              m_curRole;
 };
 
 #endif // MAINWINDOW_H

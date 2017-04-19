@@ -41,10 +41,10 @@ ROLE get_user_role()
     if(strl[strl.length()-1].toInt()!=0)
     {
         qDebug()<<"id -u execute failed";
-        return NORMALUSER;
+      //  return NORMALUSER;
     }
     cmd = strl[0];
-    ROLE res = NORMALUSER;
+    ROLE res = ERROR;
     if(cmd.toInt()==0)
     {
         res = ROOT;
@@ -52,7 +52,7 @@ ROLE get_user_role()
 
     cmd = get_user_str_role();
     if(cmd == "unconfined_r" && res !=ROOT)
-        res = NORMALUSER;
+        res = ERROR;
     else if(cmd == "secadm_r")
         res = SECADMIN;
     else if(cmd == "sysadm_r")
@@ -188,7 +188,7 @@ QString get_user_str_role()
 
 bool set_userinfo_etc_shaddow(QList<UserInfo> &users)
 {
-    QString cmd = "awk -F: '{print $2}' /etc/shadow ; echo $?";
+    QString cmd = "awk -F: \'{print $2}\' /etc/shadow ; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
     QStringList list = cmd.split('\n');
     if(list.last().toInt()!=0)
@@ -258,7 +258,7 @@ void set_userinfos_groups(QList<UserInfo> &users)
         users[i].group =glist[0].trimmed();
         for(int j=1; j<glist.length(); j++)
         {
-            users[i].othgroups.append(glist[j].trimmed());
+            users[i].ogroups.append(glist[j].trimmed());
         }
     }
 }
@@ -267,16 +267,16 @@ void set_userinfos_groups(QList<UserInfo> &users)
 QString add_user(UserInfo userinfo)
 {
     QString othgrps="";
-    if(userinfo.othgroups.length()>0)
+    if(userinfo.ogroups.length()>0)
     {
-        foreach (QString grp, userinfo.othgroups) {
+        foreach (QString grp, userinfo.ogroups) {
             othgrps +=grp+",";
         }
         othgrps = othgrps.left(othgrps.length()-1);
     }
     QString cmd = "useradd " +
             (userinfo.group.length()!=0 && userinfo.group!=userinfo.uname ?" -g "+userinfo.group: " ")+
-            (userinfo.othgroups.length()==0?" ":" -G " +othgrps) +" "+ userinfo.uname +
+            (userinfo.ogroups.length()==0?" ":" -G " +othgrps) +" "+ userinfo.uname +
             (userinfo.uid.isEmpty()? "":" -u "+userinfo.uid);
     cmd = GetCmdRes(cmd).trimmed();
     return cmd;
@@ -295,16 +295,16 @@ QString change_groups(UserInfo userinfo)
         return "group lenth is 0";
 
     QString othgrps="";
-    if(userinfo.othgroups.length()>0)
+    if(userinfo.ogroups.length()>0)
     {
-        foreach (QString grp, userinfo.othgroups) {
+        foreach (QString grp, userinfo.ogroups) {
             othgrps +=grp+",";
         }
         othgrps = othgrps.left(othgrps.length()-1);
     }
 
     QString cmd = "usermod -g "+ userinfo.group +
-            (userinfo.othgroups.length()==0?" ":" -G " +othgrps)+" "+ userinfo.uname;
+            (userinfo.ogroups.length()==0?" ":" -G " +othgrps)+" "+ userinfo.uname;
     cmd = GetCmdRes(cmd).trimmed();
     return cmd;
 }
@@ -325,7 +325,6 @@ bool del_user(UserInfo userinfo)
 RUNSTATE is_serv_running(QString svName)
 {
     QString cmd= "systemctl status "+ svName;
-
     cmd = GetCmdRes(cmd).trimmed();
     if(cmd.contains("Active: active (running)"))
     {
@@ -340,41 +339,49 @@ RUNSTATE is_serv_running(QString svName)
 
 bool get_services(QList<ServiceInfo> &sevrs)
 {
-    sevrs.clear();
-    QString cmd = "systemctl list-unit-files --type=service";
-    cmd = GetCmdRes(cmd).trimmed();
-  //  qDebug()<<cmd;
+//    sevrs.clear();
+//    QString cmd = "systemctl list-unit-files --type=service 2>&1; echo $?";
+//    QString resStr = GetCmdRes(cmd).trimmed();
 
-    QStringList slist = cmd.split('\n');
-    if(slist.length()<3)
-    {
-        qDebug()<<"row number less than 3";
-        return false;
-    }
-    slist.pop_front();
-    slist.pop_back();
-    slist.pop_back();
-    foreach (QString s, slist) {
-        QStringList info = s.simplified().split(' ');
-        if(info.length()<2)
-            continue;
-      //  qDebug()<<s.simplified();
-        ServiceInfo servInfo;
-        servInfo.sName = info[0];
-        if(info[1]=="static")
-            servInfo.cfgStatus =STATIC;
-        if(info[1]=="disabled")
-            servInfo.cfgStatus = DISABLE;
-        if(info[1]=="enabled")
-            servInfo.cfgStatus = ENABLE;
+//    QStringList strl = cmd.split('\n');
+//    if(strl.last().toInt()!=0)
+//    {
+//        resStr.chop(strl.last().length());
+//        QString errContent =tr("执行操作：获取服务列表失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+//        qDebug()<<errContent;
+//        throw Exception(strl.last(), errContent);
+//    }
+//    if(strl.length()<4)
+//    {
+//        QString errContent =tr("执行操作：获取服务列表失败")+ tr("\n错误内容：解析结果失败");
+//        qDebug()<<errContent;
+//        throw Exception(strl.last(), errContent);
+//    }
+//    strl.pop_front();
+//    strl.pop_back();
+//    strl.pop_back();
+//    strl.pop_back();
+//    foreach (QString s, strl) {
+//        QStringList info = s.simplified().split(' ');
+//        if(info.length()<2)
+//            continue;
+//      //  qDebug()<<s.simplified();
+//        ServiceInfo servInfo;
+//        servInfo.sName = info[0];
+//        if(info[1]=="static")
+//            servInfo.cfgStatus =STATIC;
+//        if(info[1]=="disabled")
+//            servInfo.cfgStatus = DISABLE;
+//        if(info[1]=="enabled")
+//            servInfo.cfgStatus = ENABLE;
 
-        servInfo.runStat = is_serv_running(servInfo.sName);
-        sevrs.append(servInfo);
-    }
-    if(sevrs.length()>0)
-        return true;
-    else
-        return false;
+//        servInfo.runStat = is_serv_running(servInfo.sName);
+//        sevrs.append(servInfo);
+//    }
+//    if(sevrs.length()>0)
+//        return true;
+//    else
+//        return false;
 }
 
 bool up_service_when_start(QString sname)
@@ -1119,7 +1126,7 @@ bool get_cur_pwd_info(PwdInfo &pwd)
 
 bool modify_pin_of_ukey(UkeyInfo ukif, ErrorInfo &err)
 {
-    QString cmd = "nfsukey "+ ukif.cur_pin+ " -s "+ukif.new_pin+";echo $?";
+    QString cmd = "nfsukey "+ ukif.cur_pin+ " -s "+ukif.new_pin+" 2>&1;echo $?";
     QString res = GetCmdRes(cmd).trimmed();
     QStringList list = res.split('\n');
     if(list.last().toInt()!=0)
@@ -1139,10 +1146,10 @@ bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err)
     switch(ukif.type)
     {
     case 1:
-        cmd += " -b "+ukif.user+";echo $?";
+        cmd += " -b "+ukif.user+" 2>&1;echo $?";
         break;
     case 2:
-        cmd += " -d "+ukif.user+";echo $?";
+        cmd += " -d "+ukif.user+" 2>&1;echo $?";
         break;
     }
 
@@ -1158,4 +1165,14 @@ bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err)
     err.err_str = "";
     err.errorno = "0";
     return true;
+}
+
+
+void messageBox(QString msg)
+{
+    QMessageBox box(QMessageBox::Warning,QObject::tr("警告"),msg);
+    box.setStandardButtons (QMessageBox::Ok/*|QMessageBox::Cancel*/);
+    box.setButtonText (QMessageBox::Ok,QObject::tr("确 定"));
+   // box.setButtonText (QMessageBox::Cancel,tr("取 消"));
+    box.exec();
 }

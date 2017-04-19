@@ -13,72 +13,65 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-
+    //ui->label->setHidden(true);
     QReadConfig::getInstance()->readConfigFile();
-
-    switch(get_user_role())
+    //this->setWindowFlags(Qt::FramelessWindowHint);
+	//获取当前用户角色，如果失败，捕获异常，提示错误信息
+    try
     {
-    case ROOT:
-        tabSecrityPage = new TabSecrityPage(ui->tabWidget);
-        tabSysPage = new TabSysPage(ui->tabWidget);
-        tabAuditPage = new TabAuditPage(ui->tabWidget);
-        tabCommPage = new CommTab(ui->tabWidget);
-        indexWidget = new IndexWidget(ui->tabWidget);
+        m_curRole = m_MainModel.getUserRole();
+        if(m_curRole == ERROR)
+        {
+            m_curRole = ROOT;
+        }
+        switch(m_curRole)
+        {
+        case ROOT:
+            tabSecrityPage = new TabSecrityPage(ui->tabWidget);
+            tabSysPage = new TabSysPage(ui->tabWidget);
+            tabAuditPage = new TabAuditPage(ui->tabWidget);
+            indexWidget = new IndexWidget(m_curRole,ui->tabWidget);
 
-        ui->tabWidget->addTab(indexWidget, tr("欢迎信息"));
-        ui->tabWidget->addTab(tabSecrityPage, tr("安全管理员"));
-        ui->tabWidget->addTab(tabSysPage, tr("系统管理员"));
-        ui->tabWidget->addTab(tabAuditPage, tr("审计管理员"));
-        ui->tabWidget->addTab(tabCommPage, tr("常规"));
-        break;
-    case SECADMIN:
-//        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabSysPage));
-//        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabAuditPage));
-        tabSecrityPage = new TabSecrityPage(ui->tabWidget);
-        tabCommPage = new CommTab(ui->tabWidget);
-        indexWidget = new IndexWidget(ui->tabWidget);
+            ui->tabWidget->addTab(indexWidget, tr("首页"));
+            ui->tabWidget->addTab(tabSecrityPage, tr("安全管理员"));
+            ui->tabWidget->addTab(tabSysPage, tr("系统管理员"));
+            ui->tabWidget->addTab(tabAuditPage, tr("审计管理员"));
+            break;
+        case SECADMIN:
+            tabSecrityPage = new TabSecrityPage(ui->tabWidget);
+            indexWidget = new IndexWidget(m_curRole,ui->tabWidget);
 
-        ui->tabWidget->addTab(indexWidget, tr("欢迎信息"));
-        ui->tabWidget->addTab(tabSecrityPage, tr("安全管理员"));
-        ui->tabWidget->addTab(tabCommPage, tr("常规"));
-        break;
-    case SYSADMIN:
-//        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabSecrityPage));
-//        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabAuditPage));
-        tabSysPage = new TabSysPage(ui->tabWidget);
-        tabCommPage = new CommTab(ui->tabWidget);
-        indexWidget = new IndexWidget(ui->tabWidget);
+            ui->tabWidget->addTab(indexWidget, tr("首页"));
+            ui->tabWidget->addTab(tabSecrityPage, tr("安全管理员"));
+            break;
+        case SYSADMIN:
+            tabSysPage = new TabSysPage(ui->tabWidget);
+            indexWidget = new IndexWidget(m_curRole,ui->tabWidget);
 
-        ui->tabWidget->addTab(indexWidget, tr("欢迎信息"));
-        ui->tabWidget->addTab(tabSysPage, tr("系统管理员"));
-        ui->tabWidget->addTab(tabCommPage, tr("常规"));
-        break;
-    case AUDIADMIN:
-//        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabSecrityPage));
-//        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabSysPage));
-        tabAuditPage = new TabAuditPage(ui->tabWidget);
-        tabCommPage = new CommTab(ui->tabWidget);
-        indexWidget = new IndexWidget(ui->tabWidget);
+            ui->tabWidget->addTab(indexWidget, tr("首页"));
+            ui->tabWidget->addTab(tabSysPage, tr("系统管理员"));
+            break;
+        case AUDIADMIN:
+            tabAuditPage = new TabAuditPage(ui->tabWidget);
+            indexWidget = new IndexWidget(m_curRole,ui->tabWidget);
 
-        ui->tabWidget->addTab(indexWidget, tr("欢迎信息"));
-        ui->tabWidget->addTab(tabAuditPage, tr("审计管理员"));
-       ui->tabWidget->addTab(tabCommPage, tr("常规"));
-        break;
-    case NORMALUSER:
-//        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabSecrityPage));
-//        ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabSysPage));
-        tabCommPage = new CommTab(ui->tabWidget);
-        indexWidget = new IndexWidget(ui->tabWidget);
-
-        ui->tabWidget->addTab(indexWidget, tr("欢迎信息"));
-       ui->tabWidget->addTab(tabCommPage, tr("常规"));
-        break;
-    default:
-        break;
+            ui->tabWidget->addTab(indexWidget, tr("首页"));
+            ui->tabWidget->addTab(tabAuditPage, tr("审计管理员"));
+            break;
+        case ERROR:
+            indexWidget = new IndexWidget(m_curRole,ui->tabWidget);
+            ui->tabWidget->addTab(indexWidget, tr("首页"));
+            break;
+        default:
+            break;
+        }
+        ui->tabWidget->setCurrentIndex(0);
+    }catch(Exception exp)
+    {
+        messageBox(exp.getErroWhat());
     }
-    ui->tabWidget->removeTab(ui->tabWidget->indexOf(tabCommPage));
-    ui->tabWidget->setCurrentIndex(0);
 }
+
 
 MainWindow::~MainWindow()
 {

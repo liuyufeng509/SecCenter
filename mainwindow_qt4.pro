@@ -30,7 +30,10 @@ SOURCES += main.cpp\
     AUD/ruledialog.cpp \
     AUD/configdialog.cpp \
     SYS/kernalparammanager.cpp \
-    SEC/ukeydialog.cpp
+    SEC/ukeydialog.cpp \
+    mainfunclass.cpp \
+    SYS/sysfunclass.cpp \
+    waitdialog.cpp
 
 HEADERS  += mainwindow.h \
                common.h \
@@ -49,7 +52,11 @@ HEADERS  += mainwindow.h \
     AUD/ruledialog.h \
     AUD/configdialog.h \
     SYS/kernalparammanager.h \
-    SEC/ukeydialog.h
+    SEC/ukeydialog.h \
+    mainfunclass.h \
+    datadefine.h \
+    SYS/sysfunclass.h \
+    waitdialog.h
 
 FORMS    += mainwindow.ui \
      AUD/tabauditpage.ui \
@@ -84,7 +91,7 @@ DISTFILES += \
     testQtCreator_english.qm \
     testQtCreator_english.ts \
 
-
+CONFIG += thread
 #LIBS+= -lglib-2.0 -lgtop-2.0
 
 #INCLUDEPATH += /usr/include/glib-2.0 \

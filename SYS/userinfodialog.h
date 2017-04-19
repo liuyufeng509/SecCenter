@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include"common.h"
+#include "sysfunclass.h"
 namespace Ui {
 class UserInfoDialog;
 }
@@ -24,6 +25,8 @@ private:
     Ui::UserInfoDialog *ui;
     UserInfo &userinfo;
     int m_type;
+    SysFunClass m_sysFunModel;
+    QStringList grouplist;
 };
 
 #endif // USERINFODIALOG_H

@@ -15,10 +15,10 @@ UserInfoDialog::UserInfoDialog(UserInfo &usinfo,int type,QWidget *parent) :
     ui->unameLineEdit->setText(userinfo.uname);
     type==Add? ui->unameLineEdit->setEnabled(true):ui->unameLineEdit->setEnabled(false);
     ui->grpLineEdit->setText(userinfo.group);
-    if(userinfo.othgroups.length()>0)
+    if(userinfo.ogroups.length()>0)
     {
         QString othgrps="";
-        foreach (QString grp, userinfo.othgroups) {
+        foreach (QString grp, userinfo.ogroups) {
             othgrps +=grp+",";
         }
         othgrps = othgrps.left(othgrps.length()-1);
@@ -47,42 +47,52 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
         UserInfo usrTmp;
         usrTmp.uname = ui->unameLineEdit->text();
         usrTmp.group = ui->grpLineEdit->text();
-        usrTmp.othgroups = ui->grpsLineEdit->text().trimmed().split(',');
+        usrTmp.ogroups = ui->grpsLineEdit->text().trimmed().split(',');
         usrTmp.uid = ui->uidLineEdit->text();
-        for(int i=0; i<usrTmp.othgroups.length(); i++)
+        for(int i=0; i<usrTmp.ogroups.length(); i++)
         {
-            if(usrTmp.othgroups[i].length()==0)
-                usrTmp.othgroups.removeAt(i);
+            if(usrTmp.ogroups[i].length()==0)
+                usrTmp.ogroups.removeAt(i);
         }
-
-        if(!is_group_exist(usrTmp.group) && usrTmp.group!=usrTmp.uname)
+        //判断用户组是否存在， 需要捕获异常。
+        try
         {
-            QMessageBox::information(this, tr("提示"), tr("用户组:")+ usrTmp.group+tr("不存在!"));
-            return;
-        }
-
-        if(usrTmp.othgroups.length()>0)
-        {
-            foreach (QString grp, usrTmp.othgroups) {
-                if(!is_group_exist(grp))
-                {
-                    QMessageBox::information(this, tr("提示"), tr("用户组:")+ grp+tr("不存在!"));
-                    return;
+            if(!m_sysFunModel.isGroupExist(usrTmp.group) && usrTmp.group!=usrTmp.uname)
+            {
+                QMessageBox::information(this, tr("提示"), tr("用户组:")+ usrTmp.group+tr("不存在!"));
+                return;
+            }
+            if(usrTmp.ogroups.length()>0)
+            {
+                foreach (QString grp, usrTmp.ogroups) {
+                    if(!m_sysFunModel.isGroupExist(grp))
+                    {
+                        QMessageBox::information(this, tr("提示"), tr("用户组:")+ grp+tr("不存在!"));
+                        return;
+                    }
                 }
             }
-        }
-
-        QString res = m_type==Add?add_user(usrTmp):change_groups(usrTmp);
-        if(res=="")
+        }catch(Exception exp)
         {
-            QMessageBox::information(this, tr("提示"), tr("用户") +( m_type==Add? tr("添加"):tr("修改"))+tr("成功"));
-            usrTmp.uid = get_usr_id_by_name(usrTmp.uname);
-            userinfo = usrTmp;
+            messageBox(exp.getErroWhat());
+            return;
+        }
+        //开始添加或者编辑用户
+        try
+        {
+            if(m_type==Add)
+            {
+                m_sysFunModel.addUser(usrTmp);
+                messageBox(tr("添加用户成功"));
+            }else
+            {
+                m_sysFunModel.modifyUser(usrTmp);
+                messageBox(tr("修改用户成功"));
+            }
             QDialog::accept();
-        }
-        else
-        {
-            QMessageBox::information(this, tr("提示"),  tr("用户") +( m_type==Add? tr("添加"):tr("修改"))+tr("失败"));
+        }catch(Exception exp)
+         {
+            messageBox(exp.getErroWhat());
         }
     }else
     {

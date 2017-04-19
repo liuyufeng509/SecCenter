@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
+    QApplication::setStyle("fusion");
 //    QTranslator qtTranslator;
 //   if(qtTranslator.load("testQtCreator_english.qm"))
 //   {
@@ -28,8 +28,6 @@ int main(int argc, char *argv[])
       a.setStyleSheet(styleSheet);
       qss->close();
       qss->deleteLater();
-
-
       MainWindow w;
       w.show();
 

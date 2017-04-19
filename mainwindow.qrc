@@ -2,5 +2,6 @@
     <qresource prefix="/new/index">
         <file>image/index.jpg</file>
         <file>image/index.png</file>
+        <file alias="loading.gif">image/loading.gif</file>
     </qresource>
 </RCC>

@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
       a.setStyleSheet(styleSheet);
       qss->close();
       qss->deleteLater();
+//      WaitDialog w;
+//      w.exec();
       MainWindow w;
       w.show();
 

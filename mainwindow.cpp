@@ -8,7 +8,7 @@
 #include"qreadconfig.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent ),
     ui(new Ui::MainWindow)
 {
 

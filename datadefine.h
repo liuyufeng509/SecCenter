@@ -55,4 +55,26 @@ enum UserOpt
 };
 
 //服务信息
+enum SevCfgStatus       //开机启动的状态
+{
+    ENABLE=1,
+    DISABLE,
+    STATIC
+};
+enum RUNSTATE       //运行状态
+{
+    RUNNING=1,
+    EXIT,
+    DEAD,
+    OTHER
+};
+
+struct ServiceInfo      //服务信息结构体
+{
+    QString sName;
+    SevCfgStatus cfgStatus;
+    RUNSTATE runStat;
+};
+typedef QList<ServiceInfo>   SEVLIST;//服务列表类型
+
 #endif

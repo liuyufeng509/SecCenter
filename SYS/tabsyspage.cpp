@@ -13,7 +13,7 @@ TabSysPage::TabSysPage(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
-    connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(init_data_of_page(int)));
+    connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(listRowChangedSlot(int)));
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     QHeaderView* headerView = ui->tableWidget->verticalHeader();
     headerView->setHidden(true);
@@ -78,8 +78,12 @@ TabSysPage::TabSysPage(QWidget *parent) :
     //设置开机启动
     connect(this, SIGNAL(emitSetUpDownWhenBoot(QString, int)), &m_sysFunModel, SLOT(setUpDownWhenBootSlot(QString,int)));
     connect(&m_sysFunModel, SIGNAL(emitSetUpDownWhenBootDone(int,Exception)), this, SLOT(setUpDownWhenBootSlot(int ,Exception)));
+    //开启或关闭服务
+    connect(this, SIGNAL(emitStartOrStopService(QString, int)), &m_sysFunModel, SLOT(startOrStopServiceSlot(QString,int)));
+    connect(&m_sysFunModel, SIGNAL(emitStartOrStopServiceDone(int,Exception)), this, SLOT(startOrStopServiceSlot(int ,Exception)));
+
     thread->start();
-    waitD = new WaitDialog(this);
+   // waitD = new WaitDialog(this);
 }
 
 void TabSysPage::getServicesSlot(int res, Exception exp, SEVLIST svs)     //获取用户列表线程结束，处理结果
@@ -127,16 +131,52 @@ void TabSysPage::setUpDownWhenBootSlot(int res, Exception exp)
     UpdateToSvrUI();
 }
 
-void TabSysPage::init_data_of_page(int page)
+void TabSysPage::startOrStopServiceSlot(int res, Exception exp)
+{
+    waitD->accept();
+    int row = ui->svrTableWidget->currentRow();
+    if(row<0)
+    {
+        QMessageBox::information(this, tr("提示"), tr("请选择要操作的服务!"));
+        return;
+    }
+    if(res==0)
+    {
+        if(svrCtrlAction->text()==tr("关闭运行"))
+        {
+               QMessageBox::information(this,  tr("提示"), tr("设置成功"));
+               sevrs[row].runStat = DEAD;
+               UpdateToSvrUI();
+        }else
+        {
+                //sevrs[row].runStat = is_serv_running(sevrs[row].sName);
+                //更新整个列表
+                emit emitGetServsSignal(sevrs);
+                 waitDiaogAppear();
+        }
+    }else
+     {
+        messageBox(exp.getErroWhat());
+    }
+}
+
+void TabSysPage::listRowChangedSlot(int page)
 {
     if(page == 1)       //servies
     {
         if(is_first)
         {
             emit emitGetServsSignal(sevrs);
-            waitD->exec();
+             waitDiaogAppear();
        }
     }
+}
+
+void TabSysPage::waitDiaogAppear()
+{
+    waitD = new WaitDialog(this);
+    waitD->exec();
+    waitD->deleteLater();
 }
 
 void TabSysPage::set_up_down_when_start()
@@ -155,7 +195,7 @@ void TabSysPage::set_up_down_when_start()
     {
         emit emitSetUpDownWhenBoot(sevrs[row].sName, 1);
     }
-    waitD->exec();
+    waitDiaogAppear();
 }
 
 void TabSysPage::start_stop_service()
@@ -167,26 +207,14 @@ void TabSysPage::start_stop_service()
         return;
     }
 
-    //qDebug()<<svrCtrlAction->text();
     if(svrCtrlAction->text()==tr("关闭运行"))
     {
-       if( stop_service(sevrs[row].sName.left(sevrs[row].sName.indexOf('.'))))
-       {
-           QMessageBox::information(this,  tr("提示"), tr("设置成功"));
-           sevrs[row].runStat = DEAD;
-       }else
-           QMessageBox::information(this,  tr("提示"), tr("设置失败"));
+        emit emitStartOrStopService(sevrs[row].sName.left(sevrs[row].sName.indexOf('.')),1);
     }else
     {
-        if(start_service(sevrs[row].sName.left(sevrs[row].sName.indexOf('.'))))
-        {
-            QMessageBox::information(this,  tr("提示"), tr("设置成功"));
-            sevrs[row].runStat = is_serv_running(sevrs[row].sName);
-        }else
-            QMessageBox::information(this,  tr("提示"), tr("设置失败"));
+        emit emitStartOrStopService(sevrs[row].sName.left(sevrs[row].sName.indexOf('.')),0);
     }
-
-    UpdateToSvrUI();
+     waitDiaogAppear();
 }
 
 

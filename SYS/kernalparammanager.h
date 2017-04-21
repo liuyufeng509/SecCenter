@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "common.h"
+#include "sysfunclass.h"
 namespace Ui {
 class KernalParamManager;
 }
@@ -20,6 +21,7 @@ private slots:
 
 private:
     Ui::KernalParamManager *ui;
+    SysFunClass m_sysFunModel;
 };
 
 #endif // KERNALPARAMMANAGER_H

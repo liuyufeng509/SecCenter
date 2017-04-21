@@ -1170,7 +1170,7 @@ bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err)
 
 void messageBox(QString msg)
 {
-    QMessageBox box(QMessageBox::Warning,QObject::tr("警告"),msg);
+    QMessageBox box(QMessageBox::Critical,QObject::tr("警告"),msg);
     box.setStandardButtons (QMessageBox::Ok/*|QMessageBox::Cancel*/);
     box.setButtonText (QMessageBox::Ok,QObject::tr("确 定"));
    // box.setButtonText (QMessageBox::Cancel,tr("取 消"));

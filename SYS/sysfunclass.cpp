@@ -1,5 +1,5 @@
 #include "sysfunclass.h"
-
+#include <QThread>
 SysFunClass::SysFunClass(QObject *parent) : QObject(parent)
 {
 
@@ -328,4 +328,50 @@ void SysFunClass::setUpDownWhenBootSlot(QString svName, int opt)
             {
         emit emitSetUpDownWhenBootDone(1, exp);
     }
+}
+
+bool SysFunClass::startOrStopService(QString svName, int opt)      //开启或关闭服务
+{
+    QString cmd = "service " ;
+    if(opt==1)
+        cmd += svName + " stop 2>&1; echo $?";
+    else
+        cmd += svName + " start 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：开启或关闭服务失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    return true;
+}
+
+void SysFunClass::startOrStopServiceSlot(QString svName, int opt)
+{
+    try
+    {
+        startOrStopService(svName, opt);
+        emit emitStartOrStopServiceDone(0, Exception("",""));
+    }catch(Exception exp)
+            {
+        emit emitStartOrStopServiceDone(1, exp);
+    }
+}
+
+bool SysFunClass::setKernelParam(QString paramName, QString value)
+{
+    QString cmd = "echo "+value+" >"+paramName+" 2>&1 ;echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent =tr("执行操作：设置系统内核参数失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    return true;
 }

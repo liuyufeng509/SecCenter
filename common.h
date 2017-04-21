@@ -54,28 +54,6 @@ struct FileAttr
     QString     umask;
 };
 
-enum SevCfgStatus
-{
-    ENABLE=1,
-    DISABLE,
-    STATIC
-};
-
-enum RUNSTATE
-{
-    RUNNING=1,
-    EXIT,
-    DEAD,
-    OTHER
-};
-
-struct ServiceInfo
-{
-    QString sName;
-    SevCfgStatus cfgStatus;
-    RUNSTATE runStat;
-};
- typedef QList<ServiceInfo>   SEVLIST;
 struct CPUGrap
 {
     QProgressBar *progressBar;

@@ -24,6 +24,7 @@ public:
     void UpdateToUsersUI();     //更新用户管理列表的界面
     void UpdateToSvrUI();
 
+    void waitDiaogAppear();
 public slots:
     void on_tableWidget_customContextMenuRequested(QPoint pos);             //用户管理右键菜单
     void on_svrTableWidget_customContextMenuRequested(QPoint pos);
@@ -38,11 +39,13 @@ public slots:
 signals:
     void emitGetServsSignal(SEVLIST servs);
     void emitSetUpDownWhenBoot(QString svName, int opt);
+    void emitStartOrStopService(QString svName, int opt);
 private slots:
 
-   void init_data_of_page(int page);
+   void listRowChangedSlot(int page);
    void getServicesSlot(int res, Exception exp, SEVLIST svs);      //获取用户列表线程结束，处理结果
    void setUpDownWhenBootSlot(int res, Exception exp);
+   void startOrStopServiceSlot(int res, Exception exp);
 private:
     Ui::TabSysPage *ui;
     SysFunClass m_sysFunModel;  //处理系统管理的后台业务逻辑

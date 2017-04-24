@@ -12,9 +12,9 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(init_data_of_page(int)));
     ui->listWidget->setCurrentRow(0);
 
-    on_getlockusrsButton_clicked();
-
-    get_services();
+  //  on_getlockusrsButton_clicked();
+    ui->locked_usr_comboBox->addItem(tr("无"));
+    getLockServices();
 
     ui->comboBox->addItems(services);
 
@@ -36,19 +36,20 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     display_cur_pwd_info();
 
     //security status
-    if(!get_sec_status(secStatus))
-    {
-        secStatus.clear();
-    }else
-    {
-        UpdateToSecStatus();
-    }
 
-    if(secStatus.curr_mode == tr("enforcing"))
-        ui->open_closeButton->setText(tr("关闭安全策略"));
-    else
-        ui->open_closeButton->setText(tr("开启安全策略"));
+//    if(!get_sec_status(secStatus))
+//    {
+//        secStatus.clear();
+//    }else
+//    {
+//        UpdateToSecStatus();
+//    }
 
+//    if(secStatus.curr_mode == tr("enforcing"))
+//        ui->open_closeButton->setText(tr("关闭安全策略"));
+//    else
+//        ui->open_closeButton->setText(tr("开启安全策略"));
+    UpdateToSecStatus();
 
     //user security tag
     get_user_taginfos(user_list);
@@ -130,16 +131,19 @@ void TabSecrityPage::init_sak_ui()
 
 void TabSecrityPage::display_cur_pwd_info()
 {
-    if(get_cur_pwd_info(pwdInfo))
+    try
     {
+        m_secFunModel.getCurPwdInfo(pwdInfo);
         QString text = QString(tr("最小长度:"))+(pwdInfo.minLen.isEmpty()?tr("无限制"):pwdInfo.minLen)+" 数字个数:"+
                 (pwdInfo.dcredit.isEmpty()?tr("无限制"):pwdInfo.dcredit)+" 小写字母:"+
                 (pwdInfo.lcredit.isEmpty()?tr("无限制"):pwdInfo.lcredit)+" 大写字母:"+
                 (pwdInfo.ucredit.isEmpty()?tr("无限制"):pwdInfo.ucredit)+" 其他字符:"+
                 (pwdInfo.ocredit.isEmpty()?tr("无限制"):pwdInfo.ocredit);
         ui->cur_pwd_label->setText(tr("当前规则：")+text);
-    }else
-        ui->cur_pwd_label->setText(tr("当前规则：")+tr("获取当前密码规则失败"));
+    }catch(Exception exp)
+    {
+        ui->cur_pwd_label->setText(tr("当前规则：")+exp.getErroWhat());
+    }
 }
 
 void TabSecrityPage::InitRuleTab()
@@ -235,6 +239,20 @@ void TabSecrityPage::init_data_of_page(int page)
 
 void TabSecrityPage::UpdateToSecStatus()
 {
+    try
+    {
+        m_secFunModel.getSecStatus(secStatus);
+    }catch(Exception exp)
+            {
+        secStatus.clear();
+        messageBox(exp.getErroWhat());
+    }
+
+    if(secStatus.curr_mode == tr("enforcing"))
+        ui->open_closeButton->setText(tr("关闭安全策略"));
+    else if(secStatus.curr_mode == tr("permissive"))
+        ui->open_closeButton->setText(tr("开启安全策略"));
+
     ui->seStalabel->setText(secStatus.selinux_status);
     ui->fsMountlabel->setText(secStatus.selinux_fs_mount);
     ui->rootDirlabel->setText(secStatus.selinux_root_dir);
@@ -247,14 +265,18 @@ void TabSecrityPage::UpdateToSecStatus()
 }
 
 
-void TabSecrityPage::get_services()
+void TabSecrityPage::getLockServices()
 {
     //enhanced-trylock  -l
-    if(!get_trylock_services(services))
+    try
     {
+        m_secFunModel.getLockServices(services);
+    }catch(Exception exp)
+            {
+        exp.getErroWhat();
+        services.clear();
         services<<"login"<<"gdm"<<"ssh";
     }
-
 }
 
 TabSecrityPage::~TabSecrityPage()
@@ -262,17 +284,6 @@ TabSecrityPage::~TabSecrityPage()
     delete ui;
 }
 
-void TabSecrityPage::on_setusButton_clicked()
-{
-    QString cmd = "nfs-enhanced-trylock -d "+ui->tmsLineEdit->text() + " -u "
-            + ui->secLineEdit->text()+ " -s " + ui->comboBox->currentText() + "; echo $?";
-
-    if(trylock_service(cmd))
-    {
-        QMessageBox::information(this, tr("提示"), tr("操作成功"));
-    }else
-        QMessageBox::warning(this, tr("提示"), tr("操作失败"));
-}
 
 void TabSecrityPage::on_unlockButton_clicked()
 {
@@ -325,53 +336,7 @@ void TabSecrityPage::on_open_closeButton_clicked()
         open_close_sec_policy(true);
         ui->open_closeButton->setText(tr("关闭安全策略"));
     }
-    on_fresh_staButton_clicked();
-}
-
-
-void TabSecrityPage::on_fresh_staButton_clicked()
-{
-    if(!get_sec_status(secStatus))
-    {
-        secStatus.clear();
-    }else
-    {
-        UpdateToSecStatus();
-    }
-}
-
-void TabSecrityPage::on_freshButton_clicked()
-{
-    if(get_user_taginfos(user_list))
-    {
-        bool flag = false;
-        int index = 0;
-        for(int i=0; i<user_list.length();i++)
-        {
-            if(user_list[i].username == ui->users_comboBox->currentText())
-            {
-                flag = true;
-                index = i;
-                break;
-            }
-        }
-        if(!flag)
-        {
-            QMessageBox::information(this, tr("提示"), tr("用户不存在!"));
-        }else
-        {
-            for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
-            {
-                if(ui->u_sec_tagcomboBox->itemText(i)==user_list[index].safeTag)
-                    ui->u_sec_tagcomboBox->setCurrentIndex(i);
-            }
-            for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
-            {
-                if(ui->u_whole_tagcomboBox->itemText(i)==user_list[index].wholeTag)
-                    ui->u_whole_tagcomboBox->setCurrentIndex(i);
-            }
-        }
-    }
+    UpdateToSecStatus();
 }
 
 void TabSecrityPage::on_setButton_clicked()
@@ -562,18 +527,24 @@ void TabSecrityPage::on_findButton2_clicked()
 
 void TabSecrityPage::on_getlockusrsButton_clicked()
 {
-    int erron=0;
-    get_all_locked_users(users, erron);
-    ui->locked_usr_comboBox->clear();
-    if(users.isEmpty())
-        ui->locked_usr_comboBox->addItem(tr("无"));
-    else
+    try
     {
-        for(int i=0; i<users.size();i++)
+        m_secFunModel.getLockedUsers(users);
+        ui->locked_usr_comboBox->clear();
+        if(users.isEmpty())
+            ui->locked_usr_comboBox->addItem(tr("无"));
+        else
         {
-            ui->locked_usr_comboBox->addItem(users[i]);
+            for(int i=0; i<users.size();i++)
+            {
+                ui->locked_usr_comboBox->addItem(users[i]);
+            }
         }
+    }catch(Exception exp)
+            {
+        messageBox(exp.getErroWhat());
     }
+
 
 }
 
@@ -638,4 +609,61 @@ void TabSecrityPage::on_ukey_userButton_clicked()
 {
     UkeyDialog ukdialog(UkeyDialog::BUND_User, this);
     ukdialog.exec();
+}
+
+void TabSecrityPage::on_setTryLockButton_clicked()
+{
+    QString cmd = "nfs-enhanced-trylock -d "+ui->tmsLineEdit->text() + " -u "
+            + ui->secLineEdit->text()+ " -s " + ui->comboBox->currentText() + "; echo $?";
+    TryLockInfo info;
+    info.dParam =ui->tmsLineEdit->text();
+    info.uParam = ui->secLineEdit->text();
+    info.sParam = ui->comboBox->currentText();
+    try
+    {
+        m_secFunModel.tryLockOption(info);
+        QMessageBox::information(this, tr("提示"), tr("用户锁定规则设置成功"));
+    }catch(Exception exp)
+    {
+        messageBox(exp.getErroWhat());
+    }
+}
+
+void TabSecrityPage::on_freshSafeStatusButton_clicked()
+{
+    UpdateToSecStatus();
+}
+
+void TabSecrityPage::on_freshUserSafeTagButton_clicked()
+{
+    if(get_user_taginfos(user_list))
+    {
+        bool flag = false;
+        int index = 0;
+        for(int i=0; i<user_list.length();i++)
+        {
+            if(user_list[i].username == ui->users_comboBox->currentText())
+            {
+                flag = true;
+                index = i;
+                break;
+            }
+        }
+        if(!flag)
+        {
+            QMessageBox::information(this, tr("提示"), tr("用户不存在!"));
+        }else
+        {
+            for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
+            {
+                if(ui->u_sec_tagcomboBox->itemText(i)==user_list[index].safeTag)
+                    ui->u_sec_tagcomboBox->setCurrentIndex(i);
+            }
+            for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
+            {
+                if(ui->u_whole_tagcomboBox->itemText(i)==user_list[index].wholeTag)
+                    ui->u_whole_tagcomboBox->setCurrentIndex(i);
+            }
+        }
+    }
 }

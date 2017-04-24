@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include"common.h"
-
+#include "secfunclass.h"
 namespace Ui {
 class TabSecrityPage;
 }
@@ -17,7 +17,7 @@ class TabSecrityPage : public QWidget
 public:
     explicit TabSecrityPage(QWidget *parent = 0);
     ~TabSecrityPage();
-    void get_services();
+    void getLockServices();
     void UpdateToSecStatus();
 
     void UpdateRuletabel(QList<TERule> &rules);
@@ -30,17 +30,12 @@ public:
 
     void init_sak_ui();
 private slots:
-    void on_setusButton_clicked();
-    
+
     void on_unlockButton_clicked();
 
     void on_open_closeButton_clicked();
 
     void on_setPwButton_clicked();
-
-    void on_fresh_staButton_clicked();
-
-    void on_freshButton_clicked();
     void on_setButton_clicked();
 
     void on_f_freshButton_clicked();
@@ -69,8 +64,17 @@ private slots:
 
     void on_ukey_userButton_clicked();
 
+    void on_setTryLockButton_clicked();
+
+    void on_freshSafeStatusButton_clicked();
+
+    void on_freshUserSafeTagButton_clicked();
+
 private:
     Ui::TabSecrityPage *ui;
+
+    SecFunClass m_secFunModel;
+
     QStringList  users;
     PwdInfo pwdInfo;
 

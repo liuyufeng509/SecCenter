@@ -339,7 +339,7 @@ RUNSTATE is_serv_running(QString svName)
 
 bool get_services(QList<ServiceInfo> &sevrs)
 {
-//    sevrs.clear();
+    sevrs.clear();
 //    QString cmd = "systemctl list-unit-files --type=service 2>&1; echo $?";
 //    QString resStr = GetCmdRes(cmd).trimmed();
 
@@ -1092,7 +1092,7 @@ bool set_file_rule(FileAudRule fileRule)
 
 bool get_cur_pwd_info(PwdInfo &pwd)
 {
-    QString cmd = "cat /etc/pam.d/system-auth-ac | grep \"^password.*pam_pwquality.so\"";
+    QString cmd = "grep \"^password.*pam_pwquality.so\"  /etc/pam.d/system-auth-ac 2>&1; echo $?";
     QString res = GetCmdRes(cmd).simplified();
     if(!res.contains("pam_pwquality.so"))
     {

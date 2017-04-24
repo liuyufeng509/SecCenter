@@ -77,4 +77,48 @@ struct ServiceInfo      //服务信息结构体
 };
 typedef QList<ServiceInfo>   SEVLIST;//服务列表类型
 
+/*******************************************************
+ * 安全管理界面逻辑处理所需类型定义
+ * ****************************************************/
+struct TryLockInfo      //锁定规则信息
+{
+    QString dParam;
+    QString uParam;
+    QString sParam;
+};
+
+struct PwdInfo      //密码规则信息
+{
+    QString minLen;
+    QString dcredit;
+    QString ucredit;
+    QString lcredit;
+    QString ocredit;
+};
+
+struct SecStatus                    //安全状态信息
+{
+    QString selinux_status;
+    QString selinux_fs_mount;
+    QString selinux_root_dir;
+    QString load_policy_name;
+    QString curr_mode;
+    QString mode_frm_cfg;
+    QString mls_status;
+    QString policy_deny_stat;
+    QString max_kern_policy_version;
+    void clear()
+    {
+        selinux_status="";
+        selinux_fs_mount="";
+        selinux_root_dir="";
+        load_policy_name="";
+        curr_mode=QObject::tr("未知");
+        mode_frm_cfg="";
+        mls_status="";
+        policy_deny_stat="";
+        max_kern_policy_version="";
+    }
+};
+
 #endif

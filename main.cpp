@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QApplication::setStyle("fusion");
+    //QApplication::setStyle("fusion");
 //    QTranslator qtTranslator;
 //   if(qtTranslator.load("testQtCreator_english.qm"))
 //   {
@@ -30,7 +30,9 @@ int main(int argc, char *argv[])
       qss->deleteLater();
 //      WaitDialog w;
 //      w.exec();
+
       MainWindow w;
+      //w.setFont(QFont());
       w.show();
 
     return a.exec();

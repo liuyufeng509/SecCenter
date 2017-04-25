@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     mainfunclass.cpp \
     SYS/sysfunclass.cpp \
     waitdialog.cpp \
-    SEC/secfunclass.cpp
+    SEC/secfunclass.cpp \
+    mytitlebar.cpp
 
 HEADERS  += mainwindow.h \
                common.h \
@@ -58,7 +59,8 @@ HEADERS  += mainwindow.h \
     datadefine.h \
     SYS/sysfunclass.h \
     waitdialog.h \
-    SEC/secfunclass.h
+    SEC/secfunclass.h \
+    mytitlebar.h
 
 FORMS    += mainwindow.ui \
      AUD/tabauditpage.ui \

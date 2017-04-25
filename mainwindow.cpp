@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<QString>
 #include<QStringList>
+#include<QDesktopWidget>
 #include"commtab.h"
 #include"qreadconfig.h"
 
@@ -13,9 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    initTitleBar();
     //ui->label->setHidden(true);
     QReadConfig::getInstance()->readConfigFile();
-    //this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::FramelessWindowHint);
 	//获取当前用户角色，如果失败，捕获异常，提示错误信息
     try
     {
@@ -70,8 +72,82 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         errMsgBox(exp.getErroWhat());
     }
+
+    connect(ui->tabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+
 }
 
+void MainWindow::tabChanged(int index)
+{
+    if(index == 0)
+        ui->label->setVisible(true);
+    else
+        ui->label->setVisible(false);
+}
+
+void MainWindow::initTitleBar()
+{
+    m_titleBar = new MyTitleBar(this);
+    m_titleBar->move(0, 0);
+    m_titleBar->setTitleIcon("/root/Program/testMainwindow/image/index.png");
+    m_titleBar->setButtonType(MIN_MAX_BUTTON);
+    connect(m_titleBar, SIGNAL(signalButtonMinClicked()), this, SLOT(onButtonMinClicked()));
+    connect(m_titleBar, SIGNAL(signalButtonRestoreClicked()), this, SLOT(onButtonRestoreClicked()));
+    connect(m_titleBar, SIGNAL(signalButtonMaxClicked()), this, SLOT(onButtonMaxClicked()));
+    connect(m_titleBar, SIGNAL(signalButtonCloseClicked()), this, SLOT(onButtonCloseClicked()));
+
+}
+
+void MainWindow::paintEvent(QPaintEvent* event)
+{
+    //设置背景色;
+//    QPainter painter(this);
+//    QPainterPath pathBack;
+//    pathBack.setFillRule(Qt::WindingFill);
+//    pathBack.addRoundedRect(QRect(0, 0, this->width(), this->height()), 3, 3);
+//    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+//    painter.fillPath(pathBack, QBrush(QColor(238, 223, 204)));
+
+    return QWidget::paintEvent(event);
+}
+
+void MainWindow::loadStyleSheet(const QString &sheetName)
+{
+//    QFile file(":/Resources/" + sheetName + ".css");
+//    file.open(QFile::ReadOnly);
+//    if (file.isOpen())
+//    {
+//        QString styleSheet = this->styleSheet();
+//        styleSheet += QLatin1String(file.readAll());
+//        this->setStyleSheet(styleSheet);
+//    }
+}
+
+void MainWindow::onButtonMinClicked()
+{
+    showMinimized();
+}
+
+void MainWindow::onButtonRestoreClicked()
+{
+    QPoint windowPos;
+    QSize windowSize;
+    m_titleBar->getRestoreInfo(windowPos, windowSize);
+    this->setGeometry(QRect(windowPos, windowSize));
+}
+
+void MainWindow::onButtonMaxClicked()
+{
+    m_titleBar->saveRestoreInfo(this->pos(), QSize(this->width(), this->height()));
+    QRect desktopRect = QApplication::desktop()->availableGeometry();
+    QRect FactRect = QRect(desktopRect.x() - 3, desktopRect.y() - 3, desktopRect.width() + 6, desktopRect.height() + 6);
+    setGeometry(FactRect);
+}
+
+void MainWindow::onButtonCloseClicked()
+{
+    close();
+}
 
 MainWindow::~MainWindow()
 {

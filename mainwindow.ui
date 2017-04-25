@@ -18,15 +18,18 @@
     <normaloff>:/new/index/image/index.jpg</normaloff>:/new/index/image/index.jpg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0">
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>-1</number>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QWidget" name="widget" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>20</height>
+       </size>
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
+    <item>
      <widget class="QLabel" name="label">
       <property name="enabled">
        <bool>true</bool>
@@ -51,6 +54,13 @@
       </property>
       <property name="scaledContents">
        <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>-1</number>
       </property>
      </widget>
     </item>

@@ -9,6 +9,8 @@
 #include"common.h"
 #include "indexwidget.h"
 #include"mainfunclass.h"
+#include "mytitlebar.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -22,7 +24,19 @@ public:
     ~MainWindow();
 protected:
 
+private:
+    void initTitleBar();
+    void paintEvent(QPaintEvent *event);
+    void loadStyleSheet(const QString &sheetName);
+private slots:
+    void onButtonMinClicked();
+    void onButtonRestoreClicked();
+    void onButtonMaxClicked();
+    void onButtonCloseClicked();
 
+    void tabChanged(int index);
+protected:
+    MyTitleBar* m_titleBar;
 
 private:
     Ui::MainWindow *ui;

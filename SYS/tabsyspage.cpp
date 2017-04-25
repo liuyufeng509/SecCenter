@@ -104,7 +104,7 @@ void TabSysPage::getServicesSlot(int res, Exception exp, SEVLIST svs)     //获�
         is_first = false;
     }else
         {
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
         is_first = true;
     }
 }
@@ -114,7 +114,7 @@ void TabSysPage::setUpDownWhenBootSlot(int res, Exception exp)
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
-        QMessageBox::information(this, tr("提示"), tr("请选择要操作的服务!"));
+        errMsgBox(tr("请选择要操作的服务!"));
         return;
     }
     if(res == 0)
@@ -123,10 +123,10 @@ void TabSysPage::setUpDownWhenBootSlot(int res, Exception exp)
             sevrs[row].cfgStatus = ENABLE;
         else
             sevrs[row].cfgStatus = DISABLE;
-       QMessageBox::information(this,  tr("提示"), tr("设置成功"));
+       infoMsgBox(tr("设置成功"));
     }else
         {
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
     UpdateToSvrUI();
 }
@@ -137,14 +137,14 @@ void TabSysPage::startOrStopServiceSlot(int res, Exception exp)
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
-        QMessageBox::information(this, tr("提示"), tr("请选择要操作的服务!"));
+        errMsgBox(tr("请选择要操作的服务!"));
         return;
     }
     if(res==0)
     {
         if(svrCtrlAction->text()==tr("关闭运行"))
         {
-               QMessageBox::information(this,  tr("提示"), tr("设置成功"));
+               infoMsgBox(tr("设置成功"));
                sevrs[row].runStat = DEAD;
                UpdateToSvrUI();
         }else
@@ -156,7 +156,7 @@ void TabSysPage::startOrStopServiceSlot(int res, Exception exp)
         }
     }else
      {
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
 }
 
@@ -184,7 +184,7 @@ void TabSysPage::set_up_down_when_start()
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
-        QMessageBox::information(this, tr("提示"), tr("请选择要操作的服务!"));
+        errMsgBox(tr("请选择要操作的服务!"));
         return;
     }
 
@@ -203,7 +203,7 @@ void TabSysPage::start_stop_service()
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
-        QMessageBox::information(this, tr("提示"), tr("请选择要操作的服务!"));
+        errMsgBox(tr("请选择要操作的服务!"));
         return;
     }
 
@@ -290,7 +290,7 @@ void TabSysPage::UpdateToUsersUI()
         }
     }catch(Exception exp)
             {
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
 }
 
@@ -365,7 +365,7 @@ void TabSysPage::edit_user_action()
     int row = ui->tableWidget->currentRow();
     if(row<0)
     {
-        QMessageBox::information(this, tr("提示"), tr("请选中要编辑的行"));
+        errMsgBox(tr("请选中要编辑的行"));
         return;
     }
     UserInfoDialog usrdialog(users[row], Edt);
@@ -380,7 +380,7 @@ void TabSysPage::del_user_action()
     int row = ui->tableWidget->currentRow();
     if(row<0)
     {
-        QMessageBox::information(this, tr("提示"), tr("请选中要删除的行"));
+        errMsgBox( tr("请选中要删除的行"));
         return;
     }
     try
@@ -389,7 +389,7 @@ void TabSysPage::del_user_action()
         UpdateToUsersUI();
     }catch(Exception exp)
             {
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
 }
 

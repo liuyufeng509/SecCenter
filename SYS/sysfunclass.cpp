@@ -254,7 +254,7 @@ bool SysFunClass::getServices(QList<ServiceInfo> &sevrs)
     {
         QString errContent =tr("执行操作：获取服务列表失败")+ tr("\n错误内容：解析结果失败");
         qDebug()<<errContent;
-        throw Exception(strl.last(), errContent);
+        throw Exception("", errContent);
     }
     strl.pop_front();
     strl.pop_back();

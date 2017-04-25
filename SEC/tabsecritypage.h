@@ -4,6 +4,8 @@
 #include <QWidget>
 #include"common.h"
 #include "secfunclass.h"
+#include "waitdialog.h"
+#include <QThread>
 namespace Ui {
 class TabSecrityPage;
 }
@@ -29,6 +31,8 @@ public:
     void display_cur_pwd_info();
 
     void init_sak_ui();
+
+    void waitDiaogAppear();
 private slots:
 
     void on_unlockButton_clicked();
@@ -36,15 +40,13 @@ private slots:
     void on_open_closeButton_clicked();
 
     void on_setPwButton_clicked();
-    void on_setButton_clicked();
 
-    void on_f_freshButton_clicked();
+    void on_freshFileTagButton_clicked();
 
     void on_browserButton_clicked();
+    void on_setFileTagButton_clicked();
 
-    void on_f_setButton_clicked();
-
-    void init_data_of_page(int page);
+    void listItemChangedSlot(int page);
 
     void on_findButton_clicked();
 
@@ -70,6 +72,13 @@ private slots:
 
     void on_freshUserSafeTagButton_clicked();
 
+    void on_setUserTagButton_clicked();
+
+    //多线程结果处理
+    void setUserTagInfoSlot(int res, Exception exp);
+
+signals:
+    void emitSetUserTagInfo(UserTag, int);
 private:
     Ui::TabSecrityPage *ui;
 
@@ -81,7 +90,7 @@ private:
     QStringList services;
     SecStatus secStatus;
 
-    QList<UserTag> user_list;
+    QList<UserTag> userTagList;
 
     QString filePath;
     bool isDir;
@@ -101,6 +110,8 @@ private:
     //open/close manager
     SakInfo sakinfo;
 
+    WaitDialog *waitD;
+    QThread *thread;
 };
 
 #endif // TABSECRITYPAGE_H

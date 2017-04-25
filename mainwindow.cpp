@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->tabWidget->setCurrentIndex(0);
     }catch(Exception exp)
     {
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
 }
 

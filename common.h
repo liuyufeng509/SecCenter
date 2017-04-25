@@ -309,5 +309,7 @@ struct ErrorInfo
 bool modify_pin_of_ukey(UkeyInfo ukif, ErrorInfo &err);
 bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err);
 
-void messageBox(QString str);
+void errMsgBox(QString str);
+void infoMsgBox(QString str);
+
 #endif // COMMON_H

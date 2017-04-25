@@ -20,9 +20,9 @@ void KernParmMngWidget::on_pushButton_clicked()
     try
     {
         m_sysFunModel.setKernelParam(ui->param_comboBox->currentText(), ui->lineEdit->text());
-        QMessageBox::information(this, tr("提示"), tr("设置成功"));
+        infoMsgBox(tr("设置成功"));
     }catch(Exception exp)
             {
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
 }

@@ -20,10 +20,24 @@ public:
     //安全状态查看功能
     bool getSecStatus(SecStatus &status);   //获取当前的安全状态
 
+    //用户安全标签管理
+    bool getUserTagInfoList(QList<UserTag> &reslist);   //获取所有用户的安全管理标签
+    bool setUserTagInfo(UserTag usrtag, int opt);           //设置用户安全标签. opt=0添加用户，opt=1编辑用户
 
+    //文件安全标签管理
+    bool setFileTagInfo(FileTag filetag);                      //设置文件安全性标签
+    bool getFileTagInfo(FileTag &filetag);                      //获取文件安全标签
+
+    //安全策略查看功能
+    bool getTeRules(QList<TERule> &telist);                          //获取te策略
+    bool getFileProcessRules(QList<FileProConV> &fpconvs);  //
 signals:
+    //用户安全标签管理多线程操作
+    void emitSetUserTagInfoDone(int res, Exception);   //设置完毕，返回结果
 
 public slots:
+    //用户安全标签设置多线程操作
+    void setUserTagInfoSlot(UserTag usrtag, int opt);
 };
 
 #endif // SECFUNCLASS_H

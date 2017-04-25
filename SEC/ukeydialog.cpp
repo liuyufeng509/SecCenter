@@ -28,22 +28,22 @@ void UkeyDialog::on_pinokButton_clicked()
 {
     if(ui->cur_pinEdit->text().isEmpty())
     {
-        QMessageBox::information(this, tr("提示"), tr("当前PIN不能为空!"));
+        errMsgBox(tr("当前PIN不能为空!"));
         return;
     }
     if(ui->new_pinlineEdit->text()!=ui->re_pinEdit->text())
     {
-        QMessageBox::information(this, tr("提示"), tr("新PIN两次输入不相同!"));
+        errMsgBox(tr("新PIN两次输入不相同!"));
         return ;
     }
     ukif.cur_pin = ui->cur_pinEdit->text();
     ukif.new_pin = ui->new_pinlineEdit->text();
     if(!modify_pin_of_ukey(ukif, err))
     {
-        QMessageBox::information(this, tr("提示"), tr("更改PIN失败，错误码：")+err.errorno+tr(" 错误内容：")+err.err_str);
+        errMsgBox( tr("更改PIN失败，错误码：")+err.errorno+tr(" 错误内容：")+err.err_str);
     }else
     {
-        QMessageBox::information(this, tr("提示"), tr("更改PIN成功"));
+        infoMsgBox(tr("更改PIN成功"));
     }
     QDialog::accept();
 }
@@ -52,13 +52,13 @@ void UkeyDialog::setUserOfUkey(int type)
 {
     if(ui->pinEdit->text().isEmpty())
     {
-        QMessageBox::information(this, tr("提示"), tr("当前PIN不能为空!"));
+        errMsgBox(tr("当前PIN不能为空!"));
         return;
     }
 
     if(ui->usercomboBox->currentText().isEmpty())
     {
-        QMessageBox::information(this, tr("提示"), tr("用户名不能为空"));
+        errMsgBox(tr("用户名不能为空"));
         return;
     }
 
@@ -67,10 +67,10 @@ void UkeyDialog::setUserOfUkey(int type)
     ukif.type = type;
     if(!set_user_of_ukey(ukif, err))
     {
-        QMessageBox::information(this, tr("提示"), tr("绑定用户失败，错误码：")+err.errorno+tr(" 错误内容：")+err.err_str);
+        errMsgBox( tr("绑定用户失败，错误码：")+err.errorno+tr(" 错误内容：")+err.err_str);
     }else
     {
-        QMessageBox::information(this, tr("提示"), tr("绑定用户成功"));
+        infoMsgBox(tr("绑定用户成功"));
     }
     accept();
 }

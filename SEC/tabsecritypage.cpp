@@ -9,15 +9,17 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
-    connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(init_data_of_page(int)));
+    connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(listItemChangedSlot(int)));
     ui->listWidget->setCurrentRow(0);
 
+    //用户锁定规则设置
   //  on_getlockusrsButton_clicked();
     ui->locked_usr_comboBox->addItem(tr("无"));
     getLockServices();
 
     ui->comboBox->addItems(services);
 
+    //密码规则设置
     QRegExp regExp("[1-9][0-9]{0,2}");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$
 
                                                 //上面的正则表达式表示只能输入大于0的正整数
@@ -35,49 +37,40 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
 
     display_cur_pwd_info();
 
-    //security status
-
-//    if(!get_sec_status(secStatus))
-//    {
-//        secStatus.clear();
-//    }else
-//    {
-//        UpdateToSecStatus();
-//    }
-
-//    if(secStatus.curr_mode == tr("enforcing"))
-//        ui->open_closeButton->setText(tr("关闭安全策略"));
-//    else
-//        ui->open_closeButton->setText(tr("开启安全策略"));
+    //安全规则设置
     UpdateToSecStatus();
-
-    //user security tag
-    get_user_taginfos(user_list);
-    if(user_list.size()>0)
+    //用户安全标签
+    try
     {
-        for(int i=0; i<user_list.size();i++)
-            ui->users_comboBox->addItem(user_list[i].username);
-
-        ui->users_comboBox->setCurrentIndex(0);
-        for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
+        m_secFunModel.getUserTagInfoList(userTagList);
+        if(userTagList.size()>0)
         {
-            if(ui->u_sec_tagcomboBox->itemText(i)==user_list[0].safeTag)
-                ui->u_sec_tagcomboBox->setCurrentIndex(i);
-        }
-        for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
-        {
-            if(ui->u_whole_tagcomboBox->itemText(i)==user_list[0].wholeTag)
-                ui->u_whole_tagcomboBox->setCurrentIndex(i);
-        }
+            for(int i=0; i<userTagList.size();i++)
+                ui->users_comboBox->addItem(userTagList[i].username);
 
-    }else
+            ui->users_comboBox->setCurrentIndex(0);
+            for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
+            {
+                if(ui->u_sec_tagcomboBox->itemText(i)==userTagList[0].safeTag)
+                    ui->u_sec_tagcomboBox->setCurrentIndex(i);
+            }
+            for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
+            {
+                if(ui->u_whole_tagcomboBox->itemText(i)==userTagList[0].wholeTag)
+                    ui->u_whole_tagcomboBox->setCurrentIndex(i);
+            }
+
+        }else
+        {
+            ui->users_comboBox->addItem(tr("无"));
+            ui->u_sec_tagcomboBox->setCurrentIndex(0);
+            ui->u_whole_tagcomboBox->setCurrentIndex(0);
+        }
+    }catch(Exception exp)
     {
-        ui->users_comboBox->addItem(tr("无"));
-        ui->u_sec_tagcomboBox->setCurrentIndex(0);
-        ui->u_whole_tagcomboBox->setCurrentIndex(0);
+        errMsgBox(exp.getErroWhat());
     }
 
-    //file security tag
 
     //te policy
 
@@ -94,6 +87,26 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
 
     //open/close manager
     init_sak_ui();
+
+    //多线程处理
+    thread = new QThread;
+
+    m_secFunModel.moveToThread(thread);
+    //设置用户安全标签
+    qRegisterMetaType<UserTag> ("UserTag");
+    connect(this, SIGNAL(emitSetUserTagInfo(UserTag,int)),&m_secFunModel, SLOT(setUserTagInfoSlot(UserTag,int)));
+    connect(&m_secFunModel, SIGNAL(emitSetUserTagInfoDone(int,Exception)), this, SLOT(setUserTagInfoSlot(int ,Exception)));
+     thread->start();
+}
+
+void TabSecrityPage::setUserTagInfoSlot(int res, Exception exp)
+{
+    waitD->accept();
+    if(res == 0)
+    {
+        infoMsgBox(tr("设置用户安全标签成功"));
+    }else
+        errMsgBox(exp.getErroWhat());
 }
 
 void TabSecrityPage::init_sak_ui()
@@ -222,18 +235,25 @@ void TabSecrityPage::UpdateFPTable(QList<FileProConV> &convs)
     }
 }
 
-void TabSecrityPage::init_data_of_page(int page)
+void TabSecrityPage::listItemChangedSlot(int page)
 {
     if(page == 4)       //servies
     {
-        get_te_rules(terules);
-        InitRuleTab();
-        UpdateRuletabel(terules);
+        //get_te_rules(terules);
+        try
+        {
+            m_secFunModel.getTeRules(terules);
+            InitRuleTab();
+            UpdateRuletabel(terules);
+        }catch(Exception exp)
+        {
+            errMsgBox(exp.getErroWhat());
+        }
 
         get_f_p_types(fpconvs);
         InitFPTab();
         UpdateFPTable(fpconvs);
-        disconnect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(init_data_of_page(int)));
+        disconnect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(listItemChangedSlot(int)));
     }
 }
 
@@ -245,7 +265,7 @@ void TabSecrityPage::UpdateToSecStatus()
     }catch(Exception exp)
             {
         secStatus.clear();
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
 
     if(secStatus.curr_mode == tr("enforcing"))
@@ -287,16 +307,11 @@ TabSecrityPage::~TabSecrityPage()
 
 void TabSecrityPage::on_unlockButton_clicked()
 {
-//    if(unlock_all_users())
-//    {
-//        QMessageBox::information(this, tr("提示"), tr("操作成功"));
-//    }else
-//        QMessageBox::warning(this, tr("提示"), tr("操作失败"));
     if(unlock_user(ui->locked_usr_comboBox->currentText()))
     {
-        QMessageBox::information(this, tr("提示"), tr("操作成功"));
+       infoMsgBox(tr("操作成功"));
     }else
-        QMessageBox::warning(this, tr("提示"), tr("操作失败"));
+        errMsgBox(tr("操作失败"));
     on_getlockusrsButton_clicked();
 }
 
@@ -304,7 +319,7 @@ void TabSecrityPage::on_setPwButton_clicked()
 {
     if(!ui->minlenEdit->text().isEmpty() && ui->minlenEdit->text().toInt()<8)
     {
-         QMessageBox::information(this, tr("提示"), tr("最小长度不能小于8"));
+         errMsgBox(tr("最小长度不能小于8"));
         return;
     }
     QString cmd = "nfs-enhanced-passwd "+
@@ -317,10 +332,10 @@ void TabSecrityPage::on_setPwButton_clicked()
 
     if(set_pwd_rule(cmd))
     {
-        QMessageBox::information(this, tr("提示"), tr("操作成功"));
+        infoMsgBox(tr("操作成功"));
         display_cur_pwd_info();
     }else
-        QMessageBox::warning(this, tr("提示"), tr("操作失败"));
+        errMsgBox(tr("操作失败"));
 }
 
 
@@ -339,60 +354,6 @@ void TabSecrityPage::on_open_closeButton_clicked()
     UpdateToSecStatus();
 }
 
-void TabSecrityPage::on_setButton_clicked()
-{
-    if(ui->users_comboBox->currentText().trimmed().length()==0)
-    {
-            QMessageBox::information(this,tr("提示"), tr("用户名不能为空!"));
-            return;
-    }
-    UserTag usrtag;
-    usrtag.username = ui->users_comboBox->currentText();
-    usrtag.safeTag = ui->u_sec_tagcomboBox->currentText();
-    usrtag.wholeTag = usrtag.safeTag;
-    //usrtag.wholeTag = ui->u_whole_tagEdit->text();
-
-
-    if(set_user_tagInfo(usrtag, !user_list.contains(usrtag)))
-    {
-        QMessageBox::information(this,tr("提示"), tr("设置成功!"));
-    }
-    else
-    {
-        QMessageBox::information(this,tr("提示"), tr("设置失败!"));
-    }
-
-}
-
-void TabSecrityPage::on_f_freshButton_clicked()
-{
-    if(filePath.trimmed().length()==0)
-    {
-        QMessageBox::information(this, tr("提示"), tr("文件名为空"));
-        return;
-    }
-
-    FileTag fileinfo;
-    fileinfo.filename = filePath;
-    fileinfo.isDir = isDir;
-    if(get_filetag_info(fileinfo))
-    {
-        for(int i=0; i<ui->f_sec_tagcomboBox->count();i++)
-        {
-            if(ui->f_sec_tagcomboBox->itemText(i)==fileinfo.safeTag)
-                ui->f_sec_tagcomboBox->setCurrentIndex(i);
-        }
-
-        for(int i=0; i<ui->f_whole_tagcomboBox->count();i++)
-        {
-            if(ui->f_whole_tagcomboBox->itemText(i)==fileinfo.wholeTag)
-                ui->f_whole_tagcomboBox->setCurrentIndex(i);
-        }
-    }else
-        QMessageBox::information(this, tr("提示"), tr("刷新失败"));
-
-}
-
 void TabSecrityPage::on_browserButton_clicked()
 {
     if(ui->isDirheckBox->isChecked())
@@ -405,33 +366,14 @@ void TabSecrityPage::on_browserButton_clicked()
           isDir = false;
     }
 
-    if(filePath.length() == 0) {
-            QMessageBox::information(NULL, tr("路径"), tr("你未选择任何文件"));
-    } else {
-            QMessageBox::information(NULL, tr("路径"), tr("你选择了") + filePath);
-    }
+//    if(filePath.length() == 0) {
+//            infoMsgBox( tr("你未选择任何文件"));
+//    } else {
+//            infoMsgBox(tr("你选择了") + filePath);
+//    }
 
     ui->filenameEdit->setText(filePath);
-    on_f_freshButton_clicked();
-}
-
-void TabSecrityPage::on_f_setButton_clicked()
-{
-    if(filePath.trimmed().length()==0)
-    {
-        QMessageBox::information(this, tr("提示"), tr("文件名为空"));
-        return;
-    }
-
-    FileTag fileinfo;
-    fileinfo.filename = filePath;
-    fileinfo.safeTag = ui->f_sec_tagcomboBox->currentText();
-    fileinfo.wholeTag = ui->f_whole_tagcomboBox->currentText();
-    if(set_filetag_info(fileinfo))
-    {
-        QMessageBox::information(this,tr("提示"), tr("设置成功!"));
-    }else
-        QMessageBox::information(this,tr("提示"), tr("设置失败!"));
+    on_freshFileTagButton_clicked();
 }
 
 void TabSecrityPage::on_findButton_clicked()
@@ -472,7 +414,7 @@ void TabSecrityPage::on_findButton_clicked()
         }
         if(tmprules.size()==0)
         {
-            QMessageBox::information(this,tr("提示"), tr("未查找到符合条件的项") );
+            infoMsgBox(tr("未查找到符合条件的项") );
         }else
             UpdateRuletabel(tmprules);
     }
@@ -519,7 +461,7 @@ void TabSecrityPage::on_findButton2_clicked()
         }
         if(tmpconvs.size()==0)
         {
-            QMessageBox::information(this,tr("提示"), tr("未查找到符合条件的项") );
+            infoMsgBox(tr("未查找到符合条件的项") );
         }else
             UpdateFPTable(tmpconvs);
     }
@@ -542,7 +484,7 @@ void TabSecrityPage::on_getlockusrsButton_clicked()
         }
     }catch(Exception exp)
             {
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
 
 
@@ -554,7 +496,7 @@ void TabSecrityPage::on_closeAduButton_clicked()
     {
         if(!start_service(SEV_NAME))
         {
-            QMessageBox::information(this, tr("提示"), tr("启动失败"));
+            errMsgBox(tr("启动失败"));
             return;
         }
         ui->closeAduButton->setText(tr("关闭审计服务"));
@@ -563,7 +505,7 @@ void TabSecrityPage::on_closeAduButton_clicked()
     {
         if(!stop_service(SEV_NAME))
         {
-            QMessageBox::information(this, tr("提示"), tr("停止失败"));
+            errMsgBox( tr("停止失败"));
             return;
         }
         ui->closeAduButton->setText(tr("开启审计服务"));
@@ -622,10 +564,10 @@ void TabSecrityPage::on_setTryLockButton_clicked()
     try
     {
         m_secFunModel.tryLockOption(info);
-        QMessageBox::information(this, tr("提示"), tr("用户锁定规则设置成功"));
+        infoMsgBox(tr("用户锁定规则设置成功"));
     }catch(Exception exp)
     {
-        messageBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
 }
 
@@ -636,34 +578,133 @@ void TabSecrityPage::on_freshSafeStatusButton_clicked()
 
 void TabSecrityPage::on_freshUserSafeTagButton_clicked()
 {
-    if(get_user_taginfos(user_list))
+    //1.更新用户列表
+    QString curUser = ui->users_comboBox->currentText();
+    //2.刷新当前选中的用户的信息
+    try
     {
-        bool flag = false;
-        int index = 0;
-        for(int i=0; i<user_list.length();i++)
+        if(m_secFunModel.getUserTagInfoList(userTagList))
         {
-            if(user_list[i].username == ui->users_comboBox->currentText())
+            ui->users_comboBox->clear();
+            if(userTagList.size()>0)
             {
-                flag = true;
-                index = i;
-                break;
+                for(int i=0; i<userTagList.size();i++)
+                    ui->users_comboBox->addItem(userTagList[i].username);
+            }else
+            {
+                ui->users_comboBox->addItem(tr("无"));
+            }
+
+            ui->users_comboBox->setEditText(curUser);
+
+            bool flag = false;
+            int index = 0;
+            for(int i=0; i<userTagList.length();i++)
+            {
+                if(userTagList[i].username == ui->users_comboBox->currentText())
+                {
+                    flag = true;
+                    index = i;
+                    break;
+                }
+            }
+            if(!flag)
+            {
+                errMsgBox( tr("用户不存在!"));
+            }else
+            {
+                for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
+                {
+                    if(ui->u_sec_tagcomboBox->itemText(i)==userTagList[index].safeTag)
+                        ui->u_sec_tagcomboBox->setCurrentIndex(i);
+                }
+                for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
+                {
+                    if(ui->u_whole_tagcomboBox->itemText(i)==userTagList[index].wholeTag)
+                        ui->u_whole_tagcomboBox->setCurrentIndex(i);
+                }
             }
         }
-        if(!flag)
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
+
+}
+
+void TabSecrityPage::on_setUserTagButton_clicked()
+{
+    if(ui->users_comboBox->currentText().trimmed().length()==0)
+    {
+            infoMsgBox(tr("用户名不能为空!"));
+            return;
+    }
+    UserTag usrtag;
+    usrtag.username = ui->users_comboBox->currentText();
+    usrtag.safeTag = ui->u_sec_tagcomboBox->currentText();
+    usrtag.wholeTag = usrtag.safeTag;
+    //usrtag.wholeTag = ui->u_whole_tagEdit->text();
+    emit emitSetUserTagInfo(usrtag, userTagList.contains(usrtag)?1:0);
+
+    waitDiaogAppear();
+}
+
+void TabSecrityPage::waitDiaogAppear()
+{
+    waitD = new WaitDialog(this);
+    waitD->exec();
+    waitD->deleteLater();
+}
+
+void TabSecrityPage::on_freshFileTagButton_clicked()
+{
+    if(filePath.trimmed().length()==0)
+    {
+        infoMsgBox(tr("文件名为空"));
+        return;
+    }
+
+    FileTag fileinfo;
+    fileinfo.filename = filePath;
+    fileinfo.isDir = isDir;
+    try
+    {
+        m_secFunModel.getFileTagInfo(fileinfo);
+        for(int i=0; i<ui->f_sec_tagcomboBox->count();i++)
         {
-            QMessageBox::information(this, tr("提示"), tr("用户不存在!"));
-        }else
-        {
-            for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
-            {
-                if(ui->u_sec_tagcomboBox->itemText(i)==user_list[index].safeTag)
-                    ui->u_sec_tagcomboBox->setCurrentIndex(i);
-            }
-            for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
-            {
-                if(ui->u_whole_tagcomboBox->itemText(i)==user_list[index].wholeTag)
-                    ui->u_whole_tagcomboBox->setCurrentIndex(i);
-            }
+            if(ui->f_sec_tagcomboBox->itemText(i)==fileinfo.safeTag)
+                ui->f_sec_tagcomboBox->setCurrentIndex(i);
         }
+
+        for(int i=0; i<ui->f_whole_tagcomboBox->count();i++)
+        {
+            if(ui->f_whole_tagcomboBox->itemText(i)==fileinfo.wholeTag)
+                ui->f_whole_tagcomboBox->setCurrentIndex(i);
+        }
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
+}
+
+void TabSecrityPage::on_setFileTagButton_clicked()
+{
+    if(filePath.trimmed().length()==0)
+    {
+        errMsgBox(tr("文件名为空"));
+        return;
+    }
+
+    FileTag fileinfo;
+    fileinfo.filename = filePath;
+    fileinfo.safeTag = ui->f_sec_tagcomboBox->currentText();
+    fileinfo.wholeTag = ui->f_whole_tagcomboBox->currentText();
+    try
+    {
+        m_secFunModel.setFileTagInfo(fileinfo);
+        infoMsgBox(tr("设置成功!"));
+    }catch(Exception exp)
+            {
+         errMsgBox(exp.getErroWhat());
     }
 }

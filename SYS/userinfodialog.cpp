@@ -59,7 +59,7 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
         {
             if(!m_sysFunModel.isGroupExist(usrTmp.group) && usrTmp.group!=usrTmp.uname)
             {
-                QMessageBox::information(this, tr("提示"), tr("用户组:")+ usrTmp.group+tr("不存在!"));
+                errMsgBox(tr("用户组:")+ usrTmp.group+tr("不存在!"));
                 return;
             }
             if(usrTmp.ogroups.length()>0)
@@ -67,14 +67,14 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
                 foreach (QString grp, usrTmp.ogroups) {
                     if(!m_sysFunModel.isGroupExist(grp))
                     {
-                        QMessageBox::information(this, tr("提示"), tr("用户组:")+ grp+tr("不存在!"));
+                        errMsgBox(tr("用户组:")+ grp+tr("不存在!"));
                         return;
                     }
                 }
             }
         }catch(Exception exp)
         {
-            messageBox(exp.getErroWhat());
+            errMsgBox(exp.getErroWhat());
             return;
         }
         //开始添加或者编辑用户
@@ -83,16 +83,16 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
             if(m_type==Add)
             {
                 m_sysFunModel.addUser(usrTmp);
-                messageBox(tr("添加用户成功"));
+                infoMsgBox(tr("添加用户成功"));
             }else
             {
                 m_sysFunModel.modifyUser(usrTmp);
-                messageBox(tr("修改用户成功"));
+                infoMsgBox(tr("修改用户成功"));
             }
             QDialog::accept();
         }catch(Exception exp)
          {
-            messageBox(exp.getErroWhat());
+            errMsgBox(exp.getErroWhat());
         }
     }else
     {

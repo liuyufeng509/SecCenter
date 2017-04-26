@@ -311,5 +311,5 @@ bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err);
 
 void errMsgBox(QString str);
 void infoMsgBox(QString str);
-
+int warnMsgBox(QString msg);
 #endif // COMMON_H

@@ -335,8 +335,11 @@ bool SysFunClass::startOrStopService(QString svName, int opt)      //开启或�
     QString cmd = "service " ;
     if(opt==1)
         cmd += svName + " stop 2>&1; echo $?";
-    else
+    else if(opt==0)
         cmd += svName + " start 2>&1; echo $?";
+    else
+        cmd += svName + " restart 2>&1; echo $?";
+
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
     if(strl.last().toInt()!=0)

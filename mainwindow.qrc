@@ -3,5 +3,10 @@
         <file>image/index.jpg</file>
         <file>image/index.png</file>
         <file alias="loading.gif">image/loading.gif</file>
+        <file alias="close">image/close.png</file>
+        <file alias="max">image/max.png</file>
+        <file alias="min">image/min.png</file>
+        <file alias="resume">image/resume.png</file>
+        <file alias="title">image/title.png</file>
     </qresource>
 </RCC>

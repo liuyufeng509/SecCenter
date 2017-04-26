@@ -35,6 +35,7 @@ public slots:
 
     void set_up_down_when_start();
     void start_stop_service();
+    void restart_service();
 
 signals:
     void emitGetServsSignal(SEVLIST servs);
@@ -66,6 +67,7 @@ private:
     QMenu *svrMenu;
     QAction *upAction;
     QAction *svrCtrlAction;
+    QAction *svrRestartAction;
     bool is_first;
     QSet<QString> noShowSvrs;
 

@@ -11,6 +11,7 @@ public:
 
     //用户管理相关操作
     bool getUserList(QList<UserInfo> &users);  //获取所有用户信息，保存到列表中
+    bool getGroupList(QStringList &groups);     //获取所有用户组
     bool isGroupExist(QString groupName);
     bool addUser(UserInfo userInfo);
     bool modifyUser(UserInfo userInfo);
@@ -37,7 +38,6 @@ private:
     //用户管理内部函数
     bool getUserListOfShaddow(QList<UserInfo> &users); //判断/etc/passwd，用户是否已经被创建过
     bool getGroupsOfUserList(QList<UserInfo> &users); //获取所有用户的所属组信息
-    bool getGroupList(QStringList &groups);     //获取所有用户组
     //服务管理内部函数
     RUNSTATE servRunState(QString svName);
 

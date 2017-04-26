@@ -14,6 +14,7 @@ TabSysPage::TabSysPage(QWidget *parent) :
 
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(listRowChangedSlot(int)));
+    ui->listWidget->setCurrentRow(0);
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     QHeaderView* headerView = ui->tableWidget->verticalHeader();
     headerView->setHidden(true);
@@ -41,6 +42,12 @@ TabSysPage::TabSysPage(QWidget *parent) :
     ui->svrTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->svrTableWidget->setSelectionMode ( QAbstractItemView::SingleSelection); //设置选择模式，选择单行
     ui->svrTableWidget->setEditTriggers ( QAbstractItemView::NoEditTriggers );
+    QHeaderView *headerGoods = ui->svrTableWidget->horizontalHeader();
+    //SortIndicator为水平标题栏文字旁边的三角指示器
+    headerGoods->setSortIndicator(0, Qt::AscendingOrder);
+    headerGoods->setSortIndicatorShown(true);
+    headerGoods->setClickable(true);
+    connect(headerGoods, SIGNAL(sectionClicked(int)), ui->svrTableWidget, SLOT (sortByColumn(int)));
 
     //time_t t1 = time(NULL);
     svrcfgMap.insert(ENABLE, tr("开机启动"));
@@ -55,8 +62,10 @@ TabSysPage::TabSysPage(QWidget *parent) :
     svrMenu = new QMenu(ui->svrTableWidget);
     upAction = new QAction(tr("设置开机启动"),this);
     svrCtrlAction = new QAction(tr("开启服务"),this);
+    svrRestartAction =  new QAction(tr("重启服务"),this);
     connect(upAction, SIGNAL(triggered()), this, SLOT(set_up_down_when_start()));
     connect(svrCtrlAction, SIGNAL(triggered()), this, SLOT(start_stop_service()));
+    connect(svrRestartAction, SIGNAL(triggered()), this, SLOT(restart_service()));
 
     noShowSvrs<<"auditd.service";
 
@@ -142,12 +151,12 @@ void TabSysPage::startOrStopServiceSlot(int res, Exception exp)
     }
     if(res==0)
     {
-        if(svrCtrlAction->text()==tr("关闭运行"))
-        {
-               infoMsgBox(tr("设置成功"));
-               sevrs[row].runStat = DEAD;
-               UpdateToSvrUI();
-        }else
+//        if(svrCtrlAction->text()==tr("关闭运行"))
+//        {
+//               infoMsgBox(tr("设置成功"));
+//               sevrs[row].runStat = DEAD;
+//               UpdateToSvrUI();
+//        }else
         {
                 //sevrs[row].runStat = is_serv_running(sevrs[row].sName);
                 //更新整个列表
@@ -198,6 +207,19 @@ void TabSysPage::set_up_down_when_start()
     waitDiaogAppear();
 }
 
+ void TabSysPage::restart_service()
+ {
+     int row = ui->svrTableWidget->currentRow();
+     if(row<0)
+     {
+         errMsgBox(tr("请选择要操作的服务!"));
+         return;
+     }
+
+     emit emitStartOrStopService(sevrs[row].sName.left(sevrs[row].sName.indexOf('.')),2);
+     waitDiaogAppear();
+ }
+
 void TabSysPage::start_stop_service()
 {
     int row = ui->svrTableWidget->currentRow();
@@ -222,6 +244,7 @@ void TabSysPage::UpdateToSvrUI()
 {
     ui->svrTableWidget->setRowCount(0);
     ui->svrTableWidget->setRowCount(sevrs.size());
+    ui->svrTableWidget->setToolTip(tr("右键可对服务进行操作"));
     for(int i=0;i<sevrs.size();i++)
     {
        // qDebug()<<svrcfgMap[sevrs[i].cfgStatus]<<" "<<runstatMap[sevrs[i].runStat];
@@ -267,6 +290,7 @@ void TabSysPage::UpdateToUsersUI()
         m_sysFunModel.getUserList(users);
         ui->tableWidget->setRowCount(0);
         ui->tableWidget->setRowCount(users.size());
+        ui->tableWidget->setToolTip(tr("右键可对用户进行操作"));
         for(int i=0; i<users.length(); i++)
         {
             ui->tableWidget->setItem(i, 0, new QTableWidgetItem(users[i].uname));
@@ -326,6 +350,7 @@ void TabSysPage::on_svrTableWidget_customContextMenuRequested(QPoint pos)
 
 
     svrCtrlAction->setEnabled(true);
+    svrRestartAction->setEnabled(true);
     switch (sevrs[row].runStat) {
     case RUNNING:
         svrCtrlAction->setText(tr("关闭运行"));
@@ -338,6 +363,7 @@ void TabSysPage::on_svrTableWidget_customContextMenuRequested(QPoint pos)
         break;
     case OTHER:
         svrCtrlAction->setEnabled(false);
+        svrRestartAction->setEnabled(false);
         svrCtrlAction->setText(tr("开启运行"));
         break;
     default:
@@ -345,6 +371,7 @@ void TabSysPage::on_svrTableWidget_customContextMenuRequested(QPoint pos)
     }
     svrMenu->addAction(upAction);
     svrMenu->addAction(svrCtrlAction);
+    svrMenu->addAction(svrRestartAction);
     svrMenu->exec(QCursor::pos());
 }
 
@@ -381,6 +408,10 @@ void TabSysPage::del_user_action()
     if(row<0)
     {
         errMsgBox( tr("请选中要删除的行"));
+        return;
+    }
+    if(warnMsgBox(tr("确定要删除用户")+users[row].uname+tr("?"))==QMessageBox::Cancel)
+    {
         return;
     }
     try

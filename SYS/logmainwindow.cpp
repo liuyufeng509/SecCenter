@@ -23,7 +23,7 @@ LogMainWindow::LogMainWindow(QWidget *parent) :
     QHBoxLayout *layout = new QHBoxLayout;
 
 
-    ui->centralwidget->setLayout(layout);
+    ui->groupBox->setLayout(layout);
     nexButton = new QPushButton(">");
     preButton = new QPushButton("<");
     lineEdit = new QLineEdit;

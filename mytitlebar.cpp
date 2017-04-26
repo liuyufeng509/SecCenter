@@ -52,13 +52,13 @@ void MyTitleBar::initControl()
     m_pButtonClose->setObjectName("ButtonClose");
 
     m_pButtonMin->setToolTip(tr("最小化"));
-    m_pButtonMin->setIcon(QIcon(QPixmap("/root/Program/testMainwindow/rc/min.png")));
+    m_pButtonMin->setIcon(QIcon(QPixmap(":/new/index/min")));
     m_pButtonRestore->setToolTip(tr("还原"));
-    m_pButtonRestore->setIcon(QIcon(QPixmap("/root/Program/testMainwindow/rc/resume.png")));
+    m_pButtonRestore->setIcon(QIcon(QPixmap(":/new/index/resume")));
     m_pButtonMax->setToolTip(tr("最大化"));
-    m_pButtonMax->setIcon(QIcon(QPixmap("/root/Program/testMainwindow/rc/max.png")));
+    m_pButtonMax->setIcon(QIcon(QPixmap(":/new/index/max")));
     m_pButtonClose->setToolTip(tr("关闭"));
-    m_pButtonClose->setIcon(QIcon(QPixmap("/root/Program/testMainwindow/rc/close.png")));
+    m_pButtonClose->setIcon(QIcon(QPixmap(":/new/index/close")));
 
     QHBoxLayout* mylayout = new QHBoxLayout(this);
     mylayout->addWidget(m_pIcon);

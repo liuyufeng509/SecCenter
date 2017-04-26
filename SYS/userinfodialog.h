@@ -4,6 +4,11 @@
 #include <QDialog>
 #include"common.h"
 #include "sysfunclass.h"
+
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QLineEdit>
+#include <QCheckBox>
 namespace Ui {
 class UserInfoDialog;
 }
@@ -21,12 +26,23 @@ private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
     void accept();
 
+    //其他组下拉菜单
+    void stateChanged(int state);
+    void textChanged(const QString &text);
+
 private:
     Ui::UserInfoDialog *ui;
     UserInfo &userinfo;
     int m_type;
     SysFunClass m_sysFunModel;
     QStringList grouplist;
+
+    //其他组选择过滤功能
+    QListWidget *pListWidget;
+    QLineEdit *pLineEdit;
+    bool bSelected;
+    QString strSelectedText;
+    QList<QCheckBox*> checkList;
 };
 
 #endif // USERINFODIALOG_H

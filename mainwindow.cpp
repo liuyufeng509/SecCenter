@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->label->setHidden(true);
     QReadConfig::getInstance()->readConfigFile();
     this->setWindowFlags(Qt::FramelessWindowHint);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);    // 设置尺寸属性
+    setMouseTracking(true);    // 界面拉伸需要这个属性
 	//获取当前用户角色，如果失败，捕获异常，提示错误信息
     try
     {
@@ -89,7 +91,8 @@ void MainWindow::initTitleBar()
 {
     m_titleBar = new MyTitleBar(this);
     m_titleBar->move(0, 0);
-    m_titleBar->setTitleIcon("/root/Program/testMainwindow/image/index.png");
+    m_titleBar->setTitleIcon(":/new/index/title");
+    m_titleBar->setTitleContent(tr("安全管理中心"), 11);
     m_titleBar->setButtonType(MIN_MAX_BUTTON);
     connect(m_titleBar, SIGNAL(signalButtonMinClicked()), this, SLOT(onButtonMinClicked()));
     connect(m_titleBar, SIGNAL(signalButtonRestoreClicked()), this, SLOT(onButtonRestoreClicked()));

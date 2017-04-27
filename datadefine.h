@@ -80,6 +80,23 @@ typedef QList<ServiceInfo>   SEVLIST;//服务列表类型
 /*******************************************************
  * 安全管理界面逻辑处理所需类型定义
  * ****************************************************/
+struct SecUserInfo          //安全管理的用户信息
+ {
+    QString uId;
+    QString uName;
+    bool     bBindKey;
+    bool     bLocked;
+    bool     bShow;
+};
+
+struct UkeyInfo                 //Ukey信息
+{
+    QString cur_pin;
+    QString new_pin;
+    QString user;
+    int type;
+};
+
 struct TryLockInfo      //锁定规则信息
 {
     QString dParam;
@@ -120,5 +137,7 @@ struct SecStatus                    //安全状态信息
         max_kern_policy_version="";
     }
 };
+
+
 
 #endif

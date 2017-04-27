@@ -12,11 +12,26 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(listItemChangedSlot(int)));
     ui->listWidget->setCurrentRow(0);
 
-    //用户锁定规则设置
-  //  on_getlockusrsButton_clicked();
-    ui->locked_usr_comboBox->addItem(tr("无"));
-    getLockServices();
+    //用户安全管理界面
+    ui->userTableWidget->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    QHeaderView* headerView = ui->userTableWidget->verticalHeader();
+    headerView->setHidden(true);
 
+    ui->userTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    secUserMenu = new QMenu(ui->userTableWidget);
+    unLockAction = new QAction(tr("解锁用户"), this);
+    ukeyPINAction = new QAction(tr("更改UkeyPIN"), this);
+    ukeyBindAction = new QAction(tr("解绑UKey"), this);
+    freshAction = new QAction(tr("刷新"),this);
+    connect(unLockAction, SIGNAL(triggered()), this, SLOT(unLockActionSlot()));
+    connect(ukeyPINAction, SIGNAL(triggered()), this, SLOT(ukeyPINActionSlot()));
+    connect(ukeyBindAction, SIGNAL(triggered()), this, SLOT(ukeyBindActionSlot()));
+    connect(freshAction, SIGNAL(triggered()), this, SLOT(freshActionSlot()));
+
+    updateSecUserUI();
+
+    //用户锁定规则设置
+    getLockServices();
     ui->comboBox->addItems(services);
 
     //密码规则设置
@@ -99,6 +114,95 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
      thread->start();
 }
 
+void TabSecrityPage::updateSecUserUI()
+{
+    try
+    {
+        m_secFunModel.getSecUserList(secUserList);
+        ui->userTableWidget->setRowCount(0);
+        ui->userTableWidget->setRowCount(secUserList.size());
+        ui->userTableWidget->setToolTip(tr("右键可对用户进行操作"));
+        for(int i=0; i<secUserList.length(); i++)
+        {
+            ui->userTableWidget->setItem(i, 0, new QTableWidgetItem(secUserList[i].uName));
+            ui->userTableWidget->setItem(i, 1, new QTableWidgetItem(secUserList[i].bLocked?tr("是"):tr("否")));
+            ui->userTableWidget->setItem(i, 2, new QTableWidgetItem(secUserList[i].bBindKey?tr("是"):tr("否")));
+            if(!secUserList[i].bShow)
+                ui->userTableWidget->setRowHidden(i, true);
+        }
+
+    }catch(Exception exp)
+     {
+        errMsgBox(exp.getErroWhat());
+    }
+}
+
+void TabSecrityPage::on_userTableWidget_customContextMenuRequested(const QPoint &pos)
+{
+    pos.isNull();
+    int row = ui->userTableWidget->currentRow();
+    if(row<0)
+        return;
+    unLockAction->setEnabled(secUserList[row].bLocked); //被锁用户才可以使用
+    secUserMenu->addAction(unLockAction);
+    secUserMenu->addAction(ukeyPINAction);
+    secUserList[row].bBindKey?ukeyBindAction->setText(tr("解绑Ukey")):ukeyBindAction->setText(tr("绑定Ukey"));
+    secUserMenu->addAction(ukeyBindAction);
+    secUserMenu->addAction(freshAction);
+    secUserMenu->exec(QCursor::pos());
+}
+
+void TabSecrityPage::unLockActionSlot()
+{
+    int row = ui->userTableWidget->currentRow();
+    if(row<0)
+    {
+        errMsgBox(tr("未选中要操作的用户!"));
+        return;
+    }
+    try
+    {
+        m_secFunModel.unLockUser(secUserList[row].uName);
+        infoMsgBox(tr("解锁成功"));
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
+    updateSecUserUI();
+}
+
+void TabSecrityPage::ukeyPINActionSlot()
+{
+    UkeyDialog ukdialog(UkeyDialog::Reset_PIN, "", this);
+    ukdialog.exec();
+}
+
+void TabSecrityPage::ukeyBindActionSlot()
+{
+    int row = ui->userTableWidget->currentRow();
+    if(row<0)
+    {
+        errMsgBox(tr("未选中要操作的用户!"));
+        return;
+    }
+
+    if(ukeyBindAction->text()==tr("解绑Ukey"))
+        {
+        UkeyDialog ukdialog(UkeyDialog::UnBUND_User, secUserList[row].uName,this);
+        ukdialog.exec();
+    }else
+        {
+        UkeyDialog ukdialog(UkeyDialog::BUND_User, secUserList[row].uName,this);
+        ukdialog.exec();
+    }
+
+}
+
+void TabSecrityPage::freshActionSlot()
+{
+    updateSecUserUI();
+}
+
 void TabSecrityPage::setUserTagInfoSlot(int res, Exception exp)
 {
     waitD->accept();
@@ -147,15 +251,19 @@ void TabSecrityPage::display_cur_pwd_info()
     try
     {
         m_secFunModel.getCurPwdInfo(pwdInfo);
-        QString text = QString(tr("最小长度:"))+(pwdInfo.minLen.isEmpty()?tr("无限制"):pwdInfo.minLen)+" 数字个数:"+
-                (pwdInfo.dcredit.isEmpty()?tr("无限制"):pwdInfo.dcredit)+" 小写字母:"+
-                (pwdInfo.lcredit.isEmpty()?tr("无限制"):pwdInfo.lcredit)+" 大写字母:"+
-                (pwdInfo.ucredit.isEmpty()?tr("无限制"):pwdInfo.ucredit)+" 其他字符:"+
-                (pwdInfo.ocredit.isEmpty()?tr("无限制"):pwdInfo.ocredit);
-        ui->cur_pwd_label->setText(tr("当前规则：")+text);
+//        QString text = QString(tr("最小长度:"))+(pwdInfo.minLen.isEmpty()?tr("无限制"):pwdInfo.minLen)+" 数字个数:"+
+//                (pwdInfo.dcredit.isEmpty()?tr("无限制"):pwdInfo.dcredit)+" 小写字母:"+
+//                (pwdInfo.lcredit.isEmpty()?tr("无限制"):pwdInfo.lcredit)+" 大写字母:"+
+//                (pwdInfo.ucredit.isEmpty()?tr("无限制"):pwdInfo.ucredit)+" 其他字符:"+
+//                (pwdInfo.ocredit.isEmpty()?tr("无限制"):pwdInfo.ocredit);
+        ui->minlenEdit->setText(pwdInfo.minLen.isEmpty()?tr("无限制"):pwdInfo.minLen);
+        ui->dlenEdit->setText(pwdInfo.dcredit.isEmpty()?tr("无限制"):pwdInfo.dcredit);
+        ui->uplenEdit->setText(pwdInfo.ucredit.isEmpty()?tr("无限制"):pwdInfo.ucredit);
+        ui->lowlenEdit->setText(pwdInfo.lcredit.isEmpty()?tr("无限制"):pwdInfo.lcredit);
+        ui->othlenEdit->setText(pwdInfo.ocredit.isEmpty()?tr("无限制"):pwdInfo.ocredit);
     }catch(Exception exp)
     {
-        ui->cur_pwd_label->setText(tr("当前规则：")+exp.getErroWhat());
+        errMsgBox(exp.getErroWhat());
     }
 }
 
@@ -304,16 +412,6 @@ TabSecrityPage::~TabSecrityPage()
     delete ui;
 }
 
-
-void TabSecrityPage::on_unlockButton_clicked()
-{
-    if(unlock_user(ui->locked_usr_comboBox->currentText()))
-    {
-       infoMsgBox(tr("操作成功"));
-    }else
-        errMsgBox(tr("操作失败"));
-    on_getlockusrsButton_clicked();
-}
 
 void TabSecrityPage::on_setPwButton_clicked()
 {
@@ -467,28 +565,6 @@ void TabSecrityPage::on_findButton2_clicked()
     }
 }
 
-void TabSecrityPage::on_getlockusrsButton_clicked()
-{
-    try
-    {
-        m_secFunModel.getLockedUsers(users);
-        ui->locked_usr_comboBox->clear();
-        if(users.isEmpty())
-            ui->locked_usr_comboBox->addItem(tr("无"));
-        else
-        {
-            for(int i=0; i<users.size();i++)
-            {
-                ui->locked_usr_comboBox->addItem(users[i]);
-            }
-        }
-    }catch(Exception exp)
-            {
-        errMsgBox(exp.getErroWhat());
-    }
-
-
-}
 
 void TabSecrityPage::on_closeAduButton_clicked()
 {
@@ -540,18 +616,6 @@ void TabSecrityPage::on_open_close_def_sak_Button_clicked()
      init_sak_ui();
 }
 
-
-void TabSecrityPage::on_ukey_pinButton_clicked()
-{
-    UkeyDialog ukdialog(UkeyDialog::Reset_PIN, this);
-    ukdialog.exec();
-}
-
-void TabSecrityPage::on_ukey_userButton_clicked()
-{
-    UkeyDialog ukdialog(UkeyDialog::BUND_User, this);
-    ukdialog.exec();
-}
 
 void TabSecrityPage::on_setTryLockButton_clicked()
 {
@@ -708,3 +772,4 @@ void TabSecrityPage::on_setFileTagButton_clicked()
          errMsgBox(exp.getErroWhat());
     }
 }
+

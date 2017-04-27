@@ -67,7 +67,7 @@ bool SysFunClass::getUserListOfShaddow(QList<UserInfo> &users)
     list.removeLast();
     if(list.length()!=users.length())
     {
-        QString errContent=tr("执行操作：获取当前用户列表失败")+ tr("\n执行命令：")+cmd+tr("\n错误内容：/etc/shaddow中用户与/etc/pawwd不一致");
+        QString errContent=tr("执行操作：获取当前用户列表失败")+ tr("\n执行命令：")+cmd+tr("\n错误内容：/etc/shaddow中用户与/etc/passwd不一致");
         qDebug()<<errContent;
         throw Exception(list.last(), errContent);
         return false;

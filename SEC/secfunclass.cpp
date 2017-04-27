@@ -52,6 +52,20 @@ bool SecFunClass::getLockedUsers(QStringList &list)
 
 }
 
+bool SecFunClass::unLockUser(QString uName)
+{
+    QString cmd = "pam_tally2 -u " +uName+ " -r 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：解锁用户失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    return true;
+}
 
 bool SecFunClass::tryLockOption(TryLockInfo info)           //设置锁定规则
 {
@@ -352,6 +366,141 @@ bool SecFunClass::getFileTagInfo(FileTag &filetag)                     //获取�
     filetag.safeTag = tmpl2[3];
     filetag.wholeTag = tmpl2[3];
 
+    return true;
+}
+
+bool SecFunClass::getUserListOfShaddow(QList<SecUserInfo> &secUserList)
+{
+    QString cmd = "awk -F: \'{print $2}\' /etc/shadow  2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList list = resStr.split('\n');
+    if(list.last().toInt()!=0)
+    {
+        resStr.chop(list.last().length());
+        QString errContent=tr("执行操作：获取安全管理用户列表失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+list.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(list.last(), errContent);
+        return false;
+    }
+    list.removeLast();
+    if(list.length()!=secUserList.length())
+    {
+        QString errContent=tr("执行操作：获取安全管理用户列表失败")+ tr("\n执行命令：")+cmd+tr("\n错误内容：/etc/shaddow中用户与/etc/passwd不一致");
+        qDebug()<<errContent;
+        throw Exception(list.last(), errContent);
+        return false;
+    }
+    for(int i=0; i<secUserList.length();i++)
+    {
+        if(list[i] == "!!!" || secUserList[i].uId.toInt()<1000)
+            secUserList[i].bShow = false;
+        else
+            secUserList[i].bShow = true;
+    }
+
+    return true;
+}
+
+bool SecFunClass::getSecUserList(QList<SecUserInfo> &secUserList)       //获取当前系统用户的安全管理信息
+{
+    QString cmd = "awk -F: \'{print  $3,$1}\'  /etc/passwd  2>&1; echo $?";
+    QString resStr =GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    secUserList.clear();
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取安全管理用户列表失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    strl.removeLast();
+    for(int i=0; i<strl.length(); i++)
+    {
+        SecUserInfo usrinfo;
+        QStringList tmpl = strl[i].split(' ');
+        usrinfo.uId = tmpl[0].trimmed();
+        usrinfo.uName = tmpl[1].trimmed();
+        secUserList.append(usrinfo);
+    }
+
+    //验证在/etc/shadow中的情况，判断是否是曾经存在的用户
+    try
+    {
+        getUserListOfShaddow(secUserList);
+    }catch(Exception exp)
+    {
+        secUserList.clear();
+        throw exp;
+    }
+
+    //获取是否被锁定
+    try
+    {
+        QStringList users;
+        getLockedUsers(users);
+        for(int i=0; i<secUserList.count(); i++)
+        {
+            if(users.contains(secUserList[i].uName))
+            {
+                secUserList[i].bLocked = true;
+            }else
+                secUserList[i].bLocked = false;
+        }
+
+    }catch(Exception exp)
+    {
+        throw exp;
+    }
+
+    //验证UKey
+    try
+    {
+        for(int i=0; i<secUserList.count(); i++)
+        {
+            if(secUserList[i].bShow)
+                getUserUkey(secUserList[i]);
+        }
+
+    }catch(Exception exp)
+    {
+       throw exp;
+    }
+
+    return true;
+}
+
+bool SecFunClass::getUserUkey(SecUserInfo &secUser)
+{
+    QString cmd = "nfsukey -c "+secUser.uName+" 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取用户的Ukey绑定信息失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    if(resStr.contains(" not "))
+        secUser.bBindKey = false;
+    else
+        secUser.bBindKey = true;
+    return true;
+}
+
+bool SecFunClass::resetPINOfUkey(UkeyInfo ukeyInfo)
+{
+    QString cmd = "nfsukey "+ ukeyInfo.cur_pin+ " -s "+ukeyInfo.new_pin+" 2>&1;echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：重置Ukey的PIN失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
     return true;
 }
 

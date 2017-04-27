@@ -19,6 +19,9 @@ class TabSecrityPage : public QWidget
 public:
     explicit TabSecrityPage(QWidget *parent = 0);
     ~TabSecrityPage();
+
+    void updateSecUserUI();
+
     void getLockServices();
     void UpdateToSecStatus();
 
@@ -34,9 +37,6 @@ public:
 
     void waitDiaogAppear();
 private slots:
-
-    void on_unlockButton_clicked();
-
     void on_open_closeButton_clicked();
 
     void on_setPwButton_clicked();
@@ -52,8 +52,6 @@ private slots:
 
     void on_findButton2_clicked();
 
-    void on_getlockusrsButton_clicked();
-
     void on_closeAduButton_clicked();
 
     void on_close_client_reuse_Button_clicked();
@@ -62,10 +60,6 @@ private slots:
 
     void on_open_close_def_sak_Button_clicked();
 
-    void on_ukey_pinButton_clicked();
-
-    void on_ukey_userButton_clicked();
-
     void on_setTryLockButton_clicked();
 
     void on_freshSafeStatusButton_clicked();
@@ -73,9 +67,15 @@ private slots:
     void on_freshUserSafeTagButton_clicked();
 
     void on_setUserTagButton_clicked();
+    void on_userTableWidget_customContextMenuRequested(const QPoint &pos);
+    void unLockActionSlot();
+    void ukeyPINActionSlot();
+    void ukeyBindActionSlot();
+    void freshActionSlot();
 
     //多线程结果处理
     void setUserTagInfoSlot(int res, Exception exp);
+
 
 signals:
     void emitSetUserTagInfo(UserTag, int);
@@ -83,6 +83,13 @@ private:
     Ui::TabSecrityPage *ui;
 
     SecFunClass m_secFunModel;
+
+    QList<SecUserInfo> secUserList;
+    QMenu *secUserMenu;
+    QAction *ukeyPINAction;
+    QAction *ukeyBindAction;
+    QAction *unLockAction;
+    QAction *freshAction;
 
     QStringList  users;
     PwdInfo pwdInfo;

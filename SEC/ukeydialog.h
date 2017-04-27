@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include"common.h"
+#include "secfunclass.h"
 namespace Ui {
 class UkeyDialog;
 }
@@ -15,10 +16,11 @@ class UkeyDialog : public QDialog
 public:
     enum{
         Reset_PIN,
-        BUND_User
+        BUND_User,
+        UnBUND_User
     };
 public:
-    explicit UkeyDialog(int type, QWidget *parent = 0);
+    explicit UkeyDialog(int type, QString username="",QWidget *parent = 0);
     ~UkeyDialog();
     void setUserOfUkey(int type);
 private slots:
@@ -28,12 +30,15 @@ private slots:
 
     void on_unbundButton_clicked();
 
+    void on_okButton_clicked();
+
 private:
     Ui::UkeyDialog *ui;
-
-    QList<UserInfo> users;
     UkeyInfo ukif;
     ErrorInfo err;
+    int mType;
+
+    SecFunClass m_secFunModel;
 };
 
 #endif // UKEYDIALOG_H

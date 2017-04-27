@@ -292,13 +292,7 @@ struct FileAudRule
 
 bool set_file_rule(FileAudRule fileRule);
 
-struct UkeyInfo
-{
-    QString cur_pin;
-    QString new_pin;
-    QString user;
-    int type;
-};
+
 
 struct ErrorInfo
 {

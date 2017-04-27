@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>832</width>
+    <width>858</width>
     <height>478</height>
    </rect>
   </property>
@@ -84,11 +84,11 @@
    <item row="0" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="idfyPage">
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="enabled">
           <bool>true</bool>
@@ -98,11 +98,51 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
+           <widget class="QTableWidget" name="userTableWidget">
+            <property name="dragEnabled">
+             <bool>true</bool>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+            <column>
+             <property name="text">
+              <string>用户名</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>是否被锁定</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>UKey</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_15">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>250</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>用户全局规则设置</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
            <widget class="QGroupBox" name="groupBox_3">
             <property name="maximumSize">
              <size>
-              <width>16777215</width>
-              <height>200</height>
+              <width>12222222</width>
+              <height>65</height>
              </size>
             </property>
             <property name="autoFillBackground">
@@ -111,35 +151,22 @@
             <property name="title">
              <string>用户锁定设置</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout_5">
-             <item row="2" column="0">
-              <layout class="QGridLayout" name="gridLayout_15">
-               <item row="0" column="3">
-                <widget class="QPushButton" name="getlockusrsButton">
-                 <property name="text">
-                  <string>获取锁定的用户</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2">
-                <widget class="QComboBox" name="locked_usr_comboBox"/>
-               </item>
-               <item row="0" column="4">
-                <widget class="QPushButton" name="unlockButton">
-                 <property name="text">
-                  <string>解锁用户</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
+            <layout class="QGridLayout" name="gridLayout_3">
              <item row="0" column="0">
               <layout class="QGridLayout" name="gridLayout">
                <item row="0" column="1">
-                <widget class="QLineEdit" name="tmsLineEdit"/>
+                <widget class="QLineEdit" name="tmsLineEdit">
+                 <property name="toolTip">
+                  <string/>
+                 </property>
+                </widget>
                </item>
                <item row="0" column="3">
                 <widget class="QLabel" name="label_7">
+                 <property name="toolTip">
+                  <string>用户锁定到自动接锁的秒数
+默认值30</string>
+                 </property>
                  <property name="text">
                   <string>锁定秒数:</string>
                  </property>
@@ -147,19 +174,31 @@
                </item>
                <item row="0" column="5">
                 <widget class="QLabel" name="label_8">
+                 <property name="toolTip">
+                  <string>触发锁定的服务
+默认值login</string>
+                 </property>
                  <property name="text">
                   <string>锁定服务:</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="6">
-                <widget class="QComboBox" name="comboBox"/>
+                <widget class="QComboBox" name="comboBox">
+                 <property name="toolTip">
+                  <string>法</string>
+                 </property>
+                </widget>
                </item>
                <item row="0" column="4">
                 <widget class="QLineEdit" name="secLineEdit"/>
                </item>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_6">
+                 <property name="toolTip">
+                  <string>用户被锁定时登录失败的次数
+默认值3</string>
+                 </property>
                  <property name="text">
                   <string>锁定次数:</string>
                  </property>
@@ -174,53 +213,10 @@
                </item>
               </layout>
              </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_30">
-               <property name="text">
-                <string>解锁用户：</string>
-               </property>
-              </widget>
-             </item>
             </layout>
            </widget>
           </item>
-          <item>
-           <widget class="QGroupBox" name="groupBox_5">
-            <property name="title">
-             <string>用户多因子验证:</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_14">
-             <item row="0" column="0">
-              <widget class="QPushButton" name="ukey_pinButton">
-               <property name="text">
-                <string>更改UKey-PIN</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="2">
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="0" column="1">
-              <widget class="QPushButton" name="ukey_userButton">
-               <property name="text">
-                <string>绑定/解绑用户</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
+          <item row="1" column="0">
            <widget class="QGroupBox" name="groupBox_4">
             <property name="maximumSize">
              <size>
@@ -234,75 +230,83 @@
             <layout class="QGridLayout" name="gridLayout_7">
              <item row="0" column="0">
               <layout class="QGridLayout" name="gridLayout_6">
-               <item row="3" column="4" colspan="2">
+               <item row="2" column="4" colspan="2">
                 <widget class="QPushButton" name="setPwButton">
                  <property name="text">
                   <string>设置</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
+               <item row="1" column="1">
                 <widget class="QLineEdit" name="minlenEdit"/>
                </item>
-               <item row="2" column="3">
+               <item row="1" column="3">
                 <widget class="QLineEdit" name="dlenEdit"/>
                </item>
-               <item row="2" column="4">
+               <item row="1" column="4">
                 <widget class="QLabel" name="label_3">
+                 <property name="toolTip">
+                  <string>默认值1</string>
+                 </property>
                  <property name="text">
                   <string>大写字母个数:</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="2">
+               <item row="1" column="2">
                 <widget class="QLabel" name="label_2">
+                 <property name="toolTip">
+                  <string>默认值1</string>
+                 </property>
                  <property name="text">
                   <string>数字位数:</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lowlenEdit"/>
+               </item>
+               <item row="1" column="0">
                 <widget class="QLabel" name="label">
+                 <property name="toolTip">
+                  <string>默认值12</string>
+                 </property>
                  <property name="text">
                   <string>最短长度:</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="lowlenEdit"/>
-               </item>
-               <item row="0" column="0" colspan="6">
-                <widget class="QLabel" name="cur_pwd_label">
-                 <property name="text">
-                  <string>当前规则:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="5">
+               <item row="1" column="5">
                 <widget class="QLineEdit" name="uplenEdit"/>
                </item>
-               <item row="3" column="2">
+               <item row="2" column="3">
+                <widget class="QLineEdit" name="othlenEdit"/>
+               </item>
+               <item row="2" column="2">
                 <widget class="QLabel" name="label_5">
+                 <property name="toolTip">
+                  <string>默认值1</string>
+                 </property>
                  <property name="text">
                   <string>特殊字符个数:</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="3">
-                <widget class="QLineEdit" name="othlenEdit"/>
-               </item>
-               <item row="3" column="0">
+               <item row="2" column="0">
                 <widget class="QLabel" name="label_4">
+                 <property name="toolTip">
+                  <string>默认值1</string>
+                 </property>
                  <property name="text">
                   <string>小写字母个数:</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" colspan="6">
+               <item row="0" column="0" colspan="6">
                 <widget class="QLabel" name="label_13">
                  <property name="text">
-                  <string>规则说明：每增加一种密码类型，最小长度要求减一。
-如最小长度12时，增加小写字母限制，最小长度可以为11位.</string>
+                  <string>规则说明：每增加一种密码类型，最小长度要求减一。如最小长度12时，
+增加小写字母限制，最小长度可以为11位.</string>
                  </property>
                 </widget>
                </item>
@@ -310,19 +314,6 @@
              </item>
             </layout>
            </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
@@ -485,7 +476,7 @@
        <widget class="QPushButton" name="setUserTagButton">
         <property name="geometry">
          <rect>
-          <x>310</x>
+          <x>290</x>
           <y>280</y>
           <width>121</width>
           <height>29</height>
@@ -498,7 +489,7 @@
        <widget class="QWidget" name="layoutWidget_2">
         <property name="geometry">
          <rect>
-          <x>70</x>
+          <x>50</x>
           <y>70</y>
           <width>361</width>
           <height>161</height>
@@ -722,7 +713,7 @@
        <widget class="QPushButton" name="freshUserSafeTagButton">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>60</x>
           <y>280</y>
           <width>101</width>
           <height>29</height>

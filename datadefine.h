@@ -138,6 +138,50 @@ struct SecStatus                    //安全状态信息
     }
 };
 
+//文件安全标签
+struct FileTag
+{
+    QString filename;
+    QString safeTag;
+    QString wholeTag;
+    bool isDir;
+};
 
+//用户安全标签
+struct UserTag
+{
+    QString username;
+    QString safeTag;
+    QString wholeTag;
+    bool operator ==(const UserTag& d)
+    {
+        return username == d.username;
+    }
+};
 
+//TE 策略
+struct TERule
+{
+    QString domain_type;
+    QString file_type;
+    QString class_type;
+    QString permmisions;
+};
+//文件/进程策略
+struct FileProConV
+{
+    QString src_type;
+    QString targ_type;
+    QString class_type;
+    QString default_type;
+};
+typedef QList<TERule>   TELIST;//TE策略列表类型
+typedef QList<FileProConV>   F_PLIST;//文件/进程策略列表类型
+
+//SAK 信息
+struct SakInfo
+{
+    QString current_mode;
+    QString default_mode;
+};
 #endif

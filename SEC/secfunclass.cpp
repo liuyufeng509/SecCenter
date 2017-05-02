@@ -121,6 +121,135 @@ bool SecFunClass::getCurPwdInfo(PwdInfo &pwdInfo)
     return true;
 }
 
+bool SecFunClass::getCurLockInfoOfLogin(TryLockInfo &info)                  //获取login的锁定规则
+{
+    QString cmd = "cat /etc/pam.d/login 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取login服务的锁定规则失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    strl.removeLast();
+    for(int i=0; i<strl.count(); i++)
+    {
+        if(strl[i].contains("pam_tally2.so"))
+        {
+            QStringList tmpl = strl[i].simplified().split(' ');
+            for(int j=0; j<tmpl.count();j++)
+            {
+                if(tmpl[j].contains("deny="))
+                {
+                    info.dParam = tmpl[j].right(tmpl[j].length() - tmpl[j].indexOf("=")-1);
+                }
+                if(tmpl[j].contains("unlock_time="))
+                {
+                    info.uParam = tmpl[j].right(tmpl[j].length() - tmpl[j].indexOf("=")-1);
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool SecFunClass::getCurLockInfoOfSsh(TryLockInfo &info)                    //获取ssh的锁定规则
+{
+    QString cmd = "cat /etc/pam.d/sshd 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取ssh服务的锁定规则失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    strl.removeLast();
+    for(int i=0; i<strl.count(); i++)
+    {
+        if(strl[i].contains("pam_tally2.so"))
+        {
+            QStringList tmpl = strl[i].simplified().split(' ');
+            for(int j=0; j<tmpl.count();j++)
+            {
+                if(tmpl[j].contains("deny="))
+                {
+                    info.dParam = tmpl[j].right(tmpl[j].length() - tmpl[j].indexOf("=")-1);
+                }
+                if(tmpl[j].contains("unlock_time="))
+                {
+                    info.uParam = tmpl[j].right(tmpl[j].length() - tmpl[j].indexOf("=")-1);
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool SecFunClass::getCurLockInfoOfGdm(TryLockInfo &info)                    //获取gdm的锁定规则
+{
+    QString cmd = "cat /etc/pam.d/gdm-password 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取gdm服务的锁定规则失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    strl.removeLast();
+    for(int i=0; i<strl.count(); i++)
+    {
+        if(strl[i].contains("pam_tally2.so"))
+        {
+            QStringList tmpl = strl[i].simplified().split(' ');
+            for(int j=0; j<tmpl.count();j++)
+            {
+                if(tmpl[j].contains("deny="))
+                {
+                    info.dParam = tmpl[j].right(tmpl[j].length() - tmpl[j].indexOf("=")-1);
+                }
+                if(tmpl[j].contains("unlock_time="))
+                {
+                    info.uParam = tmpl[j].right(tmpl[j].length() - tmpl[j].indexOf("=")-1);
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool SecFunClass::getCurLockInfo(TryLockInfo &info)                     //获取当前的用户锁定规则
+{
+    try
+    {
+        if(info.sParam == "login")
+        {
+            return getCurLockInfoOfLogin(info);
+        }
+        if(info.sParam == "ssh")
+        {
+            return getCurLockInfoOfSsh(info);
+        }
+        if(info.sParam == "gdm")
+        {
+            return getCurLockInfoOfGdm(info);
+        }
+    }catch(Exception exp)
+    {
+        throw exp;
+    }
+}
+
 bool SecFunClass::getSecStatus(SecStatus &status)
 {
     QString cmd = "sestatus 2>&1; echo $?";
@@ -489,6 +618,29 @@ bool SecFunClass::getUserUkey(SecUserInfo &secUser)
     return true;
 }
 
+RUNSTATE SecFunClass::servRunState(QString svName)
+{
+    QString cmd= "systemctl status "+ svName + " 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+  //  QStringList strl = resStr.split('\n');
+//    if(strl.last().toInt()!=0)
+//    {
+//        resStr.chop(strl.last().length());
+//        QString errContent =tr("执行操作：获取服务运行状态失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+//        qDebug()<<errContent;
+//        throw Exception(strl.last(), errContent);
+//    }
+    if(resStr.contains("Active: active (running)"))
+    {
+        return RUNNING;
+    }else if(resStr.contains("Active: inactive"))
+        return DEAD;
+    else if(resStr.contains("Active: active (exited)"))
+        return EXIT;
+    else
+        return OTHER;
+}
+
 bool SecFunClass::resetPINOfUkey(UkeyInfo ukeyInfo)
 {
     QString cmd = "nfsukey "+ ukeyInfo.cur_pin+ " -s "+ukeyInfo.new_pin+" 2>&1;echo $?";
@@ -543,5 +695,181 @@ bool SecFunClass::getTeRules(QList<TERule> &telist)                         //�
 
 bool SecFunClass::getFileProcessRules(QList<FileProConV> &fpconvs)
 {
+    fpconvs.clear();
+    QString cmd = "sesearch --type 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取文件/进程安全策略失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    strl.removeLast();      //去掉echo $?
+    strl.removeLast();      //去掉最后一行空行
+    strl.removeFirst();     //去掉第一行
+
+    QRegExp regexp = QRegExp("\\s+");
+    bool filename_trans= false;
+    for(int i=0; i<strl.length(); i++)
+    {
+        FileProConV fpconv;
+        strl[i] = strl[i].simplified();
+        if(strl[i].length()!=0)
+        {
+            if(!filename_trans)
+            {
+                if(strl[i].right(1)==";")
+                    strl[i] = strl[i].left(strl[i].length()-1);
+                QStringList tmpl = strl[i].trimmed().split(regexp);
+                if(tmpl.length()<6)
+                    {
+                    QString errContent=tr("执行操作：获取文件/进程安全策略失败")+tr("\n错误内容：");
+                    qDebug()<<errContent;
+                    throw Exception(strl.last(), errContent);
+                }
+                fpconv.src_type = tmpl[1];
+                fpconv.targ_type = tmpl[2];
+                fpconv.class_type = tmpl[4];
+                fpconv.default_type = tmpl[5];
+                fpconvs.append(fpconv);
+            }else
+            {
+                if(strl[i].right(1)==";")
+                    strl[i] = strl[i].left(strl[i].length()-1);
+                QStringList tmpl = strl[i].trimmed().split(regexp);
+                fpconv.src_type = tmpl[1];
+                fpconv.targ_type = tmpl[2];
+                fpconv.class_type = tmpl[4];
+                fpconv.default_type = tmpl[5]+" "+tmpl[6];
+                fpconvs.append(fpconv);
+            }
+
+        }else
+        {
+            i++;    //遇到空白行，越过下一行
+            filename_trans = true;
+        }
+
+    }
+    return true;
+}
+
+void SecFunClass::getSafePolicySlot(TELIST teList,F_PLIST fpList)
+{
+    try
+    {
+        getTeRules(teList);
+        getFileProcessRules(fpList);
+        emit emitGetSafePolicyDone(0, Exception("",""),teList, fpList);
+    }catch(Exception exp)
+    {
+        emit emitGetSafePolicyDone(1, exp, teList, fpList);
+    }
+}
+
+bool SecFunClass::GetSakInfo(SakInfo &sakinfo)                 //获取sak开关信息
+{
+    QString cmd = "nfs-getsak 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取SAK信息失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    strl.removeLast();      //去掉echo $?
+    for(int i=0; i<strl.count(); i++)
+    {
+        strl[i] = strl[i].simplified();
+        QStringList tmpl = strl[i].split(' ');
+        if(tmpl.count()!=4)
+        {
+            QString errContent=tr("执行操作：获取SAK信息失败")+ tr("\n执行命令：")+cmd+tr("\n错误内容：分析结果失败");
+            qDebug()<<errContent;
+            throw Exception(strl.last(), errContent);
+        }
+        if(strl[i].contains("CURRENT:"))
+            sakinfo.current_mode = tmpl.last();
+        if(strl[i].contains("DEFAULT:"))
+            sakinfo.default_mode = tmpl.last();
+    }
+
+    return true;
+}
+
+bool SecFunClass::SetSakInfo(QString sta)
+{
+    QString cmd = "nfs-setsak "+sta+" 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：设置SAK信息失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    return true;
+}
+
+bool SecFunClass::SetDefaultSakInfo(QString sta)                           //设置sak
+{
+    QString cmd = "nfs-setsak default_"+sta+" 2>&1;echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：设置SAK Default信息失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    return true;
+}
+
+bool SecFunClass::setEnforce(bool bOpen)
+{
+    QString cmd = QString("setenforce ") + (bOpen?"1":"0" )+ " 2>&1; echo $?";
+    QString resStr= GetCmdRes(cmd).trimmed();
+
+    QStringList strl = cmd.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：开启/关闭安全策略失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    return true;
+}
+
+bool SecFunClass::startOrStopService(QString svName, int opt)      //开启或关闭服务
+{
+    QString cmd = "service " ;
+    if(opt==1)
+        cmd += svName + " stop 2>&1; echo $?";
+    else if(opt==0)
+        cmd += svName + " start 2>&1; echo $?";
+    else
+        cmd += svName + " restart 2>&1; echo $?";
+
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：开启或关闭服务失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
     return true;
 }

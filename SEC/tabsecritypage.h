@@ -37,7 +37,6 @@ public:
 
     void waitDiaogAppear();
 private slots:
-    void on_open_closeButton_clicked();
 
     void on_setPwButton_clicked();
 
@@ -72,13 +71,16 @@ private slots:
     void ukeyPINActionSlot();
     void ukeyBindActionSlot();
     void freshActionSlot();
+    void on_lockSvrComboBox_currentIndexChanged(const QString &arg1);
 
     //多线程结果处理
     void setUserTagInfoSlot(int res, Exception exp);
-
+    void getSafePolicySlot(int res, Exception exp,TELIST teList, F_PLIST fpList);
+    void on_open_closeSecPolButton_clicked();
 
 signals:
-    void emitSetUserTagInfo(UserTag, int);
+    void emitSetUserTagInfo(UserTag, int);      //设置用户安全标签
+    void emitGetSafePolicy(TELIST, F_PLIST);    //获取安全策略
 private:
     Ui::TabSecrityPage *ui;
 
@@ -119,6 +121,8 @@ private:
 
     WaitDialog *waitD;
     QThread *thread;
+
+    bool bFirst;
 };
 
 #endif // TABSECRITYPAGE_H

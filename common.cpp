@@ -378,10 +378,10 @@ bool get_services(QList<ServiceInfo> &sevrs)
 //        servInfo.runStat = is_serv_running(servInfo.sName);
 //        sevrs.append(servInfo);
 //    }
-//    if(sevrs.length()>0)
-//        return true;
-//    else
-//        return false;
+    if(sevrs.length()>0)
+        return true;
+    else
+        return false;
 }
 
 bool up_service_when_start(QString sname)
@@ -1001,7 +1001,8 @@ bool get_f_p_types(QList<FileProConV> &fpconvs)
         return false;
     }
     fpconvs.clear();
-    QString cmd = "sesearch --type  | awk \'NR>1 {print $2,$3,$5,$6}\' ; echo $?";
+   // QString cmd = "sesearch --type  | awk \'NR>1 {print $2,$3,$5,$6}\' ; echo $?";
+    QString cmd = "sesearch --type 2>&1; echo $?";
     cmd = GetCmdRes(cmd).trimmed();
     QStringList list = cmd.split('\n');
     if(list.last().toInt()!=0)
@@ -1009,25 +1010,47 @@ bool get_f_p_types(QList<FileProConV> &fpconvs)
         qDebug()<<"get_f_p_types failed errono:"<<list.last();
         return false;
     }
-    list.removeLast();
-    list.removeLast();
+//    list.removeLast();
+//    list.removeLast();
+    list.removeLast();      //去掉echo $?
+    list.removeLast();      //去掉最后一行空行
+    list.removeFirst();     //去掉第一行
+
     QRegExp regexp = QRegExp("\\s+");
+    bool filename_trans= false;
     for(int i=0; i<list.length(); i++)
     {
         FileProConV fpconv;
-        list[i] = list[i].trimmed();
+        list[i] = list[i].simplified();
         if(list[i].length()!=0)
         {
-            if(list[i].right(1)==";")
-                list[i] = list[i].left(list[i].length()-1);
-            QStringList tmpl = list[i].trimmed().split(regexp);
-            fpconv.src_type = tmpl[0];
-            fpconv.targ_type = tmpl[1];
-            fpconv.class_type = tmpl[2];
-            fpconv.default_type = tmpl[3];
-            fpconvs.append(fpconv);
+            if(!filename_trans)
+            {
+                if(list[i].right(1)==";")
+                    list[i] = list[i].left(list[i].length()-1);
+                QStringList tmpl = list[i].trimmed().split(regexp);
+                fpconv.src_type = tmpl[1];
+                fpconv.targ_type = tmpl[2];
+                fpconv.class_type = tmpl[4];
+                fpconv.default_type = tmpl[5];
+                fpconvs.append(fpconv);
+            }else
+            {
+                if(list[i].right(1)==";")
+                    list[i] = list[i].left(list[i].length()-1);
+                QStringList tmpl = list[i].trimmed().split(regexp);
+                fpconv.src_type = tmpl[1];
+                fpconv.targ_type = tmpl[2];
+                fpconv.class_type = tmpl[4];
+                fpconv.default_type = tmpl[5]+" "+tmpl[6];
+                fpconvs.append(fpconv);
+            }
+
         }else
-            i++;
+        {
+            i++;    //遇到空白行，越过下一行
+            filename_trans = true;
+        }
 
     }
     return true;

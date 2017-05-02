@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include"common.h"
+#include "indexfunclass.h"
+
 namespace Ui {
 class IndexWidget;
 }
@@ -17,7 +19,7 @@ public:
 
 private:
     Ui::IndexWidget *ui;
-
+    IndexFunClass m_indexFunModel;
 };
 
 #endif // INDEXWIDGET_H

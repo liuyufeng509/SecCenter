@@ -14,6 +14,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
 
     //用户安全管理界面
     ui->userTableWidget->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    ui->userTableWidget->setEditTriggers ( QAbstractItemView::NoEditTriggers );
     QHeaderView* headerView = ui->userTableWidget->verticalHeader();
     headerView->setHidden(true);
 
@@ -32,7 +33,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
 
     //用户锁定规则设置
     getLockServices();
-    ui->comboBox->addItems(services);
+    ui->lockSvrComboBox->addItems(services);
 
     //密码规则设置
     QRegExp regExp("[1-9][0-9]{0,2}");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$
@@ -41,9 +42,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
 
     ui->tmsLineEdit->setValidator(new QRegExpValidator(regExp, this));
     ui->secLineEdit->setValidator(new QRegExpValidator(regExp, this));
-    ui->tmsLineEdit->setText("3");
-    ui->secLineEdit->setText("30");
-    ui->comboBox->setCurrentIndex(0);
+    ui->lockSvrComboBox->setCurrentIndex(0);
     ui->minlenEdit->setValidator(new QRegExpValidator(regExp, this));
     ui->dlenEdit->setValidator(new QRegExpValidator(regExp, this));
     ui->uplenEdit->setValidator(new QRegExpValidator(regExp, this));
@@ -86,11 +85,8 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
         errMsgBox(exp.getErroWhat());
     }
 
-
-    //te policy
-
     //audit service start/stop
-    if(is_serv_running(tr(SEV_NAME))!=RUNNING)
+    if(m_secFunModel.servRunState(tr(SEV_NAME))!=RUNNING)
     {
         ui->closeAduButton->setText(tr("开启审计服务"));
         ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
@@ -111,7 +107,13 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     qRegisterMetaType<UserTag> ("UserTag");
     connect(this, SIGNAL(emitSetUserTagInfo(UserTag,int)),&m_secFunModel, SLOT(setUserTagInfoSlot(UserTag,int)));
     connect(&m_secFunModel, SIGNAL(emitSetUserTagInfoDone(int,Exception)), this, SLOT(setUserTagInfoSlot(int ,Exception)));
-     thread->start();
+    //安全策略
+    qRegisterMetaType<TELIST> ("TELIST");
+    qRegisterMetaType<F_PLIST>("F_PLIST");
+    connect(this, SIGNAL(emitGetSafePolicy(TELIST,F_PLIST)),&m_secFunModel, SLOT(getSafePolicySlot(TELIST,F_PLIST)));
+    connect(&m_secFunModel, SIGNAL(emitGetSafePolicyDone(int,Exception, TELIST,F_PLIST)), this, SLOT(getSafePolicySlot(int,Exception, TELIST,F_PLIST)));
+    bFirst = true;
+    thread->start();
 }
 
 void TabSecrityPage::updateSecUserUI()
@@ -213,18 +215,31 @@ void TabSecrityPage::setUserTagInfoSlot(int res, Exception exp)
         errMsgBox(exp.getErroWhat());
 }
 
+void TabSecrityPage::getSafePolicySlot(int res, Exception exp,TELIST teList, F_PLIST fpList)
+{
+    waitD->accept();
+    terules = teList;
+    fpconvs = fpList;
+    if(res ==1)
+    {
+        errMsgBox(exp.getErroWhat());
+        bFirst = false;
+    }
+    else
+        bFirst = true;
+
+    InitRuleTab();
+    UpdateRuletabel(terules);
+    InitFPTab();
+    UpdateFPTable(fpconvs);
+
+}
+
 void TabSecrityPage::init_sak_ui()
 {
-    if(!get_sak_info(sakinfo))
+    try
     {
-        sakinfo.current_mode="disable";
-        sakinfo.default_mode="disable";
-        ui->cur_sakstatus_label->setText(tr("获取当前sak状态失败!"));
-        ui->def_sakstatus_label->setText(tr("获取默认sak状态失败!"));
-        ui->open_close_sak_Button->setText(tr("开启当前SAK功能"));
-        ui->open_close_def_sak_Button->setText(tr("开启默认SAK功能"));
-    }else
-    {
+        m_secFunModel.GetSakInfo(sakinfo);
         if(sakinfo.current_mode=="enable")
         {
             ui->cur_sakstatus_label->setText(tr("当前sak状态: 开启"));
@@ -243,6 +258,15 @@ void TabSecrityPage::init_sak_ui()
             ui->def_sakstatus_label->setText(tr("默认sak状态: 未开启"));
             ui->open_close_def_sak_Button->setText(tr("开启默认SAK功能"));
         }
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+        sakinfo.current_mode="disable";
+        sakinfo.default_mode="disable";
+        ui->cur_sakstatus_label->setText(tr("获取当前sak状态失败!"));
+        ui->def_sakstatus_label->setText(tr("获取默认sak状态失败!"));
+        ui->open_close_sak_Button->setText(tr("开启当前SAK功能"));
+        ui->open_close_def_sak_Button->setText(tr("开启默认SAK功能"));
     }
 }
 
@@ -345,23 +369,24 @@ void TabSecrityPage::UpdateFPTable(QList<FileProConV> &convs)
 
 void TabSecrityPage::listItemChangedSlot(int page)
 {
-    if(page == 4)       //servies
+    if(page == 4 && bFirst)       //servies
     {
-        //get_te_rules(terules);
-        try
-        {
-            m_secFunModel.getTeRules(terules);
-            InitRuleTab();
-            UpdateRuletabel(terules);
-        }catch(Exception exp)
-        {
-            errMsgBox(exp.getErroWhat());
-        }
+        emit emitGetSafePolicy(terules, fpconvs);
+        waitDiaogAppear();
+//        try
+//        {
+//            m_secFunModel.getTeRules(terules);
+//            InitRuleTab();
+//            UpdateRuletabel(terules);
+//            m_secFunModel.getFileProcessRules(fpconvs);
+//            InitFPTab();
+//            UpdateFPTable(fpconvs);
+//            disconnect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(listItemChangedSlot(int)));
+//        }catch(Exception exp)
+//        {
+//            errMsgBox(exp.getErroWhat());
+//        }
 
-        get_f_p_types(fpconvs);
-        InitFPTab();
-        UpdateFPTable(fpconvs);
-        disconnect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(listItemChangedSlot(int)));
     }
 }
 
@@ -377,9 +402,9 @@ void TabSecrityPage::UpdateToSecStatus()
     }
 
     if(secStatus.curr_mode == tr("enforcing"))
-        ui->open_closeButton->setText(tr("关闭安全策略"));
+        ui->open_closeSecPolButton->setText(tr("关闭安全策略"));
     else if(secStatus.curr_mode == tr("permissive"))
-        ui->open_closeButton->setText(tr("开启安全策略"));
+        ui->open_closeSecPolButton->setText(tr("开启安全策略"));
 
     ui->seStalabel->setText(secStatus.selinux_status);
     ui->fsMountlabel->setText(secStatus.selinux_fs_mount);
@@ -435,23 +460,6 @@ void TabSecrityPage::on_setPwButton_clicked()
     }else
         errMsgBox(tr("操作失败"));
 }
-
-
-void TabSecrityPage::on_open_closeButton_clicked()
-{
-    if(ui->open_closeButton->text() == tr("关闭安全策略"))
-    {
-        open_close_sec_policy(false);
-        ui->open_closeButton->setText(tr("开启安全策略"));
-    }
-    else
-    {
-        open_close_sec_policy(true);
-        ui->open_closeButton->setText(tr("关闭安全策略"));
-    }
-    UpdateToSecStatus();
-}
-
 void TabSecrityPage::on_browserButton_clicked()
 {
     if(ui->isDirheckBox->isChecked())
@@ -568,24 +576,23 @@ void TabSecrityPage::on_findButton2_clicked()
 
 void TabSecrityPage::on_closeAduButton_clicked()
 {
-    if(ui->closeAduButton->text() == tr("开启审计服务"))
+    try
     {
-        if(!start_service(SEV_NAME))
+        if(ui->closeAduButton->text() == tr("开启审计服务"))
         {
-            errMsgBox(tr("启动失败"));
-            return;
+            m_secFunModel.startOrStopService(SEV_NAME, 0);
+            ui->closeAduButton->setText(tr("关闭审计服务"));
+            ui->cur_audstatus_label->setText(tr("当前状态：       正在运行"));
+        }else
+        {
+            m_secFunModel.startOrStopService(SEV_NAME,1);
+            stop_service(SEV_NAME);
+            ui->closeAduButton->setText(tr("开启审计服务"));
+            ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
         }
-        ui->closeAduButton->setText(tr("关闭审计服务"));
-        ui->cur_audstatus_label->setText(tr("当前状态：       正在运行"));
-    }else
+    }catch(Exception exp)
     {
-        if(!stop_service(SEV_NAME))
-        {
-            errMsgBox( tr("停止失败"));
-            return;
-        }
-        ui->closeAduButton->setText(tr("开启审计服务"));
-        ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
+        errMsgBox(exp.getErroWhat());
     }
 }
 
@@ -596,35 +603,47 @@ void TabSecrityPage::on_close_client_reuse_Button_clicked()
 
 void TabSecrityPage::on_open_close_sak_Button_clicked()
 {
-    if(sakinfo.current_mode=="enable")
+    try
     {
-        set_cur_sak("disable");
-    }else
-        set_cur_sak("enable");
+        if(sakinfo.current_mode=="enable")
+        {
+            m_secFunModel.SetSakInfo("disable");
+        }else
+            m_secFunModel.SetSakInfo("enable");
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
 
     init_sak_ui();
 }
 
 void TabSecrityPage::on_open_close_def_sak_Button_clicked()
 {
-    if(sakinfo.default_mode=="enable")
+    try
     {
-        set_def_sak("disable");
-    }else
-        set_def_sak("enable");
+        if(sakinfo.default_mode=="enable")
+        {
+            m_secFunModel.SetDefaultSakInfo("disable");
+        }else
+            m_secFunModel.SetDefaultSakInfo("enable");
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
 
-     init_sak_ui();
+    init_sak_ui();
 }
 
 
 void TabSecrityPage::on_setTryLockButton_clicked()
 {
     QString cmd = "nfs-enhanced-trylock -d "+ui->tmsLineEdit->text() + " -u "
-            + ui->secLineEdit->text()+ " -s " + ui->comboBox->currentText() + "; echo $?";
+            + ui->secLineEdit->text()+ " -s " + ui->lockSvrComboBox->currentText() + "; echo $?";
     TryLockInfo info;
     info.dParam =ui->tmsLineEdit->text();
     info.uParam = ui->secLineEdit->text();
-    info.sParam = ui->comboBox->currentText();
+    info.sParam = ui->lockSvrComboBox->currentText();
     try
     {
         m_secFunModel.tryLockOption(info);
@@ -773,3 +792,43 @@ void TabSecrityPage::on_setFileTagButton_clicked()
     }
 }
 
+
+void TabSecrityPage::on_lockSvrComboBox_currentIndexChanged(const QString &arg1)
+{
+    TryLockInfo info;
+    info.sParam = arg1;
+
+    try
+    {
+        m_secFunModel.getCurLockInfo(info);
+        ui->tmsLineEdit->setText(info.dParam);
+        ui->secLineEdit->setText(info.uParam);
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
+}
+
+
+
+void TabSecrityPage::on_open_closeSecPolButton_clicked()
+{
+    try
+    {
+        if(ui->open_closeSecPolButton->text() == tr("关闭安全策略"))
+        {
+            m_secFunModel.setEnforce(false);
+            ui->open_closeSecPolButton->setText(tr("开启安全策略"));
+        }
+        else
+        {
+            m_secFunModel.setEnforce(true);
+            ui->open_closeSecPolButton->setText(tr("关闭安全策略"));
+        }
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
+
+    UpdateToSecStatus();
+}

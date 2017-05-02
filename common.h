@@ -100,24 +100,11 @@ bool get_cur_pwd_info(PwdInfo &pwd);
 bool get_sec_status(SecStatus &status);
 bool open_close_sec_policy(bool open);
 
-struct UserTag
-{
-    QString username;
-    QString safeTag;
-    QString wholeTag;
-    bool operator ==(const UserTag& d)
-    {
-        return username == d.username;
-    }
-};
+
 bool get_user_taginfos(QList<UserTag> &reslist);
 bool set_user_tagInfo(UserTag usrtag, bool add);
 
-struct SakInfo
-{
-    QString current_mode;
-    QString default_mode;
-};
+
 bool get_sak_info(SakInfo &sakinfo);
 bool set_cur_sak(QString sta);
 bool set_def_sak(QString sta);
@@ -209,37 +196,16 @@ QString getCwdPath();
 
 
 //security file tag
-struct FileTag
-{
-    QString filename;
-    QString safeTag;
-    QString wholeTag;
-    bool isDir;
-};
+
 
 bool get_filetag_info(FileTag &fileinfo);
 bool set_filetag_info(FileTag fileinfo);
 
 
-//security rule
-struct TERule
-{
-    QString domain_type;
-    QString file_type;
-    QString class_type;
-    QString permmisions;
-};
-
 bool get_te_rules(QList<TERule> &terulist);
 
 //security file process conversion
-struct FileProConV
-{
-    QString src_type;
-    QString targ_type;
-    QString class_type;
-    QString default_type;
-};
+
 
 bool get_f_p_types(QList<FileProConV> &fpconvs);
 

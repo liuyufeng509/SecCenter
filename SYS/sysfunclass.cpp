@@ -274,7 +274,14 @@ bool SysFunClass::getServices(QList<ServiceInfo> &sevrs)
         if(info[1]=="enabled")
             servInfo.cfgStatus = ENABLE;
 
-        servInfo.runStat = is_serv_running(servInfo.sName);
+        try
+        {
+            servInfo.runStat = servRunState(servInfo.sName);
+        }catch (Exception exp)
+        {
+            throw exp;
+        }
+
         sevrs.append(servInfo);
     }
     if(sevrs.length()>0)
@@ -285,14 +292,22 @@ bool SysFunClass::getServices(QList<ServiceInfo> &sevrs)
 
 RUNSTATE SysFunClass::servRunState(QString svName)
 {
-    QString cmd= "systemctl status "+ svName;
-    cmd = GetCmdRes(cmd).trimmed();
-    if(cmd.contains("Active: active (running)"))
+    QString cmd= "systemctl status "+ svName + " 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+//    if(strl.last().toInt()!=0)
+//    {
+//        resStr.chop(strl.last().length());
+//        QString errContent =tr("执行操作：获取服务运行状态失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+//        qDebug()<<errContent;
+//        throw Exception(strl.last(), errContent);
+//    }
+    if(resStr.contains("Active: active (running)"))
     {
         return RUNNING;
-    }else if(cmd.contains("Active: inactive"))
+    }else if(resStr.contains("Active: inactive"))
         return DEAD;
-    else if(cmd.contains("Active: active (exited)"))
+    else if(resStr.contains("Active: active (exited)"))
         return EXIT;
     else
         return OTHER;

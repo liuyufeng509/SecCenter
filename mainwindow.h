@@ -27,7 +27,7 @@ protected:
 private:
     void initTitleBar();
     void paintEvent(QPaintEvent *event);
-    void loadStyleSheet(const QString &sheetName);
+   // void loadStyleSheet(const QString &sheetName);
 private slots:
     void onButtonMinClicked();
     void onButtonRestoreClicked();

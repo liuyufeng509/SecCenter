@@ -84,7 +84,7 @@
    <item row="0" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="idfyPage">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -184,7 +184,7 @@
                 </widget>
                </item>
                <item row="0" column="6">
-                <widget class="QComboBox" name="comboBox">
+                <widget class="QComboBox" name="lockSvrComboBox">
                  <property name="toolTip">
                   <string>法</string>
                  </property>
@@ -1227,7 +1227,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="open_closeButton">
+           <widget class="QPushButton" name="open_closeSecPolButton">
             <property name="text">
              <string>开启/关闭安全策略</string>
             </property>

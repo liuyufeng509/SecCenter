@@ -114,8 +114,8 @@ void MainWindow::paintEvent(QPaintEvent* event)
     return QWidget::paintEvent(event);
 }
 
-void MainWindow::loadStyleSheet(const QString &sheetName)
-{
+//void MainWindow::loadStyleSheet(const QString &sheetName)
+//{
 //    QFile file(":/Resources/" + sheetName + ".css");
 //    file.open(QFile::ReadOnly);
 //    if (file.isOpen())
@@ -124,7 +124,7 @@ void MainWindow::loadStyleSheet(const QString &sheetName)
 //        styleSheet += QLatin1String(file.readAll());
 //        this->setStyleSheet(styleSheet);
 //    }
-}
+//}
 
 void MainWindow::onButtonMinClicked()
 {

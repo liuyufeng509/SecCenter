@@ -18,6 +18,7 @@ public:
     bool tryLockOption(TryLockInfo info);           //设置锁定规则
     bool getCurPwdInfo(PwdInfo &pwdInfo);        //获取当前系统的密码设置规则
     bool getSecUserList(QList<SecUserInfo> &secUserList);       //获取当前系统用户的安全管理信息
+    bool getCurLockInfo(TryLockInfo &info);                     //获取当前的用户锁定规则
 
     //Ukey 功能操作
     bool resetPINOfUkey(UkeyInfo ukeyInfo);     //更改UKey的PIN
@@ -34,20 +35,31 @@ public:
     bool getFileTagInfo(FileTag &filetag);                      //获取文件安全标签
 
     //安全策略查看功能
-    bool getTeRules(QList<TERule> &telist);                          //获取te策略
-    bool getFileProcessRules(QList<FileProConV> &fpconvs);  //
+    bool getTeRules(QList<TERule > &telist);                          //获取te策略
+    bool getFileProcessRules(QList<FileProConV> &fpconvs);  //获取文件进程策略
+
+    //开关管理相关
+    RUNSTATE servRunState(QString svName);      //获取服务运行状态
+    bool GetSakInfo(SakInfo &sakinfo);                 //获取sak开关信息
+    bool SetSakInfo(QString sta);                           //设置sak
+    bool SetDefaultSakInfo(QString sta);                           //设置sak
+    bool setEnforce(bool bOpen);                        //开启关闭安全策略
+    bool startOrStopService(QString svName, int opt);       //开启或关闭服务
 signals:
-    //用户安全标签管理多线程操作
-    void emitSetUserTagInfoDone(int res, Exception);   //设置完毕，返回结果
+    void emitSetUserTagInfoDone(int res, Exception);   //用户安全标签管理多线程操作,设置完毕，返回结果
+    void emitGetSafePolicyDone(int res, Exception exp, TELIST telist, F_PLIST fpList);      //获取安全策略结束
 
 public slots:
     //用户安全标签设置多线程操作
     void setUserTagInfoSlot(UserTag usrtag, int opt);
-
+    void getSafePolicySlot(TELIST teList,F_PLIST fpList);
 
 private:
     bool getUserListOfShaddow(QList<SecUserInfo> &secUserList); //判断/etc/passwd，用户是否已经被创建过
     bool getUserUkey(SecUserInfo &secUser);                         //获取绑定的Ukey
+    bool getCurLockInfoOfLogin(TryLockInfo &info);                  //获取login的锁定规则
+    bool getCurLockInfoOfSsh(TryLockInfo &info);                    //获取ssh的锁定规则
+    bool getCurLockInfoOfGdm(TryLockInfo &info);                    //获取gdm的锁定规则
 };
 
 #endif // SECFUNCLASS_H

@@ -84,7 +84,7 @@
    <item row="0" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>5</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="idfyPage">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -246,7 +246,7 @@
                <item row="1" column="4">
                 <widget class="QLabel" name="label_3">
                  <property name="toolTip">
-                  <string>默认值1</string>
+                  <string>默认值：1</string>
                  </property>
                  <property name="text">
                   <string>大写字母个数:</string>
@@ -256,7 +256,7 @@
                <item row="1" column="2">
                 <widget class="QLabel" name="label_2">
                  <property name="toolTip">
-                  <string>默认值1</string>
+                  <string>默认值：1</string>
                  </property>
                  <property name="text">
                   <string>数字位数:</string>
@@ -269,7 +269,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label">
                  <property name="toolTip">
-                  <string>默认值12</string>
+                  <string>默认值：12</string>
                  </property>
                  <property name="text">
                   <string>最短长度:</string>
@@ -285,7 +285,7 @@
                <item row="2" column="2">
                 <widget class="QLabel" name="label_5">
                  <property name="toolTip">
-                  <string>默认值1</string>
+                  <string>默认值：1</string>
                  </property>
                  <property name="text">
                   <string>特殊字符个数:</string>
@@ -295,7 +295,7 @@
                <item row="2" column="0">
                 <widget class="QLabel" name="label_4">
                  <property name="toolTip">
-                  <string>默认值1</string>
+                  <string>默认值：1</string>
                  </property>
                  <property name="text">
                   <string>小写字母个数:</string>
@@ -305,8 +305,8 @@
                <item row="0" column="0" colspan="6">
                 <widget class="QLabel" name="label_13">
                  <property name="text">
-                  <string>规则说明：每增加一种密码类型，最小长度要求减一。如最小长度12时，
-增加小写字母限制，最小长度可以为11位.</string>
+                  <string>规则说明：每增加一种密码类型，最小长度要求减一。如最小长度为12时，
+增加小写字母限制，最小长度可以为11位。</string>
                  </property>
                 </widget>
                </item>

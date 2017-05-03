@@ -71,6 +71,10 @@ background-color:gray;
 .QRadioButton{
    color:white;
 }
+ .QRadioButton:hover
+ {
+ background-color:blue;
+ }
 
 QGroupBox {
  color:#cccccc;

@@ -2,6 +2,8 @@
 #define TABAUDITPAGE_H
 
 #include <QWidget>
+#include <QKeyEvent>
+#include <QDirModel>
 #include"common.h"
 namespace Ui {
 class TabAuditPage;
@@ -42,6 +44,8 @@ public:
 
     void save_file_rules_from_ui();
 
+
+    void keyPressEvent(QKeyEvent * event);      //添加enter响应
 
 private slots:
 //    void on_openButton_clicked();

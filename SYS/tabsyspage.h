@@ -25,6 +25,7 @@ public:
     void UpdateToSvrUI();
 
     void waitDiaogAppear();
+    void waitDialogAccept();
 public slots:
     void on_tableWidget_customContextMenuRequested(QPoint pos);             //用户管理右键菜单
     void on_svrTableWidget_customContextMenuRequested(QPoint pos);

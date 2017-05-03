@@ -98,7 +98,7 @@ TabSysPage::TabSysPage(QWidget *parent) :
 void TabSysPage::getServicesSlot(int res, Exception exp, SEVLIST svs)     //获取用户列表线程结束，处理结果
 {
     sevrs = svs;
-    waitD->accept();
+    waitDialogAccept();
     if(res == 0)
     {
         QList<ServiceInfo> sevrstmp;
@@ -119,7 +119,7 @@ void TabSysPage::getServicesSlot(int res, Exception exp, SEVLIST svs)     //获�
 }
 void TabSysPage::setUpDownWhenBootSlot(int res, Exception exp)
 {
-    waitD->accept();
+    waitDialogAccept();
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
@@ -142,7 +142,7 @@ void TabSysPage::setUpDownWhenBootSlot(int res, Exception exp)
 
 void TabSysPage::startOrStopServiceSlot(int res, Exception exp)
 {
-    waitD->accept();
+    waitDialogAccept();
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
@@ -181,11 +181,17 @@ void TabSysPage::listRowChangedSlot(int page)
     }
 }
 
+void TabSysPage::waitDialogAccept()
+{
+    waitD->accept();
+    delete waitD;
+}
+
 void TabSysPage::waitDiaogAppear()
 {
     waitD = new WaitDialog(this);
     waitD->exec();
-    waitD->deleteLater();
+    //waitD->deleteLater();
 }
 
 void TabSysPage::set_up_down_when_start()

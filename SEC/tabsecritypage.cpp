@@ -207,7 +207,7 @@ void TabSecrityPage::freshActionSlot()
 
 void TabSecrityPage::setUserTagInfoSlot(int res, Exception exp)
 {
-    waitD->accept();
+    waitDialogAccept();
     if(res == 0)
     {
         infoMsgBox(tr("设置用户安全标签成功"));
@@ -217,7 +217,7 @@ void TabSecrityPage::setUserTagInfoSlot(int res, Exception exp)
 
 void TabSecrityPage::getSafePolicySlot(int res, Exception exp,TELIST teList, F_PLIST fpList)
 {
-    waitD->accept();
+   waitDialogAccept();
     terules = teList;
     fpconvs = fpList;
     if(res ==1)
@@ -730,6 +730,12 @@ void TabSecrityPage::on_setUserTagButton_clicked()
     emit emitSetUserTagInfo(usrtag, userTagList.contains(usrtag)?1:0);
 
     waitDiaogAppear();
+}
+
+void TabSecrityPage::waitDialogAccept()
+{
+    waitD->accept();
+    delete waitD;
 }
 
 void TabSecrityPage::waitDiaogAppear()

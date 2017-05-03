@@ -28,14 +28,15 @@ ROLE MainFunClass::getUserRole() /* throw()*/
 	}	
     ROLE res = ERROR;
 	
-    if(rl[0] == "secadm_r")
+    if(rl[1] == "secadm_r")
         res = SECADMIN;
-    else if(rl[0] == "sysadm_r")
+    else if(rl[1] == "sysadm_r")
         res = SYSADMIN;
-    else if(rl[0] == "auditadm_r")
+    else if(rl[1] == "auditadm_r")
         res = AUDIADMIN;
 	else
 		res = ERROR;
+    // qDebug()<<"res="<<res<<" rl[0]="<<rl[0];
 	 return res;
 }
 

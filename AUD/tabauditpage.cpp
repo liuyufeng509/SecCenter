@@ -16,7 +16,7 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
-
+    ui->listWidget->setCurrentRow(0);
     //open/close auditservice
 //    if(is_serv_running(tr(SEV_NAME))!=RUNNING)
 //    {
@@ -32,7 +32,8 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     set_query_fun_ui();
     set_signal_slot();
     ui->sv_to_fileButton->setHidden(true);
-
+    ui->sys_call_et_TimeEdit->setDateTime(QDateTime::currentDateTime());
+    ui->sys_call_st_TimeEdit->setDateTime(QDateTime::currentDateTime());
     //report fun
 
     //audit rules
@@ -53,8 +54,14 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     //custom rules
 
     //audit config
-    get_aud_config_info();
-    update_aud_config_ui();
+//    ui->log_filelineEdit;
+//    QDirModel *model = new QDirModel(this);
+//    search_line_edit = new QLineEdit(this);
+//    completer = new QCompleter(this);
+//    completer->setModel(model);
+//    search_line_edit->setCompleter(completer);
+//    get_aud_config_info();
+//    update_aud_config_ui();
 
     //display
 
@@ -313,35 +320,55 @@ void TabAuditPage::on_query_produceButton_clicked()
         return;
     }
 
-    cmd = "ausearch -i "+
-            (ui->evidCheckBox->isChecked()? "--event "+ui->evid_lineEdit->text():"")+" "+
-            (ui->gid_checkBox->isChecked()? "-gi "+ui->gid_lineEdit->text():"") + " "+
-            (ui->fn_checkBox->isChecked()? "-f "+ui->fn_lineEdit->text():"") + " "+
-            (ui->agid_checkBox->isChecked()? "-ga "+ui->agid_lineEdit->text():"")+" "+
-            (ui->egid_checkBox->isChecked()? "-ge "+ui->egid_lineEdit->text():"")+" "+
-            (ui->kw_checkBox->isChecked()? "-k "+ui->kw_lineEdit->text():"") +" "+
-            (ui->hn_checkBox->isChecked()?"-hn "+ui->hn_lineEdit->text():"")+" "+
-            (ui->ppid_checkBox->isChecked()? "-pp "+ui->ppid_lineEdit->text():"")+" "+
-            (ui->mt_checkBox->isChecked()? "-m " +ui->mt_lineEdit->text():"")+ " "+
-            (ui->rs_checkBox->isChecked()? "-sv "+ui->rs_lineEdit->text():"") + " "+
-            (ui->pid_checkBox->isChecked()? "-p " +ui->pid_lineEdit->text():"")+" "+
-            (ui->st_checkBox->isChecked()? "-ts "+ui->st_timeEdit->text():"")+ " "+
-            (ui->et_checkBox->isChecked()? "-te "+ui->et_timeEdit->text():"")+" "+
-            (ui->auid_checkBox->isChecked()? "-ua "+ui->auid_lineEdit->text():"") + " "+
-            (ui->term_checkBox->isChecked()? "-tm "+ui->term_lineEdit->text():"")+ " "+
-            (ui->word_checkBox->isChecked()? "-w "+ui->word_lineEdit->text():"")+" "+
-            (ui->euid_checkBox->isChecked()? "-ue "+ui->euid_lineEdit->text():"")+" "+
-            (ui->luid_checkBox->isChecked()? "-ul "+ui->luid_lineEdit->text():"")+" "+
-            (ui->ef_checkBox->isChecked()? "-x "+ui->ef_lineEdit->text():"")+" "+
-            (ui->uid_checkBox->isChecked()? "-ui "+ui->uid_lineEdit->text():"")+" "+
-            (ui->syscall_checkBox->isChecked()? "-sc "+ui->syscall_lineEdit->text():"")+ "";
+    cmd = "ausearch -i"+
+            (ui->evidCheckBox->isChecked()? " --event "+ui->evid_lineEdit->text():"")+
+            (ui->gid_checkBox->isChecked()? " -gi "+ui->gid_lineEdit->text():"") +
+            (ui->fn_checkBox->isChecked()? " -f "+ui->fn_lineEdit->text():"") +
+            (ui->agid_checkBox->isChecked()? " -ga "+ui->agid_lineEdit->text():"")+
+            (ui->egid_checkBox->isChecked()? " -ge "+ui->egid_lineEdit->text():"")+
+            (ui->kw_checkBox->isChecked()? " -k "+ui->kw_lineEdit->text():"") +
+            (ui->hn_checkBox->isChecked()?" -hn "+ui->hn_lineEdit->text():"")+
+            (ui->ppid_checkBox->isChecked()? " -pp "+ui->ppid_lineEdit->text():"")+
+            (ui->mt_checkBox->isChecked()? " -m " +ui->mt_lineEdit->text():"")+
+            (ui->rs_checkBox->isChecked()? " -sv "+ui->rs_lineEdit->text():"") +
+            (ui->pid_checkBox->isChecked()? " -p " +ui->pid_lineEdit->text():"")+
+            (ui->st_checkBox->isChecked()? " -ts "+ui->st_timeEdit->text():"")+
+            (ui->et_checkBox->isChecked()? " -te "+ui->et_timeEdit->text():"")+
+            (ui->auid_checkBox->isChecked()? " -ua "+ui->auid_lineEdit->text():"") +
+            (ui->term_checkBox->isChecked()? " -tm "+ui->term_lineEdit->text():"")+
+            (ui->word_checkBox->isChecked()? " -w "+ui->word_lineEdit->text():"")+
+            (ui->euid_checkBox->isChecked()? " -ue "+ui->euid_lineEdit->text():"")+
+            (ui->luid_checkBox->isChecked()? " -ul "+ui->luid_lineEdit->text():"")+
+            (ui->ef_checkBox->isChecked()? " -x "+ui->ef_lineEdit->text():"")+
+            (ui->uid_checkBox->isChecked()? " -ui "+ui->uid_lineEdit->text():"")+
+            (ui->syscall_checkBox->isChecked()? " -sc "+ui->syscall_lineEdit->text():"")+ "";
     ui->query_sent_lineEdit->setText(cmd);
+}
+
+void TabAuditPage::keyPressEvent(QKeyEvent * event)
+{
+    if (event->key() == Qt::Key_Return )
+    {
+        if(ui->listWidget->currentRow() == 0)           //审计查询
+            on_aplButton_clicked();
+        else if(ui->listWidget->currentRow() == 1)      //审计报告
+            on_report_okButton_clicked();
+        else if(ui->listWidget->currentRow() == 3)      //审计配置
+            on_apl_cfg_Button_clicked();
+    }
+
+    QWidget::keyPressEvent(event);
 }
 
 void TabAuditPage::on_aplButton_clicked()
 {
     //ui->listWidget->setCurrentItem(5);      //turn to display page
     cmd = ui->query_sent_lineEdit->text();
+    if(cmd.isEmpty())
+    {
+        errMsgBox(tr("查询语句不能为空"));
+        return;
+    }
     if(excute_aud_cmd(cmd, res))
     {
         ui->listWidget->setCurrentRow(5);

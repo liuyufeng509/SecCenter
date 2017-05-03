@@ -36,6 +36,7 @@ public:
     void init_sak_ui();
 
     void waitDiaogAppear();
+    void waitDialogAccept();
 private slots:
 
     void on_setPwButton_clicked();

@@ -82,7 +82,10 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::tabChanged(int index)
 {
     if(index == 0)
+    {
         ui->label->setVisible(true);
+        indexWidget->initUi();
+    }
     else
         ui->label->setVisible(false);
 }

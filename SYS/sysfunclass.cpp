@@ -381,12 +381,17 @@ void SysFunClass::startOrStopServiceSlot(QString svName, int opt)
 
 bool SysFunClass::setKernelParam(QString paramName, QString value)
 {
-    QString cmd = "echo "+value+" >"+paramName+" 2>&1 ;echo $?";
+    QString cmd = "service "+value+" >"+paramName+" 2>&1 ;echo $?";
+    //QString cmd = "echo "+value+" >/root/1.txt 2>&1;echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
+   // qDebug()<<"resStr="<<resStr;
     QStringList strl = resStr.split('\n');
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());
+       // qDebug()<<"resStr1="<<resStr;
+        if(strl.last().toInt()==1)
+            resStr = paramName+tr(":无权限");
         QString errContent =tr("执行操作：设置系统内核参数失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);

@@ -8,7 +8,7 @@
 #define SEV_NAME  "auditd"
 #define CONF_NAME "/etc/audit/auditd.conf"
 #define RULE_CONF_NAME  QString("/etc/audit/rules.d/audit.rules")
-
+#define DISPLAY_PAGE   4
 TabAuditPage::TabAuditPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TabAuditPage),
@@ -17,31 +17,29 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
     ui->listWidget->setCurrentRow(0);
-    //open/close auditservice
-//    if(is_serv_running(tr(SEV_NAME))!=RUNNING)
-//    {
-//        ui->closeAduButton->setText(tr("开启审计服务"));
-//        ui->audStatusEdit->setText(tr("审计服务未运行"));
-//    }else
-//    {
-//        ui->closeAduButton->setText(tr("关闭审计服务"));
-//        ui->audStatusEdit->setText(tr("审计服务正在运行"));
-//    }
 
-    //query fun
-    set_query_fun_ui();
-    set_signal_slot();
+    //审计查询功能
+    setAuSearchUI();
+    connCheckBoxAndLineEdit();
     ui->sv_to_fileButton->setHidden(true);
     ui->sys_call_et_TimeEdit->setDateTime(QDateTime::currentDateTime());
     ui->sys_call_st_TimeEdit->setDateTime(QDateTime::currentDateTime());
     //report fun
 
     //audit rules
-    QRegExp regExp("^\\d{1,}$");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$
+    //QRegExp regExp("^\\d{1,}$");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$
+    QRegExp regExp("^0$|^\\+?[1-9]\\d*$");  //注意\为\\
     ui->max_noaud_buf_lineEdit->setValidator(new QRegExpValidator(regExp,this));
     ui->rate_limit_lineEdit->setValidator(new QRegExpValidator(regExp,this));
     kernAudParam.bignore = false;
-    get_kern_aud_param(kernAudParam);
+    try
+    {
+        m_audFunModel.getKernAudParam(kernAudParam);
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
+
     update_kern_aud_param_ui();
 
     //file rules
@@ -54,14 +52,12 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     //custom rules
 
     //audit config
-//    ui->log_filelineEdit;
-//    QDirModel *model = new QDirModel(this);
-//    search_line_edit = new QLineEdit(this);
-//    completer = new QCompleter(this);
-//    completer->setModel(model);
-//    search_line_edit->setCompleter(completer);
-//    get_aud_config_info();
-//    update_aud_config_ui();
+    QDirModel *model = new QDirModel(this);
+    completer = new QCompleter(this);
+    completer->setModel(model);
+    ui->log_filelineEdit->setCompleter(completer);
+    get_aud_config_info();
+    update_aud_config_ui();
 
     //display
 
@@ -84,12 +80,12 @@ void TabAuditPage::read_and_display_file()
 
 void TabAuditPage::on_open_pushButton_clicked()
 {
-    fileName = QFileDialog::getOpenFileName(this, tr("Open File"),audCfgInfo.log_file);
-    if(fileName.isEmpty())
+    QString filePathTmp = QFileDialog::getOpenFileName(this, tr("Open File"),audCfgInfo.log_file);
+    if(filePathTmp.isEmpty())
     {
         return;
     }
-
+    fileName = filePathTmp;
     read_and_display_file();
 
 }
@@ -220,32 +216,32 @@ TabAuditPage::~TabAuditPage()
 //    }
 //}
 
-void TabAuditPage::set_signal_slot()
+void TabAuditPage::connCheckBoxAndLineEdit()
 {
-    connect(ui->evidCheckBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->gid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->agid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->egid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->kw_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->hn_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->mt_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->rs_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->ppid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->pid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->fn_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->word_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->term_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->ef_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->euid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->uid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->luid_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->syscall_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-
-    connect(ui->st_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
-    connect(ui->et_checkBox, SIGNAL(clicked(bool)), this, SLOT(set_query_fun_ui()));
+    connect(ui->evidCheckBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->gid_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->agid_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->egid_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->kw_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->hn_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->mt_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->rs_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->ppid_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->pid_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->fn_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->word_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->term_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->ef_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->euid_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->uid_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->luid_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->syscall_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->auid_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->st_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
+    connect(ui->et_checkBox, SIGNAL(clicked(bool)), this, SLOT(setAuSearchUI()));
 }
 
-void TabAuditPage::set_query_fun_ui()
+void TabAuditPage::setAuSearchUI()
 {
     ui->evid_lineEdit->setEnabled(ui->evidCheckBox->isChecked());
     ui->gid_lineEdit->setEnabled(ui->gid_checkBox->isChecked());
@@ -369,15 +365,16 @@ void TabAuditPage::on_aplButton_clicked()
         errMsgBox(tr("查询语句不能为空"));
         return;
     }
-    if(excute_aud_cmd(cmd, res))
+    try
     {
-        ui->listWidget->setCurrentRow(5);
+        m_audFunModel.excuteAudCmd(cmd, tr("审计查询"), res);
+        ui->listWidget->setCurrentRow(DISPLAY_PAGE);
         ui->textBrowser->setText(res);
         op_type = QUERY_SET;
         ui->fresh_pushButton->setToolTip(tr("刷新类型：审计查询"));
-    }else
+    }catch(Exception exp)
     {
-        QMessageBox::information(this, tr("提示"), tr("执行查询语句失败，请检查查询语句"));
+        errMsgBox(exp.getErroWhat());
     }
     //emit emitQuerySentence()
 }
@@ -431,15 +428,16 @@ void TabAuditPage::on_report_okButton_clicked()
             (ui->user_radioButton->isChecked()?"-u ":"")+
             (ui->kw_radioButton->isChecked()?"-k ":"");
 
-    if(excute_aud_cmd(cmd, res))
+    try
     {
-        ui->listWidget->setCurrentRow(5);
+        m_audFunModel.excuteAudCmd(cmd, tr("审计报告生成"), res);
+        ui->listWidget->setCurrentRow(DISPLAY_PAGE);
         ui->textBrowser->setText(res);
         op_type=AUD_REPORT;
         ui->fresh_pushButton->setToolTip(tr("刷新类型：审计报表"));
-    }else
+    }catch(Exception exp)
     {
-        QMessageBox::information(this, tr("提示"), tr("生成报表失败"));
+        errMsgBox(exp.getErroWhat());
     }
 }
 
@@ -464,13 +462,13 @@ void TabAuditPage::on_apl_kern_paramButton_clicked()
    cmd = "auditctl -r "+kernAudParam.rate_limit+ " -e "+ kernAudParam.enable+
             " -b "+kernAudParam.backlog_limit+ " -f "+kernAudParam.fail_flag+(kernAudParam.bignore?" -i":" -c");
     QString rs;
-    if(!excute_aud_cmd(cmd,rs ))
+    try
     {
-        QMessageBox::information(this, tr("提示"), tr("内核审计参数设置失败"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("内核审计参数设置成功"));
+        m_audFunModel.excuteAudCmd(cmd, tr("内核审计参数设置"),rs);
         op_type=KER_AUD_PARM;
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
     }
 }
 
@@ -495,24 +493,20 @@ void TabAuditPage::on_ker_aud_param_saveButton_clicked()
     save_kern_aud_param_from_ui();
     QString str = "/etc/audit/rules.d/audit.rules";
     QString cmdstr = "sed -i \'/-b/\'d "+str+" && sed -i \'/-r/\'d "+str+
-            " && sed -i \'/-e/\'d "+str+" && sed -i \'/-f/\'d "+str+" && sed -i \'/-c/\'d "+str+" && sed -i \'/-i/\'d "+str+"; echo $?";
+            " && sed -i \'/-e/\'d "+str+" && sed -i \'/-f/\'d "+str+" && sed -i \'/-c/\'d "+str+" && sed -i \'/-i/\'d "+str;
    // qDebug()<<cmdstr;
     QString rs;
-    if(!excute_aud_cmd(cmdstr,rs))
+    try
     {
-        QMessageBox::information(this, tr("提示"), tr("删除原配置项失败"));
-        return ;
-    }
+        m_audFunModel.excuteAudCmd(cmdstr, tr("删除原内核参数配置项"),rs);
 
-    cmdstr = "echo -e \"-r "+kernAudParam.rate_limit+ "\n-e "+ kernAudParam.enable+
-                  "\n-b "+kernAudParam.backlog_limit+ "\n-f "+kernAudParam.fail_flag+(kernAudParam.bignore?"\n-i":"\n-c")+"\" >>/etc/audit/audit.rules";
- //  qDebug()<<cmdstr;
-    if(!excute_aud_cmd(cmdstr, rs))
-    {
-        QMessageBox::information(this, tr("提示"), tr("保存到配置文件失败"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("保存到配置文件成功"));
+        cmdstr = "echo -e \"-r "+kernAudParam.rate_limit+ "\n-e "+ kernAudParam.enable+
+                      "\n-b "+kernAudParam.backlog_limit+ "\n-f "+kernAudParam.fail_flag+(kernAudParam.bignore?"\n-i":"\n-c")+"\" >>/etc/audit/audit.rules";
+        m_audFunModel.excuteAudCmd(cmdstr, tr("写入内核参数配置项"),rs);
+        infoMsgBox(tr("保存内核审计参数到配置文件成功"));
+    }catch(Exception exp)
+     {
+        errMsgBox(exp.getErroWhat());
     }
 }
 
@@ -523,7 +517,8 @@ void TabAuditPage::on_apl_cfg_Button_clicked()
     {
         if(audCfgInfo.warning_mail.isEmpty())
         {
-            QMessageBox::information(this, tr("提示"), tr("选择EMAIL时，收件人不能为空"));
+            //QMessageBox::information(this, tr("提示"), tr("选择EMAIL时，收件人不能为空"));
+            errMsgBox(tr("选择EMAIL时，收件人不能为空"));
             return;
         }
     }
@@ -566,7 +561,7 @@ void TabAuditPage::on_apl_cfg_Button_clicked()
           }
         file.close();
     }
-    QMessageBox::information(this, tr("提示"), tr("写入完成"));
+    infoMsgBox(tr("写入完成"));
 }
 
 
@@ -577,7 +572,9 @@ void TabAuditPage::on_pre_pushButton_clicked()
         QMessageBox::information(this, tr("提示"), tr("请输入查找关键字"));
         return;
     }
-    ui->textBrowser->find(ui->findlineEdit->text(),QTextDocument::FindBackward);
+    if(!ui->textBrowser->find(ui->findlineEdit->text(),QTextDocument::FindBackward))
+        infoMsgBox(tr("未查找到关键字"));
+
 }
 
 void TabAuditPage::on_next_pushButton_clicked()
@@ -587,7 +584,8 @@ void TabAuditPage::on_next_pushButton_clicked()
         QMessageBox::information(this, tr("提示"), tr("请输入查找关键字"));
         return;
     }
-    ui->textBrowser->find(ui->findlineEdit->text());
+    if(!ui->textBrowser->find(ui->findlineEdit->text()))
+        infoMsgBox(tr("未查找到关键字"));
 }
 
 void TabAuditPage::save_file_rules_from_ui()
@@ -609,12 +607,18 @@ void TabAuditPage::on_file_rule_aply_pushButton_clicked()
 {
 
     save_file_rules_from_ui();
-    if(!set_file_rule(fileRule))
+    QString cmd = "auditctl -w "+fileRule.file_name+
+            (fileRule.key_word.isEmpty()?"":" -k "+fileRule.key_word)+
+            (fileRule.auth.isEmpty()? "":" -p "+fileRule.auth)+
+            +" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
+    try
     {
-        QMessageBox::information(this, tr("提示"), tr("文件审计规则设置失败"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("文件审计规则设置成功"));
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmd, tr("文件审计规则设置"), rs);
+        infoMsgBox(tr("文件审计规则设置成功"));
+    }catch(Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
 
 }
@@ -635,17 +639,18 @@ void TabAuditPage::on_file_aud_param_saveButton_clicked()
     QString cmd = "echo -w "+fileRule.file_name+
             (fileRule.key_word.isEmpty()?"":" -k "+fileRule.key_word)+
             (fileRule.auth.isEmpty()? "":" -p "+fileRule.auth)+
-            //+" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
-            ">>"+RULE_CONF_NAME+";echo $?";
+            +" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
+            ">>"+RULE_CONF_NAME;
 
-    QString res = GetCmdRes(cmd).trimmed();
-    QStringList list = res.split('\n');
-    if(list.last().toInt()!=0)
+    try
     {
-        QMessageBox::information(this, tr("提示"), tr("添加到配置文件失败"));
-        qDebug()<<"fail command:"<<cmd;
-    }else
-        QMessageBox::information(this, tr("提示"), tr("添加到配置文件成功"));
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmd, tr("添加文件审计规则到配置文件"), rs);
+        infoMsgBox(tr("添加到配置文件成功"));
+    }catch(Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
+    }
 }
 
 
@@ -655,20 +660,17 @@ void TabAuditPage::on_trace_Button_clicked()
     {
         QMessageBox::information(this, tr("提示"), tr("文件名为空"));
     }
-    QString cmd = "autrace -r "+ui->file_lineEdit->text() +";echo $?";
-    QString res = GetCmdRes(cmd).trimmed();
-    QStringList list = res.split('\n');
-    if(list.last().toInt()!=0)
+    QString cmd = "autrace -r \""+ui->file_lineEdit->text() +"\"";
+    try
     {
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmd, tr("追踪文件"), rs);
+        ui->track_lineEdit->setText(rs);
+    }catch(Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
         ui->track_lineEdit->setText(tr("追踪文件失败"));
-        qDebug()<<"trace file command:"<<cmd;
-    }else
-    {
-       // ui->track_lineEdit->setText(res.right(res.length()-res.indexOf("with \'")));
-        list.removeLast();
-        ui->track_lineEdit->setText(list.last());
     }
-
 }
 
 void TabAuditPage::on_sys_call_rule_apl_pushButton_clicked()
@@ -691,16 +693,15 @@ void TabAuditPage::on_sys_call_rule_apl_pushButton_clicked()
 
 
     QString cmdstr = "auditctl -a "+liststr +" -S "+ui->buttonGroup_8->checkedButton()->text()+
-            " -ts "+ui->sys_call_st_TimeEdit->text()+" -te "+ui->sys_call_et_TimeEdit->text() + ";echo $?";
-    QString res= GetCmdRes(cmdstr).trimmed();
-    QStringList list = res.split('\n');
-    if(list.last().toInt()!=0)
+            " -ts "+ui->sys_call_st_TimeEdit->text()+" -te "+ui->sys_call_et_TimeEdit->text();
+    try
     {
-        qDebug()<<"system call rules failed, command:"<<cmdstr;
-        QMessageBox::information(this, tr("提示"), tr("设置失败"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("设置成功"));
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmdstr, tr("设置系统调用规则"), rs);
+        infoMsgBox(tr("设置系统调用规则成功"));
+    }catch(Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
 
 }
@@ -725,18 +726,16 @@ void TabAuditPage::on_sys_call_save_pushButton_clicked()
 
 
     QString cmdstr = "echo  \"-a "+liststr +" -S "+ui->buttonGroup_8->checkedButton()->text()+
-            " -ts "+ui->sys_call_st_TimeEdit->text()+" -te "+ui->sys_call_et_TimeEdit->text() + "\">>"+RULE_CONF_NAME+";echo $?";
-    QString res= GetCmdRes(cmdstr).trimmed();
-    QStringList list = res.split('\n');
-    if(list.last().toInt()!=0)
+            " -ts "+ui->sys_call_st_TimeEdit->text()+" -te "+ui->sys_call_et_TimeEdit->text() + "\">>"+RULE_CONF_NAME;
+    try
     {
-        qDebug()<<"system call rules failed, command:"<<cmdstr;
-        QMessageBox::information(this, tr("提示"), tr("保存失败"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("保存成功"));
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmdstr, tr("保存系统调用规则到配置文件"),rs);
+        infoMsgBox(tr("保存系统调用规则到配置文件成功"));
+    }catch (Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
-
 }
 
 void TabAuditPage::on_list_group_radioButton_clicked()
@@ -746,48 +745,46 @@ void TabAuditPage::on_list_group_radioButton_clicked()
 
 void TabAuditPage::on_clean_all_rules_Button_clicked()
 {
-    QString cmdstr = "auditctl -D; echo $?";
-    QString res = GetCmdRes(cmdstr).trimmed();
-    QStringList list = res.split('\n');
-    if(list.last().toInt()!=0)
+    QString cmdstr = "auditctl -D";
+    try
     {
-        qDebug()<<"clean all rules failed, command:"<<cmdstr;
-        QMessageBox::information(this, tr("提示"), tr("清理失败"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("清理成功"));
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmdstr, tr("清理审计规则"),rs);
+        infoMsgBox(tr("清理审计规则成功"));
+    }catch (Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
+
 }
 
 void TabAuditPage::on_clean_all_rules_infile_Button_clicked()
 {
-    QString cmdstr = "echo >"+RULE_CONF_NAME+"; echo $?";
-    QString res = GetCmdRes(cmdstr).trimmed();
-    QStringList list = res.split('\n');
-    if(list.last().toInt()!=0)
+    QString cmdstr = "echo >"+RULE_CONF_NAME;
+    try
     {
-        qDebug()<<"clean all file rules failed, command:"<<cmdstr;
-        QMessageBox::information(this, tr("提示"), tr("清理失败"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("清理成功"));
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmdstr, tr("清理审计规则配置文件"),rs);
+        infoMsgBox(tr("清理审计规则配置文件成功"));
+    }catch (Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
 }
 
 void TabAuditPage::on_display_cur_rules_Button_clicked()
 {
-    QString cmdstr = "auditctl -l; echo $?";
-    QString res = GetCmdRes(cmdstr).trimmed();
-    QStringList list = res.split('\n');
-    if(list.last().toInt()!=0)
+    QString cmdstr = "auditctl -l";
+    try
     {
-        qDebug()<<"display all rules failed, command:"<<cmdstr;
-        QMessageBox::information(this, tr("提示"), tr("获取当前规则失败"));
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmdstr, tr("获取当前规则"),rs);
+        ui->custom_rules_textBrowser->setText(rs);
+        infoMsgBox(tr("获取当前规则成功"));
+    }catch (Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
         ui->custom_rules_textBrowser->setText("");
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("获取当前规则成功"));
-        ui->custom_rules_textBrowser->setText(res.left(res.length()-1));
     }
 }
 
@@ -795,51 +792,57 @@ void TabAuditPage::on_custom_rule_aply_pushButton_clicked()
 {
     if(ui->custom_rule_lineEdit->text().contains("auditctl"))
     {
-        QMessageBox::information(this, tr("提示"), tr("不需要写auditctl命令，直接写规则"));
+        infoMsgBox( tr("不需要写auditctl命令，直接写规则"));
         return;
     }
-    QString cmdstr = "auditctl "+ui->custom_rule_lineEdit->text() + ";echo $?";
-    QString res = GetCmdRes(cmdstr).trimmed();
 
-    QStringList list = res.split('\n');
-    if(list.last().toInt()!=0)
+    QString cmdstr = "auditctl "+ui->custom_rule_lineEdit->text() ;
+    try
     {
-        qDebug()<<"apply custom rule failed, command:"<<cmdstr;
-        QMessageBox::information(this, tr("提示"), tr("设置失败"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("设置成功"));
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmdstr, tr("自定义规则设置"),rs);
+        infoMsgBox(tr("自定义规则设置成功"));
+    }catch (Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
 }
 
 void TabAuditPage::on_custom_rule_savepushButton_clicked()
 {
-    QString cmdstr = "echo "+ui->custom_rule_lineEdit->text()+">>"+RULE_CONF_NAME+";echo $?";
-    QString res= GetCmdRes(cmdstr).trimmed();
-    QStringList list = res.split('\n');
-    if(list.last().toInt()!=0)
+    QString cmdstr = "echo "+ui->custom_rule_lineEdit->text()+">>"+RULE_CONF_NAME;
+    try
     {
-        qDebug()<<"custom rules save failed, command:"<<cmdstr;
-        QMessageBox::information(this, tr("提示"), tr("保存失败"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("保存成功"));
+        QString rs;
+        m_audFunModel.excuteAudCmd(cmdstr, tr("保存自定义规则到文件"),rs);
+        infoMsgBox(tr("保存自定义规则到文件成功"));
+    }catch (Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
-
 }
 
 void TabAuditPage::on_restartAduButton_clicked()
 {
-    if(!is_serv_running(SEV_NAME))
+//    if(!is_serv_running(SEV_NAME))
+//    {
+//        QMessageBox::information(this, tr("提示"), tr("审计服务未运行，请联系安全管理员启动"));
+//        return;
+//    }
+//    if(restart_service(SEV_NAME))
+//    {
+//         QMessageBox::information(this, tr("提示"), tr("重启成功"));
+//    }else
+//    {
+//        QMessageBox::information(this, tr("提示"), tr("重启失败"));
+//    }
+
+    try
     {
-        QMessageBox::information(this, tr("提示"), tr("审计服务未运行，请联系安全管理员启动"));
-        return;
-    }
-    if(restart_service(SEV_NAME))
-    {
-         QMessageBox::information(this, tr("提示"), tr("重启成功"));
-    }else
-    {
-        QMessageBox::information(this, tr("提示"), tr("重启失败"));
+        m_audFunModel.startOrStopService(SEV_NAME, 2);
+        infoMsgBox(tr("重启成功"));
+    }catch(Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
 }

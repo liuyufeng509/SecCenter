@@ -6,6 +6,11 @@ IndexWidget::IndexWidget(ROLE curRole,QWidget *parent) :
     ui(new Ui::IndexWidget)
 {
     ui->setupUi(this);
+    this->curRole = curRole;
+}
+
+void IndexWidget::initUi()
+{
     QString uname = "";
     QString roleName = "";
     QString enforce = "";
@@ -46,7 +51,6 @@ IndexWidget::IndexWidget(ROLE curRole,QWidget *parent) :
     else
         context = tr("安全中心版本：v1.0\n")+ tr("安全中心模式：运行模式\n") + tr("SELinux模式：")+enforce;
     ui->textBrowser_2->setText(context);
-
 }
 
 IndexWidget::~IndexWidget()

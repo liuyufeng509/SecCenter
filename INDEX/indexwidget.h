@@ -16,10 +16,11 @@ class IndexWidget : public QWidget
 public:
     explicit IndexWidget(ROLE curRole,QWidget *parent = 0);
     ~IndexWidget();
-
+    void initUi();
 private:
     Ui::IndexWidget *ui;
     IndexFunClass m_indexFunModel;
+    ROLE curRole;
 };
 
 #endif // INDEXWIDGET_H

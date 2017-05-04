@@ -4,7 +4,9 @@
 #include <QWidget>
 #include <QKeyEvent>
 #include <QDirModel>
+#include <QCompleter>
 #include"common.h"
+#include "audfunclass.h"
 namespace Ui {
 class TabAuditPage;
 }
@@ -31,7 +33,7 @@ signals:
 public:
     explicit TabAuditPage(QWidget *parent = 0);
     ~TabAuditPage();
-    void set_signal_slot();
+    void connCheckBoxAndLineEdit();
     bool check_param();
     void update_kern_aud_param_ui();
     void save_kern_aud_param_from_ui();
@@ -48,18 +50,7 @@ public:
     void keyPressEvent(QKeyEvent * event);      //添加enter响应
 
 private slots:
-//    void on_openButton_clicked();
-
-//    void on_queryButton_clicked();
-
-//    void on_reportButton_clicked();
-
-//    void on_roleButton_clicked();
-
-//    void on_setCfgButton_clicked();
-
-//    void on_closeAduButton_clicked();
-    void set_query_fun_ui();
+    void setAuSearchUI();                   //更新审计查询的各个参数输入框的可用状态
 
     void on_query_produceButton_clicked();
 
@@ -117,6 +108,7 @@ private:
     Ui::TabAuditPage *ui;
     QString cmd;
     QString res;
+    QCompleter *completer;
 
     KernAudParam kernAudParam;
     AudConfigInfo audCfgInfo;
@@ -126,6 +118,8 @@ private:
     OP_TYPE op_type;
 
     FileAudRule fileRule;
+
+    AudFunClass m_audFunModel;
 };
 
 #endif // TABAUDITPAGE_H

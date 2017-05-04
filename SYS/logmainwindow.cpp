@@ -2,6 +2,7 @@
 #include "ui_logmainwindow.h"
 #include<QSplitter>
 #include<QVBoxLayout>
+#include "common.h"
 LogMainWindow::LogMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LogMainWindow)
@@ -47,12 +48,17 @@ LogMainWindow::LogMainWindow(QWidget *parent) :
 
 void LogMainWindow::findnext()
 {
-    browser->find(lineEdit->text());
+
+    if(!browser->find(lineEdit->text()))
+        infoMsgBox(tr("未查找到关键字"));
+
 }
 
 void LogMainWindow::findPre()
 {
-    browser->find(lineEdit->text(),QTextDocument::FindBackward);
+    if(!browser->find(lineEdit->text(),QTextDocument::FindBackward))
+        infoMsgBox(tr("未查找到关键字"));
+
 }
 
 

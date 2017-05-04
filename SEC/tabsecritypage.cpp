@@ -110,6 +110,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     //安全策略
     qRegisterMetaType<TELIST> ("TELIST");
     qRegisterMetaType<F_PLIST>("F_PLIST");
+    qRegisterMetaType<Exception>("Exception");
     connect(this, SIGNAL(emitGetSafePolicy(TELIST,F_PLIST)),&m_secFunModel, SLOT(getSafePolicySlot(TELIST,F_PLIST)));
     connect(&m_secFunModel, SIGNAL(emitGetSafePolicyDone(int,Exception, TELIST,F_PLIST)), this, SLOT(getSafePolicySlot(int,Exception, TELIST,F_PLIST)));
     bFirst = true;
@@ -223,10 +224,10 @@ void TabSecrityPage::getSafePolicySlot(int res, Exception exp,TELIST teList, F_P
     if(res ==1)
     {
         errMsgBox(exp.getErroWhat());
-        bFirst = false;
+        bFirst = true;
     }
     else
-        bFirst = true;
+        bFirst = false;
 
     InitRuleTab();
     UpdateRuletabel(terules);
@@ -742,7 +743,7 @@ void TabSecrityPage::waitDiaogAppear()
 {
     waitD = new WaitDialog(this);
     waitD->exec();
-    waitD->deleteLater();
+  //  waitD->deleteLater();
 }
 
 void TabSecrityPage::on_freshFileTagButton_clicked()

@@ -248,6 +248,7 @@ bool SecFunClass::getCurLockInfo(TryLockInfo &info)                     //获取
     {
         throw exp;
     }
+    return true;
 }
 
 bool SecFunClass::getSecStatus(SecStatus &status)
@@ -439,7 +440,7 @@ void SecFunClass::setUserTagInfoSlot(UserTag usrtag, int opt)
 
 bool SecFunClass::setFileTagInfo(FileTag filetag)
 {
-    QString cmd ="chcon -l " + filetag.safeTag + " "+ filetag.filename+ " 2>&1;echo $?";
+    QString cmd ="chcon -l " + filetag.safeTag + " \""+ filetag.filename+ "\" 2>&1;echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
     if(strl.last().toInt()!=0)
@@ -456,9 +457,9 @@ bool SecFunClass::getFileTagInfo(FileTag &filetag)                     //获取�
 {
     QString cmd = "ls ";
     if(filetag.isDir)
-        cmd += "-d --scontext "+filetag.filename+" 2>&1; echo $?";
+        cmd += "-d --scontext \""+filetag.filename+"\" 2>&1; echo $?";
     else
-        cmd += " --scontext "+filetag.filename+" 2>&1; echo $?";
+        cmd += " --scontext \""+filetag.filename+"\" 2>&1; echo $?";
 
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
@@ -477,7 +478,7 @@ bool SecFunClass::getFileTagInfo(FileTag &filetag)                     //获取�
         throw Exception("", errContent);
     }
     QStringList tmpl = strl[0].simplified().split(' ');
-    if(tmpl.count()!=2)
+    if(tmpl.count()<2)
         {
         QString errContent=tr("执行操作：获取文件安全标签失败")+ tr("\n错误内容：解析结果失败");
         qDebug()<<errContent;

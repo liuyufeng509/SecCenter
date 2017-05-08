@@ -347,13 +347,13 @@ void SysFunClass::setUpDownWhenBootSlot(QString svName, int opt)
 
 bool SysFunClass::startOrStopService(QString svName, int opt)      //开启或关闭服务
 {
-    QString cmd = "service " ;
+    QString cmd = "systemctl " ;
     if(opt==1)
-        cmd += svName + " stop 2>&1; echo $?";
+        cmd += "stop "+ svName +" 2>&1; echo $?";
     else if(opt==0)
-        cmd += svName + " start 2>&1; echo $?";
+        cmd += "start " + svName + " 2>&1; echo $?";
     else
-        cmd += svName + " restart 2>&1; echo $?";
+        cmd += "restart "+svName + " 2>&1; echo $?";
 
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
@@ -381,8 +381,8 @@ void SysFunClass::startOrStopServiceSlot(QString svName, int opt)
 
 bool SysFunClass::setKernelParam(QString paramName, QString value)
 {
-    QString cmd = "service "+value+" >"+paramName+" 2>&1 ;echo $?";
-    //QString cmd = "echo "+value+" >/root/1.txt 2>&1;echo $?";
+    //QString cmd = "service "+value+" >"+paramName+" 2>&1 ;echo $?";
+    QString cmd = "echo "+value+" >/root/1.txt 2>&1;echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
    // qDebug()<<"resStr="<<resStr;
     QStringList strl = resStr.split('\n');

@@ -31,7 +31,7 @@ enum ROLE{
     ROOT,
 	SECADMIN,
 	SYSADMIN,
-    AUDIADMIN,
+    AUDADMIN,
 	ERROR,
 };
 

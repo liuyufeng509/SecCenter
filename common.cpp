@@ -58,7 +58,7 @@ ROLE get_user_role()
     else if(cmd == "sysadm_r")
         res = SYSADMIN;
     else if(cmd == "auditadm_r")
-        res = AUDIADMIN;
+        res = AUDADMIN;
 
     return res;
 }

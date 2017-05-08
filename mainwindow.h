@@ -10,6 +10,9 @@
 #include "indexwidget.h"
 #include"mainfunclass.h"
 #include "mytitlebar.h"
+#include "sectabwidget.h"
+#include "systabwidget.h"
+#include "audtabwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +29,7 @@ protected:
 
 private:
     void initTitleBar();
+    void initCentralWidget();
     void paintEvent(QPaintEvent *event);
    // void loadStyleSheet(const QString &sheetName);
 private slots:
@@ -41,6 +45,9 @@ protected:
 private:
     Ui::MainWindow *ui;
 
+    SecTabWidget * secTabWidget;
+    SysTabWidget * sysTabWidget;
+    AudTabWidget *audTabWidget;
      CommTab *tabCommPage;
      TabSecrityPage *tabSecrityPage;
      TabAuditPage *tabAuditPage;

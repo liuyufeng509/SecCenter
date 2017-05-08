@@ -27,11 +27,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QTextEdit" name="textEdit">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
+       <widget class="QTextBrowser" name="textBrowser_1"/>
       </item>
      </layout>
     </widget>

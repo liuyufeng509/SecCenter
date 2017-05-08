@@ -33,7 +33,7 @@ ROLE MainFunClass::getUserRole() /* throw()*/
     else if(rl[1] == "sysadm_r")
         res = SYSADMIN;
     else if(rl[1] == "auditadm_r")
-        res = AUDIADMIN;
+        res = AUDADMIN;
 	else
 		res = ERROR;
     // qDebug()<<"res="<<res<<" rl[0]="<<rl[0];

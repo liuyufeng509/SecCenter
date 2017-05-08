@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui  webkit
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -37,7 +37,25 @@ SOURCES += main.cpp\
     SEC/secfunclass.cpp \
     mytitlebar.cpp \
     INDEX/indexfunclass.cpp \
-    AUD/audfunclass.cpp
+    AUD/audfunclass.cpp \
+    SEC/sectabwidget.cpp \
+    SYS/systabwidget.cpp \
+    AUD/audtabwidget.cpp \
+    Help/helppage.cpp \
+    SEC/usermgrpage.cpp \
+    SEC/secstatuspage.cpp \
+    SEC/sectagpage.cpp \
+    SEC/secrulespage.cpp \
+    SEC/svrctrlpage.cpp \
+    SYS/sysusermgrpage.cpp \
+    SYS/svrmgrpage.cpp \
+    SYS/syslogpage.cpp \
+    SYS/kernalparampage.cpp \
+    AUD/audsvrctlpage.cpp \
+    AUD/audinfopage.cpp \
+    AUD/audrulepage.cpp \
+    AUD/audkernrulepage.cpp \
+    AUD/audconfpage.cpp
 
 HEADERS  += mainwindow.h \
                common.h \
@@ -64,7 +82,25 @@ HEADERS  += mainwindow.h \
     SEC/secfunclass.h \
     mytitlebar.h \
     INDEX/indexfunclass.h \
-    AUD/audfunclass.h
+    AUD/audfunclass.h \
+    SEC/sectabwidget.h \
+    SYS/systabwidget.h \
+    Help/helppage.h \
+    SEC/usermgrpage.h \
+    SEC/secstatuspage.h \
+    SEC/sectagpage.h \
+    SEC/secrulespage.h \
+    SEC/svrctrlpage.h \
+    SYS/sysusermgrpage.h \
+    SYS/svrmgrpage.h \
+    SYS/syslogpage.h \
+    SYS/kernalparampage.h \
+    AUD/audsvrctlpage.h \
+    AUD/audinfopage.h \
+    AUD/audrulepage.h \
+    AUD/audkernrulepage.h \
+    AUD/audtabwidget.h \
+    AUD/audconfpage.h
 
 FORMS    += mainwindow.ui \
      AUD/tabauditpage.ui \
@@ -80,7 +116,22 @@ FORMS    += mainwindow.ui \
     AUD/ruledialog.ui \
     AUD/configdialog.ui \
     SYS/kernalparammanager.ui \
-    SEC/ukeydialog.ui
+    SEC/ukeydialog.ui \
+    Help/helppage.ui \
+    SEC/usermgrpage.ui \
+    SEC/secstatuspage.ui \
+    SEC/sectagpage.ui \
+    SEC/secrulespage.ui \
+    SEC/svrctrlpage.ui \
+    SYS/sysusermgrpage.ui \
+    SYS/svrmgrpage.ui \
+    SYS/syslogpage.ui \
+    SYS/kernalparampage.ui \
+    AUD/audsvrctlpage.ui \
+    AUD/audinfopage.ui \
+    AUD/audrulepage.ui \
+    AUD/audkernrulepage.ui \
+    AUD/audconfpage.ui
 
 
 TRANSLATIONS += securityCenter.ts
@@ -89,7 +140,8 @@ INCLUDEPATH += DAC_ACL \
                     AUD \
                     INDEX \
                     SEC \
-                    SYS
+                    SYS \
+                    Help
 
 RESOURCES += \
     mainwindow.qrc \

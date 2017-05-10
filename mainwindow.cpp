@@ -34,7 +34,7 @@ void MainWindow::initCentralWidget()
         {
             m_curRole = ROOT;
         }
-       // m_curRole = SECADMIN;
+        m_curRole = SYSADMIN;
         switch(m_curRole)
         {
         case ROOT:

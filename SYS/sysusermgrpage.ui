@@ -80,6 +80,11 @@
           <string>所属组</string>
          </property>
         </column>
+        <column>
+         <property name="text">
+          <string>登陆终端</string>
+         </property>
+        </column>
        </widget>
       </item>
      </layout>

@@ -15,6 +15,9 @@ public:
     SysTabWidget(QWidget *parent=0);
     ~SysTabWidget();
     void UpdateIndex();
+
+public slots:
+    void tabChanged(int index);
 private:
     IndexWidget *indexPage;
     HelpPage *helpPage;

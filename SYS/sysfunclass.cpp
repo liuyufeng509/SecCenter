@@ -9,7 +9,7 @@ SysFunClass::SysFunClass(QObject *parent) : QObject(parent)
 
 bool SysFunClass::getUserList(QList<UserInfo> &ulist)
 {
-    QString cmd = "awk -F: \'{print $3,$1}\'  /etc/passwd  2>&1; echo $?";
+    QString cmd = "awk -F: \'{print $3,$1, $NF}\'  /etc/passwd  2>&1; echo $?";
     QString resStr =GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
     ulist.clear();
@@ -27,18 +27,22 @@ bool SysFunClass::getUserList(QList<UserInfo> &ulist)
         QStringList tmpl = strl[i].split(' ');
         usrinfo.uid = tmpl[0].trimmed();
         usrinfo.uname = tmpl[1].trimmed();
+        if(tmpl[2].contains("nologin")||tmpl[2].contains("false") ||usrinfo.uid.toInt()<1000)
+            usrinfo.isShow = false;
+        else
+            usrinfo.isShow = true;
         ulist.append(usrinfo);
     }
     
 	//验证在/etc/shadow中的情况，判断是否是曾经存在的用户
-    try
-    {
-        getUserListOfShaddow(ulist);
-    }catch(Exception exp)
-    {
-        ulist.clear();
-        throw exp;
-    }
+//    try
+//    {
+//        getUserListOfShaddow(ulist);
+//    }catch(Exception exp)
+//    {
+//        ulist.clear();
+//        throw exp;
+//    }
 
     //获取每个用户的用户组
     try
@@ -80,6 +84,53 @@ bool SysFunClass::getUserListOfShaddow(QList<UserInfo> &users)
             users[i].isShow = false;
         else
             users[i].isShow = true;
+    }
+
+    return true;
+}
+
+bool SysFunClass::getLoginedUserInfo(QList<UserInfo>&ulist)
+{
+    QString cmd = "w 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+        {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取用户登陆信息失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+        return false;
+    }
+
+    if(strl.count()<3)
+        {
+        QString errContent=tr("执行操作：获取用户登陆信息失败")+ tr("\n执行命令：")+cmd+tr("\n错误内容：结果解析失败");
+        qDebug()<<errContent;
+        throw Exception("", errContent);
+        return false;
+    }
+    strl.removeFirst();
+    strl.removeFirst();
+    strl.removeLast();
+
+    for(int i=0; i<strl.count();i++)
+    {
+        strl[i] = strl[i].simplified();
+        QStringList tmpl = strl[i].split(' ');
+        if(tmpl.count()<2)
+            {
+            QString errContent=tr("执行操作：获取用户登陆信息失败")+tr("\n错误内容：结果解析失败");
+            throw Exception("", errContent);
+        }
+        for(int j=0; j<ulist.count(); j++)
+        {
+            if(ulist[j].uname == tmpl[0])
+             {
+                ulist[j].ttys.insert(tmpl[1]);
+                break;
+            }
+        }
     }
 
     return true;
@@ -210,6 +261,20 @@ bool SysFunClass::modifyUser(UserInfo userInfo)
     }
     return true;
 }
+bool SysFunClass::logOutUser(QString tty)
+{
+    QString cmd = "pkill -KILL -t "+tty + " 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+        {
+        resStr.chop(strl.last().length());
+        QString errContent =tr("执行操作：断开用户登陆的终端失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    return true;
+}
 
 bool SysFunClass::delUser(UserInfo userInfo)
 {
@@ -278,12 +343,11 @@ bool SysFunClass::getServices(QList<ServiceInfo> &sevrs)
 
         try
         {
-            servInfo.runStat = servRunState(servInfo.sName);
+            servRunState(servInfo);
         }catch (Exception exp)
         {
             throw exp;
         }
-
         sevrs.append(servInfo);
     }
     if(sevrs.length()>0)
@@ -292,9 +356,10 @@ bool SysFunClass::getServices(QList<ServiceInfo> &sevrs)
         return false;
 }
 
-RUNSTATE SysFunClass::servRunState(QString svName)
+//RUNSTATE SysFunClass::servRunState(QString svName)
+bool SysFunClass::servRunState(ServiceInfo &svrInfo)
 {
-    QString cmd= "systemctl status "+ svName + " 2>&1; echo $?";
+    QString cmd= "systemctl status "+ svrInfo.sName + " 2>&1; echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
 //    if(strl.last().toInt()!=0)
@@ -306,13 +371,24 @@ RUNSTATE SysFunClass::servRunState(QString svName)
 //    }
     if(resStr.contains("Active: active (running)"))
     {
-        return RUNNING;
+        svrInfo.runStat = RUNNING;
     }else if(resStr.contains("Active: inactive"))
-        return DEAD;
+        svrInfo.runStat =  DEAD;
     else if(resStr.contains("Active: active (exited)"))
-        return EXIT;
+        svrInfo.runStat =  EXIT;
     else
-        return OTHER;
+        svrInfo.runStat =  OTHER;
+    for(int i=0; i<strl.count(); i++)
+        {
+        strl[i] = strl[i].simplified();
+        if(strl[i].contains("Main PID:"))
+            svrInfo.pId = strl[i].mid(strl[i].lastIndexOf(":")+2,strl[i].indexOf("(")-strl[i].indexOf(":")-2);
+        QString tmp =svrInfo.sName+ " - ";
+        if(strl[i].contains(tmp))
+            svrInfo.desc = strl[i].right(strl[i].length()-strl[i].indexOf(tmp)-tmp.length());
+    }
+
+    return true;
 }
 
 bool SysFunClass::setUpDownWhenBoot(QString svName, int opt)                  //设置开启启动

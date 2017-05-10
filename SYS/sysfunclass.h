@@ -24,6 +24,8 @@ public:
     bool addUser(UserInfo userInfo);
     bool modifyUser(UserInfo userInfo);
     bool delUser(UserInfo userInfo);
+    bool logOutUser(QString tty);
+    bool getLoginedUserInfo(QList<UserInfo>&ulist);
 
     //服务相关操作函数
     bool getServices(QList<ServiceInfo> &sevrs);
@@ -51,7 +53,7 @@ private:
     bool getUserListOfShaddow(QList<UserInfo> &users); //判断/etc/passwd，用户是否已经被创建过
     bool getGroupsOfUserList(QList<UserInfo> &users); //获取所有用户的所属组信息
     //服务管理内部函数
-    RUNSTATE servRunState(QString svName);
+    bool servRunState(ServiceInfo &svrInfo);
 
 };
 

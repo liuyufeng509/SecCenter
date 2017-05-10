@@ -15,6 +15,16 @@ SysTabWidget::SysTabWidget(QWidget *parent):QTabWidget(parent)
     addTab(sysLogPage, tr("系统日志"));
     addTab(kernalPamPage, tr("内核参数"));
     addTab(helpPage,tr("帮助"));
+
+    connect(this, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+}
+
+void SysTabWidget::tabChanged(int index)
+{
+    if(index == 2)
+    {
+        svrMgrPage->getAllServices();
+    }
 }
 
 void SysTabWidget::UpdateIndex()

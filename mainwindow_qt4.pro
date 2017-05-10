@@ -58,7 +58,8 @@ SOURCES += main.cpp\
     AUD/audconfpage.cpp \
     AUD/filerulesdialog.cpp \
     AUD/syscalldialog.cpp \
-    AUD/customruledialog.cpp
+    AUD/customruledialog.cpp \
+    SYS/ttychoosedialog.cpp
 
 HEADERS  += mainwindow.h \
                common.h \
@@ -106,7 +107,8 @@ HEADERS  += mainwindow.h \
     AUD/audconfpage.h \
     AUD/filerulesdialog.h \
     AUD/syscalldialog.h \
-    AUD/customruledialog.h
+    AUD/customruledialog.h \
+    SYS/ttychoosedialog.h
 
 FORMS    += mainwindow.ui \
      AUD/tabauditpage.ui \
@@ -140,7 +142,8 @@ FORMS    += mainwindow.ui \
     AUD/audconfpage.ui \
     AUD/filerulesdialog.ui \
     AUD/syscalldialog.ui \
-    AUD/customruledialog.ui
+    AUD/customruledialog.ui \
+    SYS/ttychoosedialog.ui
 
 
 TRANSLATIONS += securityCenter.ts

@@ -59,7 +59,6 @@ private:
     QAction *edtusrAction;
     QAction *delusrAction;
 
-
     //service manager
     QList<ServiceInfo> sevrs;
     QMap<SevCfgStatus, QString> svrcfgMap;

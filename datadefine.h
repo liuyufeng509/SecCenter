@@ -2,6 +2,7 @@
 #define DATADEFINE_H
 #include<QString>
 #include <QStringList>
+#include <QSet>
 //Exception 类，用于调用命令时抛出异常。
 class Exception
 {
@@ -46,6 +47,7 @@ struct UserInfo
 	QString group;
     QStringList ogroups;
 	bool isShow;
+    QSet<QString> ttys;         //当前登陆的终端
 };
 //用户操作类型
 enum UserOpt
@@ -72,6 +74,8 @@ enum RUNSTATE       //运行状态
 struct ServiceInfo      //服务信息结构体
 {
     QString sName;
+    QString pId;
+    QString desc;
     SevCfgStatus cfgStatus;
     RUNSTATE runStat;
 };

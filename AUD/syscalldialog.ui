@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SysCallDialog</class>
+ <widget class="QDialog" name="SysCallDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>695</width>
+    <height>393</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>695</width>
+    <height>393</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>系统调用规则设置</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0">
+    <widget class="QPushButton" name="sys_call_rule_apl_pushButton">
+     <property name="text">
+      <string>应用</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QPushButton" name="sys_call_save_pushButton">
+     <property name="text">
+      <string>取消</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="4">
+    <widget class="QGroupBox" name="groupBox_11">
+     <property name="title">
+      <string>动作</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="never_radioButton">
+        <property name="text">
+         <string>never</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="always_radioButton">
+        <property name="text">
+         <string>always</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="4">
+    <widget class="QGroupBox" name="groupBox_12">
+     <property name="title">
+      <string>常用系统调用</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_15">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="open_radioButton">
+        <property name="text">
+         <string>open</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QRadioButton" name="creat_radioButton">
+        <property name="text">
+         <string>create</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QRadioButton" name="read_radioButton">
+        <property name="text">
+         <string>read</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QRadioButton" name="write_radioButton">
+        <property name="text">
+         <string>write</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="chmod_radioButton">
+        <property name="text">
+         <string>chmod</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QRadioButton" name="chown_radioButton">
+        <property name="text">
+         <string>chown</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QRadioButton" name="stat_radioButton">
+        <property name="text">
+         <string>stat</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QRadioButton" name="link_radioButton">
+        <property name="text">
+         <string>link</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="mount_radioButton">
+        <property name="text">
+         <string>mount</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QRadioButton" name="rename_radioButton">
+        <property name="text">
+         <string>rename</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QRadioButton" name="mkdir_radioButton">
+        <property name="text">
+         <string>mkdir</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QRadioButton" name="rmdir_radioButton">
+        <property name="text">
+         <string>rmdir</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QRadioButton" name="acct_radioButton">
+        <property name="text">
+         <string>acct</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QRadioButton" name="kill_radioButton">
+        <property name="text">
+         <string>kill</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QRadioButton" name="fork_radioButton">
+        <property name="text">
+         <string>fork</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QRadioButton" name="execve_radioButton">
+        <property name="text">
+         <string>execve</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="4">
+    <widget class="QGroupBox" name="groupBox_10">
+     <property name="title">
+      <string>链表</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="entry_radioButton">
+        <property name="text">
+         <string>entry</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QRadioButton" name="exit_radioButton">
+        <property name="text">
+         <string>exit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_48">
+        <property name="text">
+         <string>生效时间:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QDateTimeEdit" name="sys_call_st_TimeEdit">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="date">
+         <date>
+          <year>2017</year>
+          <month>3</month>
+          <day>31</day>
+         </date>
+        </property>
+        <property name="time">
+         <time>
+          <hour>0</hour>
+          <minute>3</minute>
+          <second>0</second>
+         </time>
+        </property>
+        <property name="maximumDateTime">
+         <datetime>
+          <hour>23</hour>
+          <minute>59</minute>
+          <second>59</second>
+          <year>7999</year>
+          <month>12</month>
+          <day>31</day>
+         </datetime>
+        </property>
+        <property name="displayFormat">
+         <string>MM/dd/yy hh:mm:ss</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_47">
+        <property name="text">
+         <string>结束时间:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QDateTimeEdit" name="sys_call_et_TimeEdit">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="displayFormat">
+         <string>MM/dd/yy hh:mm:ss</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="user_syscall_radioButton">
+        <property name="text">
+         <string>user</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QRadioButton" name="exclude_radioButton">
+        <property name="text">
+         <string>exclude</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_51">
+        <property name="text">
+         <string>msgType:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="msgtype_lineEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

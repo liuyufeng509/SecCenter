@@ -6,80 +6,112 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>459</width>
-    <height>212</height>
+    <width>410</width>
+    <height>137</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>用户id:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="uidLineEdit">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2" colspan="2">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>附属组(以','隔开):</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="4">
-    <widget class="QLineEdit" name="unameLineEdit">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>用户名:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="grpLineEdit">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>主属组:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="4">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::NoButton</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="4">
-    <widget class="QComboBox" name="comboBox"/>
-   </item>
-  </layout>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>40</y>
+     <width>49</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>用户名:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="unameLineEdit">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>64</x>
+     <y>35</y>
+     <width>57</width>
+     <height>33</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>127</x>
+     <y>40</y>
+     <width>49</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>主属组:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="grpLineEdit">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>182</x>
+     <y>35</y>
+     <width>58</width>
+     <height>33</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>246</x>
+     <y>40</y>
+     <width>49</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>附属组:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>301</x>
+     <y>37</y>
+     <width>100</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>100</width>
+     <height>0</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>246</x>
+     <y>100</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::NoButton</set>
+   </property>
+  </widget>
  </widget>
  <tabstops>
-  <tabstop>uidLineEdit</tabstop>
   <tabstop>unameLineEdit</tabstop>
   <tabstop>grpLineEdit</tabstop>
  </tabstops>

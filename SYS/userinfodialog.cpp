@@ -41,8 +41,8 @@ UserInfoDialog::UserInfoDialog(UserInfo &usinfo,int type,QWidget *parent) :
 
 
     //更新数据到界面
-    ui->uidLineEdit->setText(userinfo.uid);
-    ui->uidLineEdit->setEnabled(m_type==Add);
+//    ui->uidLineEdit->setText(userinfo.uid);
+//    ui->uidLineEdit->setEnabled(m_type==Add);
     ui->unameLineEdit->setText(userinfo.uname);
     type==Add? ui->unameLineEdit->setEnabled(true):ui->unameLineEdit->setEnabled(false);
   //  pLineEdit->setText(userinfo.group);
@@ -52,17 +52,7 @@ UserInfoDialog::UserInfoDialog(UserInfo &usinfo,int type,QWidget *parent) :
         if(userinfo.ogroups.contains(checkList[i]->text()))
             checkList[i]->setChecked(true);
     }
-//    if(userinfo.ogroups.length()>0)
-//    {
-//        QString othgrps="";
-//        foreach (QString grp, userinfo.ogroups) {
-//            othgrps +=grp+",";
-//        }
-//        othgrps = othgrps.left(othgrps.length()-1);
 
-//        //pLineEdit->setText(othgrps);
-//    }else
-//        pLineEdit->setText("");
 
     this->setWindowTitle((m_type==Add? tr("添加用户信息"):tr("修改用户信息")));
 
@@ -139,7 +129,7 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
         usrTmp.uname = ui->unameLineEdit->text();
         usrTmp.group = ui->grpLineEdit->text();
         usrTmp.ogroups = pLineEdit->text().trimmed().split(',');//ui->grpsLineEdit->text().trimmed().split(',');
-        usrTmp.uid = ui->uidLineEdit->text();
+        //usrTmp.uid = ui->uidLineEdit->text();
         for(int i=0; i<usrTmp.ogroups.length(); i++)
         {
             if(usrTmp.ogroups[i].length()==0)

@@ -135,7 +135,7 @@
    <item row="5" column="1">
     <widget class="QPushButton" name="openAllButton">
      <property name="text">
-      <string>一键开启</string>
+      <string>全部开启</string>
      </property>
     </widget>
    </item>

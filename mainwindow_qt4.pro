@@ -55,7 +55,10 @@ SOURCES += main.cpp\
     AUD/audinfopage.cpp \
     AUD/audrulepage.cpp \
     AUD/audkernrulepage.cpp \
-    AUD/audconfpage.cpp
+    AUD/audconfpage.cpp \
+    AUD/filerulesdialog.cpp \
+    AUD/syscalldialog.cpp \
+    AUD/customruledialog.cpp
 
 HEADERS  += mainwindow.h \
                common.h \
@@ -100,7 +103,10 @@ HEADERS  += mainwindow.h \
     AUD/audrulepage.h \
     AUD/audkernrulepage.h \
     AUD/audtabwidget.h \
-    AUD/audconfpage.h
+    AUD/audconfpage.h \
+    AUD/filerulesdialog.h \
+    AUD/syscalldialog.h \
+    AUD/customruledialog.h
 
 FORMS    += mainwindow.ui \
      AUD/tabauditpage.ui \
@@ -131,7 +137,10 @@ FORMS    += mainwindow.ui \
     AUD/audinfopage.ui \
     AUD/audrulepage.ui \
     AUD/audkernrulepage.ui \
-    AUD/audconfpage.ui
+    AUD/audconfpage.ui \
+    AUD/filerulesdialog.ui \
+    AUD/syscalldialog.ui \
+    AUD/customruledialog.ui
 
 
 TRANSLATIONS += securityCenter.ts

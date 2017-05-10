@@ -1,5 +1,7 @@
 #include "mainfunclass.h"
 
+MainFunClass* MainFunClass::m_pInstance = NULL;
+
 MainFunClass::MainFunClass(QObject *parent) : QObject(parent)
 {
 

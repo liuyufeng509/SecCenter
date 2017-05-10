@@ -50,7 +50,6 @@ private slots:
    void startOrStopServiceSlot(int res, Exception exp);
 private:
     Ui::TabSysPage *ui;
-    SysFunClass m_sysFunModel;  //处理系统管理的后台业务逻辑
     QThread *thread;
 
     //user manager

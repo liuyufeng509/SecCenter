@@ -35,7 +35,7 @@ void UkeyDialog::on_pinokButton_clicked()
     ukif.new_pin = ui->new_pinlineEdit->text();
     try
     {
-        m_secFunModel.resetPINOfUkey(ukif);
+        SecFunClass::getInstance()->resetPINOfUkey(ukif);
         infoMsgBox(tr("更改PIN成功"));
     }catch(Exception exp)
     {

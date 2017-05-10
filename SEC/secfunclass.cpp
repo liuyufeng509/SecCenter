@@ -1,5 +1,5 @@
 #include "secfunclass.h"
-
+SecFunClass* SecFunClass::m_pInstance = NULL;
 SecFunClass::SecFunClass(QObject *parent) : QObject(parent)
 {
 

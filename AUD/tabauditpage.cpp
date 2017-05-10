@@ -34,7 +34,7 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     kernAudParam.bignore = false;
     try
     {
-        m_audFunModel.getKernAudParam(kernAudParam);
+        AudFunClass::getInstance()->getKernAudParam(kernAudParam);
     }catch(Exception exp)
     {
         errMsgBox(exp.getErroWhat());
@@ -367,7 +367,7 @@ void TabAuditPage::on_aplButton_clicked()
     }
     try
     {
-        m_audFunModel.excuteAudCmd(cmd, tr("审计查询"), res);
+        AudFunClass::getInstance()->excuteAudCmd(cmd, tr("审计查询"), res);
         ui->listWidget->setCurrentRow(DISPLAY_PAGE);
         ui->textBrowser->setText(res);
         op_type = QUERY_SET;
@@ -430,7 +430,7 @@ void TabAuditPage::on_report_okButton_clicked()
 
     try
     {
-        m_audFunModel.excuteAudCmd(cmd, tr("审计报告生成"), res);
+        AudFunClass::getInstance()->excuteAudCmd(cmd, tr("审计报告生成"), res);
         ui->listWidget->setCurrentRow(DISPLAY_PAGE);
         ui->textBrowser->setText(res);
         op_type=AUD_REPORT;
@@ -464,7 +464,7 @@ void TabAuditPage::on_apl_kern_paramButton_clicked()
     QString rs;
     try
     {
-        m_audFunModel.excuteAudCmd(cmd, tr("内核审计参数设置"),rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmd, tr("内核审计参数设置"),rs);
         op_type=KER_AUD_PARM;
     }catch(Exception exp)
     {
@@ -498,11 +498,11 @@ void TabAuditPage::on_ker_aud_param_saveButton_clicked()
     QString rs;
     try
     {
-        m_audFunModel.excuteAudCmd(cmdstr, tr("删除原内核参数配置项"),rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("删除原内核参数配置项"),rs);
 
         cmdstr = "echo -e \"-r "+kernAudParam.rate_limit+ "\n-e "+ kernAudParam.enable+
                       "\n-b "+kernAudParam.backlog_limit+ "\n-f "+kernAudParam.fail_flag+(kernAudParam.bignore?"\n-i":"\n-c")+"\" >>/etc/audit/audit.rules";
-        m_audFunModel.excuteAudCmd(cmdstr, tr("写入内核参数配置项"),rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("写入内核参数配置项"),rs);
         infoMsgBox(tr("保存内核审计参数到配置文件成功"));
     }catch(Exception exp)
      {
@@ -614,7 +614,7 @@ void TabAuditPage::on_file_rule_aply_pushButton_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmd, tr("文件审计规则设置"), rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmd, tr("文件审计规则设置"), rs);
         infoMsgBox(tr("文件审计规则设置成功"));
     }catch(Exception exp)
             {
@@ -645,7 +645,7 @@ void TabAuditPage::on_file_aud_param_saveButton_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmd, tr("添加文件审计规则到配置文件"), rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmd, tr("添加文件审计规则到配置文件"), rs);
         infoMsgBox(tr("添加到配置文件成功"));
     }catch(Exception exp)
             {
@@ -664,7 +664,7 @@ void TabAuditPage::on_trace_Button_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmd, tr("追踪文件"), rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmd, tr("追踪文件"), rs);
         ui->track_lineEdit->setText(rs);
     }catch(Exception exp)
             {
@@ -697,7 +697,7 @@ void TabAuditPage::on_sys_call_rule_apl_pushButton_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmdstr, tr("设置系统调用规则"), rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("设置系统调用规则"), rs);
         infoMsgBox(tr("设置系统调用规则成功"));
     }catch(Exception exp)
             {
@@ -730,7 +730,7 @@ void TabAuditPage::on_sys_call_save_pushButton_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmdstr, tr("保存系统调用规则到配置文件"),rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("保存系统调用规则到配置文件"),rs);
         infoMsgBox(tr("保存系统调用规则到配置文件成功"));
     }catch (Exception exp)
             {
@@ -749,7 +749,7 @@ void TabAuditPage::on_clean_all_rules_Button_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmdstr, tr("清理审计规则"),rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("清理审计规则"),rs);
         infoMsgBox(tr("清理审计规则成功"));
     }catch (Exception exp)
             {
@@ -764,7 +764,7 @@ void TabAuditPage::on_clean_all_rules_infile_Button_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmdstr, tr("清理审计规则配置文件"),rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("清理审计规则配置文件"),rs);
         infoMsgBox(tr("清理审计规则配置文件成功"));
     }catch (Exception exp)
             {
@@ -778,7 +778,7 @@ void TabAuditPage::on_display_cur_rules_Button_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmdstr, tr("获取当前规则"),rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("获取当前规则"),rs);
         ui->custom_rules_textBrowser->setText(rs);
         infoMsgBox(tr("获取当前规则成功"));
     }catch (Exception exp)
@@ -800,7 +800,7 @@ void TabAuditPage::on_custom_rule_aply_pushButton_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmdstr, tr("自定义规则设置"),rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("自定义规则设置"),rs);
         infoMsgBox(tr("自定义规则设置成功"));
     }catch (Exception exp)
             {
@@ -814,7 +814,7 @@ void TabAuditPage::on_custom_rule_savepushButton_clicked()
     try
     {
         QString rs;
-        m_audFunModel.excuteAudCmd(cmdstr, tr("保存自定义规则到文件"),rs);
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("保存自定义规则到文件"),rs);
         infoMsgBox(tr("保存自定义规则到文件成功"));
     }catch (Exception exp)
             {
@@ -839,7 +839,7 @@ void TabAuditPage::on_restartAduButton_clicked()
 
     try
     {
-        m_audFunModel.startOrStopService(SEV_NAME, 2);
+        AudFunClass::getInstance()->startOrStopService(SEV_NAME, 2);
         infoMsgBox(tr("重启成功"));
     }catch(Exception exp)
             {

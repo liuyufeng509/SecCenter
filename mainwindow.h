@@ -54,7 +54,6 @@ private:
      TabSysPage *tabSysPage;
      IndexWidget *indexWidget;
 
-     MainFunClass m_MainModel;
      ROLE              m_curRole;
 };
 

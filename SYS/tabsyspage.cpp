@@ -77,19 +77,19 @@ TabSysPage::TabSysPage(QWidget *parent) :
 
     thread = new QThread;
 
-    m_sysFunModel.moveToThread(thread);
+    SysFunClass::getInstance()->moveToThread(thread);
 
     qRegisterMetaType<SEVLIST> ("SEVLIST");
     qRegisterMetaType<Exception>("Exception");
     //获取服务列表
-    connect(this, SIGNAL(emitGetServsSignal(SEVLIST )), &m_sysFunModel, SLOT(getServicesSlot(SEVLIST )));
-    connect(&m_sysFunModel, SIGNAL(emitGetServicesDone(int ,Exception, SEVLIST)), this, SLOT(getServicesSlot(int ,Exception, SEVLIST)));
+    connect(this, SIGNAL(emitGetServsSignal(SEVLIST )), SysFunClass::getInstance(), SLOT(getServicesSlot(SEVLIST )));
+    connect(SysFunClass::getInstance(), SIGNAL(emitGetServicesDone(int ,Exception, SEVLIST)), this, SLOT(getServicesSlot(int ,Exception, SEVLIST)));
     //设置开机启动
-    connect(this, SIGNAL(emitSetUpDownWhenBoot(QString, int)), &m_sysFunModel, SLOT(setUpDownWhenBootSlot(QString,int)));
-    connect(&m_sysFunModel, SIGNAL(emitSetUpDownWhenBootDone(int,Exception)), this, SLOT(setUpDownWhenBootSlot(int ,Exception)));
+    connect(this, SIGNAL(emitSetUpDownWhenBoot(QString, int)), SysFunClass::getInstance(), SLOT(setUpDownWhenBootSlot(QString,int)));
+    connect(SysFunClass::getInstance(), SIGNAL(emitSetUpDownWhenBootDone(int,Exception)), this, SLOT(setUpDownWhenBootSlot(int ,Exception)));
     //开启或关闭服务
-    connect(this, SIGNAL(emitStartOrStopService(QString, int)), &m_sysFunModel, SLOT(startOrStopServiceSlot(QString,int)));
-    connect(&m_sysFunModel, SIGNAL(emitStartOrStopServiceDone(int,Exception)), this, SLOT(startOrStopServiceSlot(int ,Exception)));
+    connect(this, SIGNAL(emitStartOrStopService(QString, int)), SysFunClass::getInstance(), SLOT(startOrStopServiceSlot(QString,int)));
+    connect(SysFunClass::getInstance(), SIGNAL(emitStartOrStopServiceDone(int,Exception)), this, SLOT(startOrStopServiceSlot(int ,Exception)));
 
     thread->start();
    // waitD = new WaitDialog(this);
@@ -293,7 +293,7 @@ void TabSysPage::UpdateToUsersUI()
 {
     try
     {
-        m_sysFunModel.getUserList(users);
+        SysFunClass::getInstance()->getUserList(users);
         ui->tableWidget->setRowCount(0);
         ui->tableWidget->setRowCount(users.size());
         ui->tableWidget->setToolTip(tr("右键可对用户进行操作"));
@@ -422,7 +422,7 @@ void TabSysPage::del_user_action()
     }
     try
     {
-        m_sysFunModel.delUser(users[row]);
+        SysFunClass::getInstance()->delUser(users[row]);
         UpdateToUsersUI();
     }catch(Exception exp)
             {

@@ -85,8 +85,6 @@ signals:
 private:
     Ui::TabSecrityPage *ui;
 
-    SecFunClass m_secFunModel;
-
     QList<SecUserInfo> secUserList;
     QMenu *secUserMenu;
     QAction *ukeyPINAction;

@@ -29,7 +29,7 @@ void MainWindow::initCentralWidget()
     ui->tabWidget->setHidden(true);
     try
     {
-        m_curRole = m_MainModel.getUserRole();
+        m_curRole = MainFunClass::getInstance()->getUserRole();
         if(m_curRole == ERROR)
         {
             m_curRole = ROOT;

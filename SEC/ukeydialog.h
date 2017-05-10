@@ -38,7 +38,6 @@ private:
     ErrorInfo err;
     int mType;
 
-    SecFunClass m_secFunModel;
 };
 
 #endif // UKEYDIALOG_H

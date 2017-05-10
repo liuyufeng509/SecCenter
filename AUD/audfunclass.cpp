@@ -1,5 +1,7 @@
 #include "audfunclass.h"
 
+AudFunClass* AudFunClass::m_pInstance = NULL;
+
 AudFunClass::AudFunClass(QObject *parent) : QObject(parent)
 {
 

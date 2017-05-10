@@ -19,7 +19,7 @@ void KernParmMngWidget::on_pushButton_clicked()
 {
     try
     {
-        m_sysFunModel.setKernelParam(ui->param_comboBox->currentText(), ui->lineEdit->text());
+        SysFunClass::getInstance()->setKernelParam(ui->param_comboBox->currentText(), ui->lineEdit->text());
         infoMsgBox(tr("设置成功"));
     }catch(Exception exp)
             {

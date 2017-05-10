@@ -1,5 +1,7 @@
 #include "sysfunclass.h"
 #include <QThread>
+
+SysFunClass* SysFunClass::m_pInstance = NULL;
 SysFunClass::SysFunClass(QObject *parent) : QObject(parent)
 {
 

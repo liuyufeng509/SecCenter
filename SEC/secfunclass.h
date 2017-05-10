@@ -8,8 +8,15 @@ class SecFunClass : public QObject
 {
     Q_OBJECT
 public:
-    explicit SecFunClass(QObject *parent = 0);
 
+    static SecFunClass*  getInstance()
+       {
+           if(m_pInstance == NULL)
+           {
+               m_pInstance = new SecFunClass();
+           }
+           return m_pInstance;
+       }
     //用户安全管理相关操作
     bool getLockServices(QStringList &list);        //获取可被锁定的服务列表
     bool getLockedUsers(QStringList &list);         //获取当前被锁定的用户
@@ -45,6 +52,10 @@ public:
     bool SetDefaultSakInfo(QString sta);                           //设置sak
     bool setEnforce(bool bOpen);                        //开启关闭安全策略
     bool startOrStopService(QString svName, int opt);       //开启或关闭服务
+
+private:
+    explicit SecFunClass(QObject *parent = 0);
+    static SecFunClass *m_pInstance;
 signals:
     void emitSetUserTagInfoDone(int res, Exception);   //用户安全标签管理多线程操作,设置完毕，返回结果
     void emitGetSafePolicyDone(int res, Exception exp, TELIST telist, F_PLIST fpList);      //获取安全策略结束

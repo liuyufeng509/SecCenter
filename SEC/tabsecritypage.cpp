@@ -56,7 +56,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     //用户安全标签
     try
     {
-        m_secFunModel.getUserTagInfoList(userTagList);
+        SecFunClass::getInstance()->getUserTagInfoList(userTagList);
         if(userTagList.size()>0)
         {
             for(int i=0; i<userTagList.size();i++)
@@ -86,7 +86,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     }
 
     //audit service start/stop
-    if(m_secFunModel.servRunState(tr(SEV_NAME))!=RUNNING)
+    if(SecFunClass::getInstance()->servRunState(tr(SEV_NAME))!=RUNNING)
     {
         ui->closeAduButton->setText(tr("开启审计服务"));
         ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
@@ -102,17 +102,17 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     //多线程处理
     thread = new QThread;
 
-    m_secFunModel.moveToThread(thread);
+    SecFunClass::getInstance()->moveToThread(thread);
     //设置用户安全标签
     qRegisterMetaType<UserTag> ("UserTag");
-    connect(this, SIGNAL(emitSetUserTagInfo(UserTag,int)),&m_secFunModel, SLOT(setUserTagInfoSlot(UserTag,int)));
-    connect(&m_secFunModel, SIGNAL(emitSetUserTagInfoDone(int,Exception)), this, SLOT(setUserTagInfoSlot(int ,Exception)));
+    connect(this, SIGNAL(emitSetUserTagInfo(UserTag,int)),SecFunClass::getInstance(), SLOT(setUserTagInfoSlot(UserTag,int)));
+    connect(SecFunClass::getInstance(), SIGNAL(emitSetUserTagInfoDone(int,Exception)), this, SLOT(setUserTagInfoSlot(int ,Exception)));
     //安全策略
     qRegisterMetaType<TELIST> ("TELIST");
     qRegisterMetaType<F_PLIST>("F_PLIST");
     qRegisterMetaType<Exception>("Exception");
-    connect(this, SIGNAL(emitGetSafePolicy(TELIST,F_PLIST)),&m_secFunModel, SLOT(getSafePolicySlot(TELIST,F_PLIST)));
-    connect(&m_secFunModel, SIGNAL(emitGetSafePolicyDone(int,Exception, TELIST,F_PLIST)), this, SLOT(getSafePolicySlot(int,Exception, TELIST,F_PLIST)));
+    connect(this, SIGNAL(emitGetSafePolicy(TELIST,F_PLIST)),SecFunClass::getInstance(), SLOT(getSafePolicySlot(TELIST,F_PLIST)));
+    connect(SecFunClass::getInstance(), SIGNAL(emitGetSafePolicyDone(int,Exception, TELIST,F_PLIST)), this, SLOT(getSafePolicySlot(int,Exception, TELIST,F_PLIST)));
     bFirst = true;
     thread->start();
 }
@@ -121,7 +121,7 @@ void TabSecrityPage::updateSecUserUI()
 {
     try
     {
-        m_secFunModel.getSecUserList(secUserList);
+        SecFunClass::getInstance()->getSecUserList(secUserList);
         ui->userTableWidget->setRowCount(0);
         ui->userTableWidget->setRowCount(secUserList.size());
         ui->userTableWidget->setToolTip(tr("右键可对用户进行操作"));
@@ -165,7 +165,7 @@ void TabSecrityPage::unLockActionSlot()
     }
     try
     {
-        m_secFunModel.unLockUser(secUserList[row].uName);
+        SecFunClass::getInstance()->unLockUser(secUserList[row].uName);
         infoMsgBox(tr("解锁成功"));
     }catch(Exception exp)
     {
@@ -240,7 +240,7 @@ void TabSecrityPage::init_sak_ui()
 {
     try
     {
-        m_secFunModel.GetSakInfo(sakinfo);
+        SecFunClass::getInstance()->GetSakInfo(sakinfo);
         if(sakinfo.current_mode=="enable")
         {
             ui->cur_sakstatus_label->setText(tr("当前sak状态: 开启"));
@@ -275,7 +275,7 @@ void TabSecrityPage::display_cur_pwd_info()
 {
     try
     {
-        m_secFunModel.getCurPwdInfo(pwdInfo);
+        SecFunClass::getInstance()->getCurPwdInfo(pwdInfo);
 //        QString text = QString(tr("最小长度:"))+(pwdInfo.minLen.isEmpty()?tr("无限制"):pwdInfo.minLen)+" 数字个数:"+
 //                (pwdInfo.dcredit.isEmpty()?tr("无限制"):pwdInfo.dcredit)+" 小写字母:"+
 //                (pwdInfo.lcredit.isEmpty()?tr("无限制"):pwdInfo.lcredit)+" 大写字母:"+
@@ -376,10 +376,10 @@ void TabSecrityPage::listItemChangedSlot(int page)
         waitDiaogAppear();
 //        try
 //        {
-//            m_secFunModel.getTeRules(terules);
+//            SecFunClass::getInstance()->getTeRules(terules);
 //            InitRuleTab();
 //            UpdateRuletabel(terules);
-//            m_secFunModel.getFileProcessRules(fpconvs);
+//            SecFunClass::getInstance()->getFileProcessRules(fpconvs);
 //            InitFPTab();
 //            UpdateFPTable(fpconvs);
 //            disconnect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(listItemChangedSlot(int)));
@@ -395,7 +395,7 @@ void TabSecrityPage::UpdateToSecStatus()
 {
     try
     {
-        m_secFunModel.getSecStatus(secStatus);
+        SecFunClass::getInstance()->getSecStatus(secStatus);
     }catch(Exception exp)
             {
         secStatus.clear();
@@ -424,7 +424,7 @@ void TabSecrityPage::getLockServices()
     //enhanced-trylock  -l
     try
     {
-        m_secFunModel.getLockServices(services);
+        SecFunClass::getInstance()->getLockServices(services);
     }catch(Exception exp)
             {
         exp.getErroWhat();
@@ -581,12 +581,12 @@ void TabSecrityPage::on_closeAduButton_clicked()
     {
         if(ui->closeAduButton->text() == tr("开启审计服务"))
         {
-            m_secFunModel.startOrStopService(SEV_NAME, 0);
+            SecFunClass::getInstance()->startOrStopService(SEV_NAME, 0);
             ui->closeAduButton->setText(tr("关闭审计服务"));
             ui->cur_audstatus_label->setText(tr("当前状态：       正在运行"));
         }else
         {
-            m_secFunModel.startOrStopService(SEV_NAME,1);
+            SecFunClass::getInstance()->startOrStopService(SEV_NAME,1);
             stop_service(SEV_NAME);
             ui->closeAduButton->setText(tr("开启审计服务"));
             ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
@@ -608,9 +608,9 @@ void TabSecrityPage::on_open_close_sak_Button_clicked()
     {
         if(sakinfo.current_mode=="enable")
         {
-            m_secFunModel.SetSakInfo("disable");
+            SecFunClass::getInstance()->SetSakInfo("disable");
         }else
-            m_secFunModel.SetSakInfo("enable");
+            SecFunClass::getInstance()->SetSakInfo("enable");
     }catch(Exception exp)
     {
         errMsgBox(exp.getErroWhat());
@@ -625,9 +625,9 @@ void TabSecrityPage::on_open_close_def_sak_Button_clicked()
     {
         if(sakinfo.default_mode=="enable")
         {
-            m_secFunModel.SetDefaultSakInfo("disable");
+            SecFunClass::getInstance()->SetDefaultSakInfo("disable");
         }else
-            m_secFunModel.SetDefaultSakInfo("enable");
+            SecFunClass::getInstance()->SetDefaultSakInfo("enable");
     }catch(Exception exp)
     {
         errMsgBox(exp.getErroWhat());
@@ -647,7 +647,7 @@ void TabSecrityPage::on_setTryLockButton_clicked()
     info.sParam = ui->lockSvrComboBox->currentText();
     try
     {
-        m_secFunModel.tryLockOption(info);
+        SecFunClass::getInstance()->tryLockOption(info);
         infoMsgBox(tr("用户锁定规则设置成功"));
     }catch(Exception exp)
     {
@@ -667,7 +667,7 @@ void TabSecrityPage::on_freshUserSafeTagButton_clicked()
     //2.刷新当前选中的用户的信息
     try
     {
-        if(m_secFunModel.getUserTagInfoList(userTagList))
+        if(SecFunClass::getInstance()->getUserTagInfoList(userTagList))
         {
             ui->users_comboBox->clear();
             if(userTagList.size()>0)
@@ -759,7 +759,7 @@ void TabSecrityPage::on_freshFileTagButton_clicked()
     fileinfo.isDir = isDir;
     try
     {
-        m_secFunModel.getFileTagInfo(fileinfo);
+        SecFunClass::getInstance()->getFileTagInfo(fileinfo);
         for(int i=0; i<ui->f_sec_tagcomboBox->count();i++)
         {
             if(ui->f_sec_tagcomboBox->itemText(i)==fileinfo.safeTag)
@@ -791,7 +791,7 @@ void TabSecrityPage::on_setFileTagButton_clicked()
     fileinfo.wholeTag = ui->f_whole_tagcomboBox->currentText();
     try
     {
-        m_secFunModel.setFileTagInfo(fileinfo);
+        SecFunClass::getInstance()->setFileTagInfo(fileinfo);
         infoMsgBox(tr("设置成功!"));
     }catch(Exception exp)
             {
@@ -807,7 +807,7 @@ void TabSecrityPage::on_lockSvrComboBox_currentIndexChanged(const QString &arg1)
 
     try
     {
-        m_secFunModel.getCurLockInfo(info);
+        SecFunClass::getInstance()->getCurLockInfo(info);
         ui->tmsLineEdit->setText(info.dParam);
         ui->secLineEdit->setText(info.uParam);
     }catch(Exception exp)
@@ -824,12 +824,12 @@ void TabSecrityPage::on_open_closeSecPolButton_clicked()
     {
         if(ui->open_closeSecPolButton->text() == tr("关闭安全策略"))
         {
-            m_secFunModel.setEnforce(false);
+            SecFunClass::getInstance()->setEnforce(false);
             ui->open_closeSecPolButton->setText(tr("开启安全策略"));
         }
         else
         {
-            m_secFunModel.setEnforce(true);
+            SecFunClass::getInstance()->setEnforce(true);
             ui->open_closeSecPolButton->setText(tr("关闭安全策略"));
         }
     }catch(Exception exp)

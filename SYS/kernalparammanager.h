@@ -21,7 +21,6 @@ private slots:
 
 private:
     Ui::KernalParamManager *ui;
-    SysFunClass m_sysFunModel;
 };
 
 #endif // KERNALPARAMMANAGER_H

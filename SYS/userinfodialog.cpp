@@ -12,7 +12,7 @@ UserInfoDialog::UserInfoDialog(UserInfo &usinfo,int type,QWidget *parent) :
     //获取所有用户组
     try
     {
-        m_sysFunModel.getGroupList(grouplist);
+        SysFunClass::getInstance()->getGroupList(grouplist);
     }catch(Exception exp)
             {
         errMsgBox(exp.getErroWhat());
@@ -138,7 +138,7 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
         //判断用户组是否存在， 需要捕获异常。
         try
         {
-            if(!m_sysFunModel.isGroupExist(usrTmp.group) && usrTmp.group!=usrTmp.uname)
+            if(!SysFunClass::getInstance()->isGroupExist(usrTmp.group) && usrTmp.group!=usrTmp.uname)
             {
                 errMsgBox(tr("用户组:")+ usrTmp.group+tr("不存在!"));
                 return;
@@ -146,7 +146,7 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
             if(usrTmp.ogroups.length()>0)
             {
                 foreach (QString grp, usrTmp.ogroups) {
-                    if(!m_sysFunModel.isGroupExist(grp))
+                    if(!SysFunClass::getInstance()->isGroupExist(grp))
                     {
                         errMsgBox(tr("用户组:")+ grp+tr("不存在!"));
                         return;
@@ -163,11 +163,11 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
         {
             if(m_type==Add)
             {
-                m_sysFunModel.addUser(usrTmp);
+                SysFunClass::getInstance()->addUser(usrTmp);
                 infoMsgBox(tr("添加用户成功"));
             }else
             {
-                m_sysFunModel.modifyUser(usrTmp);
+                SysFunClass::getInstance()->modifyUser(usrTmp);
                 infoMsgBox(tr("修改用户成功"));
             }
             QDialog::accept();

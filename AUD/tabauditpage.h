@@ -119,7 +119,6 @@ private:
 
     FileAudRule fileRule;
 
-    AudFunClass m_audFunModel;
 };
 
 #endif // TABAUDITPAGE_H

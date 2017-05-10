@@ -7,7 +7,15 @@ class SysFunClass : public QObject
 {
     Q_OBJECT
 public:
-    explicit SysFunClass(QObject *parent = 0);
+    static SysFunClass*  getInstance()
+       {
+           if(m_pInstance == NULL)
+           {
+               m_pInstance = new SysFunClass();
+           }
+           return m_pInstance;
+       }
+
 
     //用户管理相关操作
     bool getUserList(QList<UserInfo> &users);  //获取所有用户信息，保存到列表中
@@ -24,6 +32,10 @@ public:
 
     //内核参数设置相关
     bool setKernelParam(QString paramName, QString value);
+
+private:
+    explicit SysFunClass(QObject *parent = 0);
+    static SysFunClass *m_pInstance;
 signals:
     //服务管理多线程操作
     void emitGetServicesDone(int res, Exception exp, SEVLIST servs);     //线程获取服务列表 res=0代表成功，否则代表失败

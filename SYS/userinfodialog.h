@@ -34,7 +34,6 @@ private:
     Ui::UserInfoDialog *ui;
     UserInfo &userinfo;
     int m_type;
-    SysFunClass m_sysFunModel;
     QStringList grouplist;
 
     //其他组选择过滤功能

@@ -12,3 +12,8 @@ ReportDialog::~ReportDialog()
 {
     delete ui;
 }
+
+void ReportDialog::on_okButton_clicked()
+{
+
+}

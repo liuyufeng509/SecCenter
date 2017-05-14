@@ -6,272 +6,378 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>546</width>
-    <height>515</height>
+    <width>631</width>
+    <height>436</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>631</width>
+    <height>436</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>631</width>
+    <height>436</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>审计查询</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QCheckBox" name="checkBox">
-     <property name="text">
-      <string>event id</string>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="enabled">
+      <bool>true</bool>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="lineEdit"/>
-   </item>
-   <item row="0" column="2">
-    <widget class="QCheckBox" name="checkBox_2">
-     <property name="text">
-      <string>gid</string>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QLineEdit" name="lineEdit_2"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QCheckBox" name="checkBox_3">
-     <property name="text">
-      <string>filename</string>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>48000</height>
+      </size>
      </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="lineEdit_4"/>
-   </item>
-   <item row="1" column="2">
-    <widget class="QCheckBox" name="checkBox_4">
-     <property name="text">
-      <string>all ground id</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="QLineEdit" name="lineEdit_3"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QCheckBox" name="checkBox_5">
-     <property name="text">
-      <string>effective gid</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="lineEdit_6"/>
-   </item>
-   <item row="2" column="2">
-    <widget class="QCheckBox" name="checkBox_6">
-     <property name="text">
-      <string>key word</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3">
-    <widget class="QLineEdit" name="lineEdit_5"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QCheckBox" name="checkBox_7">
-     <property name="text">
-      <string>host name</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLineEdit" name="lineEdit_8"/>
-   </item>
-   <item row="3" column="2">
-    <widget class="QCheckBox" name="checkBox_8">
-     <property name="text">
-      <string>parent pid</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QLineEdit" name="lineEdit_7"/>
-   </item>
-   <item row="4" column="0">
-    <widget class="QCheckBox" name="checkBox_9">
-     <property name="text">
-      <string>message type</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QLineEdit" name="lineEdit_10"/>
-   </item>
-   <item row="4" column="2">
-    <widget class="QCheckBox" name="checkBox_10">
-     <property name="text">
-      <string>return success</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="3">
-    <widget class="QLineEdit" name="lineEdit_9"/>
-   </item>
-   <item row="5" column="0">
-    <widget class="QCheckBox" name="checkBox_11">
-     <property name="text">
-      <string>pid</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QLineEdit" name="lineEdit_11">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <widget class="QCheckBox" name="checkBox_12">
-     <property name="text">
-      <string>start time</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="3">
-    <widget class="QLineEdit" name="lineEdit_12">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QCheckBox" name="checkBox_13">
-     <property name="text">
-      <string>end time</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="QLineEdit" name="lineEdit_13"/>
-   </item>
-   <item row="6" column="2">
-    <widget class="QCheckBox" name="checkBox_14">
-     <property name="text">
-      <string>all uid</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="3">
-    <widget class="QLineEdit" name="lineEdit_14"/>
-   </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="checkBox_15">
-     <property name="text">
-      <string>terminal</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QLineEdit" name="lineEdit_15"/>
-   </item>
-   <item row="7" column="2">
-    <widget class="QCheckBox" name="checkBox_16">
-     <property name="text">
-      <string>word</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="3">
-    <widget class="QLineEdit" name="lineEdit_16"/>
-   </item>
-   <item row="8" column="0">
-    <widget class="QCheckBox" name="checkBox_17">
-     <property name="text">
-      <string>effective uid</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1">
-    <widget class="QLineEdit" name="lineEdit_17"/>
-   </item>
-   <item row="8" column="2">
-    <widget class="QCheckBox" name="checkBox_18">
-     <property name="text">
-      <string>DAC setfacl</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="3">
-    <widget class="QLineEdit" name="lineEdit_18"/>
-   </item>
-   <item row="9" column="0">
-    <widget class="QCheckBox" name="checkBox_19">
-     <property name="text">
-      <string>login uid</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="1">
-    <widget class="QLineEdit" name="lineEdit_19"/>
-   </item>
-   <item row="9" column="2">
-    <widget class="QCheckBox" name="checkBox_20">
-     <property name="text">
-      <string>DAC getfacl</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="3">
-    <widget class="QLineEdit" name="lineEdit_20"/>
-   </item>
-   <item row="10" column="0">
-    <widget class="QCheckBox" name="checkBox_21">
-     <property name="text">
-      <string>execute file</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="1">
-    <widget class="QLineEdit" name="lineEdit_21"/>
-   </item>
-   <item row="10" column="2">
-    <widget class="QCheckBox" name="checkBox_22">
-     <property name="text">
-      <string>uid</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="3">
-    <widget class="QLineEdit" name="lineEdit_22"/>
-   </item>
-   <item row="11" column="0">
-    <widget class="QCheckBox" name="checkBox_23">
-     <property name="text">
-      <string>system call</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="1">
-    <widget class="QLineEdit" name="lineEdit_23"/>
-   </item>
-   <item row="11" column="2">
-    <widget class="QCheckBox" name="checkBox_24">
-     <property name="text">
-      <string>AVC</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="3">
-    <widget class="QLineEdit" name="lineEdit_24"/>
-   </item>
-   <item row="12" column="0" colspan="4">
-    <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>查询语句:</string>
+      <string>查询设置</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLineEdit" name="lineEdit_25"/>
-      </item>
-     </layout>
+     <widget class="QCheckBox" name="st_checkBox">
+      <property name="geometry">
+       <rect>
+        <x>17</x>
+        <y>302</y>
+        <width>95</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>start time</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="et_checkBox">
+      <property name="geometry">
+       <rect>
+        <x>313</x>
+        <y>302</y>
+        <width>86</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>end time</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_20">
+      <property name="geometry">
+       <rect>
+        <x>17</x>
+        <y>337</y>
+        <width>64</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>查询语句:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="query_sent_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>133</x>
+        <y>337</y>
+        <width>471</width>
+        <height>33</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QDateTimeEdit" name="st_timeEdit">
+      <property name="geometry">
+       <rect>
+        <x>133</x>
+        <y>300</y>
+        <width>174</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="displayFormat">
+       <string>MM/dd/yy hh:mm:ss</string>
+      </property>
+     </widget>
+     <widget class="QDateTimeEdit" name="et_timeEdit">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>300</y>
+        <width>174</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="displayFormat">
+       <string>MM/dd/yy hh:mm:ss</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>17</x>
+        <y>25</y>
+        <width>587</width>
+        <height>269</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="syscall_lineEdit"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QCheckBox" name="euid_checkBox">
+         <property name="text">
+          <string>effective uid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QCheckBox" name="kw_checkBox">
+         <property name="text">
+          <string>key word</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="pid_lineEdit">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QLineEdit" name="ppid_lineEdit"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="mt_checkBox">
+         <property name="text">
+          <string>message type</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QCheckBox" name="rs_checkBox">
+         <property name="text">
+          <string>return success</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="mt_lineEdit"/>
+       </item>
+       <item row="0" column="4">
+        <widget class="QCheckBox" name="agid_checkBox">
+         <property name="text">
+          <string>all ground id</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QLineEdit" name="rs_lineEdit"/>
+       </item>
+       <item row="1" column="3">
+        <widget class="QLineEdit" name="kw_lineEdit"/>
+       </item>
+       <item row="4" column="4">
+        <widget class="QCheckBox" name="ef_checkBox">
+         <property name="text">
+          <string>execute file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QCheckBox" name="hn_checkBox">
+         <property name="text">
+          <string>host name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QCheckBox" name="syscall_checkBox">
+         <property name="text">
+          <string>system call</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QCheckBox" name="gid_checkBox">
+         <property name="text">
+          <string>gid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QLineEdit" name="term_lineEdit"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="egid_lineEdit"/>
+       </item>
+       <item row="1" column="5">
+        <widget class="QLineEdit" name="hn_lineEdit"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="auid_checkBox">
+         <property name="text">
+          <string>all uid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QCheckBox" name="fn_checkBox">
+         <property name="text">
+          <string>filename</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QCheckBox" name="ppid_checkBox">
+         <property name="text">
+          <string>parent pid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="euid_lineEdit"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="auid_lineEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="egid_checkBox">
+         <property name="text">
+          <string>effective gid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="evidCheckBox">
+         <property name="text">
+          <string>event id</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="evid_lineEdit"/>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLineEdit" name="gid_lineEdit"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="pid_checkBox">
+         <property name="text">
+          <string>pid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QLineEdit" name="agid_lineEdit"/>
+       </item>
+       <item row="4" column="2">
+        <widget class="QCheckBox" name="term_checkBox">
+         <property name="text">
+          <string>terminal</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QLineEdit" name="fn_lineEdit"/>
+       </item>
+       <item row="3" column="4">
+        <widget class="QCheckBox" name="word_checkBox">
+         <property name="text">
+          <string>word</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="5">
+        <widget class="QLineEdit" name="ef_lineEdit"/>
+       </item>
+       <item row="3" column="5">
+        <widget class="QLineEdit" name="word_lineEdit"/>
+       </item>
+       <item row="5" column="2">
+        <widget class="QCheckBox" name="uid_checkBox">
+         <property name="text">
+          <string>uid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3">
+        <widget class="QLineEdit" name="uid_lineEdit"/>
+       </item>
+       <item row="5" column="4">
+        <widget class="QCheckBox" name="luid_checkBox">
+         <property name="text">
+          <string>login uid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="5">
+        <widget class="QLineEdit" name="luid_lineEdit"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="query_produceButton">
+      <property name="geometry">
+       <rect>
+        <x>17</x>
+        <y>380</y>
+        <width>108</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>生成查询语句</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="okButton">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>380</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>确定</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="cancelButton">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>380</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>取消</string>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>

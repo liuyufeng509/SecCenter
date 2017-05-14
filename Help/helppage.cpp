@@ -24,6 +24,9 @@ HelpPage::HelpPage(ROLE curRole,QWidget *parent) :
     default:
         break;
     }
+    QString urlName("/root/Program/SecCenter/helpdoc/help.html");
+    QUrl url = QUrl::fromUserInput(urlName);
+    webView->load(url);
 
 }
 

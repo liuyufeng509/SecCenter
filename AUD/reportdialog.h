@@ -15,6 +15,9 @@ public:
     explicit ReportDialog(QWidget *parent = 0);
     ~ReportDialog();
 
+private slots:
+    void on_okButton_clicked();
+
 private:
     Ui::ReportDialog *ui;
 };

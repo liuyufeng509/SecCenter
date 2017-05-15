@@ -55,14 +55,18 @@ void UkeyDialog::setUserOfUkey(int type)
 
     ukif.cur_pin = ui->pinEdit->text();
     ukif.type = type;
-    if(!set_user_of_ukey(ukif, err))
+    try
     {
-        errMsgBox( tr("绑定用户失败，错误码：")+err.errorno+tr(" 错误内容：")+err.err_str);
-    }else
-    {
-        infoMsgBox(tr("绑定用户成功"));
+        SecFunClass::getInstance()->setUserOfUkey(ukif);
+        if(type==1)
+            infoMsgBox(tr("绑定Ukey成功"));
+        else
+            infoMsgBox(tr("解绑Ukey成功"));
+        accept();
+    }catch(Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
-    accept();
 }
 
 void UkeyDialog::on_bundingButton_clicked()
@@ -78,4 +82,14 @@ void UkeyDialog::on_unbundButton_clicked()
 void UkeyDialog::on_okButton_clicked()
 {
     setUserOfUkey(mType);
+}
+
+void UkeyDialog::on_pin_cancelButton_clicked()
+{
+    reject();
+}
+
+void UkeyDialog::on_cancelButton_clicked()
+{
+    reject();
 }

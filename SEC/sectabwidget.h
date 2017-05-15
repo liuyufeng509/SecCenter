@@ -9,6 +9,7 @@
 #include "sectagpage.h"
 #include "secrulespage.h"
 #include "svrctrlpage.h"
+#include <QThread>
 class SecTabWidget : public QTabWidget
 {
     Q_OBJECT
@@ -18,6 +19,8 @@ public:
     ~SecTabWidget();
     void UpdateIndex();
 
+public slots:
+    void tabChanged(int index);
 private:
     IndexWidget *indexPage;
     HelpPage *helpPage;
@@ -26,6 +29,7 @@ private:
     SecTagPage *secTagPage;
     SecRulesPage *secRulesPage;
     SvrCtrlPage * svrCtrlPage;
+    QThread *thread;
 };
 
 #endif // SECTABWIDGET_H

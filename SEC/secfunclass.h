@@ -24,11 +24,13 @@ public:
 
     bool tryLockOption(TryLockInfo info);           //设置锁定规则
     bool getCurPwdInfo(PwdInfo &pwdInfo);        //获取当前系统的密码设置规则
+    bool setCurPwdInfo(PwdInfo &pwdInfo);
     bool getSecUserList(QList<SecUserInfo> &secUserList);       //获取当前系统用户的安全管理信息
     bool getCurLockInfo(TryLockInfo &info);                     //获取当前的用户锁定规则
 
     //Ukey 功能操作
     bool resetPINOfUkey(UkeyInfo ukeyInfo);     //更改UKey的PIN
+    bool setUserOfUkey(UkeyInfo ukeyInfo);     //设置Ukey绑定或解绑
 
     //安全状态查看功能
     bool getSecStatus(SecStatus &status);   //获取当前的安全状态

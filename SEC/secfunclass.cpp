@@ -83,6 +83,27 @@ bool SecFunClass::tryLockOption(TryLockInfo info)           //设置锁定规则
     return true;
 }
 
+bool SecFunClass::setCurPwdInfo(PwdInfo &pwdInfo)
+{
+    QString cmd = "nfs-enhanced-passwd "+
+            (pwdInfo.minLen.isEmpty()? " ": ("-m "+pwdInfo.minLen+ " "))+
+            (pwdInfo.dcredit.isEmpty()? " ": ("-d -"+pwdInfo.dcredit+ " "))+
+            (pwdInfo.ucredit.isEmpty()? " ": ("-u -"+pwdInfo.ucredit+ " "))+
+            (pwdInfo.lcredit.isEmpty()?  " ": ("-l -"+pwdInfo.lcredit+ " "))+
+            (pwdInfo.ocredit.isEmpty()? " ": ("-o -"+pwdInfo.ocredit+ " "))+
+            " 2>&1; echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：设置密码规则")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    return true;
+}
+
 bool SecFunClass::getCurPwdInfo(PwdInfo &pwdInfo)
 {
     QString cmd = "grep \"^password.*pam_pwquality.so\"  /etc/pam.d/system-auth-ac 2>&1; echo $?";
@@ -651,6 +672,31 @@ bool SecFunClass::resetPINOfUkey(UkeyInfo ukeyInfo)
     {
         resStr.chop(strl.last().length());
         QString errContent=tr("执行操作：重置Ukey的PIN失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    return true;
+}
+
+bool SecFunClass::setUserOfUkey(UkeyInfo ukif)
+{
+    QString cmd = "nfsukey "+ ukif.cur_pin;
+    switch(ukif.type)
+    {
+    case 1:
+        cmd += " -b "+ukif.user+" 2>&1;echo $?";
+        break;
+    case 2:
+        cmd += " -d "+ukif.user+" 2>&1;echo $?";
+        break;
+    }
+
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：Ukey设置失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }

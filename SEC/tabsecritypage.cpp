@@ -86,15 +86,15 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
     }
 
     //audit service start/stop
-    if(SecFunClass::getInstance()->servRunState(tr(SEV_NAME))!=RUNNING)
-    {
-        ui->closeAduButton->setText(tr("开启审计服务"));
-        ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
-    }else
-    {
-        ui->closeAduButton->setText(tr("关闭审计服务"));
-        ui->cur_audstatus_label->setText(tr("当前状态：       正在运行"));
-    }
+//    if(SecFunClass::getInstance()->servRunState(tr(SEV_NAME))!=RUNNING)
+//    {
+//        ui->closeAduButton->setText(tr("开启审计服务"));
+//        ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
+//    }else
+//    {
+//        ui->closeAduButton->setText(tr("关闭审计服务"));
+//        ui->cur_audstatus_label->setText(tr("当前状态：       正在运行"));
+//    }
 
     //open/close manager
     init_sak_ui();
@@ -639,8 +639,6 @@ void TabSecrityPage::on_open_close_def_sak_Button_clicked()
 
 void TabSecrityPage::on_setTryLockButton_clicked()
 {
-    QString cmd = "nfs-enhanced-trylock -d "+ui->tmsLineEdit->text() + " -u "
-            + ui->secLineEdit->text()+ " -s " + ui->lockSvrComboBox->currentText() + "; echo $?";
     TryLockInfo info;
     info.dParam =ui->tmsLineEdit->text();
     info.uParam = ui->secLineEdit->text();

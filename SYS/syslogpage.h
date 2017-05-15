@@ -9,6 +9,7 @@
 #include<QTextStream>
 #include<QPushButton>
 #include<QLineEdit>
+#include<QComboBox>
 
 namespace Ui {
 class SysLogPage;
@@ -34,7 +35,8 @@ private:
     QTextBrowser *browser;
     QPushButton *nexButton;
     QPushButton *preButton;
-    QLineEdit *lineEdit;
+   // QLineEdit *lineEdit;
+    QComboBox *comBox;
 };
 
 #endif // SYSLOGPAGE_H

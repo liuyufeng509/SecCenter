@@ -8,6 +8,7 @@ SvrMgrPage::SvrMgrPage(QWidget *parent) :
     is_first =true;
     ui->setupUi(this);
     ui->svrTableWidget->horizontalHeader()->setStretchLastSection(true);
+    ui->svrTableWidget->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
     ui->svrTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     QHeaderView* headerView1 = ui->svrTableWidget->verticalHeader();
     headerView1->setHidden(true);

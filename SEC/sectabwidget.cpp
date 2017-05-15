@@ -2,6 +2,9 @@
 
 SecTabWidget::SecTabWidget(QWidget *parent):QTabWidget(parent)
 {
+    thread = new QThread;
+    SecFunClass::getInstance()->moveToThread(thread);
+    thread->start();
     indexPage = new IndexWidget(SECADMIN, this);
     helpPage = new HelpPage(SECADMIN, this);
     usrMgrPage = new UserMgrPage(this);
@@ -17,6 +20,19 @@ SecTabWidget::SecTabWidget(QWidget *parent):QTabWidget(parent)
     addTab(secRulesPage, tr("安全策略"));
     addTab(svrCtrlPage, tr("服务控制"));
     addTab(helpPage,tr("帮助"));
+
+  //  connect(secStaPage, &SecStatusPage::freshClicked, svrCtrlPage, &SvrCtrlPage::freshPolCtl);
+   connect(secStaPage, SIGNAL(freshClicked(SecStatus)), svrCtrlPage, SLOT(freshPolCtl(SecStatus)));
+   connect(this, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+
+}
+
+void SecTabWidget::tabChanged(int index)
+{
+    if(index == 4)
+    {
+        secRulesPage->getAllRules();
+    }
 }
 
 void SecTabWidget::UpdateIndex()

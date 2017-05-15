@@ -33,10 +33,16 @@ SysLogPage::SysLogPage(QWidget *parent) :
 
     ui->groupBox->setLayout(layout);
     nexButton = new QPushButton(">");
+    nexButton->setMaximumWidth(30);
     preButton = new QPushButton("<");
-    lineEdit = new QLineEdit;
+    preButton->setMaximumWidth(30);
+    comBox = new QComboBox;
+    comBox->setEditable(true);
+    QStringList combList;
+    combList<<""<<"permission deny"<<"not permitted"<<"error"<<"loops";
+    comBox->addItems(combList);
     QHBoxLayout *hlayout = new QHBoxLayout;
-    hlayout->addWidget(lineEdit);
+    hlayout->addWidget(comBox);
     hlayout->addWidget(preButton);
     hlayout->addWidget(nexButton);
     browser = new QTextBrowser;
@@ -56,14 +62,20 @@ SysLogPage::SysLogPage(QWidget *parent) :
 void SysLogPage::findnext()
 {
 
-    if(!browser->find(lineEdit->text()))
+    if(!browser->find(comBox->currentText()))
         infoMsgBox(tr("未查找到关键字"));
 
 }
 
 void SysLogPage::findPre()
 {
-    if(!browser->find(lineEdit->text(),QTextDocument::FindBackward))
+    if(comBox->currentText().isEmpty())
+        {
+        infoMsgBox(tr("请输入关键字"));
+        return;
+    }
+
+    if(!browser->find(comBox->currentText(),QTextDocument::FindBackward))
         infoMsgBox(tr("未查找到关键字"));
 
 }

@@ -32,6 +32,10 @@ private slots:
 
     void on_okButton_clicked();
 
+    void on_pin_cancelButton_clicked();
+
+    void on_cancelButton_clicked();
+
 private:
     Ui::UkeyDialog *ui;
     UkeyInfo ukif;

@@ -13,239 +13,293 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="groupBox_13">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>70</y>
-     <width>391</width>
-     <height>301</height>
-    </rect>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>16777215</width>
-     <height>800</height>
-    </size>
-   </property>
-   <property name="title">
-    <string>内核审计参数</string>
-   </property>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>17</x>
-      <y>25</y>
-      <width>255</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>允许的未完成审计缓冲区的最大数目：</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="max_noaud_buf_lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>20</y>
-      <width>50</width>
-      <height>33</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>50</width>
-      <height>16777215</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>17</x>
-      <y>64</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>内核审计：</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="enable_radioButton">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>60</y>
-      <width>59</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>启用</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="disable_radioButton">
-    <property name="geometry">
-     <rect>
-      <x>278</x>
-      <y>60</y>
-      <width>59</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>禁用</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>17</x>
-      <y>96</y>
-      <width>233</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>设置通知内核处理关键错误的标识: </string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>17</x>
-      <y>159</y>
-      <width>229</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>当从一个文件中读取规则忽略错误:</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="audctl_i_radioButton">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>190</y>
-      <width>59</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>忽略</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="audctl_c_radioButton">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>190</y>
-      <width>78</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> 不忽略</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>230</y>
-      <width>244</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>以每秒钟消息条数为单位的速率限制:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="rate_limit_lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>220</y>
-      <width>50</width>
-      <height>33</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>50</width>
-      <height>16777215</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="apl_kern_paramButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>260</y>
-      <width>85</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>立即生效</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="ker_aud_param_saveButton">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>260</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>永久生效</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="silent_radioButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>74</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>无动作</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="printk_radioButton">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>130</y>
-      <width>59</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>通知</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="panic_radioButton">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>130</y>
-      <width>59</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>混乱</string>
-    </property>
-   </widget>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>41</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>142</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QGroupBox" name="groupBox_13">
+     <property name="minimumSize">
+      <size>
+       <width>390</width>
+       <height>300</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>800</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>内核审计参数</string>
+     </property>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>17</x>
+        <y>25</y>
+        <width>255</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>允许的未完成审计缓冲区的最大数目：</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="max_noaud_buf_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>50</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>17</x>
+        <y>64</y>
+        <width>81</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>内核审计：</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="enable_radioButton">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>60</y>
+        <width>59</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>启用</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="disable_radioButton">
+      <property name="geometry">
+       <rect>
+        <x>278</x>
+        <y>60</y>
+        <width>59</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>禁用</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>17</x>
+        <y>96</y>
+        <width>233</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>设置通知内核处理关键错误的标识: </string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>17</x>
+        <y>159</y>
+        <width>229</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>当从一个文件中读取规则忽略错误:</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="audctl_i_radioButton">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>190</y>
+        <width>59</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>忽略</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="audctl_c_radioButton">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>190</y>
+        <width>78</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string> 不忽略</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>230</y>
+        <width>244</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>以每秒钟消息条数为单位的速率限制:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="rate_limit_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>220</y>
+        <width>50</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="apl_kern_paramButton">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>260</y>
+        <width>85</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>立即生效</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="ker_aud_param_saveButton">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>260</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>永久生效</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="silent_radioButton">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>130</y>
+        <width>74</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>无动作</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="printk_radioButton">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>130</y>
+        <width>59</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>通知</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="panic_radioButton">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>130</y>
+        <width>59</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>混乱</string>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>142</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="2">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>41</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

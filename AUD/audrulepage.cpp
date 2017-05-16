@@ -8,6 +8,15 @@ AudRulePage::AudRulePage(QWidget *parent) :
     ui(new Ui::AudRulePage)
 {
     ui->setupUi(this);
+    try
+    {
+        AudFunClass::getInstance()->getCurrentRules(ruleList);
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
+    ui->ruleListWidget->clear();
+    ui->ruleListWidget->addItems(ruleList);
 }
 
 AudRulePage::~AudRulePage()

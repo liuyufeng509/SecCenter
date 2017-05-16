@@ -6,11 +6,6 @@ HelpPage::HelpPage(ROLE curRole,QWidget *parent) :
     ui(new Ui::HelpPage)
 {
     ui->setupUi(this);
-    webView = new QWebView(this);
-    QHBoxLayout *layout = new QHBoxLayout();
-    layout->addWidget(webView);
-    ui->groupBox->setLayout(layout);
-
     switch(curRole)
     {
     case ROOT:
@@ -24,10 +19,13 @@ HelpPage::HelpPage(ROLE curRole,QWidget *parent) :
     default:
         break;
     }
-    QString urlName("/root/Program/SecCenter/helpdoc/help.html");
-    QUrl url = QUrl::fromUserInput(urlName);
-    webView->load(url);
+    QString urlName("/root/Program/SecCenter/helpdoc/frame_a.html");
 
+    ui->muluBrowser->setOpenLinks(false);
+    ui->muluBrowser->setSource(urlName);
+    ui->muluBrowser->setStyleSheet("");
+    ui->contentBrowser->setStyleSheet("");
+    connect(ui->muluBrowser, SIGNAL(anchorClicked(const QUrl &)),ui->contentBrowser, SLOT(setSource(QUrl)));
 }
 
 HelpPage::~HelpPage()

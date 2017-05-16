@@ -29,6 +29,7 @@ QTableView{
 background-color: #666666;
 color: #cccccc;
 }
+
 QTextEdit {
    background-color: #666666;
    color: white;
@@ -36,6 +37,21 @@ QTextEdit {
    selection-background-color: yellow
 }
 
+QTextBrowser#muluBrowser
+{
+background-color:white;
+color: black;
+selection-color: white;
+selection-background-color: blue
+}
+
+QTextBrowser#contentBrowser
+{
+background-color: white;
+color: black;
+selection-color: white;
+selection-background-color: blue
+}
 
 QScrollBar:horizontal {
    height: 20px;

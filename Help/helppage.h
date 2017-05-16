@@ -2,7 +2,7 @@
 #define HELPPAGE_H
 
 #include <QWidget>
-#include <QWebView>
+#include<QTextBrowser>
 #include "common.h"
 namespace Ui {
 class HelpPage;
@@ -18,7 +18,6 @@ public:
 
 private:
     Ui::HelpPage *ui;
-    QWebView * webView;
     ROLE curRole;
 };
 

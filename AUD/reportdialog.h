@@ -14,12 +14,19 @@ class ReportDialog : public QDialog
 public:
     explicit ReportDialog(QWidget *parent = 0);
     ~ReportDialog();
-
+    QString getCmdStence(){return cmd;}
 private slots:
     void on_okButton_clicked();
 
+    void on_res_checkBox_clicked();
+
+    void on_tm_sec_checkBox_clicked();
+
+    void on_cancelButton_clicked();
+
 private:
     Ui::ReportDialog *ui;
+    QString cmd;
 };
 
 #endif // REPORTDIALOG_H

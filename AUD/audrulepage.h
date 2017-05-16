@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "common.h"
+#include "audfunclass.h"
 namespace Ui {
 class AudRulePage;
 }
@@ -22,6 +23,7 @@ private slots:
 
 private:
     Ui::AudRulePage *ui;
+    QStringList ruleList;
 };
 
 #endif // AUDRULEPAGE_H

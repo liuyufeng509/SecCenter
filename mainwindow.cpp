@@ -32,9 +32,9 @@ void MainWindow::initCentralWidget()
         m_curRole = MainFunClass::getInstance()->getUserRole();
         if(m_curRole == ERROR)
         {
-            m_curRole = ROOT;
+            m_curRole = AUDADMIN;
         }
-        m_curRole = SECADMIN;
+        //m_curRole = SECADMIN;
         switch(m_curRole)
         {
         case ROOT:
@@ -70,6 +70,14 @@ void MainWindow::initCentralWidget()
             connect(audTabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
             break;
         default:
+            QTabWidget *tableWiget = new QTabWidget(ui->centralwidget);
+            QLabel *label = new QLabel(tableWiget);
+            QFont font;
+            font.setPointSize(22);
+            font.setFamily("Cantarell");
+            label->setFont(font);
+            label->setText(tr("无法获取用户权限或该用户无使用安全管理中心的权限!"));
+            ui->verticalLayout->addWidget(tableWiget);
             break;
         }
 

@@ -55,18 +55,33 @@ bool AudFunClass::excuteAudCmd(QString cmd, QString optType, QString &res)
     cmd = cmd + " 2>&1; echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
-    if(strl.last().toInt()!=0)
+    resStr.chop(strl.last().length());
+    res = resStr;
+    if(strl.last().toInt()!=0 && strl.last().toInt()!=1)
     {
-        resStr.chop(strl.last().length());
         QString errContent=tr("执行操作：")+ optType + tr("失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }
-    resStr.chop(strl.last().length());
-    res = resStr;
+
     return true;
 }
 
+bool AudFunClass::getCurrentRules(QStringList &ruleList)            //获取所有的审计规则
+{
+    QString cmdstr = "auditctl -l";
+
+    try
+    {
+        QString rs;
+        AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("获取当前规则"),rs);
+        ruleList = rs.split('\n');
+    }catch (Exception exp)
+            {
+        throw exp;
+    }
+    return true;
+}
 
 bool AudFunClass::startOrStopService(QString svName, int opt)      //开启或关闭服务
 {

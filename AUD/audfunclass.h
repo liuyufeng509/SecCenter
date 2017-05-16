@@ -23,6 +23,8 @@ public:
 
     bool startOrStopService(QString svName, int opt);       //开启或关闭服务
 
+    bool getCurrentRules(QStringList &ruleList);            //获取所有的审计规则
+
 private:
     explicit AudFunClass(QObject *parent = 0);
     static AudFunClass *m_pInstance;

@@ -1,0 +1,97 @@
+QMainWindow {
+   background-color: #666666;
+   color: #cccccc;
+}
+QDialog {
+   background-color: #666666;
+   color: #cccccc;
+}
+
+QPushButton {
+   background-color: #D9D9DD;
+}
+
+QMessageBox {
+   background-color: #666666;
+   color: #cccccc;
+}
+
+QTreeView {
+   background-color: #666666;
+   color: #cccccc;
+   alternate-background-color: #333333;
+}
+QListView {
+   background-color: #666666;
+   color: #cccccc;
+}
+QTableView{
+background-color: #666666;
+color: #cccccc;
+}
+
+QTextEdit {
+   background-color: #666666;
+   color: white;
+   selection-color: blue;
+   selection-background-color: yellow
+}
+
+QTextBrowser#muluBrowser
+{
+background-color:white;
+color: black;
+selection-color: white;
+selection-background-color: blue
+}
+
+QTextBrowser#contentBrowser
+{
+background-color: white;
+color: black;
+selection-color: white;
+selection-background-color: blue
+}
+
+QScrollBar:horizontal {
+   height: 20px;
+}
+QScrollBar:vertical {
+   width: 20px;
+}
+QTabWidget::pane {
+   border-top: 2px solid #cccccc;
+}
+
+QMenu {
+   background-color: #666666;
+   color: #cccccc;
+}
+QMenu::item:selected
+{
+background-color:blue;
+}
+QMenu::item:disabled
+{
+background-color:gray;
+}
+
+.QLabel {
+   color: white;
+}
+
+.QCheckBox {
+   color: blue;
+}
+
+.QRadioButton{
+   color:white;
+}
+ .QRadioButton:hover
+ {
+ background-color:blue;
+ }
+
+QGroupBox {
+ color:#cccccc;
+}

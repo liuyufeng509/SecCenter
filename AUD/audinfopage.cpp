@@ -47,31 +47,43 @@ void AudInfoPage::read_and_display_file()
 
 void AudInfoPage::queryAction(QString cmd)
 {
+    QString res = "";
     try
     {
-        QString res = "";
         AudFunClass::getInstance()->excuteAudCmd(cmd, tr("审计查询"), res);
         ui->textBrowser->setText(res);
         op_type = QUERY_SET;
         ui->fresh_pushButton->setToolTip(tr("刷新类型：审计查询"));
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        if(exp.getErroNo().toInt()==1)
+            {
+            ui->textBrowser->setText(res);
+            op_type = QUERY_SET;
+            ui->fresh_pushButton->setToolTip(tr("刷新类型：审计查询"));
+        }else
+            errMsgBox(exp.getErroWhat());
     }
 }
 
 void AudInfoPage::reportAction(QString cmd)
 {
+     QString res = "";
     try
     {
-        QString res = "";
         AudFunClass::getInstance()->excuteAudCmd(cmd, tr("审计报告生成"), res);
         ui->textBrowser->setText(res);
         op_type=AUD_REPORT;
         ui->fresh_pushButton->setToolTip(tr("刷新类型：审计报表"));
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        if(exp.getErroNo().toInt()==1)
+            {
+            ui->textBrowser->setText(res);
+            op_type=AUD_REPORT;
+            ui->fresh_pushButton->setToolTip(tr("刷新类型：审计报表"));
+        }else
+            errMsgBox(exp.getErroWhat());
     }
 }
 

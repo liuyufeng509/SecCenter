@@ -7,7 +7,7 @@
 #include<QDesktopWidget>
 #include"commtab.h"
 #include"qreadconfig.h"
-
+#include "sysadmform.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent ),
     ui(new Ui::MainWindow)
@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::initCentralWidget()
 {
-    ui->tabWidget->setHidden(true);
+    //ui->tabWidget->setHidden(true);
     try
     {
         m_curRole = MainFunClass::getInstance()->getUserRole();
@@ -35,50 +35,103 @@ void MainWindow::initCentralWidget()
             m_curRole = AUDADMIN;
         }
         //m_curRole = SECADMIN;
-        switch(m_curRole)
-        {
-        case ROOT:
-            ui->tabWidget->setHidden(false);
-            tabSecrityPage = new TabSecrityPage(ui->tabWidget);
-            tabSysPage = new TabSysPage(ui->tabWidget);
-            tabAuditPage = new TabAuditPage(ui->tabWidget);
-            indexWidget = new IndexWidget(m_curRole,ui->tabWidget);
 
-            ui->tabWidget->addTab(indexWidget, tr("首页"));
-            ui->tabWidget->addTab(tabSecrityPage, tr("安全管理员"));
-            ui->tabWidget->addTab(tabSysPage, tr("系统管理员"));
-            ui->tabWidget->addTab(tabAuditPage, tr("审计管理员"));
-            ui->tabWidget->setCurrentIndex(0);
-            connect(ui->tabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
-            break;
-        case SECADMIN:
-            secTabWidget = new SecTabWidget(ui->centralwidget);
-            secTabWidget->setObjectName("secTabWidget");
-            ui->verticalLayout->addWidget(secTabWidget);
-            connect(secTabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
-            break;
-        case SYSADMIN:
-            sysTabWidget = new SysTabWidget(ui->centralwidget);
-            sysTabWidget->setObjectName("sysTabWidget");
-            ui->verticalLayout->addWidget(sysTabWidget);
-            connect(sysTabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
-            break;
-        case AUDADMIN:
-            audTabWidget = new AudTabWidget(ui->centralwidget);
-            audTabWidget->setObjectName("audTabWidget");
-            ui->verticalLayout->addWidget(audTabWidget);
-            connect(audTabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
-            break;
-        default:
-            QTabWidget *tableWiget = new QTabWidget(ui->centralwidget);
-            QLabel *label = new QLabel(tableWiget);
-            QFont font;
-            font.setPointSize(22);
-            font.setFamily("Cantarell");
-            label->setFont(font);
-            label->setText(tr("无法获取用户权限或该用户无使用安全管理中心的权限!"));
-            ui->verticalLayout->addWidget(tableWiget);
-            break;
+        if(isTab)
+        {
+            ui->stackedWidget->setHidden(true);
+            switch(m_curRole)
+            {
+            case ROOT:
+                ui->stackedWidget->setHidden(false);
+                tabSecrityPage = new TabSecrityPage(ui->tabWidget);
+                tabSysPage = new TabSysPage(ui->tabWidget);
+                tabAuditPage = new TabAuditPage(ui->tabWidget);
+                indexWidget = new IndexWidget(m_curRole,ui->tabWidget);
+
+                ui->tabWidget->addTab(indexWidget, tr("首页"));
+                ui->tabWidget->addTab(tabSecrityPage, tr("安全管理员"));
+                ui->tabWidget->addTab(tabSysPage, tr("系统管理员"));
+                ui->tabWidget->addTab(tabAuditPage, tr("审计管理员"));
+                ui->tabWidget->setCurrentIndex(0);
+                connect(ui->tabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+                break;
+            case SECADMIN:
+                secTabWidget = new SecTabWidget(ui->centralwidget);
+                secTabWidget->setObjectName("secTabWidget");
+                ui->verticalLayout->addWidget(secTabWidget);
+                connect(secTabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+                break;
+            case SYSADMIN:
+                sysTabWidget = new SysTabWidget(ui->centralwidget);
+                sysTabWidget->setObjectName("sysTabWidget");
+                ui->verticalLayout->addWidget(sysTabWidget);
+                connect(sysTabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+                break;
+            case AUDADMIN:
+                audTabWidget = new AudTabWidget(ui->centralwidget);
+                audTabWidget->setObjectName("audTabWidget");
+                ui->verticalLayout->addSpacing(6);
+                ui->verticalLayout->addWidget(audTabWidget);
+                connect(audTabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+                break;
+            default:
+                QTabWidget *tableWiget = new QTabWidget(ui->centralwidget);
+                QLabel *label = new QLabel(tableWiget);
+                QFont font;
+                font.setPointSize(22);
+                font.setFamily("Cantarell");
+                label->setFont(font);
+                label->setText(tr("无法获取用户权限或该用户无使用安全管理中心的权限!"));
+                ui->verticalLayout->addWidget(tableWiget);
+                break;
+            }
+        }else
+        {
+            switch(m_curRole)
+            {
+            case ROOT:
+                ui->tabWidget->setHidden(false);
+                tabSecrityPage = new TabSecrityPage(ui->tabWidget);
+                tabSysPage = new TabSysPage(ui->tabWidget);
+                tabAuditPage = new TabAuditPage(ui->tabWidget);
+                indexWidget = new IndexWidget(m_curRole,ui->tabWidget);
+
+                ui->tabWidget->addTab(indexWidget, tr("首页"));
+                ui->tabWidget->addTab(tabSecrityPage, tr("安全管理员"));
+                ui->tabWidget->addTab(tabSysPage, tr("系统管理员"));
+                ui->tabWidget->addTab(tabAuditPage, tr("审计管理员"));
+                ui->tabWidget->setCurrentIndex(0);
+                connect(ui->tabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+                break;
+            case SECADMIN:
+                secTabWidget = new SecTabWidget(ui->centralwidget);
+                secTabWidget->setObjectName("secTabWidget");
+                ui->verticalLayout->addWidget(secTabWidget);
+                connect(secTabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+                break;
+            case SYSADMIN:
+               { SysAdmForm *sysadm = new SysAdmForm;
+                ui->stackedWidget->addWidget(sysadm);
+                ui->stackedWidget->setCurrentWidget(sysadm);
+                }
+                break;
+            case AUDADMIN:
+                audTabWidget = new AudTabWidget(ui->centralwidget);
+                audTabWidget->setObjectName("audTabWidget");
+                ui->verticalLayout->addWidget(audTabWidget);
+                connect(audTabWidget, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
+                break;
+            default:
+                QTabWidget *tableWiget = new QTabWidget(ui->centralwidget);
+                QLabel *label = new QLabel(tableWiget);
+                QFont font;
+                font.setPointSize(22);
+                font.setFamily("Cantarell");
+                label->setFont(font);
+                label->setText(tr("无法获取用户权限或该用户无使用安全管理中心的权限!"));
+                ui->verticalLayout->addWidget(tableWiget);
+                break;
+            }
         }
 
     }catch(Exception exp)
@@ -91,7 +144,7 @@ void MainWindow::tabChanged(int index)
 {
     if(index == 0)
     {
-        ui->label->setVisible(true);
+        //ui->label->setVisible(true);
         if(sender()->objectName()=="tabWidget")
         {
             indexWidget->initUi();
@@ -108,7 +161,8 @@ void MainWindow::tabChanged(int index)
 
     }
     else
-        ui->label->setVisible(false);
+        ;
+        //ui->label->setVisible(false);
 }
 
 void MainWindow::initTitleBar()

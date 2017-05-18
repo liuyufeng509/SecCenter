@@ -17,7 +17,7 @@
    <item row="0" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="queryPage">
       <layout class="QGridLayout" name="gridLayout_23">
@@ -641,7 +641,7 @@
        <item row="0" column="0">
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -2095,9 +2095,9 @@
   <buttongroup name="buttonGroup_3"/>
   <buttongroup name="buttonGroup_6"/>
   <buttongroup name="buttonGroup_8"/>
+  <buttongroup name="buttonGroup_4"/>
+  <buttongroup name="buttonGroup_7"/>
   <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup_5"/>
-  <buttongroup name="buttonGroup_7"/>
-  <buttongroup name="buttonGroup_4"/>
  </buttongroups>
 </ui>

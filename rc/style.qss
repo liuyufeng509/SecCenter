@@ -1,96 +1,28 @@
-QMainWindow {
-   background-color: #666666;
-   color: #cccccc;
-}
-QDialog {
-   background-color: #666666;
-   color: #cccccc;
-}
-
-QPushButton {
-   background-color: #D9D9DD;
-}
-
-QMessageBox {
-   background-color: #666666;
-   color: #cccccc;
-}
-
-QTreeView {
-   background-color: #666666;
-   color: #cccccc;
-   alternate-background-color: #333333;
-}
-QListView {
-   background-color: #666666;
-   color: #cccccc;
-}
-QTableView{
-background-color: #666666;
-color: #cccccc;
-}
-
-QTextEdit {
-   background-color: #666666;
-   color: white;
-   selection-color: blue;
-   selection-background-color: yellow
-}
-
-QTextBrowser#muluBrowser
+.QWidget
 {
-background-color:white;
-color: black;
-selection-color: white;
-selection-background-color: blue
+    background-color:white ;
 }
-
-QTextBrowser#contentBrowser
+QWidget#SysAdmForm>QWidget#widget
 {
-background-color: white;
-color: black;
-selection-color: white;
-selection-background-color: blue
+background-color:rgb(44, 59, 66) ;
 }
 
-QScrollBar:horizontal {
-   height: 20px;
-}
-QScrollBar:vertical {
-   width: 20px;
-}
-QTabWidget::pane {
-   border-top: 2px solid #cccccc;
-}
-
-QMenu {
-   background-color: #666666;
-   color: #cccccc;
-}
-QMenu::item:selected
-{
-background-color:blue;
-}
-QMenu::item:disabled
-{
-background-color:gray;
+QWidget#SysAdmForm>QWidget#widget>QPushButton {
+    border: none;
+    background-color:rgb(44, 59, 66) ;
+    min-width:160px;
+    min-height: 40px;
+    font: Cantarell;
+    color: white;
 }
 
-.QLabel {
-   color: white;
+QWidget#SysAdmForm>QWidget#widget>QFrame {
+    border: 1px;
+    background-color:#354146 ;
 }
 
-.QCheckBox {
-   color: blue;
+QWidget#SysAdmForm>QWidget#widget>QPushButton:checked {
+    background-color: #5c9e9d;
 }
 
-.QRadioButton{
-   color:white;
-}
- .QRadioButton:hover
- {
- background-color:blue;
- }
-QGroupBox {
- color:#cccccc;
-}
+

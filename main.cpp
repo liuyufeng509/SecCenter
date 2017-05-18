@@ -22,12 +22,25 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForCStrings(codec);
     QTextCodec::setCodecForTr(codec);
 
-    QFile *qss = new QFile("://style.qss");
-      qss->open(QFile::ReadOnly);
-      QString styleSheet = qss->readAll();
-      a.setStyleSheet(styleSheet);
-      qss->close();
-      qss->deleteLater();
+    isTab = true;
+    if(isTab)
+        {
+        QFile *qss = new QFile("://tabStyle.qss");
+          qss->open(QFile::ReadOnly);
+          QString styleSheet = qss->readAll();
+          a.setStyleSheet(styleSheet);
+          qss->close();
+          qss->deleteLater();
+    }else
+        {
+        QFile *qss = new QFile("://style.qss");
+          qss->open(QFile::ReadOnly);
+          QString styleSheet = qss->readAll();
+          a.setStyleSheet(styleSheet);
+          qss->close();
+          qss->deleteLater();
+    }
+
 //      WaitDialog w;
 //      w.exec();
 

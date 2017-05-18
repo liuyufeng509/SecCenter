@@ -32,6 +32,9 @@ private slots:
 private:
     Ui::AudRulePage *ui;
     QStringList ruleList;
+    FileAudRule fileRule;
+    SysCallRule sysCallRule;
+    bool isModify;
 };
 
 #endif // AUDRULEPAGE_H

@@ -246,15 +246,7 @@ struct AudConfigInfo
 
 bool config_key_exist(QString key);
 
-//file aud rules
-struct FileAudRule
-{
-    QString file_name;
-    QString auth;
-    QString ts_time;
-    QString te_time;
-    QString key_word;
-};
+
 
 bool set_file_rule(FileAudRule fileRule);
 
@@ -272,5 +264,5 @@ bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err);
 void errMsgBox(QString str);
 void infoMsgBox(QString str);
 int warnMsgBox(QString msg);
-
+extern bool isTab;
 #endif // COMMON_H

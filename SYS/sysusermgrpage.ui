@@ -19,6 +19,12 @@
      <property name="text">
       <string>删除用户</string>
      </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
    <item row="0" column="0" colspan="8">
@@ -81,12 +87,24 @@
      <property name="text">
       <string>编辑用户</string>
      </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
    <item row="2" column="5">
     <widget class="QPushButton" name="freshButton">
      <property name="text">
       <string>刷新列表</string>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -95,12 +113,27 @@
      <property name="text">
       <string>添加用户</string>
      </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
    <item row="2" column="4">
     <widget class="QPushButton" name="logOutButton">
      <property name="text">
       <string>断开终端</string>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
      </property>
     </widget>
    </item>

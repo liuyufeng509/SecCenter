@@ -204,4 +204,24 @@ enum OP_TYPE
     AUD_CONFIG,
     AUD_DISPLAY
 };
+
+//file aud rules
+struct FileAudRule
+{
+    QString file_name;
+    QString auth;
+    QString ts_time;
+    QString te_time;
+    QString key_word;
+};
+
+//系统调用结构体
+struct SysCallRule
+{
+    QString list;
+    QString sparam;
+    QString ts;
+    QString te;
+};
+
 #endif

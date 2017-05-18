@@ -11,7 +11,7 @@ AudRulePage::AudRulePage(QWidget *parent) :
     updateRuleList();
     ui->ruleListWidget->clear();
     ui->ruleListWidget->addItems(ruleList);
-
+    isModify = false;
    connect(ui->ruleListWidget, SIGNAL(currentTextChanged(const QString &)), this, SLOT(enableItemEditable()));
 }
 
@@ -20,6 +20,8 @@ void AudRulePage::updateRuleList()
     try
     {
         AudFunClass::getInstance()->getCurrentRules(ruleList);
+        if(ruleList.count()==1&& ruleList[0]=="No rules")
+            ruleList.clear();
     }catch(Exception exp)
     {
         errMsgBox(exp.getErroWhat());
@@ -36,12 +38,24 @@ void AudRulePage::on_addButton_clicked()
     //添加规则
     if(ui->fileRadio->isChecked())
     {
-        FileRulesDialog fileRuleDialog(this);
-        fileRuleDialog.exec();
+        FileRulesDialog fileRuleDialog(fileRule, this);
+        if(fileRuleDialog.exec()==QDialog::Accepted)
+        {
+            QString fileR = "-w "+fileRule.file_name+
+                    (fileRule.key_word.isEmpty()?"":" -k "+fileRule.key_word)+
+                    (fileRule.auth.isEmpty()? "":" -p "+fileRule.auth)+
+                    +" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
+            ui->ruleListWidget->addItem(fileR);
+        }
     }else if(ui->sysCallRadio->isChecked())
         {
-        SysCallDialog sysCalDlg(this);
-        sysCalDlg.exec();
+        SysCallDialog sysCalDlg(sysCallRule,this);
+        if(sysCalDlg.exec()==QDialog::Accepted)
+        {
+            QString sysR ="-a "+sysCallRule.list +" -S "+sysCallRule.sparam+
+                                             " -ts "+sysCallRule.ts+" -te "+sysCallRule.te;
+            ui->ruleListWidget->addItem(sysR);
+        }
     }else if(ui->customRadio->isChecked())
         {
         CustomRuleDialog cusRuleDlg(this);

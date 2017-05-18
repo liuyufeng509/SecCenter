@@ -1,5 +1,5 @@
 #include"common.h"
-
+bool isTab = true;
 QString GetCmdRes(QString cmd)
 {
     FILE *pf;

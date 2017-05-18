@@ -57,7 +57,7 @@ bool AudFunClass::excuteAudCmd(QString cmd, QString optType, QString &res)
     QStringList strl = resStr.split('\n');
     resStr.chop(strl.last().length());
     res = resStr;
-    if(strl.last().toInt()!=0 && strl.last().toInt()!=1)
+    if(strl.last().toInt()!=0)
     {
         QString errContent=tr("执行操作：")+ optType + tr("失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
@@ -70,7 +70,6 @@ bool AudFunClass::excuteAudCmd(QString cmd, QString optType, QString &res)
 bool AudFunClass::getCurrentRules(QStringList &ruleList)            //获取所有的审计规则
 {
     QString cmdstr = "auditctl -l";
-
     try
     {
         QString rs;

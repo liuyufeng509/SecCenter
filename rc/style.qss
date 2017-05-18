@@ -91,7 +91,6 @@ background-color:gray;
  {
  background-color:blue;
  }
-
 QGroupBox {
  color:#cccccc;
 }

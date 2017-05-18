@@ -79,6 +79,9 @@
         <height>157</height>
        </rect>
       </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
       <item>
        <property name="text">
         <string>-w /root/1 -p rwxa -k &quot;SHADOW&quot;</string>

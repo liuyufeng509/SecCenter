@@ -188,4 +188,20 @@ struct SakInfo
     QString current_mode;
     QString default_mode;
 };
+
+/*******************************************************
+ * 安全管理界面逻辑处理所需类型定义
+ * ****************************************************/
+enum OP_TYPE
+{
+    OPEN_CLOSE_AUD,
+    QUERY_SET,
+    AUD_REPORT,
+    KER_AUD_PARM,
+    FILE_AUD_PARM,
+    SYS_CALL_RULE,
+    CUSTOM_RULE,
+    AUD_CONFIG,
+    AUD_DISPLAY
+};
 #endif

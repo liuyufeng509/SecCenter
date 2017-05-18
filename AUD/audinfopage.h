@@ -10,19 +10,7 @@ namespace Ui {
 class AudInfoPage;
 }
 
-enum OP_TYPE
-{
-    OPEN_CLOSE_AUD,
-    QUERY_SET,
-    AUD_REPORT,
-    KER_AUD_PARM,
-    FILE_AUD_PARM,
-    SYS_CALL_RULE,
-    CUSTOM_RULE,
-    AUD_CONFIG,
-    AUD_DISPLAY
 
-};
 
 class AudInfoPage : public QWidget
 {

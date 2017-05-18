@@ -75,7 +75,7 @@ bool AudFunClass::getCurrentRules(QStringList &ruleList)            //获取所�
     {
         QString rs;
         AudFunClass::getInstance()->excuteAudCmd(cmdstr, tr("获取当前规则"),rs);
-        ruleList = rs.split('\n');
+        ruleList = rs.trimmed().split('\n');
     }catch (Exception exp)
             {
         throw exp;

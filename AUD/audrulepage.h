@@ -15,11 +15,19 @@ class AudRulePage : public QWidget
 public:
     explicit AudRulePage(QWidget *parent = 0);
     ~AudRulePage();
-
+    void updateRuleList();
 private slots:
     void on_addButton_clicked();
 
     void on_cancelButton_clicked();
+
+    void on_upButton_clicked();
+
+    void on_downButton_clicked();
+
+    void on_modButton_clicked();
+    void enableItemEditable();
+    void on_delButton_clicked();
 
 private:
     Ui::AudRulePage *ui;

@@ -14,9 +14,13 @@ class CustomRuleDialog : public QDialog
 public:
     explicit CustomRuleDialog(QWidget *parent = 0);
     ~CustomRuleDialog();
-
+    QString getCustomRule();
+private slots:
+    void on_okButton_clicked();
+    void on_cancelButton_clicked();
 private:
     Ui::CustomRuleDialog *ui;
+    QString customRule;
 };
 
 #endif // CUSTOMRULEDIALOG_H

@@ -16,6 +16,8 @@ public:
     explicit AudRulePage(QWidget *parent = 0);
     ~AudRulePage();
     void updateRuleList();
+    void updateUI();
+    bool isRuleExist(QString rule, QStringList ruleList);
 private slots:
     void on_addButton_clicked();
 
@@ -28,6 +30,12 @@ private slots:
     void on_modButton_clicked();
     void enableItemEditable();
     void on_delButton_clicked();
+
+    void on_nowButton_clicked();
+
+    void on_freshButton_clicked();
+
+    void on_forEverButton_clicked();
 
 private:
     Ui::AudRulePage *ui;

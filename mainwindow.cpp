@@ -160,8 +160,8 @@ void MainWindow::tabChanged(int index)
         }
 
     }
-    else
-        ;
+//    else
+//        ;
         //ui->label->setVisible(false);
 }
 

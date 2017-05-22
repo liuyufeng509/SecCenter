@@ -50,6 +50,52 @@ bool AudFunClass::getKernAudParam(KernAudParam &param)     //内核审计参数
     return true;
 }
 
+bool AudFunClass::setKernAduParam(KernAudParam kernAudParam)
+{
+    QString cmd = "auditctl -r "+kernAudParam.rate_limit+ " -e "+ kernAudParam.enable+
+             " -b "+kernAudParam.backlog_limit+ " -f "+kernAudParam.fail_flag+(kernAudParam.bignore?" -i":" -c");
+    QString rs;
+    try
+    {
+        excuteAudCmd(cmd, tr("内核审计参数设置"),rs);
+    }catch(Exception exp)
+    {
+        throw exp;
+    }
+    return true;
+}
+
+bool AudFunClass::delAllRules()  //清空所有规则
+{
+    QString cmdstr = "auditctl -D";
+    try
+    {
+        QString rs;
+        excuteAudCmd(cmdstr, tr("清理审计规则"),rs);
+    }catch (Exception exp)
+            {
+        throw exp;
+    }
+    return true;
+}
+
+bool AudFunClass::setRuleList(QStringList ruleList) //设置规则
+{
+    try
+    {
+        for(int i=0; i<ruleList.count(); i++)
+        {
+              QString cmdstr = "auditctl "+ruleList[i];
+              QString rs;
+              excuteAudCmd(cmdstr, tr("设置审计规则"),rs);
+        }
+    }catch(Exception exp)
+            {
+        throw exp;
+    }
+    return true;
+}
+
 bool AudFunClass::excuteAudCmd(QString cmd, QString optType, QString &res)
 {
     cmd = cmd + " 2>&1; echo $?";

@@ -7,7 +7,7 @@
 #include "sysusermgrpage.h"
 #include "svrmgrpage.h"
 #include "syslogpage.h"
-#include "kernalparampage.h"
+#include "kernalparammanager.h"
 namespace Ui {
 class SysAdmForm;
 }
@@ -49,7 +49,7 @@ private:
     SysUserMgrPage *userMgrPage;
     SvrMgrPage *svrMgrPage;
     SysLogPage *sysLogPage;
-    KernalParamPage *kernalPamPage;
+    KernParmMngWidget *kernalPamPage;
 };
 
 #endif // SYSADMFORM_H

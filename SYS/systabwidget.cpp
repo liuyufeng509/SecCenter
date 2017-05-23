@@ -7,7 +7,7 @@ SysTabWidget::SysTabWidget(QWidget *parent):QTabWidget(parent)
     userMgrPage = new SysUserMgrPage(this);
     svrMgrPage = new SvrMgrPage(this);
     sysLogPage = new SysLogPage(this);
-    kernalPamPage = new KernalParamPage(this);
+    kernalPamPage = new KernParmMngWidget(this);
 
     addTab(indexPage,tr("欢迎"));
     addTab(userMgrPage, tr("用户管理"));

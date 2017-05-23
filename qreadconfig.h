@@ -27,7 +27,17 @@ struct CommCfgInfo
     int other_hidden;
 };
 
+struct KernCfgInfo
+{
+    QString name;
+    QString defaultValue;
+};
 
+struct KernCfgInfoList
+{
+    int size;
+    QList<KernCfgInfo> list;
+};
 
 class QReadConfig
 {
@@ -66,6 +76,7 @@ public:
        SysCfgInfo sysCfgInfo;
         CommCfgInfo comInfo;
         AudCfgInfo audCfgInfo;
+        KernCfgInfoList kernCfgInfoList;
 };
 
 #endif // QREADCONFIG_H

@@ -1,26 +1,28 @@
 #include "qreadconfig.h"
 QReadConfig* QReadConfig::m_pInstance = NULL;
 
-
 void QReadConfig::readConfigFile(QString filePath)
 {
     filePath = "";
     sysCfgInfo.cpu_warning =   configIniRead->value("SYSTEM/cpu_warning").toInt();
     sysCfgInfo.mem_warning = configIniRead->value("SYSTEM/mem_warning").toInt();
-    sysCfgInfo.disk_warning =  configIniRead->value("SYSTEM/disk_warning").toInt();
-    sysCfgInfo.swap_warning =configIniRead->value("SYSTEM/swap_warning").toInt();
-    sysCfgInfo.user_hidden =   configIniRead->value("SYSTEM/user_hidden").toInt();
-    sysCfgInfo.serv_hidden = configIniRead->value("SYSTEM/serv_hidden").toInt();
-    sysCfgInfo.cpu_hidden = configIniRead->value("SYSTEM/cpu_hidden").toInt();
-    sysCfgInfo.mem_hidden = configIniRead->value("SYSTEM/mem_hidden").toInt();
-    sysCfgInfo.disk_hidden = configIniRead->value("SYSTEM/disk_hidden").toInt();
-    sysCfgInfo.other_hidden = configIniRead->value("SYSTEM/other_hidden").toInt();
-
 
     comInfo.dac_hidden = configIniRead->value("COMMON/dac_hidden").toInt();
     comInfo.other_hidden = configIniRead->value("COMMON/other_hidden").toInt();
 
     audCfgInfo.warn = configIniRead->value("AUD/warn").toInt();
+
+    //内核参数设置
+    kernCfgInfoList.size = configIniRead->value("Kern/size").toInt();
+    for(int i=0; i<kernCfgInfoList.size; i++)
+    {
+        KernCfgInfo kernInfo;
+        QString key = "Kern/name"+QString::number(i+1);
+        kernInfo.name = configIniRead->value(key).toString();
+        key = "Kern/value"+QString::number(i+1);
+        kernInfo.defaultValue = configIniRead->value(key).toString();
+        kernCfgInfoList.list.append(kernInfo);
+    }
 }
 
 void QReadConfig::setSysCfgInfoToFile()

@@ -50,7 +50,6 @@ SOURCES += main.cpp\
     SYS/sysusermgrpage.cpp \
     SYS/svrmgrpage.cpp \
     SYS/syslogpage.cpp \
-    SYS/kernalparampage.cpp \
     AUD/audsvrctlpage.cpp \
     AUD/audinfopage.cpp \
     AUD/audrulepage.cpp \
@@ -99,7 +98,6 @@ HEADERS  += mainwindow.h \
     SYS/sysusermgrpage.h \
     SYS/svrmgrpage.h \
     SYS/syslogpage.h \
-    SYS/kernalparampage.h \
     AUD/audsvrctlpage.h \
     AUD/audinfopage.h \
     AUD/audrulepage.h \
@@ -136,7 +134,6 @@ FORMS    += mainwindow.ui \
     SYS/sysusermgrpage.ui \
     SYS/svrmgrpage.ui \
     SYS/syslogpage.ui \
-    SYS/kernalparampage.ui \
     AUD/audsvrctlpage.ui \
     AUD/audinfopage.ui \
     AUD/audrulepage.ui \

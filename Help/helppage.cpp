@@ -23,8 +23,6 @@ HelpPage::HelpPage(ROLE curRole,QWidget *parent) :
 
     ui->muluBrowser->setOpenLinks(false);
     ui->muluBrowser->setSource(urlName);
-    ui->muluBrowser->setStyleSheet("");
-    ui->contentBrowser->setStyleSheet("");
     connect(ui->muluBrowser, SIGNAL(anchorClicked(const QUrl &)),ui->contentBrowser, SLOT(setSource(QUrl)));
 }
 

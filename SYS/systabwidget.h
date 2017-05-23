@@ -7,7 +7,7 @@
 #include "sysusermgrpage.h"
 #include "svrmgrpage.h"
 #include "syslogpage.h"
-#include "kernalparampage.h"
+#include "kernalparammanager.h"
 class SysTabWidget : public QTabWidget
 {
     Q_OBJECT
@@ -24,7 +24,7 @@ private:
     SysUserMgrPage *userMgrPage;
     SvrMgrPage *svrMgrPage;
     SysLogPage *sysLogPage;
-    KernalParamPage *kernalPamPage;
+    KernParmMngWidget *kernalPamPage;
 };
 
 #endif // SYSTABWIDGET_H

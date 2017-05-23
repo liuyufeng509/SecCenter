@@ -12,7 +12,7 @@ SysAdmForm::SysAdmForm(QWidget *parent) :
     userMgrPage = new SysUserMgrPage;
     svrMgrPage = new SvrMgrPage;
     sysLogPage = new SysLogPage;
-    kernalPamPage = new KernalParamPage;
+    kernalPamPage = new KernParmMngWidget;
     ui->stackedWidget->addWidget(indexPage);
     ui->stackedWidget->addWidget(userMgrPage);
     ui->stackedWidget->addWidget(svrMgrPage);

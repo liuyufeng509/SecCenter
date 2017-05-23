@@ -459,8 +459,8 @@ void SysFunClass::startOrStopServiceSlot(QString svName, int opt)
 
 bool SysFunClass::setKernelParam(QString paramName, QString value)
 {
-    //QString cmd = "service "+value+" >"+paramName+" 2>&1 ;echo $?";
-    QString cmd = "echo "+value+" >/root/1.txt 2>&1;echo $?";
+    QString cmd = "service "+value+" >"+paramName+" 2>&1 ;echo $?";
+   // QString cmd = "echo "+value+" >/root/1.txt 2>&1;echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
    // qDebug()<<"resStr="<<resStr;
     QStringList strl = resStr.split('\n');

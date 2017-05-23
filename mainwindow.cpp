@@ -32,7 +32,7 @@ void MainWindow::initCentralWidget()
         m_curRole = MainFunClass::getInstance()->getUserRole();
         if(m_curRole == ERROR)
         {
-            m_curRole = AUDADMIN;
+            m_curRole = SYSADMIN;
         }
         //m_curRole = SECADMIN;
 

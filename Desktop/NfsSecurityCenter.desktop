@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=NfsSecurityCenter
+GenericName=Nfs Security Center
+Comment=Manage the NFS os
+Exec=/bin/nfs-security-center
+Icon=nfs-security-center.png
+Terminal=false
+Type=Application
+Categories=Qt;System;
+Name[zh_CN]=安全管理中心

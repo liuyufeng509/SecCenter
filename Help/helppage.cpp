@@ -19,7 +19,7 @@ HelpPage::HelpPage(ROLE curRole,QWidget *parent) :
     default:
         break;
     }
-    QString urlName("/root/Program/SecCenter/helpdoc/frame_a.html");
+    QString urlName("/etc/sysctl.d/helpdoc/frame_a.html");
 
     ui->muluBrowser->setOpenLinks(false);
     ui->muluBrowser->setSource(urlName);

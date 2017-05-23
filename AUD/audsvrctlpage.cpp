@@ -34,7 +34,6 @@ void AudSvrCtlPage::on_closeAduButton_clicked()
         }else
         {
             SecFunClass::getInstance()->startOrStopService(SEV_NAME,1);
-            stop_service(SEV_NAME);
             ui->closeAduButton->setText(tr("开启审计服务"));
             ui->cur_audstatus_label->setText(tr("当前状态：       尚未运行"));
         }

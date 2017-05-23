@@ -39,7 +39,6 @@ private slots:
 private:
     Ui::UkeyDialog *ui;
     UkeyInfo ukif;
-    ErrorInfo err;
     int mType;
 
 };

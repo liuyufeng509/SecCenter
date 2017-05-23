@@ -16,6 +16,11 @@ struct SysCfgInfo
     int other_hidden;
 };
 
+struct AudCfgInfo
+{
+    int warn;
+};
+
 struct CommCfgInfo
 {
     int dac_hidden;
@@ -60,6 +65,7 @@ public:
  public:
        SysCfgInfo sysCfgInfo;
         CommCfgInfo comInfo;
+        AudCfgInfo audCfgInfo;
 };
 
 #endif // QREADCONFIG_H

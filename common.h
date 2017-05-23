@@ -94,67 +94,15 @@ bool set_pwd_rule(QString cmd);
 
 bool get_cur_pwd_info(PwdInfo &pwd);
 
-
-
-
 bool get_sec_status(SecStatus &status);
 bool open_close_sec_policy(bool open);
-
 
 bool get_user_taginfos(QList<UserTag> &reslist);
 bool set_user_tagInfo(UserTag usrtag, bool add);
 
-
 bool get_sak_info(SakInfo &sakinfo);
 bool set_cur_sak(QString sta);
 bool set_def_sak(QString sta);
-
-//cpu and mem
-//enum {
-//    CPU_TOTAL,
-//    CPU_USED,
-//    N_CPU_STATES
-//};
-
-//struct cpu_record
-//{
-//    int now;
-//    long times[2][GLIBTOP_MAX_CPU][GLIBTOP_NCPU];
-//};
-
-//struct CPU
-//{
-//    float total;
-//    float used;
-//    float useage;
-//};
-
-//struct MeM
-//{
-//    quint64 total;          //Byte
-//    quint64 used;          //Byte
-//    float      percent;
-//};
-
-//struct SWAP
-//{
-//    quint64 total;          //Byte
-//    quint64 used;          //Byte
-//    float      percent;
-//};
-
-//struct DISK
-//{
-//    quint64 devid;
-//    QString devName;
-//    QString  mountDir;
-//    QString ftype;
-//    guint64 used;
-//    guint64 bfree;
-//    guint64 bavail;
-//    guint64 btotal;
-//    int         percent;
-//};
 
 bool is_command_exist(QString cmd);
 
@@ -175,92 +123,29 @@ void shutdown();
 void reboot();
 void logout();
 
-//cpu and mem
-//int  get_n_cpu();
-//void get_load (std::vector<CPU>  &cpus);
 
-//void getmem(MeM &memInfo);
-//void get_swap(SWAP &swapInfo);
 QString getHintNum(quint64 bytesNum);
-
-//file system
-//void fsusage_stats(const glibtop_fsusage *buf,
-//              guint64 *bused, guint64 *bfree, guint64 *bavail, guint64 *btotal,
-//              gint *percentage);
-//void get_fsInfo(QList<DISK> &disks);
 
 
 //config.ini
 QString getCwdPath();
 
-
-
 //security file tag
-
-
 bool get_filetag_info(FileTag &fileinfo);
 bool set_filetag_info(FileTag fileinfo);
-
-
 bool get_te_rules(QList<TERule> &terulist);
 
 //security file process conversion
-
-
 bool get_f_p_types(QList<FileProConV> &fpconvs);
 
 
-//audit manager
-
 //query sentence set
 bool excute_aud_cmd(QString cmd, QString &res);
-
-//audit rules
-struct KernAudParam
-{
-    QString backlog_limit;
-    QString enable;
-    QString fail_flag;
-    QString rate_limit;
-    bool bignore;
-};
-
 bool get_kern_aud_param(KernAudParam &param);
 
 //audit config
-struct AudConfigInfo
-{
-    QString log_file;
-    QString max_log_file;
-    QString max_log_file_action;
-    QString num_logs;
-    QString admin_space_left;
-    QString admin_space_left_action;
-    QString space_left;
-    QString space_left_action;
-    QString disk_full_action;
-    QString disk_error_action;
-    QString warning_mail;
-    QString warning_tel;
-};
-
 bool config_key_exist(QString key);
-
-
-
 bool set_file_rule(FileAudRule fileRule);
-
-
-
-struct ErrorInfo
-{
-    QString errorno;
-    QString err_str;
-};
-
-bool modify_pin_of_ukey(UkeyInfo ukif, ErrorInfo &err);
-bool set_user_of_ukey(UkeyInfo ukif, ErrorInfo &err);
-
 void errMsgBox(QString str);
 void infoMsgBox(QString str);
 int warnMsgBox(QString msg);

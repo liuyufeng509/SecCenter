@@ -19,6 +19,8 @@ void QReadConfig::readConfigFile(QString filePath)
 
     comInfo.dac_hidden = configIniRead->value("COMMON/dac_hidden").toInt();
     comInfo.other_hidden = configIniRead->value("COMMON/other_hidden").toInt();
+
+    audCfgInfo.warn = configIniRead->value("AUD/warn").toInt();
 }
 
 void QReadConfig::setSysCfgInfoToFile()

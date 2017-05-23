@@ -224,4 +224,38 @@ struct SysCallRule
     QString te;
 };
 
+//内核参数设置规则结构体
+struct KernAudParam
+{
+    QString backlog_limit;
+    QString enable;
+    QString fail_flag;
+    QString rate_limit;
+    bool bignore;
+};
+
+//审计配置信息
+struct AudConfigInfo
+{
+    AudConfigInfo()
+    {
+        warning_mail="test@nfs-qd.com";
+        warning_tel="18602345678";
+    }
+
+    QString log_file;
+    QString max_log_file;
+    QString max_log_file_action;
+    QString num_logs;
+    QString admin_space_left;
+    QString admin_space_left_action;
+    QString space_left;
+    QString space_left_action;
+    QString disk_full_action;
+    QString disk_error_action;
+    QString warning_mail;
+    QString warning_tel;
+};
+
+
 #endif

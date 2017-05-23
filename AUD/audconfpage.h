@@ -4,6 +4,7 @@
 #include <QWidget>
 #include<QCompleter>
 #include"common.h"
+#include "audfunclass.h"
 namespace Ui {
 class AudConfPage;
 }
@@ -17,10 +18,17 @@ public:
     ~AudConfPage();
     void getAudConfigInfo();
     void UpdateUI();
+    void saveDataFromUI();
+private slots:
+    void on_okButton_clicked();
+
+    void on_restartAduButton_clicked();
+
 private:
     Ui::AudConfPage *ui;
     QCompleter *completer;
     AudConfigInfo audCfgInfo;
+    QMap<QString, QString> config_settings;
 };
 
 #endif // AUDCONFPAGE_H

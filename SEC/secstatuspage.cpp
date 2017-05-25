@@ -6,26 +6,26 @@ SecStatusPage::SecStatusPage(QWidget *parent) :
     ui(new Ui::SecStatusPage)
 {
     ui->setupUi(this);
-    QFont font;
-    font.setPointSize(11);
-    font.setFamily("Cantarell");
-    ui->label_9->setFont(font);
-    ui->label_10->setFont(font);
-    ui->label_11->setFont(font);
-    ui->label_12->setFont(font);
-    ui->label_14->setFont(font);
-    ui->label_15->setFont(font);
-    ui->label_16->setFont(font);
-    ui->label_17->setFont(font);
+//    QFont font;
+//    font.setPointSize(11);
+//    font.setFamily("Cantarell");
+//    ui->label_9->setFont(font);
+//    ui->label_10->setFont(font);
+//    ui->label_11->setFont(font);
+//    ui->label_12->setFont(font);
+//    ui->label_14->setFont(font);
+//    ui->label_15->setFont(font);
+//    ui->label_16->setFont(font);
+//    ui->label_17->setFont(font);
 
-    ui->seStalabel->setFont(font);
-    ui->fsMountlabel->setFont(font);
-    ui->rootDirlabel->setFont(font);
-    ui->polnamelabel->setFont(font);
-    ui->modeCfglabel->setFont(font);
-    ui->mlslabel->setFont(font);
-    ui->denylabel->setFont(font);
-    ui->versionlabel->setFont(font);
+//    ui->seStalabel->setFont(font);
+//    ui->fsMountlabel->setFont(font);
+//    ui->rootDirlabel->setFont(font);
+//    ui->polnamelabel->setFont(font);
+//    ui->modeCfglabel->setFont(font);
+//    ui->mlslabel->setFont(font);
+//    ui->denylabel->setFont(font);
+//    ui->versionlabel->setFont(font);
 
     UpdateToSecStatus();
 }

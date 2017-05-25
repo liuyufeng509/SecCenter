@@ -3,6 +3,14 @@
 #include<QString>
 #include <QStringList>
 #include <QSet>
+#define Green QBrush(QColor(19,205,185))
+#define Red QBrush(QColor(197,68,86))
+#define Blue QBrush(QColor(111,174,248))
+
+#define GreenColor "#13cdb9"
+#define BlueColor "#6faef8"
+#define RedColor "#c54456"
+
 //Exception 类，用于调用命令时抛出异常。
 class Exception
 {

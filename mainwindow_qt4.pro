@@ -156,8 +156,8 @@ INCLUDEPATH += DAC_ACL \
                     Help
 
 RESOURCES += \
-    mainwindow.qrc \
-    rc/rc.qrc
+    rc/rc.qrc \
+    mainwindow.qrc
 
 DISTFILES += \
     testQtCreator_english.qm \

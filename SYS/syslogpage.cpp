@@ -34,7 +34,9 @@ SysLogPage::SysLogPage(QWidget *parent) :
     ui->groupBox->setLayout(layout);
     nexButton = new QPushButton(">");
     nexButton->setMaximumWidth(30);
+    nexButton->setObjectName("nexButton");
     preButton = new QPushButton("<");
+    preButton->setObjectName("preButton");
     preButton->setMaximumWidth(30);
     comBox = new QComboBox;
     comBox->setEditable(true);

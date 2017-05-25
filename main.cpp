@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForCStrings(codec);
     QTextCodec::setCodecForTr(codec);
 
-    isTab = false;
+    isTab = true;
     if(isTab)
         {
         QFile *qss = new QFile("://tabStyle.qss");

@@ -10,13 +10,14 @@
 
 MyTitleBar::MyTitleBar(QWidget *parent)
     : QWidget(parent)
-    , m_colorR(153)
-    , m_colorG(153)
-    , m_colorB(153)
+    , m_colorR(33)
+    , m_colorG(46)
+    , m_colorB(49)
     , m_isPressed(false)
     , m_buttonType(MIN_MAX_BUTTON)
     , m_windowBorderWidth(0)
 {
+    setObjectName("TitleBar");
     // 初始化;
     initControl();
     initConnections();
@@ -52,13 +53,13 @@ void MyTitleBar::initControl()
     m_pButtonClose->setObjectName("ButtonClose");
 
     m_pButtonMin->setToolTip(tr("最小化"));
-    m_pButtonMin->setIcon(QIcon(QPixmap(":/new/index/min")));
+ //   m_pButtonMin->setIcon(QIcon(QPixmap(":/new/index/min")));
     m_pButtonRestore->setToolTip(tr("还原"));
-    m_pButtonRestore->setIcon(QIcon(QPixmap(":/new/index/resume")));
+  //  m_pButtonRestore->setIcon(QIcon(QPixmap(":/new/index/resume")));
     m_pButtonMax->setToolTip(tr("最大化"));
-    m_pButtonMax->setIcon(QIcon(QPixmap(":/new/index/max")));
+ //   m_pButtonMax->setIcon(QIcon(QPixmap(":/new/index/max")));
     m_pButtonClose->setToolTip(tr("关闭"));
-    m_pButtonClose->setIcon(QIcon(QPixmap(":/new/index/close")));
+ //   m_pButtonClose->setIcon(QIcon(QPixmap(":/new/index/close")));
 
     QHBoxLayout* mylayout = new QHBoxLayout(this);
     mylayout->addWidget(m_pIcon);
@@ -113,6 +114,7 @@ void MyTitleBar::setTitleContent(QString titleContent, int titleFontSize)
     m_pTitleContent->setFont(font);
     // 设置标题内容;
     m_pTitleContent->setText(titleContent);
+    m_pTitleContent->setHidden(true);
     m_titleContent = titleContent;
 }
 

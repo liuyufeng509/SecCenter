@@ -14,12 +14,13 @@ class AudSvrCtlPage : public QWidget
 public:
     explicit AudSvrCtlPage(QWidget *parent = 0);
     ~AudSvrCtlPage();
-
+    void getHtmlStr(QString labelStr, QString color, QString status);
 private slots:
     void on_closeAduButton_clicked();
 
 private:
     Ui::AudSvrCtlPage *ui;
+    QString htmlStr;
 };
 
 #endif // AUDSVRCTLPAGE_H

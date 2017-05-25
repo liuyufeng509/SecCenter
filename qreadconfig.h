@@ -30,7 +30,9 @@ struct CommCfgInfo
 struct KernCfgInfo
 {
     QString name;
-    QString defaultValue;
+    QString desc;
+    int type;       //类型，显示的控件类型
+    QString values;
 };
 
 struct KernCfgInfoList
@@ -50,6 +52,7 @@ public:
                //QString path = getCwdPath()+"config.ini";
                QString path = "/etc/sysctl.d/Security.conf";
                m_pInstance->configIniRead = new QSettings(path, QSettings::IniFormat);
+               m_pInstance->configIniRead->setIniCodec("UTF-8");
            }
            return m_pInstance;
        }

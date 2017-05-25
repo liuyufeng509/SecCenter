@@ -6,13 +6,15 @@ KernParmMngWidget::KernParmMngWidget(QWidget *parent) :
     ui(new Ui::KernalParamManager)
 {
     ui->setupUi(this);
-//    QRegExp regExp("^\\d{1,}$");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$
-//    ui->lineEdit->setValidator(new QRegExpValidator(regExp,this));
+    QString exp ="^\\d+$";
+    QRegExp regExp( exp);
+    ui->lineEdit->setValidator(new QRegExpValidator(regExp,this));
      ui->param_comboBox->clear();
     for(int i=0; i<QReadConfig::getInstance()->kernCfgInfoList.size;i++)
     {
          ui->param_comboBox->addItem(QReadConfig::getInstance()->kernCfgInfoList.list[i].name);
     }
+    ui->param_comboBox->setCurrentIndex(0);
 }
 
 KernParmMngWidget::~KernParmMngWidget()
@@ -44,13 +46,45 @@ void KernParmMngWidget::on_pushButton_clicked()
 
 void KernParmMngWidget::on_param_comboBox_currentIndexChanged(const QString &arg1)
 {
-    //可以日后设置对应的默认值
-    for(int i=0; i<QReadConfig::getInstance()->kernCfgInfoList.size;i++)
+    try
     {
-         if(QReadConfig::getInstance()->kernCfgInfoList.list[i].name==arg1)
-             {
-             ui->lineEdit->setText(QReadConfig::getInstance()->kernCfgInfoList.list[i].defaultValue);
-             break;
-         }
+        for(int i=0; i<QReadConfig::getInstance()->kernCfgInfoList.size;i++)
+        {
+             if(QReadConfig::getInstance()->kernCfgInfoList.list[i].name==arg1)
+              {
+           //      ui->lineEdit->setText(QReadConfig::getInstance()->kernCfgInfoList.list[i].value);
+                 QString value="";
+                 SysFunClass::getInstance()->getKernelParam(arg1, value);
+                 if(QReadConfig::getInstance()->kernCfgInfoList.list[i].type==0)
+                 {
+                    ui->lineEdit->setHidden(true);
+                    ui->valueComboBox->setHidden(false);
+                    ui->valueComboBox->clear();
+                    QStringList valueList = QReadConfig::getInstance()->kernCfgInfoList.list[i].values.split("/");
+                    int index = 0;
+                    for(int i=0; i<valueList.count();i++)
+                    {
+                        ui->valueComboBox->addItem(valueList[i]);
+                        if(value==valueList[i])
+                        {
+                            index = i;
+                        }
+                    }
+                    ui->valueComboBox->setCurrentIndex(index);
+                 }else
+                     {
+                     ui->lineEdit->setHidden(false);
+                     ui->valueComboBox->setHidden(true);
+                     ui->lineEdit->setText(value);
+                 }
+                 ui->label_3->setText(tr("参数说明:\n  ")+QReadConfig::getInstance()->kernCfgInfoList.list[i].desc);
+                 break;
+             }
+        }
+    }catch(Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
     }
+
+    //qDebug()<<ui->groupBox->width()<<",  "<<ui->groupBox->height();
 }

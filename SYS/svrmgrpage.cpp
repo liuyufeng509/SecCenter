@@ -46,7 +46,7 @@ SvrMgrPage::SvrMgrPage(QWidget *parent) :
     connect(ui->restartSvrButton, SIGNAL(clicked()), this, SLOT(restart_service()));
     connect(ui->freshButton, SIGNAL(clicked()), this, SLOT(fresh_services()));
 
-    noShowSvrs<<"auditd.service";
+    noShowSvrs<<"auditd";
 
     thread = new QThread;
 
@@ -71,6 +71,12 @@ void SvrMgrPage::getAllServices()
 {
     if(is_first)
     {
+        ui->svrTableWidget->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
+        ui->svrTableWidget->horizontalHeader()->resizeSection(0, 180);
+        ui->svrTableWidget->horizontalHeader()->resizeSection(1, 80);
+        ui->svrTableWidget->horizontalHeader()->resizeSection(2, 240);
+        ui->svrTableWidget->horizontalHeader()->resizeSection(3, 120);
+        ui->svrTableWidget->horizontalHeader()->resizeSection(4, 120);
         emit emitGetServsSignal(sevrs);
          waitDiaogAppear();
    }
@@ -215,13 +221,13 @@ void SvrMgrPage::UpdateToSvrUI()
         ui->svrTableWidget->setItem(i, 3, new QTableWidgetItem(svrcfgMap[sevrs[i].cfgStatus]));
         switch (sevrs[i].cfgStatus) {
         case ENABLE:
-            ui->svrTableWidget->item(i, 3)->setForeground(Qt::green);
+            ui->svrTableWidget->item(i, 3)->setForeground(Green);
             break;
         case DISABLE:
-            ui->svrTableWidget->item(i, 3)->setForeground(Qt::red);
+            ui->svrTableWidget->item(i, 3)->setForeground(Red);
             break;
         case STATIC:
-            ui->svrTableWidget->item(i, 3)->setForeground(Qt::blue);
+            ui->svrTableWidget->item(i, 3)->setForeground(Blue);
             break;
         default:
             break;
@@ -229,19 +235,24 @@ void SvrMgrPage::UpdateToSvrUI()
         ui->svrTableWidget->setItem(i, 4, new QTableWidgetItem(runstatMap[sevrs[i].runStat]));
         switch (sevrs[i].runStat) {
         case RUNNING:
-            ui->svrTableWidget->item(i, 4)->setForeground(Qt::green);
+            ui->svrTableWidget->item(i, 4)->setForeground(Green);
             break;
         case EXIT:
-            ui->svrTableWidget->item(i, 4)->setForeground(Qt::green);
+            ui->svrTableWidget->item(i, 4)->setForeground(Green);
             break;
         case DEAD:
-            ui->svrTableWidget->item(i, 4)->setForeground(Qt::red);
+            ui->svrTableWidget->item(i, 4)->setForeground(Red);
             break;
         case OTHER:
              ui->svrTableWidget->item(i, 4)->setForeground(Qt::gray);
             break;
         default:
             break;
+        }
+
+        if(sevrs[i].pId.isEmpty()|| sevrs[i].desc.isEmpty())
+        {
+            ui->svrTableWidget->setRowHidden(i, true);
         }
     }
 }

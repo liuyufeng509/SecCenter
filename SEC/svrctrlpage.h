@@ -17,6 +17,7 @@ public:
     ~SvrCtrlPage();
 
     void updateUI();
+    void getHtmlStr(QString labelStr, QString color, QString status);
 private slots:
     void on_openAllButton_clicked();
 
@@ -31,6 +32,7 @@ private:
     Ui::SvrCtrlPage *ui;
     SecStatus secStatus;
     SakInfo sakinfo;
+    QString htmlStr;
 };
 
 #endif // SVRCTRLPAGE_H

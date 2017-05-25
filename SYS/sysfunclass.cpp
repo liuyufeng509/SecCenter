@@ -334,6 +334,7 @@ bool SysFunClass::getServices(QList<ServiceInfo> &sevrs)
       //  qDebug()<<s.simplified();
         ServiceInfo servInfo;
         servInfo.sName = info[0];
+      //  servInfo.sName.chop(8);
         if(info[1]=="static")
             servInfo.cfgStatus =STATIC;
         if(info[1]=="disabled")
@@ -348,6 +349,7 @@ bool SysFunClass::getServices(QList<ServiceInfo> &sevrs)
         {
             throw exp;
         }
+        servInfo.sName.chop(8);
         sevrs.append(servInfo);
     }
     if(sevrs.length()>0)
@@ -456,11 +458,27 @@ void SysFunClass::startOrStopServiceSlot(QString svName, int opt)
         emit emitStartOrStopServiceDone(1, exp);
     }
 }
+bool SysFunClass::getKernelParam(QString paramName, QString &value)
+{
+    QString cmd = "cat "+paramName+" 2>&1;echo $?";
+    QString resStr = GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent =tr("执行操作：获取系统内核参数失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    value = strl.first();
+    return true;
+
+}
 
 bool SysFunClass::setKernelParam(QString paramName, QString value)
 {
-    QString cmd = "service "+value+" >"+paramName+" 2>&1 ;echo $?";
-   // QString cmd = "echo "+value+" >/root/1.txt 2>&1;echo $?";
+    //QString cmd = "service "+value+" >"+paramName+" 2>&1 ;echo $?";
+    QString cmd = "echo "+value+" >"+paramName+" 2>&1;echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
    // qDebug()<<"resStr="<<resStr;
     QStringList strl = resStr.split('\n');

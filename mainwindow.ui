@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="mainwindow.qrc">
-    <normaloff>:/new/index/title</normaloff>:/new/index/title</iconset>
+    <normaloff>:/new/index/taskbar</normaloff>:/new/index/taskbar</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">

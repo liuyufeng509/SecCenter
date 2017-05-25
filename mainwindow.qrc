@@ -1,13 +1,25 @@
 <RCC>
     <qresource prefix="/new/index">
-        <file>image/index.jpg</file>
-        <file>image/index.png</file>
         <file alias="loading.gif">image/loading.gif</file>
         <file alias="close">image/close.png</file>
         <file alias="max">image/max.png</file>
         <file alias="min">image/min.png</file>
         <file alias="resume">image/resume.png</file>
         <file alias="title">image/title.png</file>
+        <file alias="taskbar">image/taskbar.png</file>
+        <file alias="close_hover">image/close_hover.png</file>
+        <file alias="close_ord">image/close_ord.png</file>
+        <file alias="close_pre">image/close_pre.png</file>
+        <file alias="max_hover">image/max_hover.png</file>
+        <file alias="max_ord">image/max_ord.png</file>
+        <file alias="max_pre">image/max_pre.png</file>
+        <file alias="min_hover">image/min_hover.png</file>
+        <file alias="min_ord">image/min_ord.png</file>
+        <file alias="min_pre">image/min_pre.png</file>
+        <file alias="resume_hover">image/resume_hover.png</file>
+        <file alias="resume_ord">image/resume_ord.png</file>
+        <file alias="resume_pre">image/resume_pre.png</file>
+        <file alias="tab">image/tab.png</file>
     </qresource>
     <qresource prefix="/help">
         <file>helpdoc/frame_a.html</file>

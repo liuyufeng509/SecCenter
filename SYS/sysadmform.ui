@@ -59,6 +59,12 @@
       </item>
       <item row="5" column="0">
        <widget class="QPushButton" name="svrMgrButton">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
         <property name="text">
          <string>服务管理</string>
         </property>

@@ -19,8 +19,16 @@ void QReadConfig::readConfigFile(QString filePath)
         KernCfgInfo kernInfo;
         QString key = "Kern/name"+QString::number(i+1);
         kernInfo.name = configIniRead->value(key).toString();
-        key = "Kern/value"+QString::number(i+1);
-        kernInfo.defaultValue = configIniRead->value(key).toString();
+        key = "Kern/type"+QString::number(i+1);
+        kernInfo.type = configIniRead->value(key).toInt();
+        if(kernInfo.type==0)
+        {
+            key = "Kern/values"+QString::number(i+1);
+            kernInfo.values = configIniRead->value(key).toString();
+        }
+        key = "Kern/desc"+QString::number(i+1);
+        kernInfo.desc = configIniRead->value(key).toString();
+
         kernCfgInfoList.list.append(kernInfo);
     }
 }

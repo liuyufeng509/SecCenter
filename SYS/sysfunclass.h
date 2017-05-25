@@ -34,7 +34,7 @@ public:
 
     //内核参数设置相关
     bool setKernelParam(QString paramName, QString value);
-
+    bool getKernelParam(QString paramName, QString &value);
 private:
     explicit SysFunClass(QObject *parent = 0);
     static SysFunClass *m_pInstance;

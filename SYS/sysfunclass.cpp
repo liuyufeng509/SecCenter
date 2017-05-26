@@ -31,7 +31,8 @@ bool SysFunClass::getUserList(QList<UserInfo> &ulist)
             usrinfo.isShow = false;
         else
             usrinfo.isShow = true;
-        ulist.append(usrinfo);
+        if(usrinfo.isShow)
+            ulist.append(usrinfo);
     }
     
 	//验证在/etc/shadow中的情况，判断是否是曾经存在的用户

@@ -188,9 +188,10 @@ void SysUserMgrPage::logout_user_action()
         try
         {
             qDebug()<<tty;
-            if(tty==":0")
+            if(tty.contains(":"))
             {
-                infoMsgBox(tr(":0 为当前登陆用户，不能断开，请如要断开，请注销该用户"));
+                infoMsgBox(tr("选中终端为该用户当前登陆的桌面程序，不能断开，\n请如要断开，请注销该用户"));
+                return;
             }
             SysFunClass::getInstance()->logOutUser(tty);
             UpdateUI();

@@ -28,11 +28,14 @@ private slots:
 
     void on_open_close_def_sak_Button_clicked();
 
+    void on_close_client_reuse_Button_clicked();
+
 private:
     Ui::SvrCtrlPage *ui;
     SecStatus secStatus;
     SakInfo sakinfo;
     QString htmlStr;
+    bool isRmOpen;
 };
 
 #endif // SVRCTRLPAGE_H

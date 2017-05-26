@@ -6,7 +6,7 @@ SvrCtrlPage::SvrCtrlPage(QWidget *parent) :
     ui(new Ui::SvrCtrlPage)
 {
     ui->setupUi(this);
-
+    isRmOpen = false;
     updateUI();
 }
 
@@ -93,6 +93,25 @@ void SvrCtrlPage::updateUI()
         ui->open_close_sak_Button->setText(tr("开启当前SAK功能"));
         ui->open_close_def_sak_Button->setText(tr("开启默认SAK功能"));
     }
+    //客体重用
+    try
+    {
+        SecFunClass::getInstance()->isRmOpened(isRmOpen);
+        if(isRmOpen)
+            {
+            ui->close_client_reuse_Button->setText(tr("关闭客体重用"));
+            getHtmlStr(tr("当前状态："), GreenColor,  tr("正在运行"));
+             ui->cur_audstatus_label_2->setText(htmlStr);
+        }else
+            {
+            ui->close_client_reuse_Button->setText(tr("开启客体重用"));
+            getHtmlStr(tr("当前状态："), BlueColor,  tr("尚未运行"));
+            ui->cur_audstatus_label_2->setText(htmlStr);
+        }
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
 }
 
 SvrCtrlPage::~SvrCtrlPage()
@@ -118,6 +137,15 @@ void SvrCtrlPage::on_openAllButton_clicked()
     {
         errMsgBox(exp.getErroWhat());
     }
+    try
+    {
+        SecFunClass::getInstance()->setRmOpened(true);
+         infoMsgBox(tr("客体重用设置后，仅在新的终端中起效， \n或者在终端中运行bash命令生效"));
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
+
     updateUI();
 }
 
@@ -184,4 +212,17 @@ void SvrCtrlPage::on_open_close_def_sak_Button_clicked()
         errMsgBox(exp.getErroWhat());
     }
     updateUI();
+}
+
+void SvrCtrlPage::on_close_client_reuse_Button_clicked()
+{
+    try
+    {
+        SecFunClass::getInstance()->setRmOpened(!isRmOpen);
+        updateUI();
+        infoMsgBox(tr("客体重用设置后，仅在新的终端中起效， \n或者在终端中运行bash命令生效"));
+    }catch(Exception exp)
+            {
+        errMsgBox(exp.getErroWhat());
+    }
 }

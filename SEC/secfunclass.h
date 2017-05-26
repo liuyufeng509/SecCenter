@@ -54,7 +54,8 @@ public:
     bool SetDefaultSakInfo(QString sta);                           //设置sak
     bool setEnforce(bool bOpen);                        //开启关闭安全策略
     bool startOrStopService(QString svName, int opt);       //开启或关闭服务
-
+    bool isRmOpened(bool &isOpen);              //客体重用是否启用
+    bool setRmOpened(bool isOpen);
 private:
     explicit SecFunClass(QObject *parent = 0);
     static SecFunClass *m_pInstance;

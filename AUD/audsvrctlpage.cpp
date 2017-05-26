@@ -1,6 +1,7 @@
 #include "audsvrctlpage.h"
 #include "ui_audsvrctlpage.h"
 #define SEV_NAME  "auditd"
+
 AudSvrCtlPage::AudSvrCtlPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AudSvrCtlPage)
@@ -19,7 +20,9 @@ AudSvrCtlPage::AudSvrCtlPage(QWidget *parent) :
         //ui->cur_audstatus_label->setText(tr("当前状态：       正在运行"));
         ui->cur_audstatus_label->setText(htmlStr);
     }
+
 }
+
 
 void AudSvrCtlPage::getHtmlStr(QString labelStr, QString color, QString status)
 {

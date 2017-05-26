@@ -1,8 +1,83 @@
 #include "secfunclass.h"
+#include <QFile>
+#include <QTextStream>
 SecFunClass* SecFunClass::m_pInstance = NULL;
 SecFunClass::SecFunClass(QObject *parent) : QObject(parent)
 {
 
+}
+
+bool SecFunClass::setRmOpened(bool isOpen)
+{
+    QFile file("/etc/bashrc");
+    QString fileStr;
+    QStringList fileConList;
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream inout(&file);
+        fileStr = inout.readAll();
+        fileConList = fileStr.split('\n');
+        if(isOpen)
+            {
+            if(fileConList.count("alias \"rm=rm -z\"")==0)
+                {
+                fileConList<<"alias \"rm=rm -z\"";
+            }
+        }else
+            {
+            if(fileConList.count("alias \"rm=rm -z\"")!=0)
+                {
+                fileConList.removeAll("alias \"rm=rm -z\"");
+            }
+        }
+        fileStr = "";
+        for(int i=0; i<fileConList.count(); i++)
+        {
+            fileStr += fileConList[i]+"\n";
+        }
+        file.close();
+    }
+    else
+    {
+      throw Exception("", file.errorString());
+    }
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream inout(&file);
+        inout<<fileStr;
+        inout.flush();
+        file.close();
+    }
+    else
+    {
+      throw Exception("", file.errorString());
+    }
+    return true;
+}
+
+bool SecFunClass::isRmOpened(bool &isOpen)             //客体重用是否启用
+{
+    QFile file("/etc/bashrc");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream in(&file);
+        QString fileStr = in.readAll();
+        QStringList list = fileStr.split('\n');
+        if(list.count("alias \"rm=rm -z\"")==0)
+        {
+            isOpen = false;
+        }else
+            {
+            isOpen = true;
+        }
+
+        file.close();
+    }
+    else
+    {
+        throw Exception("", file.errorString());
+    }
+    return true;
 }
 
 bool SecFunClass::getLockServices(QStringList &list)

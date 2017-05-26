@@ -187,6 +187,11 @@ void SysUserMgrPage::logout_user_action()
     {
         try
         {
+            qDebug()<<tty;
+            if(tty==":0")
+            {
+                infoMsgBox(tr(":0 为当前登陆用户，不能断开，请如要断开，请注销该用户"));
+            }
             SysFunClass::getInstance()->logOutUser(tty);
             UpdateUI();
         }catch(Exception exp)

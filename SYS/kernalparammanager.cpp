@@ -24,19 +24,19 @@ KernParmMngWidget::~KernParmMngWidget()
 
 void KernParmMngWidget::on_pushButton_clicked()
 {
-    if(ui->param_comboBox->currentText().isEmpty())
+    if((!ui->valueComboBox->isHidden())&&ui->valueComboBox->currentText().isEmpty())
         {
         errMsgBox(tr("参数名称为空"));
         return;
     }
-    if(ui->lineEdit->text().isEmpty())
+    if((!ui->lineEdit->isHidden())&&ui->lineEdit->text().isEmpty())
         {
         errMsgBox(tr("参数值不能为空"));
         return;
     }
     try
     {
-        SysFunClass::getInstance()->setKernelParam(ui->param_comboBox->currentText(), ui->lineEdit->text());
+        SysFunClass::getInstance()->setKernelParam(ui->param_comboBox->currentText(), ui->lineEdit->isHidden()?ui->valueComboBox->currentText():ui->lineEdit->text());
         infoMsgBox(tr("设置成功"));
     }catch(Exception exp)
             {

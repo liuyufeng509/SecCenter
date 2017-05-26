@@ -6,6 +6,7 @@
 #include "common.h"
 #include "audfunclass.h"
 #include <QSettings>
+#include <QKeyEvent>
 namespace Ui {
 class AudInfoPage;
 }
@@ -23,6 +24,8 @@ public:
     void read_and_display_file();
     void queryAction(QString cmd);
     void reportAction(QString cmd);
+
+    void keyPressEvent(QKeyEvent * event);      //添加enter响应
 private slots:
     void on_openButton_clicked();
 
@@ -31,6 +34,10 @@ private slots:
     void on_reportButton_clicked();
 
     void on_fresh_pushButton_clicked();
+
+    void on_pre_pushButton_clicked();
+
+    void on_next_pushButton_clicked();
 
 private:
     Ui::AudInfoPage *ui;

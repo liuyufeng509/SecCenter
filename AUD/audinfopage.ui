@@ -51,7 +51,42 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="4">
+      <item row="0" column="4">
+       <widget class="QLineEdit" name="findlineEdit"/>
+      </item>
+      <item row="0" column="5">
+       <widget class="QPushButton" name="pre_pushButton">
+        <property name="maximumSize">
+         <size>
+          <width>20</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>fresh</string>
+        </property>
+        <property name="text">
+         <string>&lt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <widget class="QPushButton" name="next_pushButton">
+        <property name="maximumSize">
+         <size>
+          <width>20</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>fresh</string>
+        </property>
+        <property name="text">
+         <string>&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="7">
        <widget class="QTextBrowser" name="textBrowser"/>
       </item>
      </layout>

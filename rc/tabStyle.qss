@@ -131,6 +131,15 @@ QPushButton#nexButton {
     min-width:30px;
     max-width:30px;
 }
+/*审计信息查询按钮*/
+QPushButton#pre_pushButton {
+    min-width:30px;
+    max-width:30px;
+}
+QPushButton#next_pushButton {
+    min-width:30px;
+    max-width:30px;
+}
 /*安全状态查看按钮*/
 QPushButton#freshSafeStatusButton {
     min-width:70px;

@@ -7,6 +7,9 @@ IndexWidget::IndexWidget(ROLE curRole,QWidget *parent) :
 {
     ui->setupUi(this);
     this->curRole = curRole;
+    timer= new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(freshEnforcing()));
+    timer->start(2000);
     initUi();
 }
 
@@ -60,6 +63,7 @@ void IndexWidget::initUi()
     {
         m_indexFunModel.getCurrentUserName(uname);
         m_indexFunModel.getEnforce(enforce);
+        curEnforce = enforce;
     }catch(Exception exp)
     {
         errMsgBox(exp.getErroWhat());
@@ -72,6 +76,20 @@ void IndexWidget::initUi()
     else
         context = tr("\n安全中心版本：v1.0\n")+ tr("运行模式：运行模式\n") + tr("发布日期：")+date;
     ui->textBrowser_2->setText(context);
+}
+
+void IndexWidget::freshEnforcing()
+{
+    try
+    {
+        QString enforce;
+        m_indexFunModel.getEnforce(enforce);
+        if(curEnforce != enforce)
+            initUi();
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat());
+    }
 }
 
 IndexWidget::~IndexWidget()

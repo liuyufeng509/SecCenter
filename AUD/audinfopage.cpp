@@ -138,3 +138,41 @@ void AudInfoPage::on_fresh_pushButton_clicked()
         break;
     }
 }
+
+void AudInfoPage::on_pre_pushButton_clicked()
+{
+    if(ui->findlineEdit->text().isEmpty())
+    {
+        QMessageBox::information(this, tr("提示"), tr("请输入查找关键字"));
+        return;
+    }
+    if(!ui->textBrowser->find(ui->findlineEdit->text(),QTextDocument::FindBackward))
+        infoMsgBox(tr("未查找到关键字"));
+}
+
+void AudInfoPage::keyPressEvent(QKeyEvent * event)
+{
+    if (event->key() == Qt::Key_Return )
+    {
+//        if(ui->listWidget->currentRow() == 0)           //审计查询
+//            on_aplButton_clicked();
+//        else if(ui->listWidget->currentRow() == 1)      //审计报告
+//            on_report_okButton_clicked();
+//        else if(ui->listWidget->currentRow() == 3)      //审计配置
+//            on_apl_cfg_Button_clicked();
+        on_next_pushButton_clicked();
+    }
+
+    QWidget::keyPressEvent(event);
+}
+
+void AudInfoPage::on_next_pushButton_clicked()
+{
+    if(ui->findlineEdit->text().isEmpty())
+    {
+        QMessageBox::information(this, tr("提示"), tr("请输入查找关键字"));
+        return;
+    }
+    if(!ui->textBrowser->find(ui->findlineEdit->text()))
+        infoMsgBox(tr("未查找到关键字"));
+}

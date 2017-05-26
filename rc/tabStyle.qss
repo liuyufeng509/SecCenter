@@ -159,6 +159,11 @@ QPushButton#findButton2 {
     min-width:50px;
     max-width:50px;
 }
+/*文件审计规则浏览按钮*/
+QPushButton#browFileButton{
+min-width:30px;
+max-width:30px;
+}
 
 /*tab页设置*/
 QTabWidget::pane{       /*主界面*/

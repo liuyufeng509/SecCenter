@@ -629,7 +629,7 @@ bool SecFunClass::getUserListOfShaddow(QList<SecUserInfo> &secUserList)
 
 bool SecFunClass::getSecUserList(QList<SecUserInfo> &secUserList)       //获取当前系统用户的安全管理信息
 {
-    QString cmd = "awk -F: \'{print  $3,$1}\'  /etc/passwd  2>&1; echo $?";
+    QString cmd = "awk -F: \'{print  $3,$1, $NF}\'  /etc/passwd  2>&1; echo $?";
     QString resStr =GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
     secUserList.clear();
@@ -647,18 +647,23 @@ bool SecFunClass::getSecUserList(QList<SecUserInfo> &secUserList)       //获取
         QStringList tmpl = strl[i].split(' ');
         usrinfo.uId = tmpl[0].trimmed();
         usrinfo.uName = tmpl[1].trimmed();
-        secUserList.append(usrinfo);
+        if(tmpl[2].contains("nologin")||tmpl[2].contains("false") ||usrinfo.uId.toInt()<1000)
+            usrinfo.bShow = false;
+        else
+            usrinfo.bShow = true;
+        if(usrinfo.bShow)
+            secUserList.append(usrinfo);
     }
 
     //验证在/etc/shadow中的情况，判断是否是曾经存在的用户
-    try
-    {
-        getUserListOfShaddow(secUserList);
-    }catch(Exception exp)
-    {
-        secUserList.clear();
-        throw exp;
-    }
+//    try
+//    {
+//        getUserListOfShaddow(secUserList);
+//    }catch(Exception exp)
+//    {
+//        secUserList.clear();
+//        throw exp;
+//    }
 
     //获取是否被锁定
     try

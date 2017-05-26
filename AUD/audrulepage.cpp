@@ -255,7 +255,7 @@ void AudRulePage::on_forEverButton_clicked()
     }
     isModify = false;
     QFile file(RULE_CFG_FILE);
-    if (file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Truncate))
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::Truncate))
     {
         QTextStream inout(&file);
         QString fileStr = inout.readAll();

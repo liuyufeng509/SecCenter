@@ -146,8 +146,8 @@ bool get_kern_aud_param(KernAudParam &param);
 //audit config
 bool config_key_exist(QString key);
 bool set_file_rule(FileAudRule fileRule);
-void errMsgBox(QString str);
-void infoMsgBox(QString str);
-int warnMsgBox(QString msg);
+void errMsgBox(QString str/*, QWidget *prent=NULL*/);
+void infoMsgBox(QString str/*, QWidget *prent=NULL*/);
+int warnMsgBox(QString msg/*, QWidget *prent=NULL*/);
 extern bool isTab;
 #endif // COMMON_H

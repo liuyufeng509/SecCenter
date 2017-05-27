@@ -1147,7 +1147,7 @@ bool get_cur_pwd_info(PwdInfo &pwd)
     return true;
 }
 
-void errMsgBox(QString msg)
+void errMsgBox(QString msg/*, QWidget *parent*/)
 {
     QMessageBox box(QMessageBox::Critical,QObject::tr("错误"),msg);
     box.setStandardButtons (QMessageBox::Ok/*|QMessageBox::Cancel*/);
@@ -1156,7 +1156,7 @@ void errMsgBox(QString msg)
     box.exec();
 }
 
-int warnMsgBox(QString msg)
+int warnMsgBox(QString msg/*, QWidget *prent*/)
 {
     QMessageBox box(QMessageBox::Warning,QObject::tr("警告"),msg);
     box.setStandardButtons (QMessageBox::Ok|QMessageBox::Cancel);
@@ -1166,7 +1166,7 @@ int warnMsgBox(QString msg)
     return res;
 }
 
-void infoMsgBox(QString str)
+void infoMsgBox(QString str/*, QWidget *prent*/)
 {
     QMessageBox box(QMessageBox::Information,QObject::tr("提示"),str);
     box.setStandardButtons (QMessageBox::Ok/*|QMessageBox::Cancel*/);

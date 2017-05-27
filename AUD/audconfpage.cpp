@@ -30,6 +30,12 @@ AudConfPage::AudConfPage(QWidget *parent) :
         ui->restartAduButton->setGeometry(460,290,85,31);
         ui->groupBox_6->setMinimumHeight(332);
     }
+
+    QIntValidator * v = new QIntValidator (0, Max_INPUT, this);
+     ui->max_log_filelineEdit->setValidator(v);
+     ui->num_logslineEdit->setValidator(v);
+     ui->admin_space_left_lineEdit->setValidator(v);
+     ui->space_left_lineEdit->setValidator(v);
 }
 void AudConfPage::getAudConfigInfo()
 {

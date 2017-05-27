@@ -11,6 +11,8 @@
 #define BlueColor "#6faef8"
 #define RedColor "#c54456"
 
+#define Max_INPUT  1024*1024*1024
+
 //Exception 类，用于调用命令时抛出异常。
 class Exception
 {

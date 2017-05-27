@@ -255,24 +255,13 @@ void AudRulePage::on_forEverButton_clicked()
     }
     isModify = false;
     QFile file(RULE_CFG_FILE);
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::Truncate))
+    QString fileStr = "";
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream inout(&file);
-        QString fileStr = inout.readAll();
+        fileStr = inout.readAll();
         QStringList fileConList = fileStr.split('\n');
-//        for(int i=0; i<ruleList.count(); i++)
-//        {
-//            if(!isRuleExist(ruleList[i], fileConList))     //不存在则添加
-//            {
-//                fileConList<<ruleList[i];
-//            }
-//        }
-//        fileStr = "";
-//        for(int i=0; i<fileConList.count(); i++)
-//        {
-//            fileStr += fileConList[i]+"\n";
-//        }
-//        inout<<fileStr;
+
         QStringList resList;
         //保留内核参数不能被覆盖
         for(int i=0; i<fileConList.count();i++)
@@ -308,6 +297,18 @@ void AudRulePage::on_forEverButton_clicked()
             {
             fileStr += resList[i] + "\n";
         }
+        file.close();
+//        infoMsgBox(tr("保存到配置文件成功"));
+    }
+    else
+    {
+      errMsgBox(file.errorString());
+      return;
+    }
+
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream inout(&file);
         inout<<fileStr;
         inout.flush();
         file.close();
@@ -316,5 +317,6 @@ void AudRulePage::on_forEverButton_clicked()
     else
     {
       errMsgBox(file.errorString());
+      return;
     }
 }

@@ -88,45 +88,87 @@ void AudKernRulePage::on_forEverButton_clicked()
     }
     saveDataFromUI();
     QFile file(RULE_CFG_FILE);
-    if (file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Truncate))
+    QString fileStr = "";
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream inout(&file);
-        QString fileStr = inout.readAll();
+        fileStr = inout.readAll();
         QStringList fileConList = fileStr.split('\n');
         QStringList resList;
         //保留原有的规则，但是覆盖内核参数。
+        bool backlog_limit=false, rate_limit=false,enable=false,bignore=false,fail_flag=false;
         for(int i=0; i<fileConList.count();i++)
         {
-            if(fileConList[i].simplified().split(' ').count()==2 && fileConList[i].contains("-b"))
+            if(fileConList[i].simplified().split(' ').count()==2 && fileConList[i].contains("-b")&&(!fileConList[i].contains("#")))
                 {
                 fileConList[i] = "-b "+kernAudParam.backlog_limit;
+                backlog_limit=true;
             }
-            if(fileConList[i].simplified().split(' ').count()==2 && fileConList[i].contains("-r"))
+            if(fileConList[i].simplified().split(' ').count()==2 && fileConList[i].contains("-r")&&(!fileConList[i].contains("#")))
                 {
                  fileConList[i] = "-r "+kernAudParam.rate_limit;
+                 rate_limit = true;
             }
-            if(fileConList[i].simplified().split(' ').count()==2 && fileConList[i].contains("-e"))
+            if(fileConList[i].simplified().split(' ').count()==2 && fileConList[i].contains("-e")&&(!fileConList[i].contains("#")))
                 {
                 fileConList[i] = "-e "+kernAudParam.enable;
+                enable=true;
             }
-            if(fileConList[i].simplified().split(' ').count()==1 && fileConList[i].contains("-i"))
+            if(fileConList[i].simplified().split(' ').count()==1 && fileConList[i].contains("-i")&&(!fileConList[i].contains("#")))
                 {
-                fileConList[i] = kernAudParam.bignore?" -i":" -c";
+                fileConList[i] = kernAudParam.bignore?"-i":"-c";
+                bignore=true;
             }
-            if(fileConList[i].simplified().split(' ').count()==1 && fileConList[i].contains("-c"))
+            if(fileConList[i].simplified().split(' ').count()==1 && fileConList[i].contains("-c")&&(!fileConList[i].contains("#")))
                 {
-                fileConList[i] = kernAudParam.bignore?" -i":" -c";
+                fileConList[i] = kernAudParam.bignore?"-i":"-c";
+                bignore=true;
             }
-            if(fileConList[i].simplified().split(' ').count()==2 && fileConList[i].contains("-f"))
+            if(fileConList[i].simplified().split(' ').count()==2 && fileConList[i].contains("-f")&&(!fileConList[i].contains("#")))
                 {
                 fileConList[i] = "-f "+kernAudParam.fail_flag;
+                fail_flag=true;
             }
         }
-        fileStr = "";
-        for(int i=0; i<resList.count(); i++)
+
+        if(!backlog_limit)
             {
-            fileStr += resList[i] + "\n";
+            fileConList.prepend("-b "+kernAudParam.backlog_limit);
         }
+        if(!rate_limit)
+            {
+            fileConList.prepend("-r "+kernAudParam.rate_limit);
+        }
+        if(!enable)
+            {
+            fileConList.prepend("-e "+kernAudParam.enable);
+        }
+        if(!bignore)
+            {
+            fileConList.prepend(kernAudParam.bignore?"-i":"-c");
+        }
+        if(!fail_flag)
+            {
+            fileConList.prepend("-f "+kernAudParam.fail_flag);
+        }
+
+        fileStr = "";
+        for(int i=0; i<fileConList.count(); i++)
+            {
+            fileStr += fileConList[i] + "\n";
+        }
+        file.close();
+       // infoMsgBox(tr("保存到配置文件成功"));
+    }
+    else
+    {
+      errMsgBox(file.errorString());
+      return;
+    }
+
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream inout(&file);
         inout<<fileStr;
         inout.flush();
         file.close();
@@ -135,5 +177,6 @@ void AudKernRulePage::on_forEverButton_clicked()
     else
     {
       errMsgBox(file.errorString());
+      return;
     }
 }

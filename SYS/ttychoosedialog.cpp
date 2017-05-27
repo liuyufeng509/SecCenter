@@ -30,7 +30,7 @@ void TTyChooseDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
     if(ui->buttonBox->buttonRole(button)  == QDialogButtonBox::AcceptRole)
     {
-        if(warnMsgBox(tr("确定要断开该终端?"))==QMessageBox::Cancel)
+        if(warnMsgBox(tr("确定要断开该终端?"), this)==QMessageBox::Cancel)
         {
             return;
         }

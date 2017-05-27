@@ -21,7 +21,7 @@ AudKernRulePage::AudKernRulePage(QWidget *parent) :
         AudFunClass::getInstance()->getKernAudParam(kernAudParam);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
     updateUI();
 }
@@ -78,16 +78,16 @@ void AudKernRulePage::on_aplButton_clicked()
     try
     {
         AudFunClass::getInstance()->setKernAduParam(kernAudParam);
-        infoMsgBox(tr("设置内核参数规则成功"));
+        infoMsgBox(tr("设置内核参数规则成功"), this);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
 void AudKernRulePage::on_forEverButton_clicked()
 {
-    if(warnMsgBox(tr("确定要覆盖配置文件？"))==QMessageBox::Cancel)
+    if(warnMsgBox(tr("确定要覆盖配置文件？"), this)==QMessageBox::Cancel)
         {
         return;
     }
@@ -167,7 +167,7 @@ void AudKernRulePage::on_forEverButton_clicked()
     }
     else
     {
-      errMsgBox(file.errorString());
+      errMsgBox(file.errorString(), this);
       return;
     }
 
@@ -177,11 +177,11 @@ void AudKernRulePage::on_forEverButton_clicked()
         inout<<fileStr;
         inout.flush();
         file.close();
-        infoMsgBox(tr("保存到配置文件成功"));
+        infoMsgBox(tr("保存到配置文件成功"), this);
     }
     else
     {
-      errMsgBox(file.errorString());
+      errMsgBox(file.errorString(), this);
       return;
     }
 }

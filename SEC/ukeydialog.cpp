@@ -39,13 +39,13 @@ void UkeyDialog::setUserOfUkeySlot(int res, Exception exp)
      if(res==0)
      {
          if(mType==1)
-             infoMsgBox(tr("绑定Ukey成功"));
+             infoMsgBox(tr("绑定Ukey成功"), this);
          else
-             infoMsgBox(tr("解绑Ukey成功"));
+             infoMsgBox(tr("解绑Ukey成功"), this);
          accept();
      }else
      {
-         errMsgBox(exp.getErroWhat());
+         errMsgBox(exp.getErroWhat(), this);
      }
 }
 
@@ -54,11 +54,11 @@ void UkeyDialog::resetPINOfUkeySlot(int res, Exception exp)
     waitDialogAccept();
     if(res==0)
     {
-        infoMsgBox(tr("重置PIN成功"));
+        infoMsgBox(tr("重置PIN成功"), this);
         accept();
     }else
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -73,12 +73,12 @@ void UkeyDialog::on_pinokButton_clicked()
 {
     if(ui->cur_pinEdit->text().isEmpty())
     {
-        errMsgBox(tr("当前PIN不能为空!"));
+        errMsgBox(tr("当前PIN不能为空!"), this);
         return;
     }
     if(ui->new_pinlineEdit->text()!=ui->re_pinEdit->text())
     {
-        errMsgBox(tr("新PIN两次输入不相同!"));
+        errMsgBox(tr("新PIN两次输入不相同!"), this);
         return ;
     }
     ukif.cur_pin = ui->cur_pinEdit->text();
@@ -101,7 +101,7 @@ void UkeyDialog::setUserOfUkey(int type)
 {
     if(ui->pinEdit->text().isEmpty())
     {
-        errMsgBox(tr("当前PIN不能为空!"));
+        errMsgBox(tr("当前PIN不能为空!"), this);
         return;
     }
 

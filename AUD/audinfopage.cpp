@@ -41,7 +41,7 @@ void AudInfoPage::read_and_display_file()
             ui->fresh_pushButton->setToolTip(tr("刷新类型：审计日志"));
     }else
     {
-        errMsgBox(tr("日志文件打开失败"));
+        errMsgBox(tr("日志文件打开失败"), this);
     }
 }
 
@@ -62,7 +62,7 @@ void AudInfoPage::queryAction(QString cmd)
             op_type = QUERY_SET;
             ui->fresh_pushButton->setToolTip(tr("刷新类型：审计查询"));
         }else
-            errMsgBox(exp.getErroWhat());
+            errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -83,7 +83,7 @@ void AudInfoPage::reportAction(QString cmd)
             op_type=AUD_REPORT;
             ui->fresh_pushButton->setToolTip(tr("刷新类型：审计报表"));
         }else
-            errMsgBox(exp.getErroWhat());
+            errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -117,7 +117,7 @@ void AudInfoPage::on_fresh_pushButton_clicked()
         //on_aplButton_clicked();
         if(cmd.isEmpty())
         {
-            errMsgBox(tr("刷新失败，查询语句为空"));
+            errMsgBox(tr("刷新失败，查询语句为空"), this);
             break;
         }
         queryAction(cmd);
@@ -126,7 +126,7 @@ void AudInfoPage::on_fresh_pushButton_clicked()
         //on_report_okButton_clicked();
         if(cmd.isEmpty())
         {
-            errMsgBox(tr("刷新失败，查询语句为空"));
+            errMsgBox(tr("刷新失败，查询语句为空"), this);
             break;
         }
         reportAction(cmd);
@@ -147,7 +147,7 @@ void AudInfoPage::on_pre_pushButton_clicked()
         return;
     }
     if(!ui->textBrowser->find(ui->findlineEdit->text(),QTextDocument::FindBackward))
-        infoMsgBox(tr("未查找到关键字"));
+        infoMsgBox(tr("未查找到关键字"), this);
 }
 
 void AudInfoPage::keyPressEvent(QKeyEvent * event)
@@ -174,5 +174,5 @@ void AudInfoPage::on_next_pushButton_clicked()
         return;
     }
     if(!ui->textBrowser->find(ui->findlineEdit->text()))
-        infoMsgBox(tr("未查找到关键字"));
+        infoMsgBox(tr("未查找到关键字"), this);
 }

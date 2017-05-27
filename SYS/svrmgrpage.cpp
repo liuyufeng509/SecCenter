@@ -149,7 +149,7 @@ void SvrMgrPage::getServicesSlot(int res, Exception exp, SEVLIST svs)     //获�
         is_first = false;
     }else
         {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
         is_first = true;
     }
 }
@@ -159,7 +159,7 @@ void SvrMgrPage::setUpDownWhenBootSlot(int res, Exception exp)
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox(tr("请选择要操作的服务!"));
+        errMsgBox(tr("请选择要操作的服务!"), this);
         return;
     }
     if(res == 0)
@@ -169,10 +169,10 @@ void SvrMgrPage::setUpDownWhenBootSlot(int res, Exception exp)
         else if(sevrs[row].cfgStatus == ENABLE)
             sevrs[row].cfgStatus = DISABLE;
 
-       infoMsgBox(tr("设置成功"));
+       infoMsgBox(tr("设置成功"), this);
     }else
         {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
     UpdateToSvrUI();
 }
@@ -183,7 +183,7 @@ void SvrMgrPage::startOrStopServiceSlot(int res, Exception exp)
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox(tr("请选择要操作的服务!"));
+        errMsgBox(tr("请选择要操作的服务!"), this);
         return;
     }
     if(res==0)
@@ -202,7 +202,7 @@ void SvrMgrPage::startOrStopServiceSlot(int res, Exception exp)
         }
     }else
      {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -275,7 +275,7 @@ void SvrMgrPage::set_up_down_when_start()
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox(tr("请选择要操作的服务!"));
+        errMsgBox(tr("请选择要操作的服务!"), this);
         return;
     }
 
@@ -287,7 +287,7 @@ void SvrMgrPage::set_up_down_when_start()
         emit emitSetUpDownWhenBoot(sevrs[row].sName, 1);
     }else
         {
-        infoMsgBox(tr("启动项不可更改"));
+        infoMsgBox(tr("启动项不可更改"), this);
         return;
     }
     waitDiaogAppear();
@@ -303,7 +303,7 @@ void SvrMgrPage::fresh_services()
      int row = ui->svrTableWidget->currentRow();
      if(row<0)
      {
-         errMsgBox(tr("请选择要操作的服务!"));
+         errMsgBox(tr("请选择要操作的服务!"), this);
          return;
      }
 
@@ -316,7 +316,7 @@ void SvrMgrPage::start_stop_service()
     int row = ui->svrTableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox(tr("请选择要操作的服务!"));
+        errMsgBox(tr("请选择要操作的服务!"), this);
         return;
     }
 

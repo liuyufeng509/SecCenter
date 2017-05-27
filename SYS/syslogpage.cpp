@@ -65,7 +65,7 @@ void SysLogPage::findnext()
 {
 
     if(!browser->find(comBox->currentText()))
-        infoMsgBox(tr("未查找到关键字"));
+        infoMsgBox(tr("未查找到关键字"), this);
 
 }
 
@@ -73,12 +73,12 @@ void SysLogPage::findPre()
 {
     if(comBox->currentText().isEmpty())
         {
-        infoMsgBox(tr("请输入关键字"));
+        infoMsgBox(tr("请输入关键字"), this);
         return;
     }
 
     if(!browser->find(comBox->currentText(),QTextDocument::FindBackward))
-        infoMsgBox(tr("未查找到关键字"));
+        infoMsgBox(tr("未查找到关键字"), this);
 
 }
 

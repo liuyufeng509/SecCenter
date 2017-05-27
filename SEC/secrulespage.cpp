@@ -123,7 +123,7 @@ void SecRulesPage::getSafePolicySlot(int res, Exception exp,TELIST teList, F_PLI
     fpconvs = fpList;
     if(res ==1)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
         bFirst = true;
     }
     else
@@ -179,7 +179,7 @@ void SecRulesPage::on_findButton_clicked()
         }
         if(tmprules.size()==0)
         {
-            infoMsgBox(tr("未查找到符合条件的项") );
+            infoMsgBox(tr("未查找到符合条件的项") , this);
         }else
             UpdateRuletabel(tmprules);
     }
@@ -226,7 +226,7 @@ void SecRulesPage::on_findButton2_clicked()
         }
         if(tmpconvs.size()==0)
         {
-            infoMsgBox(tr("未查找到符合条件的项") );
+            infoMsgBox(tr("未查找到符合条件的项"), this );
         }else
             UpdateFPTable(tmpconvs);
     }

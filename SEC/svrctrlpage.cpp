@@ -26,7 +26,7 @@ void SvrCtrlPage::updateUI()
     }catch(Exception exp)
             {
         secStatus.clear();
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
     QString color = GreenColor;
     if(secStatus.curr_mode == tr("enforcing"))
@@ -81,7 +81,7 @@ void SvrCtrlPage::updateUI()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
         sakinfo.current_mode="disable";
         sakinfo.default_mode="disable";
         color = RedColor;
@@ -110,7 +110,7 @@ void SvrCtrlPage::updateUI()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -126,7 +126,7 @@ void SvrCtrlPage::on_openAllButton_clicked()
         SecFunClass::getInstance()->setEnforce(true);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     try
@@ -135,15 +135,15 @@ void SvrCtrlPage::on_openAllButton_clicked()
         SecFunClass::getInstance()->SetDefaultSakInfo("enable");
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
     try
     {
         SecFunClass::getInstance()->setRmOpened(true);
-         infoMsgBox(tr("客体重用设置后，仅在新的终端中起效， \n或者在终端中运行bash命令生效"));
+         infoMsgBox(tr("客体重用设置后，仅在新的终端中起效， \n或者在终端中运行bash命令生效"), this);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     updateUI();
@@ -155,7 +155,7 @@ void SvrCtrlPage::on_open_closeSecPolButton_clicked()
     {
         if(ui->open_closeSecPolButton->text() == tr("关闭安全策略"))
         {
-            if(warnMsgBox(tr("关闭安全策略会使系统安全性降低，确定要进行该项操作？"))==QMessageBox::Cancel)
+            if(warnMsgBox(tr("关闭安全策略会使系统安全性降低，确定要进行该项操作？"), this)==QMessageBox::Cancel)
                 return;
             SecFunClass::getInstance()->setEnforce(false);
             ui->open_closeSecPolButton->setText(tr("开启安全策略"));
@@ -167,7 +167,7 @@ void SvrCtrlPage::on_open_closeSecPolButton_clicked()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
     updateUI();
 }
@@ -193,7 +193,7 @@ void SvrCtrlPage::on_open_close_sak_Button_clicked()
             SecFunClass::getInstance()->SetSakInfo("enable");
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
     updateUI();
 }
@@ -209,7 +209,7 @@ void SvrCtrlPage::on_open_close_def_sak_Button_clicked()
             SecFunClass::getInstance()->SetDefaultSakInfo("enable");
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
     updateUI();
 }
@@ -220,9 +220,9 @@ void SvrCtrlPage::on_close_client_reuse_Button_clicked()
     {
         SecFunClass::getInstance()->setRmOpened(!isRmOpen);
         updateUI();
-        infoMsgBox(tr("客体重用设置后，仅在新的终端中起效， \n或者在终端中运行bash命令生效"));
+        infoMsgBox(tr("客体重用设置后，仅在新的终端中起效， \n或者在终端中运行bash命令生效"), this);
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }

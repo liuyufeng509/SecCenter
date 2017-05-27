@@ -16,7 +16,7 @@ bool FileRulesDialog::save_file_rules_from_ui()
 {
     if(ui->filePathEdit->text().isEmpty())
     {
-        errMsgBox(tr("文件名为空"));
+        errMsgBox(tr("文件名为空"), this);
         return false;
     }
     fileRule.file_name = ui->filePathEdit->text();
@@ -66,7 +66,7 @@ void FileRulesDialog::on_traceButton_clicked()
 {
     if(ui->filePathEdit->text().isEmpty())
     {
-        errMsgBox(tr("文件名为空"));
+        errMsgBox(tr("文件名为空"), this);
         return;
     }
     QString cmd = "autrace -r \""+ui->filePathEdit->text() +"\"";
@@ -77,7 +77,7 @@ void FileRulesDialog::on_traceButton_clicked()
         ui->trackRslineEdit->setText(rs);
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
         ui->trackRslineEdit->setText(tr("追踪文件失败"));
     }
 }

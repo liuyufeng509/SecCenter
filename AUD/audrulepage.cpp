@@ -43,7 +43,7 @@ void AudRulePage::updateRuleList()
             ruleList.clear();
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -93,7 +93,7 @@ void AudRulePage::on_cancelButton_clicked()
 {
     if(isModify)
     {
-        if(warnMsgBox(tr("确定要放弃所作的操作？"))==QMessageBox::Cancel)
+        if(warnMsgBox(tr("确定要放弃所作的操作？"), this)==QMessageBox::Cancel)
             return;
         else
             {
@@ -102,7 +102,7 @@ void AudRulePage::on_cancelButton_clicked()
         }
     }else
         {
-        infoMsgBox(tr("尚未对审计规则作出修改"));
+        infoMsgBox(tr("尚未对审计规则作出修改"), this);
     }
 }
 
@@ -111,12 +111,12 @@ void AudRulePage::on_upButton_clicked()
     int row = ui->ruleListWidget->currentRow();
     if(row<0)
         {
-        infoMsgBox(tr("请选中要移动的规则"));
+        infoMsgBox(tr("请选中要移动的规则"), this);
         return;
     }
     if(row==0)
     {
-        infoMsgBox(tr("选中规则已经处于最上层"));
+        infoMsgBox(tr("选中规则已经处于最上层"), this);
         return;
     }
 
@@ -131,12 +131,12 @@ void AudRulePage::on_downButton_clicked()
     int row = ui->ruleListWidget->currentRow();
     if(row<0)
         {
-        infoMsgBox(tr("请选中要移动的规则"));
+        infoMsgBox(tr("请选中要移动的规则"), this);
         return;
     }
     if(row+1==ui->ruleListWidget->count())
     {
-        infoMsgBox(tr("选中规则已经处于最底层"));
+        infoMsgBox(tr("选中规则已经处于最底层"), this);
         return;
     }
 
@@ -158,7 +158,7 @@ void AudRulePage::on_modButton_clicked()
     int row = ui->ruleListWidget->currentRow();
     if(row<0)
         {
-        infoMsgBox(tr("请选中要修改的规则"));
+        infoMsgBox(tr("请选中要修改的规则"), this);
         return;
     }
     ui->ruleListWidget->currentItem()->setFlags(Qt::ItemIsEnabled|Qt::ItemIsEditable);
@@ -171,7 +171,7 @@ void AudRulePage::on_delButton_clicked()
     int row = ui->ruleListWidget->currentRow();
     if(row<0)
         {
-        infoMsgBox(tr("请选中要删除的规则"));
+        infoMsgBox(tr("请选中要删除的规则"), this);
         return;
     }
     ui->ruleListWidget->takeItem(row);
@@ -196,11 +196,11 @@ void AudRulePage::on_nowButton_clicked()
         AudFunClass::getInstance()->setRuleList(ruleListTmp);
         isModify = false;
         ruleList = ruleListTmp;
-        infoMsgBox(tr("审计规则设置成功"));
+        infoMsgBox(tr("审计规则设置成功"), this);
         updateUI();
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -216,7 +216,7 @@ void AudRulePage::on_freshButton_clicked()
 {
     if(isModify)
         {
-        if(warnMsgBox(tr("刷新操作将覆盖所修改的内容，请确保刷新前是否已经保存？"))==QMessageBox::Cancel)
+        if(warnMsgBox(tr("刷新操作将覆盖所修改的内容，请确保刷新前是否已经保存？"), this)==QMessageBox::Cancel)
             return;
         else
             {
@@ -244,7 +244,7 @@ bool AudRulePage::isRuleExist(QString rule, QStringList ruleList)
 
 void AudRulePage::on_forEverButton_clicked()
 {
-    if(warnMsgBox(tr("确定要覆盖配置文件？"))==QMessageBox::Cancel)
+    if(warnMsgBox(tr("确定要覆盖配置文件？"), this)==QMessageBox::Cancel)
         {
         return;
     }
@@ -302,7 +302,7 @@ void AudRulePage::on_forEverButton_clicked()
     }
     else
     {
-      errMsgBox(file.errorString());
+      errMsgBox(file.errorString(), this);
       return;
     }
 
@@ -312,11 +312,11 @@ void AudRulePage::on_forEverButton_clicked()
         inout<<fileStr;
         inout.flush();
         file.close();
-        infoMsgBox(tr("保存到配置文件成功"));
+        infoMsgBox(tr("保存到配置文件成功"), this);
     }
     else
     {
-      errMsgBox(file.errorString());
+      errMsgBox(file.errorString(), this);
       return;
     }
 }

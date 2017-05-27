@@ -1147,30 +1147,32 @@ bool get_cur_pwd_info(PwdInfo &pwd)
     return true;
 }
 
-void errMsgBox(QString msg/*, QWidget *parent*/)
+void errMsgBox(QString msg, QWidget *parent)
 {
-    QMessageBox box(QMessageBox::Critical,QObject::tr("错误"),msg);
-    box.setStandardButtons (QMessageBox::Ok/*|QMessageBox::Cancel*/);
+    QMessageBox box(QMessageBox::Critical,QObject::tr("错误"),msg, QMessageBox::Ok,parent);
+    //box.setStandardButtons (QMessageBox::Ok/*|QMessageBox::Cancel*/);
     box.setButtonText (QMessageBox::Ok,QObject::tr("确 定"));
    // box.setButtonText (QMessageBox::Cancel,tr("取 消"));
     box.exec();
 }
 
-int warnMsgBox(QString msg/*, QWidget *prent*/)
+int warnMsgBox(QString msg, QWidget *prent)
 {
-    QMessageBox box(QMessageBox::Warning,QObject::tr("警告"),msg);
-    box.setStandardButtons (QMessageBox::Ok|QMessageBox::Cancel);
+    QMessageBox box(QMessageBox::Warning,QObject::tr("警告"),msg, QMessageBox::Ok|QMessageBox::Cancel, prent);
+    //box.setStandardButtons (QMessageBox::Ok|QMessageBox::Cancel);
     box.setButtonText (QMessageBox::Ok,QObject::tr("确 定"));
     box.setButtonText (QMessageBox::Cancel,QObject::tr("取 消"));
+    box.setParent(prent);
     int res =box.exec();
     return res;
 }
 
-void infoMsgBox(QString str/*, QWidget *prent*/)
+void infoMsgBox(QString str, QWidget *prent)
 {
-    QMessageBox box(QMessageBox::Information,QObject::tr("提示"),str);
-    box.setStandardButtons (QMessageBox::Ok/*|QMessageBox::Cancel*/);
+    QMessageBox box(QMessageBox::Information,QObject::tr("提示"),str, QMessageBox::Ok, prent);
+   // box.setStandardButtons (QMessageBox::Ok/*|QMessageBox::Cancel*/);
     box.setButtonText (QMessageBox::Ok,QObject::tr("确 定"));
    // box.setButtonText (QMessageBox::Cancel,tr("取 消"));
+    box.setParent(prent);
     box.exec();
 }

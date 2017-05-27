@@ -38,7 +38,7 @@ void SecStatusPage::UpdateToSecStatus()
     }catch(Exception exp)
             {
         secStatus.clear();
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
 //    if(secStatus.curr_mode == tr("enforcing"))

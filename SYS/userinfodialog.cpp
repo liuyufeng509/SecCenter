@@ -15,7 +15,7 @@ UserInfoDialog::UserInfoDialog(UserInfo &usinfo,int type,QWidget *parent) :
         SysFunClass::getInstance()->getGroupList(grouplist);
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     //处理附属组下拉框
@@ -140,7 +140,7 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
         {
             if(!SysFunClass::getInstance()->isGroupExist(usrTmp.group) && usrTmp.group!=usrTmp.uname)
             {
-                errMsgBox(tr("用户组:")+ usrTmp.group+tr("不存在!"));
+                errMsgBox(tr("用户组:")+ usrTmp.group+tr("不存在!"), this);
                 return;
             }
             if(usrTmp.ogroups.length()>0)
@@ -148,14 +148,14 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
                 foreach (QString grp, usrTmp.ogroups) {
                     if(!SysFunClass::getInstance()->isGroupExist(grp))
                     {
-                        errMsgBox(tr("用户组:")+ grp+tr("不存在!"));
+                        errMsgBox(tr("用户组:")+ grp+tr("不存在!"), this);
                         return;
                     }
                 }
             }
         }catch(Exception exp)
         {
-            errMsgBox(exp.getErroWhat());
+            errMsgBox(exp.getErroWhat(), this);
             return;
         }
         //开始添加或者编辑用户
@@ -164,16 +164,16 @@ void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
             if(m_type==Add)
             {
                 SysFunClass::getInstance()->addUser(usrTmp);
-                infoMsgBox(tr("添加用户成功"));
+                infoMsgBox(tr("添加用户成功"), this);
             }else
             {
                 SysFunClass::getInstance()->modifyUser(usrTmp);
-                infoMsgBox(tr("修改用户成功"));
+                infoMsgBox(tr("修改用户成功"), this);
             }
             QDialog::accept();
         }catch(Exception exp)
          {
-            errMsgBox(exp.getErroWhat());
+            errMsgBox(exp.getErroWhat(), this);
         }
     }else
     {

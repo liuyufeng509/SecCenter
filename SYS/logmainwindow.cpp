@@ -50,14 +50,14 @@ void LogMainWindow::findnext()
 {
 
     if(!browser->find(lineEdit->text()))
-        infoMsgBox(tr("未查找到关键字"));
+        infoMsgBox(tr("未查找到关键字"), this);
 
 }
 
 void LogMainWindow::findPre()
 {
     if(!browser->find(lineEdit->text(),QTextDocument::FindBackward))
-        infoMsgBox(tr("未查找到关键字"));
+        infoMsgBox(tr("未查找到关键字"), this);
 
 }
 

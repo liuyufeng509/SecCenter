@@ -26,21 +26,21 @@ void KernParmMngWidget::on_pushButton_clicked()
 {
     if((!ui->valueComboBox->isHidden())&&ui->valueComboBox->currentText().isEmpty())
         {
-        errMsgBox(tr("参数名称为空"));
+        errMsgBox(tr("参数名称为空"), this);
         return;
     }
     if((!ui->lineEdit->isHidden())&&ui->lineEdit->text().isEmpty())
         {
-        errMsgBox(tr("参数值不能为空"));
+        errMsgBox(tr("参数值不能为空"), this);
         return;
     }
     try
     {
         SysFunClass::getInstance()->setKernelParam(ui->param_comboBox->currentText(), ui->lineEdit->isHidden()?ui->valueComboBox->currentText():ui->lineEdit->text());
-        infoMsgBox(tr("设置成功"));
+        infoMsgBox(tr("设置成功"), this);
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -83,7 +83,7 @@ void KernParmMngWidget::on_param_comboBox_currentIndexChanged(const QString &arg
         }
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     //qDebug()<<ui->groupBox->width()<<",  "<<ui->groupBox->height();

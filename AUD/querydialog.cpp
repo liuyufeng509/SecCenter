@@ -146,7 +146,7 @@ void QueryDialog::on_okButton_clicked()
     querySt = ui->query_sent_lineEdit->text();
     if(querySt.isEmpty())
     {
-        errMsgBox(tr("查询语句不能为空"));
+        errMsgBox(tr("查询语句不能为空"), this);
         return;
     }
     accept();

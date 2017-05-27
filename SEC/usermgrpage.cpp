@@ -57,7 +57,7 @@ void UserMgrPage::display_cur_pwd_info()
         ui->othlenEdit->setText(pwdInfo.ocredit.isEmpty()?tr("无限制"):pwdInfo.ocredit);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -87,7 +87,7 @@ void UserMgrPage::on_lockSvrComboBox_currentIndexChanged(const QString &arg1)
         ui->secLineEdit->setText(info.uParam);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -125,7 +125,7 @@ void UserMgrPage::updateSecUserUI()
 
     }catch(Exception exp)
      {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -134,21 +134,21 @@ void UserMgrPage::unLockActionSlot()
     int row = ui->userTableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox(tr("未选中要操作的用户!"));
+        errMsgBox(tr("未选中要操作的用户!"), this);
         return;
     }
     if(!secUserList[row].bLocked)
         {
-        infoMsgBox(tr("选中的用户未被锁定"));
+        infoMsgBox(tr("选中的用户未被锁定"), this);
         return;
     }
     try
     {
         SecFunClass::getInstance()->unLockUser(secUserList[row].uName);
-        infoMsgBox(tr("解锁成功"));
+        infoMsgBox(tr("解锁成功"), this);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
     updateSecUserUI();
 }
@@ -164,7 +164,7 @@ void UserMgrPage::ukeyBindActionSlot()
     int row = ui->userTableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox(tr("未选中要操作的用户!"));
+        errMsgBox(tr("未选中要操作的用户!"), this);
         return;
     }
 
@@ -219,10 +219,10 @@ void UserMgrPage::on_setTryLockButton_clicked()
     try
     {
         SecFunClass::getInstance()->tryLockOption(info);
-        infoMsgBox(tr("用户锁定规则设置成功"));
+        infoMsgBox(tr("用户锁定规则设置成功"), this);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -230,7 +230,7 @@ void UserMgrPage::on_setPwButton_clicked()
 {
     if(!ui->minlenEdit->text().isEmpty() && ui->minlenEdit->text().toInt()<8)
     {
-        errMsgBox(tr("最小长度不能小于8"));
+        errMsgBox(tr("最小长度不能小于8"), this);
         return;
     }
     pwdInfo.minLen =ui->minlenEdit->text();
@@ -242,11 +242,11 @@ void UserMgrPage::on_setPwButton_clicked()
     try
     {
         SecFunClass::getInstance()->setCurPwdInfo(pwdInfo);
-        infoMsgBox(tr("密码规则设置成功"));
+        infoMsgBox(tr("密码规则设置成功"), this);
         display_cur_pwd_info();
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
 }

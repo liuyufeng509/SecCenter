@@ -89,7 +89,7 @@ void SysUserMgrPage::UpdateUI()
         }
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 void SysUserMgrPage::on_tableWidget_customContextMenuRequested(QPoint pos)
@@ -124,12 +124,12 @@ void SysUserMgrPage::edit_user_action()
     int row = ui->tableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox(tr("请选中要编辑的行"));
+        errMsgBox(tr("请选中要编辑的行"), this);
         return;
     }
     if(!checkUser())
         {
-        errMsgBox(tr("该用户无法编辑"));
+        errMsgBox(tr("该用户无法编辑"), this);
         return ;
     }
     UserInfoDialog usrdialog(users[row], Edt);
@@ -145,15 +145,15 @@ void SysUserMgrPage::del_user_action()
     int row = ui->tableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox( tr("请选中要删除的行"));
+        errMsgBox( tr("请选中要删除的行"), this);
         return;
     }
     if(!checkUser())
         {
-        errMsgBox(tr("该用户无法删除"));
+        errMsgBox(tr("该用户无法删除"), this);
         return ;
     }
-    if(warnMsgBox(tr("确定要删除用户")+users[row].uname+tr("?"))==QMessageBox::Cancel)
+    if(warnMsgBox(tr("确定要删除用户")+users[row].uname+tr("?"), this)==QMessageBox::Cancel)
     {
         return;
     }
@@ -163,7 +163,7 @@ void SysUserMgrPage::del_user_action()
         UpdateUI();
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -172,12 +172,12 @@ void SysUserMgrPage::logout_user_action()
     int row = ui->tableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox( tr("请选中要断开的用户"));
+        errMsgBox( tr("请选中要断开的用户"), this);
         return;
     }
     if(users[row].ttys.count()==0)
         {
-        errMsgBox( tr("该用户无登陆的终端"));
+        errMsgBox( tr("该用户无登陆的终端"), this);
         return;
     }
 
@@ -190,14 +190,14 @@ void SysUserMgrPage::logout_user_action()
             qDebug()<<tty;
             if(tty.contains(":"))
             {
-                infoMsgBox(tr("选中终端为该用户当前登陆的桌面程序，不能断开，\n请如要断开，请注销该用户"));
+                infoMsgBox(tr("选中终端为该用户当前登陆的桌面程序，不能断开，\n请如要断开，请注销该用户"), this);
                 return;
             }
             SysFunClass::getInstance()->logOutUser(tty);
             UpdateUI();
         }catch(Exception exp)
                 {
-            errMsgBox(exp.getErroWhat());
+            errMsgBox(exp.getErroWhat(), this);
         }
     }
 

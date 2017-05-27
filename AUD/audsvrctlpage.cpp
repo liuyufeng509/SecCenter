@@ -58,6 +58,6 @@ void AudSvrCtlPage::on_closeAduButton_clicked()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }

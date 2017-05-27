@@ -36,7 +36,7 @@ SecTagPage::SecTagPage(QWidget *parent) :
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     //文件安全标签
@@ -90,7 +90,7 @@ void SecTagPage::on_freshUserSafeTagButton_clicked()
             }
             if(!flag)
             {
-                errMsgBox( tr("用户不存在!"));
+                errMsgBox( tr("用户不存在!"), this);
             }else
             {
                 for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
@@ -107,7 +107,7 @@ void SecTagPage::on_freshUserSafeTagButton_clicked()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
 }
@@ -130,16 +130,16 @@ void SecTagPage::setUserTagInfoSlot(int res, Exception exp)
     waitDialogAccept();
     if(res == 0)
     {
-        infoMsgBox(tr("设置用户安全标签成功"));
+        infoMsgBox(tr("设置用户安全标签成功"), this);
     }else
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
 }
 
 void SecTagPage::on_setUserTagButton_clicked()
 {
     if(ui->users_comboBox->currentText().trimmed().length()==0)
     {
-            infoMsgBox(tr("用户名不能为空!"));
+            infoMsgBox(tr("用户名不能为空!"), this);
             return;
     }
     UserTag usrtag;
@@ -172,7 +172,7 @@ void SecTagPage::on_freshFileTagButton_clicked()
 {
     if(filePath.trimmed().length()==0)
     {
-        infoMsgBox(tr("文件名为空"));
+        infoMsgBox(tr("文件名为空"), this);
         return;
     }
 
@@ -195,7 +195,7 @@ void SecTagPage::on_freshFileTagButton_clicked()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -203,7 +203,7 @@ void SecTagPage::on_setFileTagButton_clicked()
 {
     if(filePath.trimmed().length()==0)
     {
-        errMsgBox(tr("文件名为空"));
+        infoMsgBox(tr("文件名为空"),this);
         return;
     }
 
@@ -214,9 +214,9 @@ void SecTagPage::on_setFileTagButton_clicked()
     try
     {
         SecFunClass::getInstance()->setFileTagInfo(fileinfo);
-        infoMsgBox(tr("设置成功!"));
+        infoMsgBox(tr("设置成功!"), this);
     }catch(Exception exp)
             {
-         errMsgBox(exp.getErroWhat());
+         errMsgBox(exp.getErroWhat(), this);
     }
 }

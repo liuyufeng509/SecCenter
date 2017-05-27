@@ -143,7 +143,7 @@ void AudConfPage::on_okButton_clicked()
         {
             if(!mails[i].contains("@"))
             {
-                errMsgBox(tr("请填写正确的邮箱格式"));
+                errMsgBox(tr("请填写正确的邮箱格式"), this);
                 return;
             }
         }
@@ -152,7 +152,7 @@ void AudConfPage::on_okButton_clicked()
         {
             if(tels[i].length()!=11||tels[i].toLongLong()==0)
             {
-                errMsgBox(tr("请确认手机号是11位的数字"));
+                errMsgBox(tr("请确认手机号是11位的数字"), this);
                 return;
             }
         }
@@ -197,7 +197,7 @@ void AudConfPage::on_okButton_clicked()
           }
         file.close();
     }
-    infoMsgBox(tr("写入完成"));
+    infoMsgBox(tr("写入完成"), this);
 }
 
 void AudConfPage::on_restartAduButton_clicked()
@@ -205,9 +205,9 @@ void AudConfPage::on_restartAduButton_clicked()
     try
     {
         AudFunClass::getInstance()->startOrStopService(SEV_NAME, 2);
-        infoMsgBox(tr("重启成功"));
+        infoMsgBox(tr("重启成功"), this);
     }catch(Exception exp)
             {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }

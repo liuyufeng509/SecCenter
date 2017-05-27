@@ -82,7 +82,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     //audit service start/stop
@@ -136,7 +136,7 @@ void TabSecrityPage::updateSecUserUI()
 
     }catch(Exception exp)
      {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -160,16 +160,16 @@ void TabSecrityPage::unLockActionSlot()
     int row = ui->userTableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox(tr("未选中要操作的用户!"));
+        errMsgBox(tr("未选中要操作的用户!"), this);
         return;
     }
     try
     {
         SecFunClass::getInstance()->unLockUser(secUserList[row].uName);
-        infoMsgBox(tr("解锁成功"));
+        infoMsgBox(tr("解锁成功"), this);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
     updateSecUserUI();
 }
@@ -185,7 +185,7 @@ void TabSecrityPage::ukeyBindActionSlot()
     int row = ui->userTableWidget->currentRow();
     if(row<0)
     {
-        errMsgBox(tr("未选中要操作的用户!"));
+        errMsgBox(tr("未选中要操作的用户!"), this);
         return;
     }
 
@@ -211,9 +211,9 @@ void TabSecrityPage::setUserTagInfoSlot(int res, Exception exp)
     waitDialogAccept();
     if(res == 0)
     {
-        infoMsgBox(tr("设置用户安全标签成功"));
+        infoMsgBox(tr("设置用户安全标签成功"), this);
     }else
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
 }
 
 void TabSecrityPage::getSafePolicySlot(int res, Exception exp,TELIST teList, F_PLIST fpList)
@@ -223,7 +223,7 @@ void TabSecrityPage::getSafePolicySlot(int res, Exception exp,TELIST teList, F_P
     fpconvs = fpList;
     if(res ==1)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
         bFirst = true;
     }
     else
@@ -261,7 +261,7 @@ void TabSecrityPage::init_sak_ui()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
         sakinfo.current_mode="disable";
         sakinfo.default_mode="disable";
         ui->cur_sakstatus_label->setText(tr("获取当前sak状态失败!"));
@@ -288,7 +288,7 @@ void TabSecrityPage::display_cur_pwd_info()
         ui->othlenEdit->setText(pwdInfo.ocredit.isEmpty()?tr("无限制"):pwdInfo.ocredit);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -399,7 +399,7 @@ void TabSecrityPage::UpdateToSecStatus()
     }catch(Exception exp)
             {
         secStatus.clear();
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     if(secStatus.curr_mode == tr("enforcing"))
@@ -443,7 +443,7 @@ void TabSecrityPage::on_setPwButton_clicked()
 {
     if(!ui->minlenEdit->text().isEmpty() && ui->minlenEdit->text().toInt()<8)
     {
-         errMsgBox(tr("最小长度不能小于8"));
+         errMsgBox(tr("最小长度不能小于8"), this);
         return;
     }
     QString cmd = "nfs-enhanced-passwd "+
@@ -456,10 +456,10 @@ void TabSecrityPage::on_setPwButton_clicked()
 
     if(set_pwd_rule(cmd))
     {
-        infoMsgBox(tr("操作成功"));
+        infoMsgBox(tr("操作成功"), this);
         display_cur_pwd_info();
     }else
-        errMsgBox(tr("操作失败"));
+        errMsgBox(tr("操作失败"), this);
 }
 void TabSecrityPage::on_browserButton_clicked()
 {
@@ -521,7 +521,7 @@ void TabSecrityPage::on_findButton_clicked()
         }
         if(tmprules.size()==0)
         {
-            infoMsgBox(tr("未查找到符合条件的项") );
+            infoMsgBox(tr("未查找到符合条件的项"), this );
         }else
             UpdateRuletabel(tmprules);
     }
@@ -568,7 +568,7 @@ void TabSecrityPage::on_findButton2_clicked()
         }
         if(tmpconvs.size()==0)
         {
-            infoMsgBox(tr("未查找到符合条件的项") );
+            infoMsgBox(tr("未查找到符合条件的项"), this );
         }else
             UpdateFPTable(tmpconvs);
     }
@@ -593,7 +593,7 @@ void TabSecrityPage::on_closeAduButton_clicked()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -613,7 +613,7 @@ void TabSecrityPage::on_open_close_sak_Button_clicked()
             SecFunClass::getInstance()->SetSakInfo("enable");
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     init_sak_ui();
@@ -630,7 +630,7 @@ void TabSecrityPage::on_open_close_def_sak_Button_clicked()
             SecFunClass::getInstance()->SetDefaultSakInfo("enable");
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     init_sak_ui();
@@ -646,10 +646,10 @@ void TabSecrityPage::on_setTryLockButton_clicked()
     try
     {
         SecFunClass::getInstance()->tryLockOption(info);
-        infoMsgBox(tr("用户锁定规则设置成功"));
+        infoMsgBox(tr("用户锁定规则设置成功"), this);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -692,7 +692,7 @@ void TabSecrityPage::on_freshUserSafeTagButton_clicked()
             }
             if(!flag)
             {
-                errMsgBox( tr("用户不存在!"));
+                errMsgBox( tr("用户不存在!"), this);
             }else
             {
                 for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
@@ -709,7 +709,7 @@ void TabSecrityPage::on_freshUserSafeTagButton_clicked()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
 }
@@ -718,7 +718,7 @@ void TabSecrityPage::on_setUserTagButton_clicked()
 {
     if(ui->users_comboBox->currentText().trimmed().length()==0)
     {
-            infoMsgBox(tr("用户名不能为空!"));
+            infoMsgBox(tr("用户名不能为空!"), this);
             return;
     }
     UserTag usrtag;
@@ -748,7 +748,7 @@ void TabSecrityPage::on_freshFileTagButton_clicked()
 {
     if(filePath.trimmed().length()==0)
     {
-        infoMsgBox(tr("文件名为空"));
+        infoMsgBox(tr("文件名为空"), this);
         return;
     }
 
@@ -771,7 +771,7 @@ void TabSecrityPage::on_freshFileTagButton_clicked()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -779,7 +779,7 @@ void TabSecrityPage::on_setFileTagButton_clicked()
 {
     if(filePath.trimmed().length()==0)
     {
-        errMsgBox(tr("文件名为空"));
+        errMsgBox(tr("文件名为空"), this);
         return;
     }
 
@@ -790,10 +790,10 @@ void TabSecrityPage::on_setFileTagButton_clicked()
     try
     {
         SecFunClass::getInstance()->setFileTagInfo(fileinfo);
-        infoMsgBox(tr("设置成功!"));
+        infoMsgBox(tr("设置成功!"), this);
     }catch(Exception exp)
             {
-         errMsgBox(exp.getErroWhat());
+         errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -810,7 +810,7 @@ void TabSecrityPage::on_lockSvrComboBox_currentIndexChanged(const QString &arg1)
         ui->secLineEdit->setText(info.uParam);
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 
@@ -832,7 +832,7 @@ void TabSecrityPage::on_open_closeSecPolButton_clicked()
         }
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     UpdateToSecStatus();

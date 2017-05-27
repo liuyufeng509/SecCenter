@@ -66,7 +66,7 @@ void IndexWidget::initUi()
         curEnforce = enforce;
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 
     QString context = tr("\n当前用户：") + uname+"\n" + tr("用户角色：") + roleName+"\n" + tr("SELinux模式：")+enforce;
@@ -88,7 +88,7 @@ void IndexWidget::freshEnforcing()
             initUi();
     }catch(Exception exp)
     {
-        errMsgBox(exp.getErroWhat());
+        errMsgBox(exp.getErroWhat(), this);
     }
 }
 

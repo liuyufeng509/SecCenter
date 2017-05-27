@@ -171,11 +171,13 @@ void UserMgrPage::ukeyBindActionSlot()
     if(ukeyBindAction->text()==tr("解绑Ukey"))
         {
         UkeyDialog ukdialog(UkeyDialog::UnBUND_User, secUserList[row].uName,this);
-        ukdialog.exec();
+        if(ukdialog.exec()==QDialog::Accepted)
+            updateSecUserUI();
     }else
         {
         UkeyDialog ukdialog(UkeyDialog::BUND_User, secUserList[row].uName,this);
-        ukdialog.exec();
+        if(ukdialog.exec()==QDialog::Accepted)
+            updateSecUserUI();
     }
 
 }

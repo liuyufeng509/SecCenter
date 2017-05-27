@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "common.h"
-
+#include <QDate>
 class SecFunClass : public QObject
 {
     Q_OBJECT
@@ -63,10 +63,16 @@ signals:
     void emitSetUserTagInfoDone(int res, Exception);   //用户安全标签管理多线程操作,设置完毕，返回结果
     void emitGetSafePolicyDone(int res, Exception exp, TELIST telist, F_PLIST fpList);      //获取安全策略结束
 
+    //UKey
+    void emitResetPINOfUkeyDone(int res, Exception);
+    void emitSetUserOfUkeyDone(int res, Exception);
+
 public slots:
     //用户安全标签设置多线程操作
     void setUserTagInfoSlot(UserTag usrtag, int opt);
     void getSafePolicySlot(TELIST teList,F_PLIST fpList);
+    void resetPINOfUkeySlot(UkeyInfo ukeyInfo);
+    void setUserOfUkeySlot(UkeyInfo ukeyInfo);
 
 private:
     bool getUserListOfShaddow(QList<SecUserInfo> &secUserList); //判断/etc/passwd，用户是否已经被创建过

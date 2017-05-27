@@ -118,10 +118,40 @@ bool SecFunClass::getLockedUsers(QStringList &list)
         throw Exception(strl.last(), errContent);
     }
     strl.removeLast();
+    QDateTime now = QDateTime::currentDateTime();
     for(int i=1; i<strl.count(); i++)
     {
         QStringList tmpl = strl[i].simplified().split(' ');
-        list<<tmpl[0];
+        if(tmpl.count()!=5)
+            continue;
+        QDate date;QTime time;
+        QDateTime dateTime(date.fromString(tmpl[2], "MM/dd/yy"),time.fromString(tmpl[3], "hh:mm:ss"));
+       dateTime =  dateTime.addYears(now.date().year()-dateTime.date().year());
+        //int secs = now.secsTo(dateTime);
+        int secs = dateTime.secsTo(now);
+        TryLockInfo info;
+        if(tmpl[4].contains("unknown"))
+        {
+            info.sParam="gdm";
+        }else if(tmpl[4].contains("tty"))
+        {
+            info.sParam="login";
+        }else
+            {
+            info.sParam = "ssh";
+        }
+        try
+        {
+            getCurLockInfo(info);
+        }catch(Exception exp)
+        {
+            throw exp;
+        }
+        qDebug()<<info.sParam;
+        if(secs<info.uParam.toInt()&&tmpl[1].toInt()>info.dParam.toInt())
+        {
+            list<<tmpl[0];
+        }
     }
     return true;
 
@@ -549,6 +579,30 @@ bool SecFunClass::setFileTagInfo(FileTag filetag)
     return true;
 }
 
+void SecFunClass::resetPINOfUkeySlot(UkeyInfo ukeyInfo)
+{
+    try
+    {
+        resetPINOfUkey(ukeyInfo);
+        emit emitResetPINOfUkeyDone(0, Exception("",""));
+    }catch(Exception exp)
+    {
+        emit emitResetPINOfUkeyDone(1, exp);
+    }
+}
+
+void SecFunClass::setUserOfUkeySlot(UkeyInfo ukeyInfo)
+{
+    try
+    {
+        setUserOfUkey(ukeyInfo);
+        emit emitSetUserOfUkeyDone(0, Exception("",""));
+    }catch(Exception exp)
+    {
+        emit emitSetUserOfUkeyDone(1, exp);
+    }
+}
+
 bool SecFunClass::getFileTagInfo(FileTag &filetag)                     //获取文件安全标签
 {
     QString cmd = "ls ";
@@ -748,6 +802,7 @@ bool SecFunClass::resetPINOfUkey(UkeyInfo ukeyInfo)
     QString cmd = "nfsukey "+ ukeyInfo.cur_pin+ " -s "+ukeyInfo.new_pin+" 2>&1;echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
+    qDebug()<<cmd <<"\n"<<strl.last();
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());
@@ -773,6 +828,7 @@ bool SecFunClass::setUserOfUkey(UkeyInfo ukif)
 
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
+  //  qDebug()<<cmd <<"\n"<<strl.last();
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());
@@ -789,6 +845,7 @@ bool SecFunClass::getTeRules(QList<TERule> &telist)                         //�
     QString cmd = "sesearch --allow 2>&1; echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
+  //  qDebug()<<cmd <<"\n"<<strl.last();
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());

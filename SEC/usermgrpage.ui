@@ -43,7 +43,7 @@
         </column>
         <column>
          <property name="text">
-          <string>UKey</string>
+          <string>是否绑定UKey</string>
          </property>
         </column>
        </widget>

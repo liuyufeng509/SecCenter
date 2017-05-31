@@ -18,7 +18,8 @@ struct SysCfgInfo
 
 struct AudCfgInfo
 {
-    int warn;
+    int warn;   //审计配置的联系人是否显示
+    int audctl; //是否启用审计服务控制功能。
 };
 
 struct CommCfgInfo

@@ -20,17 +20,20 @@ AudConfPage::AudConfPage(QWidget *parent) :
     if(QReadConfig::getInstance()->audCfgInfo.warn)
     {
         ui->groupBox_15->setHidden(false);
-        ui->okButton->setGeometry(10,400, 85,31);
-        ui->restartAduButton->setGeometry(460,400,85,31);
+        ui->okButton->setGeometry(460,400, 85,31);
+        ui->restartAduButton->setGeometry(10,400,85,31);
         ui->groupBox_6->setMinimumHeight(440);
     }else
     {
         ui->groupBox_15->setHidden(true);
-        ui->okButton->setGeometry(10,290, 85,31);
-        ui->restartAduButton->setGeometry(460,290,85,31);
+        ui->okButton->setGeometry(460,290, 85,31);
+        ui->restartAduButton->setGeometry(10,290,85,31);
         ui->groupBox_6->setMinimumHeight(332);
     }
-
+    if(QReadConfig::getInstance()->audCfgInfo.audctl)
+        ui->restartAduButton->setHidden(false);
+    else
+        ui->restartAduButton->setHidden(true);
     QIntValidator * v = new QIntValidator (0, Max_INPUT, this);
      ui->max_log_filelineEdit->setValidator(v);
      ui->num_logslineEdit->setValidator(v);

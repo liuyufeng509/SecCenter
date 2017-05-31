@@ -11,7 +11,7 @@ void QReadConfig::readConfigFile(QString filePath)
     comInfo.other_hidden = configIniRead->value("COMMON/other_hidden").toInt();
 
     audCfgInfo.warn = configIniRead->value("AUD/warn").toInt();
-
+    audCfgInfo.audctl = configIniRead->value("AUD/audctl").toInt();
     //内核参数设置
     kernCfgInfoList.size = configIniRead->value("Kern/size").toInt();
     for(int i=0; i<kernCfgInfoList.size; i++)

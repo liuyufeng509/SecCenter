@@ -250,7 +250,7 @@ void SvrMgrPage::UpdateToSvrUI()
             break;
         }
 
-        if(sevrs[i].pId.isEmpty()|| sevrs[i].desc.isEmpty())
+        if(/*sevrs[i].pId.isEmpty()|| */sevrs[i].desc.isEmpty())
         {
             ui->svrTableWidget->setRowHidden(i, true);
         }

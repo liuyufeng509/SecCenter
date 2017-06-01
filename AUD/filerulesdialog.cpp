@@ -19,10 +19,16 @@ bool FileRulesDialog::save_file_rules_from_ui()
         errMsgBox(tr("文件名为空"), this);
         return false;
     }
+    if(ui->stTimeEdit->dateTime()>ui->etTimeEdit->dateTime())
+        {
+        errMsgBox(tr("起始时间不能超过结束时间"));
+        return false;
+    }
     fileRule.file_name = ui->filePathEdit->text();
     fileRule.auth = (ui->rcheckBox->isChecked()? QString("r"):QString(""))+
             (ui->wcheckBox->isChecked()?"w":"")+
-            (ui->xcheckBox->isChecked()?"x":"");
+            (ui->xcheckBox->isChecked()?"x":"")+
+            (ui->acheckBox->isChecked()?"a":"");
     fileRule.key_word = ui->kwlineEdit->text();
     fileRule.ts_time = ui->stTimeEdit->text();
     fileRule.te_time = ui->etTimeEdit->text();

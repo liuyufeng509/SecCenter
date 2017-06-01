@@ -133,6 +133,7 @@ void TabAuditPage::get_aud_config_info()
 }
 
 #define SET_CURRENT_TEXT(ui, data)  \
+ui->setCurrentIndex(0); \
 for(int i=0; i<ui->count();i++)   \
 {   \
     if(ui->itemText(i) == data)   \

@@ -36,6 +36,10 @@ public slots:
 private slots:
     void on_findButton2_clicked();
     void on_findButton_clicked();
+   // void on_domainTypeBox_activated(const QString &arg1);
+
+   // void on_fileTypeBox_activated(const QString &arg1);
+
 private:
     Ui::SecRulesPage *ui;
     WaitDialog *waitD;

@@ -22,7 +22,7 @@ SecTabWidget::SecTabWidget(QWidget *parent):QTabWidget(parent)
     addTab(helpPage,tr("帮助"));
 
   //  connect(secStaPage, &SecStatusPage::freshClicked, svrCtrlPage, &SvrCtrlPage::freshPolCtl);
-   connect(secStaPage, SIGNAL(freshClicked(SecStatus)), svrCtrlPage, SLOT(freshPolCtl(SecStatus)));
+   //connect(secStaPage, SIGNAL(freshClicked(SecStatus)), svrCtrlPage, SLOT(freshPolCtl(SecStatus)));
    connect(this, SIGNAL(currentChanged(int )), this, SLOT(tabChanged(int )));
 
 }
@@ -32,6 +32,10 @@ void SecTabWidget::tabChanged(int index)
     if(index == 4)
     {
         secRulesPage->getAllRules();
+    }
+    if(index == 5)
+        {
+        svrCtrlPage->updateUI();
     }
 }
 

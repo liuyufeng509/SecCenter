@@ -74,14 +74,14 @@ void AudInfoPage::reportAction(QString cmd)
         AudFunClass::getInstance()->excuteAudCmd(cmd, tr("审计报告生成"), res);
         ui->textBrowser->setText(res);
         op_type=AUD_REPORT;
-        ui->fresh_pushButton->setToolTip(tr("刷新类型：审计报表"));
+        ui->fresh_pushButton->setToolTip(tr("刷新类型：审计报告"));
     }catch(Exception exp)
     {
         if(exp.getErroNo().toInt()==1)
             {
             ui->textBrowser->setText(res);
             op_type=AUD_REPORT;
-            ui->fresh_pushButton->setToolTip(tr("刷新类型：审计报表"));
+            ui->fresh_pushButton->setToolTip(tr("刷新类型：审计报告"));
         }else
             errMsgBox(exp.getErroWhat(), this);
     }
@@ -94,8 +94,8 @@ void AudInfoPage::on_queryButton_clicked()
     {
         cmd  = qd.getCmdStence();
         queryAction(cmd);
-    }else
-        cmd = "";
+    }/*else
+        cmd = "";*/
 }
 
 void AudInfoPage::on_reportButton_clicked()
@@ -105,8 +105,8 @@ void AudInfoPage::on_reportButton_clicked()
     {
         cmd  = rd.getCmdStence();
         reportAction(cmd);
-    }else
-        cmd = "";
+    }/*else
+        cmd = "";*/
 }
 
 void AudInfoPage::on_fresh_pushButton_clicked()

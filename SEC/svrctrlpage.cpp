@@ -172,15 +172,15 @@ void SvrCtrlPage::on_open_closeSecPolButton_clicked()
     updateUI();
 }
 
-void SvrCtrlPage::freshPolCtl(SecStatus secStatus)
-{
-    if(secStatus.curr_mode == tr("enforcing"))
-        ui->open_closeSecPolButton->setText(tr("关闭安全策略"));
-    else if(secStatus.curr_mode == tr("permissive"))
-        ui->open_closeSecPolButton->setText(tr("开启安全策略"));
+//void SvrCtrlPage::freshPolCtl(SecStatus secStatus)
+//{
+//    if(secStatus.curr_mode == tr("enforcing"))
+//        ui->open_closeSecPolButton->setText(tr("关闭安全策略"));
+//    else if(secStatus.curr_mode == tr("permissive"))
+//        ui->open_closeSecPolButton->setText(tr("开启安全策略"));
 
-     ui->cur_status_label->setText(tr("当前状态:       ")+secStatus.curr_mode);
-}
+//     ui->cur_status_label->setText(tr("当前状态:       ")+secStatus.curr_mode);
+//}
 
 void SvrCtrlPage::on_open_close_sak_Button_clicked()
 {

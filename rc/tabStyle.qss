@@ -211,22 +211,23 @@ QTabWidget#tabWidget>QTabBar::tab{
         border: 0px solid #50a495;     /*边界宽度和颜色*/
         border-top-color:#50a495;       /*上边界颜色*/
          border-bottom-color:white;       /*下边界颜色*/
-        background:#50a495;
-        color:white;
+        background:#eeeeee;
+        color:black;
         font-family:"Cantarell";
         font-size:11px;
         font-weight:bold;
         min-height:15 px;
         min-width:73 px;
 }
+
 QTabWidget#tabWidget>QTabBar::tab:hover{                             /*tab鼠标悬停的颜色*/
-        background:rgb(238, 238, 238, 100);
+        background:rgb(80, 164, 149, 100);   /*#eeeeee*/
         font-weight:normal;
         color:black;
 }
 QTabWidget#tabWidget>QTabBar::tab:selected{                      /*tab选中的颜色*/
         border-color: gray;
-        background:#eeeeee;
+        background:#50a495;
         color:black;
         font-family:"PT Sans Narrow";
         font-size:12px;

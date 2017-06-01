@@ -30,7 +30,7 @@ SecTagPage::SecTagPage(QWidget *parent) :
 
         }else
         {
-            ui->users_comboBox->addItem(tr("无"));
+            ui->users_comboBox->addItem(STR_WU);
             ui->u_sec_tagcomboBox->setCurrentIndex(0);
             ui->u_whole_tagcomboBox->setCurrentIndex(0);
         }
@@ -72,7 +72,7 @@ void SecTagPage::on_freshUserSafeTagButton_clicked()
                     ui->users_comboBox->addItem(userTagList[i].username);
             }else
             {
-                ui->users_comboBox->addItem(tr("无"));
+                ui->users_comboBox->addItem(STR_WU);
             }
 
             ui->users_comboBox->setEditText(curUser);

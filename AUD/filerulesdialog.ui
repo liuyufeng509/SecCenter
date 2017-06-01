@@ -37,7 +37,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>180</x>
       <y>60</y>
       <width>41</width>
       <height>26</height>
@@ -126,9 +126,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>240</x>
       <y>60</y>
-      <width>37</width>
+      <width>35</width>
       <height>26</height>
      </rect>
     </property>
@@ -321,6 +321,22 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QCheckBox" name="acheckBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>60</y>
+      <width>35</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>a</string>
+    </property>
    </widget>
   </widget>
   <widget class="QPushButton" name="okButton">

@@ -31,6 +31,11 @@ SysCallDialog::~SysCallDialog()
 
 void SysCallDialog::on_okButton_clicked()
 {
+    if(ui->sys_call_st_TimeEdit->dateTime() > ui->sys_call_et_TimeEdit->dateTime())
+        {
+        errMsgBox(tr("起始时间不能超过结束时间"),this);
+        return;
+    }
     QString liststr="", actionstr="";
     actionstr =ui->never_radioButton->isChecked()?"never ":"always ";
     if(ui->entry_radioButton->isChecked())

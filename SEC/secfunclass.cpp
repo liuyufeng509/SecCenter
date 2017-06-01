@@ -50,7 +50,9 @@ bool SecFunClass::setRmOpened(bool isOpen)
     }
     else
     {
-      throw Exception("", file.errorString());
+        QString errContent=tr("执行操作：设置客体重用开关")+tr("\n错误内容：")+file.errorString();
+        qDebug()<<errContent;
+        throw Exception("", errContent);
     }
     return true;
 }

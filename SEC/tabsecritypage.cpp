@@ -76,7 +76,7 @@ TabSecrityPage::TabSecrityPage(QWidget *parent) :
 
         }else
         {
-            ui->users_comboBox->addItem(tr("无"));
+            ui->users_comboBox->addItem(STR_WU);
             ui->u_sec_tagcomboBox->setCurrentIndex(0);
             ui->u_whole_tagcomboBox->setCurrentIndex(0);
         }
@@ -306,9 +306,9 @@ void TabSecrityPage::InitRuleTab()
         file_types.insert(terules[i].file_type);
         class_types.insert(terules[i].class_type);
     }
-    ui->domainTypeBox->addItem(tr("无"));
-    ui->fileTypeBox->addItem(tr("无"));
-    ui->classBox->addItem(tr("无"));
+    ui->domainTypeBox->addItem(STR_WU);
+    ui->fileTypeBox->addItem(STR_WU);
+    ui->classBox->addItem(STR_WU);
     foreach (const QString &value, domain_types)
          ui->domainTypeBox->addItem(value);
     foreach (const QString &value, file_types)
@@ -331,9 +331,9 @@ void TabSecrityPage::InitFPTab()
         targ_types.insert(fpconvs[i].targ_type);
         class_types_of_fp.insert(fpconvs[i].class_type);
     }
-    ui->sourceTypeBox->addItem(tr("无"));
-    ui->targetTypeBox->addItem(tr("无"));
-    ui->classTypeBox->addItem(tr("无"));
+    ui->sourceTypeBox->addItem(STR_WU);
+    ui->targetTypeBox->addItem(STR_WU);
+    ui->classTypeBox->addItem(STR_WU);
     foreach (const QString &value, src_types)
          ui->sourceTypeBox->addItem(value);
     foreach (const QString &value, targ_types)
@@ -495,24 +495,24 @@ void TabSecrityPage::on_findButton_clicked()
     {
         for(int i=0;i<terules.size();i++)
         {
-            if(domain_t == tr("无") && file_t !=tr("无") && class_t !=tr("无") && terules[i].file_type == file_t && class_t == terules[i].class_type)
+            if(domain_t == STR_WU && file_t !=STR_WU && class_t !=STR_WU && terules[i].file_type == file_t && class_t == terules[i].class_type)
                 tmprules.append(terules[i]);
-            else if(domain_t != tr("无") && file_t==tr("无") && class_t !=tr("无")&&
+            else if(domain_t != STR_WU && file_t==STR_WU && class_t !=STR_WU&&
                     terules[i].domain_type == domain_t && class_t == terules[i].class_type)
                 tmprules.append(terules[i]);
-            else if(domain_t != tr("无") && file_t!=tr("无") && class_t ==tr("无")&&
+            else if(domain_t != STR_WU && file_t!=STR_WU && class_t ==STR_WU&&
                     terules[i].domain_type == domain_t && file_t == terules[i].file_type)
                 tmprules.append(terules[i]);
-            else if(domain_t != tr("无") && file_t ==tr("无") && class_t ==tr("无")&&
+            else if(domain_t != STR_WU && file_t ==STR_WU && class_t ==STR_WU&&
                     terules[i].domain_type == domain_t )
                 tmprules.append(terules[i]);
-            else if(domain_t == tr("无") && file_t!=tr("无") && class_t ==tr("无")&&
+            else if(domain_t == STR_WU && file_t!=STR_WU && class_t ==STR_WU&&
                     terules[i].file_type == file_t )
                 tmprules.append(terules[i]);
-            else if(domain_t == tr("无") && file_t==tr("无") && class_t !=tr("无")&&
+            else if(domain_t == STR_WU && file_t==STR_WU && class_t !=STR_WU&&
                     terules[i].class_type == class_t )
                 tmprules.append(terules[i]);
-            else  if(domain_t != tr("无") && file_t!=tr("无") && class_t !=tr("无")&&
+            else  if(domain_t != STR_WU && file_t!=STR_WU && class_t !=STR_WU&&
                      terules[i].domain_type == domain_t&&
                    terules[i].file_type == file_t &&
                    terules[i].class_type == file_t)
@@ -539,24 +539,24 @@ void TabSecrityPage::on_findButton2_clicked()
     {
         for(int i=0;i<fpconvs.size();i++)
         {
-            if(src_t == tr("无") && targ_t !=tr("无") && class_t !=tr("无") && fpconvs[i].targ_type == targ_t && class_t == fpconvs[i].class_type)
+            if(src_t == STR_WU && targ_t !=STR_WU && class_t !=STR_WU && fpconvs[i].targ_type == targ_t && class_t == fpconvs[i].class_type)
                 tmpconvs.append(fpconvs[i]);
-            else if(src_t != tr("无") && targ_t==tr("无") && class_t !=tr("无")&&
+            else if(src_t != STR_WU && targ_t==STR_WU && class_t !=STR_WU&&
                     fpconvs[i].src_type == src_t && class_t == fpconvs[i].class_type)
                 tmpconvs.append(fpconvs[i]);
-            else if(src_t != tr("无") && targ_t!=tr("无") && class_t ==tr("无")&&
+            else if(src_t != STR_WU && targ_t!=STR_WU && class_t ==STR_WU&&
                     fpconvs[i].src_type == src_t && targ_t == fpconvs[i].targ_type)
                 tmpconvs.append(fpconvs[i]);
-            else if(src_t != tr("无") && targ_t ==tr("无") && class_t ==tr("无")&&
+            else if(src_t != STR_WU && targ_t ==STR_WU && class_t ==STR_WU&&
                     fpconvs[i].src_type == src_t )
                 tmpconvs.append(fpconvs[i]);
-            else if(src_t == tr("无") && targ_t!=tr("无") && class_t ==tr("无")&&
+            else if(src_t == STR_WU && targ_t!=STR_WU && class_t ==STR_WU&&
                     fpconvs[i].targ_type == targ_t )
                 tmpconvs.append(fpconvs[i]);
-            else if(src_t == tr("无") && targ_t==tr("无") && class_t !=tr("无")&&
+            else if(src_t == STR_WU && targ_t==STR_WU && class_t !=STR_WU&&
                     fpconvs[i].class_type == class_t )
                 tmpconvs.append(fpconvs[i]);
-            else  if(src_t != tr("无") && targ_t!=tr("无") && class_t !=tr("无")&&
+            else  if(src_t != STR_WU && targ_t!=STR_WU && class_t !=STR_WU&&
                      fpconvs[i].src_type == src_t&&
                    fpconvs[i].targ_type == targ_t &&
                    fpconvs[i].class_type == class_t)
@@ -674,7 +674,7 @@ void TabSecrityPage::on_freshUserSafeTagButton_clicked()
                     ui->users_comboBox->addItem(userTagList[i].username);
             }else
             {
-                ui->users_comboBox->addItem(tr("无"));
+                ui->users_comboBox->addItem(STR_WU);
             }
 
             ui->users_comboBox->setEditText(curUser);

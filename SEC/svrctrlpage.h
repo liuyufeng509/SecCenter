@@ -16,14 +16,15 @@ public:
     explicit SvrCtrlPage(QWidget *parent = 0);
     ~SvrCtrlPage();
 
-    void updateUI();
     void getHtmlStr(QString labelStr, QString color, QString status);
+      void updateUI();
 private slots:
+
     void on_openAllButton_clicked();
 
     void on_open_closeSecPolButton_clicked();
 
-    void freshPolCtl(SecStatus);
+   // void freshPolCtl(SecStatus);
     void on_open_close_sak_Button_clicked();
 
     void on_open_close_def_sak_Button_clicked();

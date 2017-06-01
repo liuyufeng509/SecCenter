@@ -52,8 +52,8 @@ bool AudFunClass::getKernAudParam(KernAudParam &param)     //内核审计参数
 
 bool AudFunClass::setKernAduParam(KernAudParam kernAudParam)
 {
-    QString cmd = "auditctl -r "+kernAudParam.rate_limit+ " -e "+ kernAudParam.enable+
-             " -b "+kernAudParam.backlog_limit+ " -f "+kernAudParam.fail_flag+(kernAudParam.bignore?" -i":" -c");
+    QString cmd = "auditctl "+ (kernAudParam.rate_limit.isEmpty()? "":"-r "+kernAudParam.rate_limit)+ " -e "+ kernAudParam.enable+
+             (kernAudParam.backlog_limit.isEmpty()?"":" -b "+kernAudParam.backlog_limit)+ " -f "+kernAudParam.fail_flag+(kernAudParam.bignore?" -i":" -c");
     QString rs;
     try
     {
@@ -100,6 +100,7 @@ bool AudFunClass::excuteAudCmd(QString cmd, QString optType, QString &res)
 {
     cmd = cmd + " 2>&1; echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
+
     QStringList strl = resStr.split('\n');
     resStr.chop(strl.last().length());
     res = resStr;

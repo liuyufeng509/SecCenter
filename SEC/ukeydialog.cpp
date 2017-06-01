@@ -21,6 +21,12 @@ UkeyDialog::UkeyDialog(int type, QString username,QWidget *parent) :
     connect(this, SIGNAL(emitResetPINOfUkeySignal(UkeyInfo )), SecFunClass::getInstance(), SLOT(resetPINOfUkeySlot(UkeyInfo)));
     connect(SecFunClass::getInstance(), SIGNAL(emitResetPINOfUkeyDone(int,Exception)), this, SLOT(resetPINOfUkeySlot(int ,Exception)));
 
+    QRegExp regx("[a-zA-Z0-9]+$");
+    QValidator *validator = new QRegExpValidator(regx, this);
+    ui->pinEdit->setValidator( validator );
+    ui->cur_pinEdit->setValidator( validator );
+    ui->new_pinlineEdit->setValidator( validator );
+     ui->re_pinEdit->setValidator( validator );
 }
 
 UkeyDialog::~UkeyDialog()
@@ -76,9 +82,13 @@ void UkeyDialog::on_pinokButton_clicked()
         errMsgBox(tr("当前PIN不能为空!"), this);
         return;
     }
+    if(ui->new_pinlineEdit->text().isEmpty()&&ui->re_pinEdit->text().isEmpty())
+        {
+        errMsgBox(tr("请输入新的PIN码!"), this);
+    }
     if(ui->new_pinlineEdit->text()!=ui->re_pinEdit->text())
     {
-        errMsgBox(tr("新PIN两次输入不相同!"), this);
+        errMsgBox(tr("输入的两次新PIN码不一致!"), this);
         return ;
     }
     ukif.cur_pin = ui->cur_pinEdit->text();

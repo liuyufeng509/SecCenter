@@ -149,6 +149,14 @@ void QueryDialog::on_okButton_clicked()
         errMsgBox(tr("查询语句不能为空"), this);
         return;
     }
+    if(ui->st_checkBox->isChecked() && ui->et_checkBox->isChecked())
+    {
+        if(ui->st_timeEdit->dateTime()>ui->et_timeEdit->dateTime())
+        {
+            errMsgBox(tr("起始时间不能超过结束时间"),this);
+            return;
+        }
+    }
     accept();
 }
 

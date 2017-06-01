@@ -10,7 +10,7 @@ ALCDialog::ALCDialog(FileAttr &fileAttr, QWidget *parent) :
     ui->setupUi(this);
     ui->lineEdit->setText(fileAttr.fileName);
     QStringList users = get_users();
-    ui->userComboBox->addItem(tr("无"));
+    ui->userComboBox->addItem(STR_WU);
     for(int i=0; i<users.length(); i++)
     {
         ui->userComboBox->addItem(users[i]);
@@ -18,7 +18,7 @@ ALCDialog::ALCDialog(FileAttr &fileAttr, QWidget *parent) :
     ui->userComboBox->setCurrentIndex(0);
 
     QStringList groups = get_groups();
-    ui->groupComboBox->addItem(tr("无"));
+    ui->groupComboBox->addItem(STR_WU);
     for(int i=0; i<groups.length(); i++)
     {
         ui->groupComboBox->addItem(groups[i]);
@@ -63,7 +63,7 @@ void ALCDialog::on_setUAlcButton_clicked()
 {
 
     QString user ="";
-    if(ui->userComboBox->currentText()==tr("无"))
+    if(ui->userComboBox->currentText()==STR_WU)
     {
         user = "";
     }else
@@ -83,7 +83,7 @@ void ALCDialog::on_setUAlcButton_clicked()
 void ALCDialog::on_delUAlcButton_clicked()
 {
     QString user = "";
-    if(ui->userComboBox->currentText()==tr("无"))
+    if(ui->userComboBox->currentText()==STR_WU)
     {
         QMessageBox::information(this,tr("用户ACL设置"), tr("用户名为空!"));
         return ;
@@ -103,7 +103,7 @@ void ALCDialog::on_delUAlcButton_clicked()
 void ALCDialog::on_setGAlcButton_clicked()
 {
     QString group ="";
-    if(ui->groupComboBox->currentText()==tr("无"))
+    if(ui->groupComboBox->currentText()==STR_WU)
     {
         group = "";
     }else
@@ -123,7 +123,7 @@ void ALCDialog::on_setGAlcButton_clicked()
 void ALCDialog::on_delGAlcButton_clicked()
 {
     QString group ="";
-    if(ui->groupComboBox->currentText()==tr("无"))
+    if(ui->groupComboBox->currentText()==STR_WU)
     {
         QMessageBox::information(this,tr("用户ACL设置"), tr("组户名为空!"));
         return ;

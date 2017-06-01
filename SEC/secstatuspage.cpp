@@ -65,5 +65,5 @@ SecStatusPage::~SecStatusPage()
 void SecStatusPage::on_freshSafeStatusButton_clicked()
 {
     UpdateToSecStatus();
-    emit freshClicked(secStatus);
+  //  emit freshClicked(secStatus);
 }

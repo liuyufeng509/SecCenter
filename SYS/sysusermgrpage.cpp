@@ -74,7 +74,7 @@ void SysUserMgrPage::UpdateUI()
             }
             if(users[i].ttys.count()==0)
                 {
-                ui->tableWidget->setItem(i, 3, new QTableWidgetItem(tr("无")));
+                ui->tableWidget->setItem(i, 3, new QTableWidgetItem(STR_WU));
             }else
                 {
                 QString ttys = "";

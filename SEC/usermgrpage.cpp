@@ -216,6 +216,11 @@ void UserMgrPage::on_setTryLockButton_clicked()
     info.dParam =ui->tmsLineEdit->text();
     info.uParam = ui->secLineEdit->text();
     info.sParam = ui->lockSvrComboBox->currentText();
+    if(info.dParam.isEmpty() || info.uParam.isEmpty())
+        {
+        errMsgBox(tr("用户锁定规则的参数不能为空"),this);
+        return;
+    }
     try
     {
         SecFunClass::getInstance()->tryLockOption(info);
@@ -228,9 +233,9 @@ void UserMgrPage::on_setTryLockButton_clicked()
 
 void UserMgrPage::on_setPwButton_clicked()
 {
-    if(!ui->minlenEdit->text().isEmpty() && ui->minlenEdit->text().toInt()<8)
+    if(/*!ui->minlenEdit->text().isEmpty() &&*/ ui->minlenEdit->text().toInt()<8 /*&& ui->minlenEdit->text()!=tr("无限制")*/)
     {
-        errMsgBox(tr("最小长度不能小于8"), this);
+        errMsgBox(tr("最小长度不能小于8，请重新设置最小长度"), this);
         return;
     }
     pwdInfo.minLen =ui->minlenEdit->text();

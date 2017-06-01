@@ -122,7 +122,17 @@ void UserInfoDialog::accept()
 
 void UserInfoDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
+    if(ui->unameLineEdit->text().isEmpty())
+    {
+        errMsgBox(tr("请输入用户名"),this);
+        return;
+    }
 
+    if(ui->grpLineEdit->text().isEmpty())
+    {
+        errMsgBox(tr("请输入所属组"),this);
+        return;
+    }
     if(ui->buttonBox->buttonRole(button)  == QDialogButtonBox::AcceptRole)
     {
         UserInfo usrTmp;

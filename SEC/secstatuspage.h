@@ -20,7 +20,7 @@ private slots:
     void on_freshSafeStatusButton_clicked();
 
 signals:
-    void freshClicked(SecStatus);
+    //void freshClicked(SecStatus);
 
 private:
     void UpdateToSecStatus();

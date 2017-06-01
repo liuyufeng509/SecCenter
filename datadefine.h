@@ -13,6 +13,8 @@
 
 #define Max_INPUT  1024*1024*1024
 
+#define STR_WU      tr("无")
+
 //Exception 类，用于调用命令时抛出异常。
 class Exception
 {

@@ -2,6 +2,7 @@
 #include "ui_filerulesdialog.h"
 #include "audfunclass.h"
 #include <QFileDialog>
+#include <QDirModel>
 FileRulesDialog::FileRulesDialog(FileAudRule &fileRule,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::FileRulesDialog),
@@ -10,6 +11,11 @@ FileRulesDialog::FileRulesDialog(FileAudRule &fileRule,QWidget *parent) :
     ui->setupUi(this);
     ui->stTimeEdit->setDateTime(QDateTime::currentDateTime());
     ui->etTimeEdit->setDateTime(QDateTime::currentDateTime());
+
+    QDirModel *model = new QDirModel(this);
+    completer = new QCompleter(this);
+    completer->setModel(model);
+    ui->tracePathEdit->setCompleter(completer);
 }
 
 bool FileRulesDialog::save_file_rules_from_ui()
@@ -70,20 +76,33 @@ void FileRulesDialog::on_browFileButton_clicked()
 
 void FileRulesDialog::on_traceButton_clicked()
 {
-    if(ui->filePathEdit->text().isEmpty())
+    if(ui->tracePathEdit->text().isEmpty())
     {
         errMsgBox(tr("文件名为空"), this);
         return;
     }
-    QString cmd = "autrace -r \""+ui->filePathEdit->text() +"\"";
+    QString cmd = "autrace -r \""+ui->tracePathEdit->text() +"\"";
     try
     {
         QString rs;
         AudFunClass::getInstance()->excuteAudCmd(cmd, tr("追踪文件"), rs);
-        ui->trackRslineEdit->setText(rs);
+       // ui->tracePathEdit->setText(rs);
+        QDialog *d = new QDialog(this);
+        d->setWindowTitle(tr("文件追踪信息"));
+        QTextBrowser *browser = new QTextBrowser;
+        QVBoxLayout *vlayout = new QVBoxLayout(d);
+        QPushButton *ok = new QPushButton(tr("确定"));
+        ok->setMaximumWidth(70);
+        vlayout->addWidget(browser);
+        vlayout->addWidget(ok);
+        browser->setText(rs);
+        d->resize(500,300);
+        connect(ok, SIGNAL(clicked()), d, SLOT(accept()));
+        d->exec();
+        delete d;
     }catch(Exception exp)
             {
         errMsgBox(exp.getErroWhat(), this);
-        ui->trackRslineEdit->setText(tr("追踪文件失败"));
+      //  ui->tracePathEdit->setText(tr("追踪文件失败"));
     }
 }

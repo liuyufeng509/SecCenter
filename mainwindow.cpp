@@ -32,10 +32,10 @@ void MainWindow::initCentralWidget()
     try
     {
         m_curRole = MainFunClass::getInstance()->getUserRole();
-        if(m_curRole == ERROR)
-        {
-            m_curRole = AUDADMIN;
-        }
+//        if(m_curRole == ERROR)
+//        {
+//            m_curRole = SECADMIN;
+//        }
         //m_curRole = SECADMIN;
 
         if(isTab)
@@ -86,6 +86,7 @@ void MainWindow::initCentralWidget()
 //                font.setFamily("Cantarell");
 //                label->setFont(font);
                 label->setText(tr("无法获取用户权限或该用户无使用安全管理中心的权限!"));
+                ui->verticalLayout->addSpacing(SPACING);
                 ui->verticalLayout->addWidget(tableWiget);
                 break;
             }

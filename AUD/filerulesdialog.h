@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "common.h"
-
+#include<QCompleter>
 namespace Ui {
 class FileRulesDialog;
 }
@@ -26,6 +26,7 @@ private slots:
 private:
     Ui::FileRulesDialog *ui;
     FileAudRule &fileRule;
+    QCompleter *completer;
 };
 
 #endif // FILERULESDIALOG_H

@@ -306,12 +306,12 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label_31">
        <property name="text">
-        <string>追踪结果：</string>
+        <string>文件：</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="trackRslineEdit"/>
+      <widget class="QLineEdit" name="tracePathEdit"/>
      </item>
      <item row="0" column="2">
       <widget class="QPushButton" name="traceButton">

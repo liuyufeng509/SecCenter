@@ -148,6 +148,13 @@ void SecRulesPage::getSafePolicySlot(int res, Exception exp,TELIST teList, F_PLI
     InitFPTab();
     UpdateFPTable(fpconvs);
 
+    //当全部策略获取之后，再连接下拉框的信号槽
+    connect(ui->domainTypeBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(domainTypeBoxCurrentIndexChanged(QString)));
+    connect(ui->fileTypeBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(fileTypeBoxCurrentIndexChanged(QString)));
+
+    connect(ui->sourceTypeBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(sourceTypeBoxCurrentIndexChanged(QString)));
+    connect(ui->targetTypeBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(targetTypeBoxCurrentIndexChanged(QString)));
+
 }
 
 SecRulesPage::~SecRulesPage()
@@ -165,222 +172,136 @@ for(int i=0; i<ui->count();i++)   \
     }   \
 }
 
-//void SecRulesPage::on_domainTypeBox_activated(const QString &arg1)
-//{
-//    QList<TERule> tmprules, tmprules2;
-//    QString file_t = ui->fileTypeBox->currentText();
-//    QString class_t = ui->classBox->currentText();
-//    //1.查找满足当前选中的文本的集合
-//    if(arg1==STR_WU)
-//    {
-//        tmprules = terules;
-//    }else
-//        {
-//        for(int i=0;i<terules.size();i++)
-//        {
-//            if(terules[i].domain_type == arg1)
-//            {
-//                tmprules.append(terules[i]);
-//            }
-//        }
-//    }
-//    QSet<QString> file_types;
-//    QSet<QString> class_types;
-//    //如果另外两个都是无，则直接把上面的结果更新到另外两个的下拉框中
-//    if(file_t==STR_WU && class_t==STR_WU)
-//    {
-//        ui->fileTypeBox->clear();
-//        ui->classBox->clear();
-//        for(int i=0; i<tmprules.size(); i++)
-//        {
-//            file_types.insert(tmprules[i].file_type);
-//            class_types.insert(tmprules[i].class_type);
-//        }
-//        ui->fileTypeBox->addItem(STR_WU);
-//        ui->classBox->addItem(STR_WU);
-//        foreach (const QString &value, file_types)
-//             ui->fileTypeBox->addItem(value);
-//        foreach (const QString &value, class_types)
-//             ui->classBox->addItem(value);
-//        ui->fileTypeBox->setCurrentIndex(0);
-//        ui->classBox->setCurrentIndex(0);
-//    }else if(file_t==STR_WU && class_t!=STR_WU)       //file是无，class不是无
-//    {
-//        for(int i=0;i<tmprules.size();i++)
-//        {
-//            if(class_t== tmprules[i].class_type )        //满足classt的
-//                tmprules2.append(tmprules[i]);
-//        }
-//        ui->fileTypeBox->clear();
-//        ui->classBox->clear();
-//        ui->fileTypeBox->addItem(STR_WU);
-//        ui->classBox->addItem(STR_WU);
-//        for(int i=0; i<tmprules2.count();i++)
-//        {
-//            file_types.insert(tmprules2[i].file_type);
-//            class_types.insert(tmprules2[i].class_type);
-//        }
-//        foreach (const QString &value, file_types)
-//             ui->fileTypeBox->addItem(value);
-//        foreach (const QString &value, class_types)
-//             ui->classBox->addItem(value);
-//        ui->fileTypeBox->setCurrentIndex(0);
-//        SET_CURRENT_TEXT(ui->classBox, class_t);
-//    }else if(file_t!=STR_WU && class_t==STR_WU)       //file是无，class不是无
-//    {
-//        for(int i=0;i<tmprules.size();i++)
-//        {
-//            if(file_t== tmprules[i].file_type)        //满足classt的
-//                tmprules2.append(tmprules[i]);
-//        }
-//        ui->fileTypeBox->clear();
-//        ui->classBox->clear();
-//        ui->fileTypeBox->addItem(STR_WU);
-//        ui->classBox->addItem(STR_WU);
-//        for(int i=0; i<tmprules2.count();i++)
-//        {
-//            file_types.insert(tmprules2[i].file_type);
-//            class_types.insert(tmprules2[i].class_type);
-//        }
-//        foreach (const QString &value, file_types)
-//             ui->fileTypeBox->addItem(value);
-//        foreach (const QString &value, class_types)
-//             ui->classBox->addItem(value);
-//        ui->classBox->setCurrentIndex(0);
-//        SET_CURRENT_TEXT(ui->fileTypeBox, file_t);
-//    }else  if(file_t!=STR_WU && class_t!=STR_WU)       //file是无，class不是无
-//    {
-//        for(int i=0;i<tmprules.size();i++)
-//        {
-//            if(class_t== tmprules[i].class_type && file_t== tmprules[i].file_type)        //满足classt的
-//                tmprules2.append(tmprules[i]);
-//        }
-//        ui->fileTypeBox->clear();
-//        ui->classBox->clear();
-//        ui->fileTypeBox->addItem(STR_WU);
-//        ui->classBox->addItem(STR_WU);
-//        for(int i=0; i<tmprules2.count();i++)
-//        {
-//            file_types.insert(tmprules2[i].file_type);
-//            class_types.insert(tmprules2[i].class_type);
-//        }
-//        foreach (const QString &value, file_types)
-//             ui->fileTypeBox->addItem(value);
-//        foreach (const QString &value, class_types)
-//             ui->classBox->addItem(value);
-//        SET_CURRENT_TEXT(ui->classBox, class_t);
-//        SET_CURRENT_TEXT(ui->fileTypeBox, file_t);
-//    }
+void SecRulesPage::sourceTypeBoxCurrentIndexChanged(const QString &arg1)
+{
+    QList<FileProConV> tmpfpconvs;
+    QSet<QString> target_types;
+   for(int i=0; i<fpconvs.count();i++)
+   {
+       if(arg1==STR_WU)
+           {
+           tmpfpconvs = fpconvs;
+           break;
+       }
+       if(fpconvs[i].src_type==arg1)
+           tmpfpconvs.append(fpconvs[i]);
+   }
+   //设置文件类型下拉框的内容
+   disconnect(ui->targetTypeBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(targetTypeBoxCurrentIndexChanged(QString)));           //先断开信号槽
+   foreach (const FileProConV &value, tmpfpconvs)
+       target_types.insert(value.targ_type);
+   ui->targetTypeBox->clear();
+   ui->targetTypeBox->addItem(STR_WU);
+   foreach (const QString &value, target_types)
+      ui->targetTypeBox->addItem(value);
+   ui->targetTypeBox->setCurrentIndex(0);
+   connect(ui->targetTypeBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(targetTypeBoxCurrentIndexChanged(QString)));
+}
 
-//}
+void SecRulesPage::targetTypeBoxCurrentIndexChanged(const QString &arg1)
+{
+    QList<FileProConV> tmpfpconvs;
+    QSet<QString> class_types;
+   for(int i=0; i<fpconvs.count();i++)
+   {
+       if(arg1==STR_WU && ui->sourceTypeBox->currentText()==STR_WU)
+       {
+           tmpfpconvs = fpconvs;
+           break;
+       }else if(arg1==STR_WU && ui->sourceTypeBox->currentText()!=STR_WU)
+       {
+            if(fpconvs[i].src_type==ui->sourceTypeBox->currentText())
+                {
+                tmpfpconvs.append(fpconvs[i]);
+            }
+       }else if(arg1!=STR_WU && ui->sourceTypeBox->currentText()==STR_WU)
+       {
+            if(fpconvs[i].targ_type==arg1)
+                {
+                tmpfpconvs.append(fpconvs[i]);
+            }
+       }else if(arg1!=STR_WU && ui->sourceTypeBox->currentText()!=STR_WU)
+       {
+            if(fpconvs[i].targ_type==arg1 && fpconvs[i].src_type==ui->sourceTypeBox->currentText())
+            {
+                tmpfpconvs.append(fpconvs[i]);
+            }
+       }
+   }
+   //设置class类型下拉框的内容
+   foreach (const FileProConV &value, tmpfpconvs)
+       class_types.insert(value.class_type);
+   ui->classTypeBox->clear();
+   ui->classTypeBox->addItem(STR_WU);
+   foreach (const QString &value, class_types)
+      ui->classTypeBox->addItem(value);
+   ui->classTypeBox->setCurrentIndex(0);
+}
 
-//void SecRulesPage::on_fileTypeBox_activated(const QString &arg1)
-//{
-//    QList<TERule> tmprules, tmprules2;
-//    QString domain_t = ui->domainTypeBox->currentText();
-//    QString class_t = ui->classBox->currentText();
-//    //1.查找满足当前选中的文本的集合
-//    if(arg1==STR_WU)
-//    {
-//        tmprules = terules;
-//    }else
-//        {
-//        for(int i=0;i<terules.size();i++)
-//        {
-//            if(terules[i].file_type == arg1)
-//            {
-//                tmprules.append(terules[i]);
-//            }
-//        }
-//    }
-//    QSet<QString> domain_types;
-//    QSet<QString> class_types;
-//    //如果另外两个都是无，则直接把上面的结果更新到另外两个的下拉框中
-//    if(domain_t==STR_WU && class_t==STR_WU)
-//    {
-//        ui->domainTypeBox->clear();
-//        ui->classBox->clear();
-//        for(int i=0; i<tmprules.size(); i++)
-//        {
-//            domain_types.insert(tmprules[i].domain_type);
-//            class_types.insert(tmprules[i].class_type);
-//        }
-//        ui->domainTypeBox->addItem(STR_WU);
-//        ui->classBox->addItem(STR_WU);
-//        foreach (const QString &value, domain_types)
-//             ui->domainTypeBox->addItem(value);
-//        foreach (const QString &value, class_types)
-//             ui->classBox->addItem(value);
-//        ui->domainTypeBox->setCurrentIndex(0);
-//        ui->classBox->setCurrentIndex(0);
-//    }else if(domain_t==STR_WU && class_t!=STR_WU)       //file是无，class不是无
-//    {
-//        for(int i=0;i<tmprules.size();i++)
-//        {
-//            if(class_t== tmprules[i].class_type )        //满足classt的
-//                tmprules2.append(tmprules[i]);
-//        }
-//        ui->domainTypeBox->clear();
-//        ui->classBox->clear();
-//        ui->domainTypeBox->addItem(STR_WU);
-//        ui->classBox->addItem(STR_WU);
-//        for(int i=0; i<tmprules2.count();i++)
-//        {
-//            domain_types.insert(tmprules2[i].domain_type);
-//            class_types.insert(tmprules2[i].class_type);
-//        }
-//        foreach (const QString &value, domain_types)
-//             ui->domainTypeBox->addItem(value);
-//        foreach (const QString &value, class_types)
-//             ui->classBox->addItem(value);
-//        ui->domainTypeBox->setCurrentIndex(0);
-//        SET_CURRENT_TEXT(ui->classBox, class_t);
-//    }else if(domain_t!=STR_WU && class_t==STR_WU)       //file是无，class不是无
-//    {
-//        for(int i=0;i<tmprules.size();i++)
-//        {
-//            if(domain_t== tmprules[i].domain_type)        //满足classt的
-//                tmprules2.append(tmprules[i]);
-//        }
-//        ui->domainTypeBox->clear();
-//        ui->classBox->clear();
-//        ui->domainTypeBox->addItem(STR_WU);
-//        ui->classBox->addItem(STR_WU);
-//        for(int i=0; i<tmprules2.count();i++)
-//        {
-//            domain_types.insert(tmprules2[i].domain_type);
-//            class_types.insert(tmprules2[i].class_type);
-//        }
-//        foreach (const QString &value, domain_types)
-//             ui->domainTypeBox->addItem(value);
-//        foreach (const QString &value, class_types)
-//             ui->classBox->addItem(value);
-//        ui->classBox->setCurrentIndex(0);
-//        SET_CURRENT_TEXT(ui->domainTypeBox, domain_t);
-//    }else  if(domain_t!=STR_WU && class_t!=STR_WU)       //file是无，class不是无
-//    {
-//        for(int i=0;i<tmprules.size();i++)
-//        {
-//            if(class_t== tmprules[i].class_type && domain_t== tmprules[i].domain_type)        //满足classt的
-//                tmprules2.append(tmprules[i]);
-//        }
-//        ui->domainTypeBox->clear();
-//        ui->classBox->clear();
-//        ui->domainTypeBox->addItem(STR_WU);
-//        ui->classBox->addItem(STR_WU);
-//        for(int i=0; i<tmprules2.count();i++)
-//        {
-//            domain_types.insert(tmprules2[i].file_type);
-//            class_types.insert(tmprules2[i].class_type);
-//        }
-//        foreach (const QString &value, domain_types)
-//             ui->domainTypeBox->addItem(value);
-//        foreach (const QString &value, class_types)
-//             ui->classBox->addItem(value);
-//        SET_CURRENT_TEXT(ui->classBox, class_t);
-//        SET_CURRENT_TEXT(ui->domainTypeBox, domain_t);
-//    }
-//}
+void SecRulesPage::domainTypeBoxCurrentIndexChanged(const QString &arg1)
+{
+     QList<TERule> tmprules;
+     QSet<QString> file_types;
+    for(int i=0; i<terules.count();i++)
+    {
+        if(arg1==STR_WU)
+            {
+            tmprules = terules;
+            break;
+        }
+        if(terules[i].domain_type==arg1)
+            tmprules.append(terules[i]);
+    }
+    //设置文件类型下拉框的内容
+    disconnect(ui->fileTypeBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(fileTypeBoxCurrentIndexChanged(QString)));           //先断开信号槽
+    foreach (const TERule &value, tmprules)
+        file_types.insert(value.file_type);
+    ui->fileTypeBox->clear();
+    ui->fileTypeBox->addItem(STR_WU);
+    foreach (const QString &value, file_types)
+       ui->fileTypeBox->addItem(value);
+    ui->fileTypeBox->setCurrentIndex(0);
+    connect(ui->fileTypeBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(fileTypeBoxCurrentIndexChanged(QString)));
+}
+void SecRulesPage::fileTypeBoxCurrentIndexChanged(const QString &arg1)
+{
+    QList<TERule> tmprules;
+    QSet<QString> class_types;
+   for(int i=0; i<terules.count();i++)
+   {
+       if(arg1==STR_WU && ui->domainTypeBox->currentText()==STR_WU)
+       {
+           tmprules = terules;
+           break;
+       }else if(arg1==STR_WU && ui->domainTypeBox->currentText()!=STR_WU)
+       {
+            if(terules[i].domain_type==ui->domainTypeBox->currentText())
+                {
+                tmprules.append(terules[i]);
+            }
+       }else if(arg1!=STR_WU && ui->domainTypeBox->currentText()==STR_WU)
+       {
+            if(terules[i].file_type==arg1)
+                {
+                tmprules.append(terules[i]);
+            }
+       }else if(arg1!=STR_WU && ui->domainTypeBox->currentText()!=STR_WU)
+       {
+            if(terules[i].file_type==arg1 && terules[i].domain_type==ui->domainTypeBox->currentText())
+            {
+                tmprules.append(terules[i]);
+            }
+       }
+   }
+   //设置class类型下拉框的内容
+   foreach (const TERule &value, tmprules)
+       class_types.insert(value.class_type);
+   ui->classBox->clear();
+   ui->classBox->addItem(STR_WU);
+   foreach (const QString &value, class_types)
+      ui->classBox->addItem(value);
+   ui->classBox->setCurrentIndex(0);
+}
 
 void SecRulesPage::on_findButton_clicked()
 {

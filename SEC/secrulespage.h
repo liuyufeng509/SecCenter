@@ -36,10 +36,12 @@ public slots:
 private slots:
     void on_findButton2_clicked();
     void on_findButton_clicked();
-   // void on_domainTypeBox_activated(const QString &arg1);
+    void domainTypeBoxCurrentIndexChanged(const QString &arg1);
 
-   // void on_fileTypeBox_activated(const QString &arg1);
+    void fileTypeBoxCurrentIndexChanged(const QString &arg1);
 
+    void sourceTypeBoxCurrentIndexChanged(const QString &arg1);
+    void targetTypeBoxCurrentIndexChanged(const QString &arg1);
 private:
     Ui::SecRulesPage *ui;
     WaitDialog *waitD;
@@ -47,6 +49,7 @@ private:
     bool bFirst;
 
     QList<TERule> terules;
+
     QSet<QString> domain_types;
     QSet<QString> file_types;
     QSet<QString> class_types;

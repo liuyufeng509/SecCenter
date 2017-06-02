@@ -23,7 +23,28 @@
       <string>用户安全管理</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="0" colspan="4">
+      <item row="1" column="1">
+       <widget class="QPushButton" name="modPinButton">
+        <property name="text">
+         <string>更改UkeyPIN</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QPushButton" name="freshButton">
+        <property name="text">
+         <string>刷新列表</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="bindUkButton">
+        <property name="text">
+         <string>绑定Ukey</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="5">
        <widget class="QTableWidget" name="userTableWidget">
         <property name="dragEnabled">
          <bool>true</bool>
@@ -55,24 +76,10 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="modPinButton">
-        <property name="text">
-         <string>更改UkeyPIN</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="bindUkButton">
-        <property name="text">
-         <string>绑定Ukey</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="3">
-       <widget class="QPushButton" name="freshButton">
+       <widget class="QPushButton" name="cleanUkButton">
         <property name="text">
-         <string>刷新列表</string>
+         <string>清除Ukey证书</string>
         </property>
        </widget>
       </item>

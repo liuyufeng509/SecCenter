@@ -105,7 +105,14 @@ struct SecUserInfo          //安全管理的用户信息
     bool     bShow;
 };
 
-struct UkeyInfo                 //Ukey信息
+//Ukey信息
+enum{
+    Reset_PIN,
+    BUND_User,
+    UnBUND_User,
+    Clean_Ukey
+};
+struct UkeyInfo
 {
     QString cur_pin;
     QString new_pin;

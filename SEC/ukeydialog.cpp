@@ -6,14 +6,28 @@ UkeyDialog::UkeyDialog(int type, QString username,QWidget *parent) :
     ui(new Ui::UkeyDialog)
 {
     ui->setupUi(this);
+    ukif.user = username;
+//    SysFunClass::getInstance()->moveToThread(thread);
+//    thread = new QThread;
+    InitUI(type);
+}
+
+UkeyDialog::UkeyDialog(int type, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::UkeyDialog)
+{
+    ui->setupUi(this);
+    InitUI(type);
+}
+
+void UkeyDialog::InitUI(int type)
+{
     mType = type;
     if(type == Reset_PIN)
         ui->stackedWidget->setCurrentIndex(0);
     else
         ui->stackedWidget->setCurrentIndex(1);
-    ukif.user = username;
-//    SysFunClass::getInstance()->moveToThread(thread);
-//    thread = new QThread;
+
     qRegisterMetaType<UkeyInfo>("UkeyInfo");
     connect(this, SIGNAL(emitSetUserOfUkeySignal(UkeyInfo )), SecFunClass::getInstance(), SLOT(setUserOfUkeySlot(UkeyInfo)));
     connect(SecFunClass::getInstance(), SIGNAL(emitSetUserOfUkeyDone(int,Exception)), this, SLOT(setUserOfUkeySlot(int ,Exception)));
@@ -28,6 +42,7 @@ UkeyDialog::UkeyDialog(int type, QString username,QWidget *parent) :
     ui->new_pinlineEdit->setValidator( validator );
      ui->re_pinEdit->setValidator( validator );
 }
+
 
 UkeyDialog::~UkeyDialog()
 {
@@ -119,18 +134,6 @@ void UkeyDialog::setUserOfUkey(int type)
     ukif.type = type;
     emit emitSetUserOfUkeySignal(ukif);
     waitDiaogAppear();
-//    try
-//    {
-//        SecFunClass::getInstance()->setUserOfUkey(ukif);
-//        if(type==1)
-//            infoMsgBox(tr("绑定Ukey成功"));
-//        else
-//            infoMsgBox(tr("解绑Ukey成功"));
-//        accept();
-//    }catch(Exception exp)
-//            {
-//        errMsgBox(exp.getErroWhat());
-//    }
 }
 
 //void UkeyDialog::on_bundingButton_clicked()

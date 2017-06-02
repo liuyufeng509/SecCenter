@@ -818,23 +818,31 @@ bool SecFunClass::resetPINOfUkey(UkeyInfo ukeyInfo)
 bool SecFunClass::setUserOfUkey(UkeyInfo ukif)
 {
     QString cmd = "nfsukey "+ ukif.cur_pin;
+    QString opt = "";
     switch(ukif.type)
     {
-    case 1:
+    case BUND_User:
         cmd += " -b "+ukif.user+" 2>&1;echo $?";
+        opt=tr("执行操作：绑定Ukey失败");
         break;
-    case 2:
+    case UnBUND_User:
         cmd += " -d "+ukif.user+" 2>&1;echo $?";
+        opt=tr("执行操作：解绑Ukey失败");
+        break;
+    case Clean_Ukey:
+        cmd += " -e";
+        opt=tr("执行操作：清除Ukey证书失败");
         break;
     }
 
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
-  //  qDebug()<<cmd <<"\n"<<strl.last();
+    qDebug()<<cmd <<"\n"<<strl.last();
+
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());
-        QString errContent=tr("执行操作：Ukey设置失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
+        QString errContent=opt+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }

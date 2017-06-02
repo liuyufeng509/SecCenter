@@ -155,7 +155,7 @@ void UserMgrPage::unLockActionSlot()
 
 void UserMgrPage::ukeyPINActionSlot()
 {
-    UkeyDialog ukdialog(UkeyDialog::Reset_PIN, "", this);
+    UkeyDialog ukdialog(Reset_PIN, "", this);
     ukdialog.exec();
 }
 
@@ -170,16 +170,22 @@ void UserMgrPage::ukeyBindActionSlot()
 
     if(ukeyBindAction->text()==tr("解绑Ukey"))
         {
-        UkeyDialog ukdialog(UkeyDialog::UnBUND_User, secUserList[row].uName,this);
+        UkeyDialog ukdialog(UnBUND_User, secUserList[row].uName,this);
         if(ukdialog.exec()==QDialog::Accepted)
             updateSecUserUI();
     }else
         {
-        UkeyDialog ukdialog(UkeyDialog::BUND_User, secUserList[row].uName,this);
+        UkeyDialog ukdialog(BUND_User, secUserList[row].uName,this);
         if(ukdialog.exec()==QDialog::Accepted)
             updateSecUserUI();
     }
 
+}
+
+void UserMgrPage::on_cleanUkButton_clicked()
+{
+    UkeyDialog ukdialog(Clean_Ukey, this);
+    ukdialog.exec();
 }
 
 void UserMgrPage::freshActionSlot()
@@ -255,3 +261,5 @@ void UserMgrPage::on_setPwButton_clicked()
     }
 
 }
+
+

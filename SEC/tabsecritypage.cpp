@@ -176,7 +176,7 @@ void TabSecrityPage::unLockActionSlot()
 
 void TabSecrityPage::ukeyPINActionSlot()
 {
-    UkeyDialog ukdialog(UkeyDialog::Reset_PIN, "", this);
+    UkeyDialog ukdialog(Reset_PIN, "", this);
     ukdialog.exec();
 }
 
@@ -191,11 +191,11 @@ void TabSecrityPage::ukeyBindActionSlot()
 
     if(ukeyBindAction->text()==tr("解绑Ukey"))
         {
-        UkeyDialog ukdialog(UkeyDialog::UnBUND_User, secUserList[row].uName,this);
+        UkeyDialog ukdialog(UnBUND_User, secUserList[row].uName,this);
         ukdialog.exec();
     }else
         {
-        UkeyDialog ukdialog(UkeyDialog::BUND_User, secUserList[row].uName,this);
+        UkeyDialog ukdialog(BUND_User, secUserList[row].uName,this);
         ukdialog.exec();
     }
 

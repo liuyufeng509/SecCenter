@@ -16,17 +16,15 @@ class UkeyDialog : public QDialog
     Q_OBJECT
 
 public:
-    enum{
-        Reset_PIN,
-        BUND_User,
-        UnBUND_User
-    };
+
 public:
     explicit UkeyDialog(int type, QString username="",QWidget *parent = 0);
+    explicit UkeyDialog(int type, QWidget *parent = 0);
     ~UkeyDialog();
     void setUserOfUkey(int type);
     void waitDialogAccept();
     void waitDiaogAppear();
+    void InitUI(int type);
 signals:
     void emitSetUserOfUkeySignal(UkeyInfo ukeyInfo);
     void emitResetPINOfUkeySignal(UkeyInfo ukeyInfo);

@@ -32,6 +32,8 @@ private slots:
 
     void on_setPwButton_clicked();
 
+    void on_cleanUkButton_clicked();
+
 private:
     Ui::UserMgrPage *ui;
 

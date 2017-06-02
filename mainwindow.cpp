@@ -32,11 +32,11 @@ void MainWindow::initCentralWidget()
     try
     {
         m_curRole = MainFunClass::getInstance()->getUserRole();
-        if(m_curRole == ERROR)
-        {
-            m_curRole = SECADMIN;
-        }
-        //m_curRole = SECADMIN;
+//        if(m_curRole == ERROR)
+//        {
+//            m_curRole = SECADMIN;
+//        }
+    //    m_curRole = SECADMIN;
 
         if(isTab)
         {

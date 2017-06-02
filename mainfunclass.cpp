@@ -39,6 +39,7 @@ ROLE MainFunClass::getUserRole() /* throw()*/
 	else
 		res = ERROR;
     // qDebug()<<"res="<<res<<" rl[0]="<<rl[0];
+    qDebug()<<"role="<<res;
 	 return res;
 }
 

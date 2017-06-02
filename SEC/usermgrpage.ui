@@ -30,7 +30,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="4">
+      <item row="1" column="5">
        <widget class="QPushButton" name="freshButton">
         <property name="text">
          <string>刷新列表</string>
@@ -44,7 +44,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0" colspan="5">
+      <item row="0" column="0" colspan="6">
        <widget class="QTableWidget" name="userTableWidget">
         <property name="dragEnabled">
          <bool>true</bool>
@@ -76,10 +76,17 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
+      <item row="1" column="4">
        <widget class="QPushButton" name="cleanUkButton">
         <property name="text">
          <string>清除Ukey证书</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QPushButton" name="unBindUkButton">
+        <property name="text">
+         <string>解绑Ukey</string>
         </property>
        </widget>
       </item>

@@ -59,10 +59,18 @@ void UkeyDialog::setUserOfUkeySlot(int res, Exception exp)
      waitDialogAccept();
      if(res==0)
      {
-         if(mType==1)
+         switch(mType)
+         {
+         case BUND_User:
              infoMsgBox(tr("绑定Ukey成功"), this);
-         else
+             break;
+         case UnBUND_User:
              infoMsgBox(tr("解绑Ukey成功"), this);
+             break;
+         case Clean_Ukey:
+             infoMsgBox(tr("清除证书成功"), this);
+             break;
+         }
          accept();
      }else
      {

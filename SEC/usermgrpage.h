@@ -34,6 +34,10 @@ private slots:
 
     void on_cleanUkButton_clicked();
 
+    void on_bindUkButton_clicked();
+
+    void on_unBindUkButton_clicked();
+
 private:
     Ui::UserMgrPage *ui;
 

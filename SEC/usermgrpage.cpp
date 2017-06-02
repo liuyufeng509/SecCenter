@@ -24,7 +24,7 @@ UserMgrPage::UserMgrPage(QWidget *parent) :
 
     connect(ui->unlockButton, SIGNAL(clicked()), this, SLOT(unLockActionSlot()));
     connect(ui->modPinButton, SIGNAL(clicked()), this, SLOT(ukeyPINActionSlot()));
-    connect(ui->bindUkButton, SIGNAL(clicked()), this, SLOT(ukeyBindActionSlot()));
+//    connect(ui->bindUkButton, SIGNAL(clicked()), this, SLOT(ukeyBindActionSlot()));
     connect(ui->freshButton, SIGNAL(clicked()), this, SLOT(freshActionSlot()));
     updateSecUserUI();
 
@@ -159,7 +159,7 @@ void UserMgrPage::ukeyPINActionSlot()
     ukdialog.exec();
 }
 
-void UserMgrPage::ukeyBindActionSlot()
+void UserMgrPage::on_bindUkButton_clicked()
 {
     int row = ui->userTableWidget->currentRow();
     if(row<0)
@@ -168,16 +168,34 @@ void UserMgrPage::ukeyBindActionSlot()
         return;
     }
 
+    UkeyDialog ukdialog(BUND_User, secUserList[row].uName,this);
+    if(ukdialog.exec()==QDialog::Accepted)
+        updateSecUserUI();
+}
+
+
+void UserMgrPage::on_unBindUkButton_clicked()
+{
+    int row = ui->userTableWidget->currentRow();
+    if(row<0)
+    {
+        errMsgBox(tr("未选中要操作的用户!"), this);
+        return;
+    }
+    UkeyDialog ukdialog(UnBUND_User, secUserList[row].uName,this);
+    if(ukdialog.exec()==QDialog::Accepted)
+        updateSecUserUI();
+}
+
+
+void UserMgrPage::ukeyBindActionSlot()
+{
     if(ukeyBindAction->text()==tr("解绑Ukey"))
-        {
-        UkeyDialog ukdialog(UnBUND_User, secUserList[row].uName,this);
-        if(ukdialog.exec()==QDialog::Accepted)
-            updateSecUserUI();
+    {
+        on_unBindUkButton_clicked();
     }else
         {
-        UkeyDialog ukdialog(BUND_User, secUserList[row].uName,this);
-        if(ukdialog.exec()==QDialog::Accepted)
-            updateSecUserUI();
+        on_bindUkButton_clicked();
     }
 
 }
@@ -209,11 +227,11 @@ void UserMgrPage::on_userTableWidget_currentItemChanged(QTableWidgetItem *curren
     row = current->row();
     if(row<0)
         return ;
-    if(secUserList[row].bBindKey)
-        {
-        ui->bindUkButton->setText(tr("解绑UKey"));
-    }else
-        ui->bindUkButton->setText(tr("绑定UKey"));
+//    if(secUserList[row].bBindKey)
+//        {
+//        ui->bindUkButton->setText(tr("解绑UKey"));
+//    }else
+//        ui->bindUkButton->setText(tr("绑定UKey"));
 }
 
 void UserMgrPage::on_setTryLockButton_clicked()
@@ -285,5 +303,3 @@ void UserMgrPage::on_setPwButton_clicked()
     }
 
 }
-
-

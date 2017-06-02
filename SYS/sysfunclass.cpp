@@ -225,6 +225,7 @@ bool SysFunClass::addUser(UserInfo userInfo)
             (userInfo.uid.isEmpty()? "":" -u "+userInfo.uid) + " 2>&1; echo $?";
     QString resStr = GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
+    qDebug()<<cmd;
     if(strl.last().toInt()!=0)
      {
         resStr.chop(strl.last().length());
@@ -253,6 +254,7 @@ bool SysFunClass::modifyUser(UserInfo userInfo)
             (userInfo.ogroups.length()==0?" -G \"\"":" -G " +othgrps)+" "+ userInfo.uname+" 2>&1; echo $?";
     QString resStr= GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
+    qDebug()<<cmd;
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());

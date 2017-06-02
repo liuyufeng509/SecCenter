@@ -830,7 +830,7 @@ bool SecFunClass::setUserOfUkey(UkeyInfo ukif)
         opt=tr("执行操作：解绑Ukey失败");
         break;
     case Clean_Ukey:
-        cmd += " -e";
+        cmd += " -e  2>&1;echo $?";
         opt=tr("执行操作：清除Ukey证书失败");
         break;
     }

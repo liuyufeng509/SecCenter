@@ -28,7 +28,7 @@ UserMgrPage::UserMgrPage(QWidget *parent) :
     connect(ui->freshButton, SIGNAL(clicked()), this, SLOT(freshActionSlot()));
     updateSecUserUI();
 
-    QRegExp regExp("[1-9][0-9]{0,2}");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$ 前面的正则表达式表示只能输入大于0的正整数
+    QRegExp regExp("[1-9][0-9][0-9][0-9][0-9]{0,5}");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$ 前面的正则表达式表示只能输入大于0的正整数
     //用户锁定规则设置
     getLockServices();
     ui->lockSvrComboBox->addItems(services);
@@ -242,6 +242,30 @@ void UserMgrPage::on_setPwButton_clicked()
     if(/*!ui->minlenEdit->text().isEmpty() &&*/ ui->minlenEdit->text().toInt()<8 /*&& ui->minlenEdit->text()!=tr("无限制")*/)
     {
         errMsgBox(tr("最小长度不能小于8，请重新设置最小长度"), this);
+        return;
+    }
+    if(ui->dlenEdit->text().toInt()<1)
+    {
+        errMsgBox(tr("数字长度至少为1"));
+        ui->dlenEdit->setText("1");
+        return;
+    }
+    if(ui->uplenEdit->text().toInt()<1)
+    {
+        errMsgBox(tr("大写字母长度至少为1"));
+        ui->uplenEdit->setText("1");
+        return;
+    }
+    if(ui->lowlenEdit->text().toInt()<1)
+    {
+        errMsgBox(tr("小写字母长度至少为1"));
+        ui->lowlenEdit->setText("1");
+        return;
+    }
+    if(ui->othlenEdit->text().toInt()<1)
+    {
+        errMsgBox(tr("特殊字符长度至少为1"));
+        ui->othlenEdit->setText("1");
         return;
     }
     pwdInfo.minLen =ui->minlenEdit->text();

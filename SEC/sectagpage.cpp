@@ -145,8 +145,7 @@ void SecTagPage::on_setUserTagButton_clicked()
     UserTag usrtag;
     usrtag.username = ui->users_comboBox->currentText();
     usrtag.safeTag = ui->u_sec_tagcomboBox->currentText();
-    usrtag.wholeTag = usrtag.safeTag;
-    //usrtag.wholeTag = ui->u_whole_tagEdit->text();
+    usrtag.wholeTag = ui->u_whole_tagcomboBox->currentText();
     emit emitSetUserTagInfo(usrtag, userTagList.contains(usrtag)?1:0);
 
     waitDiaogAppear();

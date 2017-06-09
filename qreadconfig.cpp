@@ -1,7 +1,7 @@
 #include "qreadconfig.h"
-QReadConfig* QReadConfig::m_pInstance = NULL;
+QGlobalClass* QGlobalClass::m_pInstance = NULL;
 
-void QReadConfig::readConfigFile(QString filePath)
+void QGlobalClass::readConfigFile(QString filePath)
 {
     filePath = "";
     sysCfgInfo.cpu_warning =   configIniRead->value("SYSTEM/cpu_warning").toInt();
@@ -33,7 +33,7 @@ void QReadConfig::readConfigFile(QString filePath)
     }
 }
 
-void QReadConfig::setSysCfgInfoToFile()
+void QGlobalClass::setSysCfgInfoToFile()
 {
     configIniRead->setValue("SYSTEM/cpu_warning", sysCfgInfo.cpu_warning);
     configIniRead->setValue("SYSTEM/mem_warning", sysCfgInfo.mem_warning);
@@ -47,12 +47,12 @@ void QReadConfig::setSysCfgInfoToFile()
     configIniRead->setValue("SYSTEM/other_hidden", sysCfgInfo.other_hidden);
 }
 
-void QReadConfig::setCommCfgInfoToFile()
+void QGlobalClass::setCommCfgInfoToFile()
 {
 
 }
 
-QReadConfig::~QReadConfig()
+QGlobalClass::~QGlobalClass()
 {
     delete configIniRead;
 }

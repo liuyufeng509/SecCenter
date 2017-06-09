@@ -94,87 +94,87 @@
          </property>
          <item>
           <property name="text">
-           <string/>
+           <string>不设置</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s0</string>
+           <string>g0</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s1</string>
+           <string>g1</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s2</string>
+           <string>g2</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s3</string>
+           <string>g3</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s4</string>
+           <string>g4</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s5</string>
+           <string>g5</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s6</string>
+           <string>g6</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s7</string>
+           <string>g7</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s8</string>
+           <string>g8</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s9</string>
+           <string>g9</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s10</string>
+           <string>g10</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s11</string>
+           <string>g11</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s12</string>
+           <string>g12</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s13</string>
+           <string>g13</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s14</string>
+           <string>g14</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s15</string>
+           <string>g15</string>
           </property>
          </item>
         </widget>
@@ -214,7 +214,7 @@
          </property>
          <item>
           <property name="text">
-           <string/>
+           <string>不设置</string>
           </property>
          </item>
          <item>
@@ -434,7 +434,7 @@
          </property>
          <item>
           <property name="text">
-           <string/>
+           <string>不设置</string>
           </property>
          </item>
          <item>
@@ -526,87 +526,87 @@
          </property>
          <item>
           <property name="text">
-           <string/>
+           <string>不设置</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s0</string>
+           <string>g0</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s1</string>
+           <string>g1</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s2</string>
+           <string>g2</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s3</string>
+           <string>g3</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s4</string>
+           <string>g4</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s5</string>
+           <string>g5</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s6</string>
+           <string>g6</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s7</string>
+           <string>g7</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s8</string>
+           <string>g8</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s9</string>
+           <string>g9</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s10</string>
+           <string>g10</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s11</string>
+           <string>g11</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s12</string>
+           <string>g12</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s13</string>
+           <string>g13</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s14</string>
+           <string>g14</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>s15</string>
+           <string>g15</string>
           </property>
          </item>
         </widget>

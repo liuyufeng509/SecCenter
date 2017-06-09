@@ -66,9 +66,9 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>17</x>
+      <x>7</x>
       <y>25</y>
-      <width>71</width>
+      <width>81</width>
       <height>21</height>
      </rect>
     </property>
@@ -88,9 +88,9 @@
    <widget class="QLabel" name="label_32">
     <property name="geometry">
      <rect>
-      <x>17</x>
+      <x>7</x>
       <y>133</y>
-      <width>71</width>
+      <width>81</width>
       <height>21</height>
      </rect>
     </property>
@@ -155,9 +155,9 @@
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>17</x>
+      <x>7</x>
       <y>96</y>
-      <width>71</width>
+      <width>81</width>
       <height>21</height>
      </rect>
     </property>
@@ -214,7 +214,7 @@
    </widget>
    <widget class="QDateTimeEdit" name="etTimeEdit">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -230,7 +230,7 @@
    </widget>
    <widget class="QDateTimeEdit" name="stTimeEdit">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>

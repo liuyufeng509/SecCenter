@@ -47,6 +47,9 @@
       <string>查询设置</string>
      </property>
      <widget class="QCheckBox" name="st_checkBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>17</x>
@@ -60,6 +63,9 @@
       </property>
      </widget>
      <widget class="QCheckBox" name="et_checkBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>313</x>
@@ -96,6 +102,9 @@
       </property>
      </widget>
      <widget class="QDateTimeEdit" name="st_timeEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>133</x>
@@ -109,6 +118,9 @@
       </property>
      </widget>
      <widget class="QDateTimeEdit" name="et_timeEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>430</x>

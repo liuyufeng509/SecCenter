@@ -10,6 +10,10 @@ QueryDialog::QueryDialog(QWidget *parent) :
     connCheckBoxAndLineEdit();
     ui->st_timeEdit->setDateTime(QDateTime::currentDateTime());
     ui->et_timeEdit->setDateTime(QDateTime::currentDateTime());
+    ui->st_checkBox->setHidden(true);
+    ui->et_checkBox->setHidden(true);
+    ui->st_timeEdit->setHidden(true);
+    ui->et_timeEdit->setHidden(true);
 }
 
 void QueryDialog::setAuSearchUI()

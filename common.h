@@ -150,4 +150,18 @@ void errMsgBox(QString str, QWidget *prent=NULL);
 void infoMsgBox(QString str, QWidget *prent=NULL);
 int warnMsgBox(QString msg, QWidget *prent=NULL);
 extern bool isTab;
+
+
+
+
+//////////////////////////////////////////////
+////接口函数
+//////////////////////////////////////////////
+#define LevelSize 4
+#define MaxPath 256
+int getfilelevel(char *filename, char * filelevel);
+int getlinuxuserlevel(char *linuxname, char *linuxuserlevel);
+int setlinuxuserlevel(char *linuxname, char*linuxuserlevel);
+int setfilelevel(char *filename, char *filelevel);
+
 #endif // COMMON_H

@@ -6,6 +6,11 @@ ReportDialog::ReportDialog(QWidget *parent) :
     ui(new Ui::ReportDialog)
 {
     ui->setupUi(this);
+    ui->tm_sec_checkBox->setHidden(true);
+    ui->label->setHidden(true);
+    ui->label_2->setHidden(true);
+    ui->st_TimeEdit->setHidden(true);
+    ui->et_TimeEdit->setHidden(true);
 }
 
 ReportDialog::~ReportDialog()

@@ -25,11 +25,11 @@ QPushButton:hover {
     background-color:#2a564e;
 }
 QPushButton:pressed {
-    border: 0px solid #8f8f91;
+    border: 0px solid #50a495;
     border-radius: 0px;
     color:white;
     font-weight:bold;
-    background-color:#2a564e;
+    background-color:#50a495;
 }
 
 /*标题栏关闭按钮设置*/
@@ -285,4 +285,8 @@ QLineEdit
 QComboBox {
     border: 1px solid gray;
     border-radius: 0px;
+}
+QListWidget
+{
+    border:1px solid #C4C4C3;
 }

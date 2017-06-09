@@ -62,8 +62,8 @@ void AudRulePage::on_addButton_clicked()
         {
             QString fileR = "-w \""+fileRule.file_name+"\""+
                     (fileRule.key_word.isEmpty()?"":" -k "+fileRule.key_word)+
-                    (fileRule.auth.isEmpty()? " -p rwxa":" -p "+fileRule.auth)+
-                    +" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
+                    (fileRule.auth.isEmpty()? " -p rwxa":" -p "+fileRule.auth);
+                   // +" -ts "+fileRule.ts_time+" -te "+fileRule.te_time;
             ui->ruleListWidget->addItem(fileR);
             isModify= true;
         }
@@ -72,8 +72,8 @@ void AudRulePage::on_addButton_clicked()
         SysCallDialog sysCalDlg(sysCallRule,this);
         if(sysCalDlg.exec()==QDialog::Accepted)
         {
-            QString sysR ="-a "+sysCallRule.list +" -S "+sysCallRule.sparam+
-                                             " -ts "+sysCallRule.ts+" -te "+sysCallRule.te;
+            QString sysR ="-a "+sysCallRule.list +" -S "+sysCallRule.sparam;
+                                             //+" -ts "+sysCallRule.ts+" -te "+sysCallRule.te;
             ui->ruleListWidget->addItem(sysR);
             isModify= true;
         }

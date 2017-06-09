@@ -10,9 +10,9 @@ KernParmMngWidget::KernParmMngWidget(QWidget *parent) :
     QRegExp regExp( exp);
     ui->lineEdit->setValidator(new QRegExpValidator(regExp,this));
      ui->param_comboBox->clear();
-    for(int i=0; i<QReadConfig::getInstance()->kernCfgInfoList.size;i++)
+    for(int i=0; i<QGlobalClass::getInstance()->kernCfgInfoList.size;i++)
     {
-         ui->param_comboBox->addItem(QReadConfig::getInstance()->kernCfgInfoList.list[i].name);
+         ui->param_comboBox->addItem(QGlobalClass::getInstance()->kernCfgInfoList.list[i].name);
     }
     ui->param_comboBox->setCurrentIndex(0);
 }
@@ -48,19 +48,19 @@ void KernParmMngWidget::on_param_comboBox_currentIndexChanged(const QString &arg
 {
     try
     {
-        for(int i=0; i<QReadConfig::getInstance()->kernCfgInfoList.size;i++)
+        for(int i=0; i<QGlobalClass::getInstance()->kernCfgInfoList.size;i++)
         {
-             if(QReadConfig::getInstance()->kernCfgInfoList.list[i].name==arg1)
+             if(QGlobalClass::getInstance()->kernCfgInfoList.list[i].name==arg1)
               {
            //      ui->lineEdit->setText(QReadConfig::getInstance()->kernCfgInfoList.list[i].value);
                  QString value="";
                  SysFunClass::getInstance()->getKernelParam(arg1, value);
-                 if(QReadConfig::getInstance()->kernCfgInfoList.list[i].type==0)
+                 if(QGlobalClass::getInstance()->kernCfgInfoList.list[i].type==0)
                  {
                     ui->lineEdit->setHidden(true);
                     ui->valueComboBox->setHidden(false);
                     ui->valueComboBox->clear();
-                    QStringList valueList = QReadConfig::getInstance()->kernCfgInfoList.list[i].values.split("/");
+                    QStringList valueList = QGlobalClass::getInstance()->kernCfgInfoList.list[i].values.split("/");
                     int index = 0;
                     for(int i=0; i<valueList.count();i++)
                     {
@@ -77,7 +77,7 @@ void KernParmMngWidget::on_param_comboBox_currentIndexChanged(const QString &arg
                      ui->valueComboBox->setHidden(true);
                      ui->lineEdit->setText(value);
                  }
-                 ui->label_3->setText(tr("参数说明:\n  ")+QReadConfig::getInstance()->kernCfgInfoList.list[i].desc);
+                 ui->label_3->setText(tr("参数说明:\n  ")+QGlobalClass::getInstance()->kernCfgInfoList.list[i].desc);
                  break;
              }
         }

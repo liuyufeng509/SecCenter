@@ -1,6 +1,8 @@
 #ifndef QREADCONFIG_H
 #define QREADCONFIG_H
 #include<QSettings>
+#include <QMap>
+
 #include"common.h"
 struct SysCfgInfo
 {
@@ -42,14 +44,35 @@ struct KernCfgInfoList
     QList<KernCfgInfo> list;
 };
 
-class QReadConfig
+#define GetFileLevelErrBase   100
+#define SetFileLevelErrBase   200
+#define GetUserLevelErrBase 300
+#define SetUserLevelErrBase 400
+
+enum ErroNo
+{
+    GetFileLevelSuc = GetFileLevelErrBase,
+    GetFileLevelFail = GetFileLevelErrBase-1,
+
+    SetFileLevelSuc = SetFileLevelErrBase,
+
+
+    GetUserLevelSuc = GetUserLevelErrBase,
+    GetUserByNameFail=GetUserLevelErrBase-1,
+    QueryUserFail = GetUserLevelErrBase-2,
+    CreateKeyFail = GetUserLevelErrBase-3,
+
+    SetUserLevelSuc = SetUserLevelErrBase,
+};
+
+class QGlobalClass
 {
 public:
-    static QReadConfig*  getInstance()
+    static QGlobalClass*  getInstance()
        {
            if(m_pInstance == NULL)
            {
-               m_pInstance = new QReadConfig();
+               m_pInstance = new QGlobalClass();
                //QString path = getCwdPath()+"config.ini";
                QString path = "/etc/sysctl.d/Security.conf";
                m_pInstance->configIniRead = new QSettings(path, QSettings::IniFormat);
@@ -64,15 +87,20 @@ public:
 
        void printInfo();       //打印配置信息
 
-       ~QReadConfig();
+       ~QGlobalClass();
 
    private:
-       QReadConfig()
+       QGlobalClass()
        {
-
+           errMap.insert(GetFileLevelSuc, QObject::tr("获取客体安全性标签成功"));
+           errMap.insert(GetFileLevelFail, QObject::tr("获取客体安全性标签失败"));
+           errMap.insert(GetUserLevelSuc, QObject::tr("获取主体安全性标签成功"));
+           errMap.insert(GetUserByNameFail, QObject::tr("获取主体安全性标签失败，根据用户名获取用户失败"));
+           errMap.insert(QueryUserFail, QObject::tr("获取主体安全性标签失败，查询用户失败"));
+           errMap.insert(CreateKeyFail, QObject::tr("获取主体安全性标签失败，创建key失败"));
        }
 
-       static QReadConfig *m_pInstance;        //单例模式
+       static QGlobalClass *m_pInstance;        //单例模式
 
        QSettings *configIniRead;//负责ini文件的读取
 
@@ -81,6 +109,7 @@ public:
         CommCfgInfo comInfo;
         AudCfgInfo audCfgInfo;
         KernCfgInfoList kernCfgInfoList;
+        QMap<int,QString> errMap;
 };
 
 #endif // QREADCONFIG_H

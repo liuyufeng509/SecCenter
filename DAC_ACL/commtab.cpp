@@ -28,8 +28,8 @@ CommTab::CommTab(QWidget *parent) :
 //    connect(ui->wCheckBox_3, SIGNAL(clicked(bool)), this, SLOT(persionSet(bool)));
 //    connect(ui->exeCheckBox_3, SIGNAL(clicked(bool)), this, SLOT(persionSet(bool)));
 
-    ui->listWidget->item(0)->setHidden(QReadConfig::getInstance()->comInfo.dac_hidden);
-    ui->listWidget->item(1)->setHidden(QReadConfig::getInstance()->comInfo.other_hidden);
+    ui->listWidget->item(0)->setHidden(QGlobalClass::getInstance()->comInfo.dac_hidden);
+    ui->listWidget->item(1)->setHidden(QGlobalClass::getInstance()->comInfo.other_hidden);
 }
 
 void CommTab::SetUiEnable(bool enable)

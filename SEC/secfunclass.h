@@ -42,6 +42,7 @@ public:
     //文件安全标签管理
     bool setFileTagInfo(FileTag filetag);                      //设置文件安全性标签
     bool getFileTagInfo(FileTag &filetag);                      //获取文件安全标签
+    bool getUserNames(QStringList &users);              //获取所有的用户名
 
     //安全策略查看功能
     bool getTeRules(QList<TERule > &telist);                          //获取te策略

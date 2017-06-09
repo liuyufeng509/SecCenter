@@ -12,6 +12,10 @@ SysCallDialog::SysCallDialog(SysCallRule &sysCallRule,QWidget *parent) :
     ui->sys_call_et_TimeEdit->setDateTime(QDateTime::currentDateTime());
     ui->sys_call_st_TimeEdit->setDateTime(QDateTime::currentDateTime());
     connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(on_list_group_radioButton_clicked()));
+    ui->label_47->setHidden(true);
+    ui->label_48->setHidden(true);
+    ui->sys_call_et_TimeEdit->setHidden(true);
+    ui->sys_call_st_TimeEdit->setHidden(true);
 }
 
 void SysCallDialog::on_list_group_radioButton_clicked()

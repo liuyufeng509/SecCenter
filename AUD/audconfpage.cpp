@@ -17,7 +17,7 @@ AudConfPage::AudConfPage(QWidget *parent) :
     completer = new QCompleter(this);
     completer->setModel(model);
     ui->log_filelineEdit->setCompleter(completer);
-    if(QReadConfig::getInstance()->audCfgInfo.warn)
+    if(QGlobalClass::getInstance()->audCfgInfo.warn)
     {
         ui->groupBox_15->setHidden(false);
         ui->okButton->setGeometry(460,400, 85,31);
@@ -30,7 +30,7 @@ AudConfPage::AudConfPage(QWidget *parent) :
         ui->restartAduButton->setGeometry(10,290,85,31);
         ui->groupBox_6->setMinimumHeight(332);
     }
-    if(QReadConfig::getInstance()->audCfgInfo.audctl)
+    if(QGlobalClass::getInstance()->audCfgInfo.audctl)
         ui->restartAduButton->setHidden(false);
     else
         ui->restartAduButton->setHidden(true);
@@ -57,7 +57,7 @@ void AudConfPage::getAudConfigInfo()
     audCfgInfo.disk_error_action = settings.value("disk_error_action").toString();
     audCfgInfo.warning_mail = settings.value("warning_mail").toString();
     audCfgInfo.warning_tel = settings.value("warning_tel").toString();
-    if(!QReadConfig::getInstance()->audCfgInfo.warn)    //不配置报警信息时，如果是空，则需要设置一个默认值
+    if(!QGlobalClass::getInstance()->audCfgInfo.warn)    //不配置报警信息时，如果是空，则需要设置一个默认值
     {
         if(audCfgInfo.warning_mail.isEmpty())
         {
@@ -113,7 +113,7 @@ void AudConfPage::saveDataFromUI()
     audCfgInfo.space_left = ui->space_left_lineEdit->text();
     audCfgInfo.disk_full_action = ui->disk_full_action_comboBox->currentText();
     audCfgInfo.disk_error_action = ui->disk_error_action_comboBox->currentText();
-    if(QReadConfig::getInstance()->audCfgInfo.warn)
+    if(QGlobalClass::getInstance()->audCfgInfo.warn)
     {
         audCfgInfo.warning_mail = ui->mail_lineEdit->text();
         audCfgInfo.warning_tel = ui->msg_lineEdit->text();
@@ -138,7 +138,7 @@ void AudConfPage::on_okButton_clicked()
 //        }
 //    }
 
-    if(QReadConfig::getInstance()->audCfgInfo.warn)
+    if(QGlobalClass::getInstance()->audCfgInfo.warn)
     {
         QStringList mails = audCfgInfo.warning_mail.split(',');
         QStringList tels = audCfgInfo.warning_tel.split(',');

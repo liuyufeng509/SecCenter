@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initTitleBar();
     setWindowIcon(QIcon(":/new/index/taskbar"));
-    QReadConfig::getInstance()->readConfigFile();
+    QGlobalClass::getInstance()->readConfigFile();
     this->setWindowFlags(Qt::FramelessWindowHint);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);    // 设置尺寸属性
     setMouseTracking(true);    // 界面拉伸需要这个属性
@@ -32,10 +32,10 @@ void MainWindow::initCentralWidget()
     try
     {
         m_curRole = MainFunClass::getInstance()->getUserRole();
-//        if(m_curRole == ERROR)
-//        {
-//            m_curRole = SECADMIN;
-//        }
+        if(m_curRole == ERROR)
+        {
+            m_curRole = SECADMIN;
+        }
     //    m_curRole = SECADMIN;
 
         if(isTab)

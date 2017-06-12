@@ -522,12 +522,13 @@ bool SecFunClass::getUserWholeTagInfo(UserTag &userTag)
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());
-        QString errContent=tr("执行操作：获取用户:")+userTag.username+tr("安全标签失败")+ tr("\n调用接口：bop_get_user_biba")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        QString errContent=tr("执行操作：获取用户:")+userTag.username+tr("安全标签失败")+ tr("\n调用接口：bop_get_user_biba")+tr("\n错误码：")+QString::number(strl.last().toInt())+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }
-
-    userTag.wholeTag = strl.first();
+    strl.removeLast();
+    if(strl.count()>0)
+        userTag.wholeTag = strl.last();
     return true;
 }
 
@@ -540,12 +541,13 @@ bool SecFunClass::getUserSafeTagInfo(UserTag &userTag)   //获取用户的安全
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());
-        QString errContent=tr("执行操作：获取用户:")+userTag.username+tr("安全标签失败")+ tr("\n调用接口：getlinuxuserlevel")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        QString errContent=tr("执行操作：获取用户:")+userTag.username+tr("安全标签失败")+ tr("\n调用接口：getlinuxuserrange")+tr("\n错误码：")+QString::number(strl.last().toInt())+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }
-
-    userTag.safeTag = strl.first();
+    strl.removeLast();
+    if(strl.count()>0)
+        userTag.safeTag = strl.last();
     return true;
 }
 
@@ -617,7 +619,7 @@ bool SecFunClass::setUserTagInfo(UserTag usrtag, int opt)          //设置用�
         if(strl.last().toInt()!=0)
         {
             resStr.chop(strl.last().length());
-            QString errContent=tr("执行操作：设置用户:")+usrtag.username+tr("安全标签失败")+ tr("\n调用接口:setlinuxuserlevel")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+            QString errContent=tr("执行操作：设置用户:")+usrtag.username+tr("安全标签失败")+ tr("\n调用接口:setlinuxuserrange")+tr("\n错误码：")+QString::number(strl.last().toInt())+tr("\n错误内容：")+resStr;
             qDebug()<<errContent;
             throw Exception(strl.last(), errContent);
         }
@@ -653,7 +655,7 @@ bool SecFunClass::setFileSafeTagInfo(FileTag &filetag)
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());
-        QString errContent=tr("执行操作：设置文件:")+filetag.filename+tr("安全标签失败")+ tr("\n调用接口:setfilelevel")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        QString errContent=tr("执行操作：设置文件:")+filetag.filename+tr("安全标签失败")+ tr("\n调用接口:setfilerange")+tr("\n错误码：")+QString::number(strl.last().toInt())+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }
@@ -711,11 +713,13 @@ bool SecFunClass::getFileSafeTagInfo(FileTag &filetag)
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());
-        QString errContent=tr("执行操作：获取文件:")+filetag.filename+tr("安全标签失败")+ tr("\n调用接口：getfilelevel")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        QString errContent=tr("执行操作：获取文件:")+filetag.filename+tr("安全标签失败")+ tr("\n调用接口：getfilerange")+tr("\n错误码：")+QString::number(strl.last().toInt())+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }
-    filetag.safeTag = strl.first();
+    strl.removeLast();
+    if(strl.count()>0)
+        filetag.safeTag = strl.last();
     return true;
 }
 
@@ -727,11 +731,13 @@ bool SecFunClass::getFileWholeTagInfo(FileTag &filetag)
     if(strl.last().toInt()!=0)
     {
         resStr.chop(strl.last().length());
-        QString errContent=tr("执行操作：获取文件:")+filetag.filename+tr("完整性标签失败")+ tr("\n调用接口：bop_get_file_biba")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        QString errContent=tr("执行操作：获取文件:")+filetag.filename+tr("完整性标签失败")+ tr("\n调用接口：bop_get_file_biba")+tr("\n错误码：")+QString::number(strl.last().toInt())+tr("\n错误内容：")+resStr;
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }
-    filetag.wholeTag = strl.first();
+    strl.removeLast();
+    if(strl.count()>0)
+    filetag.wholeTag = strl.last();
     return true;
 }
 
@@ -1179,8 +1185,9 @@ bool SecFunClass::isBiBaOpened(bool &isOpen)
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }
-
-    isOpen = strl.first().toInt()==0?false:true;
+    strl.removeLast();
+    if(strl.count()>0)
+        isOpen = strl.last().toInt()==0?false:true;
 
     return true;
 }
@@ -1197,8 +1204,9 @@ bool SecFunClass::setBiBaOpen(bool isOpen)
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }
-
-    isOpen = strl.first().toInt()==0?false:true;
+    strl.removeLast();
+    if(strl.count()>0)
+    isOpen = strl.last().toInt()==0?false:true;
 
     return true;
 }

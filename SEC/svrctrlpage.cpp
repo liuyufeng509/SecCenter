@@ -68,17 +68,15 @@ void SvrCtrlPage::updateUI()
         if(sakinfo.default_mode=="enable")
         {
             color = GreenColor;
-            getHtmlStr(tr("默认sak状态:"), color, tr("开启"));
-            //ui->def_sakstatus_label->setText(tr("默认sak状态: 开启"));
+            getHtmlStr(tr("sak开机启动:"), color, tr("开启"));
             ui->def_sakstatus_label->setText(htmlStr);
-            ui->open_close_def_sak_Button->setText(tr("关闭默认SAK功能"));
+            ui->open_close_def_sak_Button->setText(tr("关闭SAK开机启动"));
         }else
         {
             color = BlueColor;
-            getHtmlStr(tr("默认sak状态:"), color, tr("未开启"));
-            //ui->def_sakstatus_label->setText(tr("默认sak状态: 未开启"));
+            getHtmlStr(tr("sak开机启动:"), color, tr("未开启"));
             ui->def_sakstatus_label->setText(htmlStr);
-            ui->open_close_def_sak_Button->setText(tr("开启默认SAK功能"));
+            ui->open_close_def_sak_Button->setText(tr("开启SAK开机启动"));
         }
     }catch(Exception exp)
     {
@@ -88,11 +86,11 @@ void SvrCtrlPage::updateUI()
         color = RedColor;
         getHtmlStr(tr("获取当前sak状态失败!"), RedColor,"");
         ui->cur_sakstatus_label->setText(htmlStr);
-        getHtmlStr(tr("获取默认sak状态失败!"), RedColor,"");
+        getHtmlStr(tr("获取sak开机启动状态失败!"), RedColor,"");
         ui->def_sakstatus_label->setText(htmlStr);
 
         ui->open_close_sak_Button->setText(tr("开启当前SAK功能"));
-        ui->open_close_def_sak_Button->setText(tr("开启默认SAK功能"));
+        ui->open_close_def_sak_Button->setText(tr("开启SAK开机启动"));
     }
     //客体重用
     try

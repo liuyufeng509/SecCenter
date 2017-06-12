@@ -6,11 +6,16 @@ HelpPage::HelpPage(ROLE curRole,QWidget *parent) :
     ui(new Ui::HelpPage)
 {
     ui->setupUi(this);
+    QString urlName="";
     switch(curRole)
     {
     case ROOT:
         break;
     case SECADMIN:
+        urlName="/etc/sysctl.d/helpdoc/helper-secadm_a.html";
+
+        ui->muluBrowser->setOpenLinks(false);
+        ui->muluBrowser->setSource(urlName);
         break;
     case SYSADMIN:
         break;
@@ -19,10 +24,7 @@ HelpPage::HelpPage(ROLE curRole,QWidget *parent) :
     default:
         break;
     }
-    QString urlName("/etc/sysctl.d/helpdoc/frame_a.html");
 
-    ui->muluBrowser->setOpenLinks(false);
-    ui->muluBrowser->setSource(urlName);
     connect(ui->muluBrowser, SIGNAL(anchorClicked(const QUrl &)),ui->contentBrowser, SLOT(setSource(QUrl)));
 }
 

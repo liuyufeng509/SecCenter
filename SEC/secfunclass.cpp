@@ -484,9 +484,9 @@ bool SecFunClass::getSecStatus(SecStatus &status)
     return true;
 }
 
-bool SecFunClass::getUserNames(QStringList &users)
+bool SecFunClass::getUserNames(QList<UserTag> &reslist)
 {
-    users.clear();
+    reslist.clear();
     QString cmd = "awk -F: \'{print $3,$1, $NF}\'  /etc/passwd  2>&1; echo $?";
     QString resStr =GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
@@ -500,139 +500,126 @@ bool SecFunClass::getUserNames(QStringList &users)
     strl.removeLast();
     for(int i=0; i<strl.length(); i++)
     {
-        UserInfo usrinfo;
+        UserTag usrinfo;
         QStringList tmpl = strl[i].split(' ');
-        usrinfo.uid = tmpl[0].trimmed();
-        usrinfo.uname = tmpl[1].trimmed();
-        if(tmpl[2].contains("nologin")||tmpl[2].contains("false") ||usrinfo.uid.toInt()<1000)
+        usrinfo.userid = tmpl[0].trimmed();
+        usrinfo.username = tmpl[1].trimmed();
+        if(tmpl[2].contains("nologin")||tmpl[2].contains("false") ||usrinfo.userid.toInt()<1000)
             usrinfo.isShow = false;
         else
             usrinfo.isShow = true;
         if(usrinfo.isShow)
-            users.append(usrinfo.uname);
+            reslist.append(usrinfo);
     }
+    return true;
+}
+
+bool SecFunClass::getUserWholeTagInfo(UserTag &userTag)
+{
+    QString cmd = "wholetag -u "+userTag.username+"  2>&1; echo $?";
+    QString resStr =GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取用户:")+userTag.username+tr("安全标签失败")+ tr("\n调用接口：bop_get_user_biba")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    userTag.wholeTag = strl.first();
+    return true;
+}
+
+bool SecFunClass::getUserSafeTagInfo(UserTag &userTag)   //获取用户的安全标签
+{
+    QString cmd = "safetag -u "+userTag.username+"  2>&1; echo $?";
+    //qDebug()<<cmd;
+    QString resStr =GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取用户:")+userTag.username+tr("安全标签失败")+ tr("\n调用接口：getlinuxuserlevel")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    userTag.safeTag = strl.first();
     return true;
 }
 
 bool SecFunClass::getUserTagInfoList(QList<UserTag> &reslist)
 {
     reslist.clear();
-    QStringList usernames;
     try
     {
-        getUserNames(usernames);
+        getUserNames(reslist);
     }catch(Exception exp)
             {
         throw exp;
     }
 
-    for(int i=0; i<usernames.count();i++)
+    //获取安全性标签 和 完整性标签
+    try
     {
-        UserTag userTag;
-        userTag.username = usernames[i];
-        reslist.append(userTag);
-    }
-
-
-    //获取安全性标签
-    for(int i=0; i<reslist.count();i++)
-    {
-        char userlevel[LevelSize];
-        char name[33];
-        strcpy(name, reslist[i].username.toStdString().c_str());
-        int errno = getlinuxuserlevel(name, userlevel);
-        if(errno==0)
+        for(int i=0;i<reslist.count(); i++)
         {
-             reslist[i].safeTag = userlevel;
-        }else
-            {
-            QString errContent = QGlobalClass::getInstance()->errMap[errno+GetUserLevelErrBase];
-            qDebug()<<errContent;
-            throw Exception(QString::number(errno+GetUserLevelErrBase), errContent);
+            getUserSafeTagInfo(reslist[i]);
+            getUserWholeTagInfo(reslist[i]);
         }
+    }catch(Exception exp)
+    {
+        throw exp;
     }
+
+//    for(int i=0; i<reslist.count();i++)
+//    {
+//        char userlevel[LevelSize];
+//        char name[33];
+//        memset(userlevel, 0, sizeof(userlevel));
+//        memset(name, 0, sizeof(name));
+//        strcpy(name, reslist[i].username.toStdString().c_str());
+//        int errno = getlinuxuserlevel(name, userlevel);
+//        if(errno==0)
+//        {
+//             reslist[i].safeTag = userlevel;
+//        }else
+//            {
+//            QString errContent = QGlobalClass::getInstance()->errMap[errno+GetUserLevelErrBase];
+//            qDebug()<<errContent;
+//            throw Exception(QString::number(errno+GetUserLevelErrBase), errContent);
+//        }
+//    }
 
     //获取完整性标签
-
-//    QString cmd = "semanage user -l 2>&1; echo $?";
-//    QString resStr = GetCmdRes(cmd).trimmed();
-//    QStringList strl = resStr.split('\n');
-//    if(strl.last().toInt()!=0)
+//    try
 //    {
-//        resStr.chop(strl.last().length());
-//        QString errContent=tr("执行操作：获取所有用户安全标签失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
-//        qDebug()<<errContent;
-//        throw Exception(strl.last(), errContent);
-//    }
-
-//    if(strl.count()<4)
-//    {
-//        QString errContent=tr("执行操作：获取所有用户安全标签失败")+ tr("\n错误内容：解析结果失败");
-//        qDebug()<<errContent;
-//        throw Exception("", errContent);
-//    }
-
-////    strl.removeFirst();
-//    strl.removeFirst();
-//    strl.removeFirst();
-//    strl.removeFirst();     //去掉前四行的标题栏
-//    strl.removeLast();      //去掉echo $?
-
-//    for(int i=0; i<strl.count(); i++)
-//    {
-//        QStringList tmpl = strl[i].simplified().split(' ');
-//        if(tmpl.count()<5)
+//        for(int i=0;i<reslist.count(); i++)
 //        {
-//            QString errContent=tr("执行操作：获取所有用户安全标签失败")+ tr("\n错误内容：解析单条结果失败");
-//            qDebug()<<errContent;
-//            throw Exception("", errContent);
+//            getUserWholeTagInfo(reslist[i]);
 //        }
-
-//        UserTag usrinfo;
-//        usrinfo.username = tmpl[0];
-//        usrinfo.safeTag = tmpl[2];
-//        usrinfo.wholeTag = tmpl[2];
-//        reslist.append(usrinfo);
+//    }catch(Exception exp)
+//    {
+//        throw exp;
 //    }
-
     return true;
 }
 
 bool SecFunClass::setUserTagInfo(UserTag usrtag, int opt)          //设置用户安全标签. opt=0添加用户，opt=1编辑用户
 {
-
-//    QString cmd = "semanage user ";
-//    if(opt==0)
-//    {
-//        cmd += "-a "+usrtag.username+" -L "+usrtag.safeTag+" -R user_r -r s0-s0  2>&1; echo $?";
-//    }else if(opt==1)
-//        {
-//        cmd +=  "-m "+usrtag.username+" -L "+usrtag.safeTag+" -R user_r -r s0-s0 2>&1; echo $?";
-//    }
-
-//    QString resStr = GetCmdRes(cmd).trimmed();
-//    QStringList strl = resStr.split('\n');
-//    if(strl.last().toInt()!=0)
-//    {
-//        resStr.chop(strl.last().length());
-//        QString errContent=tr("执行操作：设置用户安全标签失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
-//        qDebug()<<errContent;
-//        throw Exception(strl.last(), errContent);
-//    }
     if(usrtag.safeTag!=tr("不设置"))
+    {
+        QString cmd = "safetag -u "+usrtag.username+" -S "+usrtag.safeTag+" -s 2>&1; echo $?";
+        //qDebug()<<cmd;
+        QString resStr =GetCmdRes(cmd).trimmed();
+        QStringList strl = resStr.split('\n');
+        if(strl.last().toInt()!=0)
         {
-        char user[33];
-        char level[LevelSize];
-        strcpy(user, usrtag.username.toStdString().c_str());
-        strcpy(level, usrtag.safeTag.toStdString().c_str());
-
-        int errno = setlinuxuserlevel(user, level);
-        if(errno!=0)
-        {
-            QString errContent = QGlobalClass::getInstance()->errMap[errno+SetUserLevelErrBase];
+            resStr.chop(strl.last().length());
+            QString errContent=tr("执行操作：设置用户:")+usrtag.username+tr("安全标签失败")+ tr("\n调用接口:setlinuxuserlevel")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
             qDebug()<<errContent;
-            throw Exception(QString::number(errno+SetUserLevelErrBase), errContent);
-            return false;
+            throw Exception(strl.last(), errContent);
         }
     }
 
@@ -642,7 +629,7 @@ bool SecFunClass::setUserTagInfo(UserTag usrtag, int opt)          //设置用�
 
 //    }
 
-
+    return true;
 }
 
 void SecFunClass::setUserTagInfoSlot(UserTag usrtag, int opt)
@@ -657,30 +644,32 @@ void SecFunClass::setUserTagInfoSlot(UserTag usrtag, int opt)
     }
 }
 
+bool SecFunClass::setFileSafeTagInfo(FileTag &filetag)
+{
+    QString cmd = "safetag -f "+filetag.filename+" -S "+filetag.safeTag+" -s 2>&1; echo $?";
+    QString resStr =GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    qDebug()<<cmd;
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：设置文件:")+filetag.filename+tr("安全标签失败")+ tr("\n调用接口:setfilelevel")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    return true;
+}
+
 bool SecFunClass::setFileTagInfo(FileTag filetag)
 {
-//    QString cmd ="chcon -l " + filetag.safeTag + " \""+ filetag.filename+ "\" 2>&1;echo $?";
-//    QString resStr = GetCmdRes(cmd).trimmed();
-//    QStringList strl = resStr.split('\n');
-//    if(strl.last().toInt()!=0)
-//    {
-//        resStr.chop(strl.last().length());
-//        QString errContent=tr("执行操作：设置文件安全标签失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
-//        qDebug()<<errContent;
-//        throw Exception(strl.last(), errContent);
-//    }
     if(filetag.safeTag!=tr("不设置"))
     {
-        char filename[MaxPath];
-        char safetag[LevelSize];
-        strcpy(filename, filetag.filename.toStdString().c_str());
-        strcpy(safetag, filetag.safeTag.toStdString().c_str());
-        int errno = setfilelevel(filename, safetag);
-        if(errno!=0)
-            {
-            QString errContent = QGlobalClass::getInstance()->errMap[errno+SetFileLevelErrBase];
-            qDebug()<<errContent;
-            throw Exception(QString::number(errno+SetFileLevelErrBase), errContent);
+        try
+        {
+            setFileSafeTagInfo(filetag);
+        }catch(Exception exp)
+                {
+            throw exp;
         }
     }
 
@@ -713,70 +702,52 @@ void SecFunClass::setUserOfUkeySlot(UkeyInfo ukeyInfo)
     }
 }
 
+bool SecFunClass::getFileSafeTagInfo(FileTag &filetag)
+{
+    QString cmd = "safetag -f "+filetag.filename+" 2>&1; echo $?";
+    qDebug()<<cmd;
+    QString resStr =GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取文件:")+filetag.filename+tr("安全标签失败")+ tr("\n调用接口：getfilelevel")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    filetag.safeTag = strl.first();
+    return true;
+}
+
+bool SecFunClass::getFileWholeTagInfo(FileTag &filetag)
+{
+    QString cmd = "wholetag -f "+filetag.filename+" 2>&1; echo $?";
+    QString resStr =GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取文件:")+filetag.filename+tr("完整性标签失败")+ tr("\n调用接口：bop_get_file_biba")+tr("\n错误码：")+QString::number(strl.last().toInt()-256)+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+    filetag.wholeTag = strl.first();
+    return true;
+}
+
 bool SecFunClass::getFileTagInfo(FileTag &filetag)                     //获取文件安全标签
 {
-    //safeTag
-    char  filename[MaxPath];
-    char fileLevel[LevelSize];
-    strcpy(filename, filetag.filename.toStdString().c_str());
-
-    int errno = getfilelevel(filename, fileLevel);
-    if(errno==0)
-        {
-        filetag.safeTag = fileLevel;
-    }else
-        {
-        QString errContent = QGlobalClass::getInstance()->errMap[errno+GetFileLevelErrBase];
-        qDebug()<<errContent;
-        throw Exception(QString::number(errno+GetFileLevelErrBase), errContent);
-
+    //safeTag and wholetag
+    try
+    {
+        getFileSafeTagInfo(filetag);
+        getFileWholeTagInfo(filetag);
+    }catch(Exception exp)
+            {
+        throw exp;
     }
 
-    //wholeTag
-
     return true;
-//    QString cmd = "ls ";
-//    if(filetag.isDir)
-//        cmd += "-d --scontext \""+filetag.filename+"\" 2>&1; echo $?";
-//    else
-//        cmd += " --scontext \""+filetag.filename+"\" 2>&1; echo $?";
-
-//    QString resStr = GetCmdRes(cmd).trimmed();
-//    QStringList strl = resStr.split('\n');
-//    if(strl.last().toInt()!=0)
-//    {
-//        resStr.chop(strl.last().length());
-//        QString errContent=tr("执行操作：获取文件安全标签失败")+ tr("\n执行命令：")+cmd+tr("\n错误码：")+strl.last()+tr("\n错误内容：")+resStr;
-//        qDebug()<<errContent;
-//        throw Exception(strl.last(), errContent);
-//    }
-//    strl.removeLast();  //去掉echo $?
-//    if(strl.count()!=1)
-//        {
-//        QString errContent=tr("执行操作：获取文件安全标签失败")+ tr("\n错误内容：解析结果失败");
-//        qDebug()<<errContent;
-//        throw Exception("", errContent);
-//    }
-//    QStringList tmpl = strl[0].simplified().split(' ');
-//    if(tmpl.count()<2)
-//        {
-//        QString errContent=tr("执行操作：获取文件安全标签失败")+ tr("\n错误内容：解析结果失败");
-//        qDebug()<<errContent;
-//        throw Exception("", errContent);
-//    }
-
-//    QStringList tmpl2 = tmpl[0].split(':');
-//    if(tmpl2.count()!=4)
-//    {
-//        QString errContent=tr("执行操作：获取文件安全标签失败")+ tr("\n错误内容：解析结果失败");
-//        qDebug()<<errContent;
-//        throw Exception("", errContent);
-//    }
-
-//    filetag.safeTag = tmpl2[3];
-//    filetag.wholeTag = tmpl2[3];
-
-//    return true;
 }
 
 bool SecFunClass::getUserListOfShaddow(QList<SecUserInfo> &secUserList)
@@ -1193,5 +1164,41 @@ bool SecFunClass::startOrStopService(QString svName, int opt)      //开启或�
         qDebug()<<errContent;
         throw Exception(strl.last(), errContent);
     }
+    return true;
+}
+
+bool SecFunClass::isBiBaOpened(bool &isOpen)
+{
+    QString cmd = "wholetag -G   2>&1; echo $?";
+    QString resStr =GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：获取BiBa状态")+ tr("\n调用接口：bop_get_biba_stat")+tr("\n错误码：")+QString::number(strl.last().toInt())+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    isOpen = strl.first().toInt()==0?false:true;
+
+    return true;
+}
+
+bool SecFunClass::setBiBaOpen(bool isOpen)
+{
+    QString cmd = "wholetag -G  -S "+(isOpen?QString::number(0):QString::number(1))+" -s 2>&1; echo $?";
+    QString resStr =GetCmdRes(cmd).trimmed();
+    QStringList strl = resStr.split('\n');
+    if(strl.last().toInt()!=0)
+    {
+        resStr.chop(strl.last().length());
+        QString errContent=tr("执行操作：设置BiBa状态")+ tr("\n调用接口：bop_set_biba_stat")+tr("\n错误码：")+QString::number(strl.last().toInt())+tr("\n错误内容：")+resStr;
+        qDebug()<<errContent;
+        throw Exception(strl.last(), errContent);
+    }
+
+    isOpen = strl.first().toInt()==0?false:true;
+
     return true;
 }

@@ -6,7 +6,7 @@
 QWidget#centralwidget
 {
    /* background-color:rgb(33,46,19) ;*/
-   background-color:#212e31
+   background-color:#212e31;
 }
 /*按钮QPushButton*/
 QPushButton {
@@ -286,6 +286,15 @@ QComboBox {
     border: 1px solid gray;
     border-radius: 0px;
 }
+
+QComboBox:disabled
+{
+border: 1px solid gray;
+background-color:white;
+min-height:20px;
+color: black;
+}
+
 QListWidget
 {
     border:1px solid #C4C4C3;

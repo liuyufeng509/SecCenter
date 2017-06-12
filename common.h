@@ -159,9 +159,5 @@ extern bool isTab;
 //////////////////////////////////////////////
 #define LevelSize 4
 #define MaxPath 256
-int getfilelevel(char *filename, char * filelevel);
-int getlinuxuserlevel(char *linuxname, char *linuxuserlevel);
-int setlinuxuserlevel(char *linuxname, char*linuxuserlevel);
-int setfilelevel(char *filename, char *filelevel);
 
 #endif // COMMON_H

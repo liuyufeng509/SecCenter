@@ -31,12 +31,15 @@ private slots:
 
     void on_close_client_reuse_Button_clicked();
 
+    void on_bibaCtrlButton_clicked();
+
 private:
     Ui::SvrCtrlPage *ui;
     SecStatus secStatus;
     SakInfo sakinfo;
     QString htmlStr;
     bool isRmOpen;
+    bool isBibaOpen;
 };
 
 #endif // SVRCTRLPAGE_H

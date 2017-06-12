@@ -49,20 +49,38 @@ struct KernCfgInfoList
 #define GetUserLevelErrBase 300
 #define SetUserLevelErrBase 400
 
+#define GetFileBiBaErrBase 500
+#define GetUserBiBaErrBase 600
+#define SetFileBiBaErrBase 700
+#define SetUserBiBaErrBase 800
+
 enum ErroNo
 {
+    //获取文件安全性标签
     GetFileLevelSuc = GetFileLevelErrBase,
     GetFileLevelFail = GetFileLevelErrBase-1,
 
+    //设置文件安全性标签
     SetFileLevelSuc = SetFileLevelErrBase,
 
-
+    //获取用户安全性标签
     GetUserLevelSuc = GetUserLevelErrBase,
     GetUserByNameFail=GetUserLevelErrBase-1,
     QueryUserFail = GetUserLevelErrBase-2,
     CreateKeyFail = GetUserLevelErrBase-3,
 
+    //设置用户安全性标签
     SetUserLevelSuc = SetUserLevelErrBase,
+
+    //获取文件的完整性标签
+    GetFileBiBaSuc = GetFileBiBaErrBase,
+
+    //设置文件完整性标签
+    SetFileBiBaSuc = SetFileBiBaErrBase,
+    //获取用户完整性标签
+    GetUserBiBaSuc = GetUserBiBaErrBase,
+    //设置用户完整性标签
+    SetUserBibaSuc = SetUserBiBaErrBase,
 };
 
 class QGlobalClass
@@ -92,12 +110,26 @@ public:
    private:
        QGlobalClass()
        {
+           //获取文件安全性标签
            errMap.insert(GetFileLevelSuc, QObject::tr("获取客体安全性标签成功"));
            errMap.insert(GetFileLevelFail, QObject::tr("获取客体安全性标签失败"));
+            //设置文件安全性标签
+           errMap.insert(SetFileLevelSuc, QObject::tr("设置客体安全性标签成功"));
+           //获取用户安全性标签
            errMap.insert(GetUserLevelSuc, QObject::tr("获取主体安全性标签成功"));
            errMap.insert(GetUserByNameFail, QObject::tr("获取主体安全性标签失败，根据用户名获取用户失败"));
            errMap.insert(QueryUserFail, QObject::tr("获取主体安全性标签失败，查询用户失败"));
            errMap.insert(CreateKeyFail, QObject::tr("获取主体安全性标签失败，创建key失败"));
+            //设置用户安全性标签
+           errMap.insert(SetUserLevelSuc, QObject::tr("设置主体安全性标签成功"));
+            //获取文件的完整性标签
+           errMap.insert(GetFileBiBaSuc, QObject::tr("获取客体完整性标签成功"));
+            //设置文件完整性标签
+           errMap.insert(SetFileBiBaSuc, QObject::tr("设置客体完整性标签成功"));
+           //获取用户完整性标签
+           errMap.insert(GetUserBiBaSuc, QObject::tr("获取主体完整性标签成功"));
+           errMap.insert(SetUserBibaSuc, QObject::tr("设置主体完整性标签成功"));
+
        }
 
        static QGlobalClass *m_pInstance;        //单例模式

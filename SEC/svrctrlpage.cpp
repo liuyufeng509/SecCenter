@@ -7,6 +7,7 @@ SvrCtrlPage::SvrCtrlPage(QWidget *parent) :
 {
     ui->setupUi(this);
     isRmOpen = false;
+    isBibaOpen = false;
     updateUI();
 }
 
@@ -107,6 +108,26 @@ void SvrCtrlPage::updateUI()
             ui->close_client_reuse_Button->setText(tr("开启客体重用"));
             getHtmlStr(tr("当前状态："), BlueColor,  tr("尚未运行"));
             ui->cur_audstatus_label_2->setText(htmlStr);
+        }
+    }catch(Exception exp)
+    {
+        errMsgBox(exp.getErroWhat(), this);
+    }
+
+    //BiBa
+    try
+    {
+        SecFunClass::getInstance()->isBiBaOpened(isBibaOpen);
+        if(isBibaOpen)
+            {
+            ui->bibaCtrlButton->setText(tr("关闭BiBa"));
+            getHtmlStr(tr("当前状态："), GreenColor,  tr("已开启"));
+             ui->cur_audstatus_label_3->setText(htmlStr);
+        }else
+            {
+            ui->bibaCtrlButton->setText(tr("开启BiBa"));
+            getHtmlStr(tr("当前状态："), BlueColor,  tr("未开启"));
+            ui->cur_audstatus_label_3->setText(htmlStr);
         }
     }catch(Exception exp)
     {
@@ -224,5 +245,23 @@ void SvrCtrlPage::on_close_client_reuse_Button_clicked()
     }catch(Exception exp)
             {
         errMsgBox(exp.getErroWhat(), this);
+    }
+}
+
+void SvrCtrlPage::on_bibaCtrlButton_clicked()
+{
+    try
+    {
+        try
+        {
+            SecFunClass::getInstance()->setBiBaOpen(!isBibaOpen);
+            updateUI();
+        }catch(Exception exp)
+                {
+            errMsgBox(exp.getErroWhat(), this);
+        }
+    }catch(Exception exp)
+            {
+        throw exp;
     }
 }

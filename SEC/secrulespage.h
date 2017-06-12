@@ -45,7 +45,6 @@ private slots:
 private:
     Ui::SecRulesPage *ui;
     WaitDialog *waitD;
-    QThread *thread;
     bool bFirst;
 
     QList<TERule> terules;

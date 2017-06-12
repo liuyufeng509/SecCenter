@@ -1182,24 +1182,4 @@ void infoMsgBox(QString str, QWidget *prent)
 //////////////////////////////////////////////
 ////接口函数
 //////////////////////////////////////////////
-int getfilelevel(char *filename, char * filelevel)
-{
-    strcpy(filelevel, "s0");
-    return 0;
-}
 
-int getlinuxuserlevel(char *linuxname, char *linuxuserlevel)
-{
-    strcpy(linuxuserlevel, "s1");
-    return 0;
-}
-
-int setlinuxuserlevel(char *linuxname, char*linuxuserlevel)
-{
-    return 0;
-}
-
-int setfilelevel(char *filename, char *filelevel)
-{
-    return 0;
-}

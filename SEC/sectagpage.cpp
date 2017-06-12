@@ -175,6 +175,12 @@ void SecTagPage::on_freshFileTagButton_clicked()
         return;
     }
 
+    QFile mFile(filePath);
+   if(!mFile.exists())
+   {
+       errMsgBox(tr("文件不存在"), this);
+       return;
+   }
     FileTag fileinfo;
     fileinfo.filename = filePath;
     fileinfo.isDir = isDir;

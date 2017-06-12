@@ -39,7 +39,6 @@ private:
     Ui::SecTagPage *ui;
     QList<UserTag> userTagList;
     WaitDialog *waitD;
-    QThread *thread;
     QString filePath;
     bool isDir;
 };

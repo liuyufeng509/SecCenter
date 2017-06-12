@@ -174,8 +174,10 @@ struct FileTag
 struct UserTag
 {
     QString username;
+    QString userid;
     QString safeTag;
     QString wholeTag;
+    bool isShow;
     bool operator ==(const UserTag& d)
     {
         return username == d.username;

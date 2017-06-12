@@ -4,6 +4,10 @@
 #include <QObject>
 #include "common.h"
 #include <QDate>
+extern "C" {
+#include <getsetlabel.h>
+}
+
 class SecFunClass : public QObject
 {
     Q_OBJECT
@@ -37,12 +41,18 @@ public:
 
     //用户安全标签管理
     bool getUserTagInfoList(QList<UserTag> &reslist);   //获取所有用户的安全管理标签
+    bool getUserSafeTagInfo(UserTag &userTag);   //获取用户的安全标签
+    bool getUserWholeTagInfo(UserTag &userTag); //获取用户完整性标签
     bool setUserTagInfo(UserTag usrtag, int opt);           //设置用户安全标签. opt=0添加用户，opt=1编辑用户
 
     //文件安全标签管理
     bool setFileTagInfo(FileTag filetag);                      //设置文件安全性标签
+   // bool setFileWholeTagInfo(FileTag &filetag);
+    bool setFileSafeTagInfo(FileTag &filetag);
     bool getFileTagInfo(FileTag &filetag);                      //获取文件安全标签
-    bool getUserNames(QStringList &users);              //获取所有的用户名
+    bool getFileSafeTagInfo(FileTag &filetag);
+    bool getFileWholeTagInfo(FileTag &filetag);
+    bool getUserNames(QList<UserTag> &reslist);              //获取所有的用户名
 
     //安全策略查看功能
     bool getTeRules(QList<TERule > &telist);                          //获取te策略
@@ -57,6 +67,9 @@ public:
     bool startOrStopService(QString svName, int opt);       //开启或关闭服务
     bool isRmOpened(bool &isOpen);              //客体重用是否启用
     bool setRmOpened(bool isOpen);
+
+    bool isBiBaOpened(bool &isOpen);
+    bool setBiBaOpen(bool isOpen);
 private:
     explicit SecFunClass(QObject *parent = 0);
     static SecFunClass *m_pInstance;

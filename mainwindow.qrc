@@ -21,9 +21,4 @@
         <file alias="resume_pre">image/resume_pre.png</file>
         <file alias="tab">image/tab.png</file>
     </qresource>
-    <qresource prefix="/help">
-        <file>helpdoc/frame_a.html</file>
-        <file>helpdoc/frame_b.html</file>
-        <file>helpdoc/help.html</file>
-    </qresource>
 </RCC>

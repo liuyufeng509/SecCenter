@@ -6,39 +6,7 @@ SecTagPage::SecTagPage(QWidget *parent) :
     ui(new Ui::SecTagPage)
 {
     ui->setupUi(this);
-
-    //设置用户安全标签
-    try
-    {
-        SecFunClass::getInstance()->getUserTagInfoList(userTagList);
-        if(userTagList.size()>0)
-        {
-            for(int i=0; i<userTagList.size();i++)
-                ui->users_comboBox->addItem(userTagList[i].username);
-
-            ui->users_comboBox->setCurrentIndex(0);
-            for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
-            {
-                if(ui->u_sec_tagcomboBox->itemText(i)==userTagList[0].safeTag)
-                    ui->u_sec_tagcomboBox->setCurrentIndex(i);
-            }
-            for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
-            {
-                if(ui->u_whole_tagcomboBox->itemText(i)==userTagList[0].wholeTag)
-                    ui->u_whole_tagcomboBox->setCurrentIndex(i);
-            }
-
-        }else
-        {
-            ui->users_comboBox->addItem(STR_WU);
-            ui->u_sec_tagcomboBox->setCurrentIndex(0);
-            ui->u_whole_tagcomboBox->setCurrentIndex(0);
-        }
-    }catch(Exception exp)
-    {
-        errMsgBox(exp.getErroWhat(), this);
-    }
-
+    isFirst = true;
     //文件安全标签
 
     //多线程处理
@@ -49,6 +17,47 @@ SecTagPage::SecTagPage(QWidget *parent) :
     connect(this, SIGNAL(emitSetUserTagInfo(UserTag,int)),SecFunClass::getInstance(), SLOT(setUserTagInfoSlot(UserTag,int)));
     connect(SecFunClass::getInstance(), SIGNAL(emitSetUserTagInfoDone(int,Exception)), this, SLOT(setUserTagInfoSlot(int ,Exception)));
   //  thread->start();
+}
+
+void SecTagPage::Init()
+{
+    //获取用户安全标签
+    if(isFirst)
+    {
+        try
+        {
+            SecFunClass::getInstance()->getUserTagInfoList(userTagList);
+            if(userTagList.size()>0)
+            {
+                for(int i=0; i<userTagList.size();i++)
+                    ui->users_comboBox->addItem(userTagList[i].username);
+
+                ui->users_comboBox->setCurrentIndex(0);
+                for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
+                {
+                    if(ui->u_sec_tagcomboBox->itemText(i)==userTagList[0].safeTag)
+                        ui->u_sec_tagcomboBox->setCurrentIndex(i);
+                }
+                for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
+                {
+                    if(ui->u_whole_tagcomboBox->itemText(i)==userTagList[0].wholeTag)
+                        ui->u_whole_tagcomboBox->setCurrentIndex(i);
+                }
+
+            }else
+            {
+                ui->users_comboBox->addItem(STR_WU);
+                ui->u_sec_tagcomboBox->setCurrentIndex(0);
+                ui->u_whole_tagcomboBox->setCurrentIndex(0);
+            }
+            isFirst = false;
+        }catch(Exception exp)
+        {
+            errMsgBox(exp.getErroWhat(), this);
+            isFirst = true;
+        }
+    }
+
 }
 
 SecTagPage::~SecTagPage()

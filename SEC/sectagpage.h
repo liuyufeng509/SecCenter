@@ -16,7 +16,7 @@ class SecTagPage : public QWidget
 public:
     explicit SecTagPage(QWidget *parent = 0);
     ~SecTagPage();
-
+    void Init();
     void waitDiaogAppear();
     void waitDialogAccept();
 private slots:
@@ -41,6 +41,7 @@ private:
     WaitDialog *waitD;
     QString filePath;
     bool isDir;
+    bool isFirst;
 };
 
 #endif // SECTAGPAGE_H

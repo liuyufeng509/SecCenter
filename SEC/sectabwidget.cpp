@@ -29,13 +29,17 @@ SecTabWidget::SecTabWidget(QWidget *parent):QTabWidget(parent)
 
 void SecTabWidget::tabChanged(int index)
 {
-    if(index == 4)
+    switch(index)
     {
-        secRulesPage->getAllRules();
-    }
-    if(index == 5)
-        {
+        case 3:
+        secTagPage->Init();
+        break;
+        case 4:
+         secRulesPage->getAllRules();
+        break;
+        case 5:
         svrCtrlPage->updateUI();
+        break;
     }
 }
 

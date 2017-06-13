@@ -206,7 +206,7 @@
        <item row="0" column="2">
         <widget class="QComboBox" name="users_comboBox">
          <property name="editable">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
        </item>

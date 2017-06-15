@@ -13,10 +13,15 @@ SecTagPage::SecTagPage(QWidget *parent) :
    // thread = new QThread;
     //SecFunClass::getInstance()->moveToThread(thread);
     qRegisterMetaType<UserTag> ("UserTag");
+    qRegisterMetaType<USERTAGLIST>("USERTAGLIST");
     qRegisterMetaType<Exception> ("Exception");
     connect(this, SIGNAL(emitSetUserTagInfo(UserTag,int)),SecFunClass::getInstance(), SLOT(setUserTagInfoSlot(UserTag,int)));
     connect(SecFunClass::getInstance(), SIGNAL(emitSetUserTagInfoDone(int,Exception)), this, SLOT(setUserTagInfoSlot(int ,Exception)));
-  //  thread->start();
+
+    connect(this, SIGNAL(emitGetUserTagInfoList()),SecFunClass::getInstance(), SLOT(getUserTagInfoListSlot()));
+    connect(SecFunClass::getInstance(), SIGNAL(emitGetUserTagInfoListDone(int,Exception, USERTAGLIST)), this, SLOT(getUserTagInfoListSlot(int ,Exception, USERTAGLIST)));
+
+    //  thread->start();
 }
 
 void SecTagPage::Init()
@@ -24,38 +29,40 @@ void SecTagPage::Init()
     //获取用户安全标签
     if(isFirst)
     {
-        try
-        {
-            SecFunClass::getInstance()->getUserTagInfoList(userTagList);
-            if(userTagList.size()>0)
-            {
-                for(int i=0; i<userTagList.size();i++)
-                    ui->users_comboBox->addItem(userTagList[i].username);
+        emit emitGetUserTagInfoList();
+        waitDiaogAppear();
+//        try
+//        {
+//            SecFunClass::getInstance()->getUserTagInfoList(userTagList);
+//            if(userTagList.size()>0)
+//            {
+//                for(int i=0; i<userTagList.size();i++)
+//                    ui->users_comboBox->addItem(userTagList[i].username);
 
-                ui->users_comboBox->setCurrentIndex(0);
-                for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
-                {
-                    if(ui->u_sec_tagcomboBox->itemText(i)==userTagList[0].safeTag)
-                        ui->u_sec_tagcomboBox->setCurrentIndex(i);
-                }
-                for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
-                {
-                    if(ui->u_whole_tagcomboBox->itemText(i)==userTagList[0].wholeTag)
-                        ui->u_whole_tagcomboBox->setCurrentIndex(i);
-                }
+//                ui->users_comboBox->setCurrentIndex(0);
+//                for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
+//                {
+//                    if(ui->u_sec_tagcomboBox->itemText(i)==userTagList[0].safeTag)
+//                        ui->u_sec_tagcomboBox->setCurrentIndex(i);
+//                }
+//                for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
+//                {
+//                    if(ui->u_whole_tagcomboBox->itemText(i)==userTagList[0].wholeTag)
+//                        ui->u_whole_tagcomboBox->setCurrentIndex(i);
+//                }
 
-            }else
-            {
-                ui->users_comboBox->addItem(STR_WU);
-                ui->u_sec_tagcomboBox->setCurrentIndex(0);
-                ui->u_whole_tagcomboBox->setCurrentIndex(0);
-            }
-            isFirst = false;
-        }catch(Exception exp)
-        {
-            errMsgBox(exp.getErroWhat(), this);
-            isFirst = true;
-        }
+//            }else
+//            {
+//                ui->users_comboBox->addItem(STR_WU);
+//                ui->u_sec_tagcomboBox->setCurrentIndex(0);
+//                ui->u_whole_tagcomboBox->setCurrentIndex(0);
+//            }
+//            isFirst = false;
+//        }catch(Exception exp)
+//        {
+//            errMsgBox(exp.getErroWhat(), this);
+//            isFirst = true;
+//        }
     }
 
 }
@@ -132,6 +139,43 @@ void SecTagPage::waitDiaogAppear()
     waitD = new WaitDialog(this);
     waitD->exec();
   //  waitD->deleteLater();
+}
+
+void SecTagPage::getUserTagInfoListSlot(int res ,Exception exp, USERTAGLIST userlist)
+{
+    waitDialogAccept();
+    if(res == 0)
+    {
+        userTagList = userlist;
+        if(userTagList.size()>0)
+        {
+            for(int i=0; i<userTagList.size();i++)
+                ui->users_comboBox->addItem(userTagList[i].username);
+
+            ui->users_comboBox->setCurrentIndex(0);
+            for(int i=0; i<ui->u_sec_tagcomboBox->count();i++)
+            {
+                if(ui->u_sec_tagcomboBox->itemText(i)==userTagList[0].safeTag)
+                    ui->u_sec_tagcomboBox->setCurrentIndex(i);
+            }
+            for(int i=0; i<ui->u_whole_tagcomboBox->count();i++)
+            {
+                if(ui->u_whole_tagcomboBox->itemText(i)==userTagList[0].wholeTag)
+                    ui->u_whole_tagcomboBox->setCurrentIndex(i);
+            }
+
+        }else
+        {
+            ui->users_comboBox->addItem(STR_WU);
+            ui->u_sec_tagcomboBox->setCurrentIndex(0);
+            ui->u_whole_tagcomboBox->setCurrentIndex(0);
+        }
+        isFirst = false;
+    }else
+    {
+        isFirst = true;
+        errMsgBox(exp.getErroWhat(), this);
+    }
 }
 
 void SecTagPage::setUserTagInfoSlot(int res, Exception exp)

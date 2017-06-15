@@ -27,10 +27,6 @@ TabAuditPage::TabAuditPage(QWidget *parent) :
     //report fun
 
     //audit rules
-    //QRegExp regExp("^\\d{1,}$");   //^[1-9][0-9]*$ 和 ^[1-9]{1}[/d]*$
-    QRegExp regExp("^0$|^\\+?[1-9]\\d*$");  //注意\为\\
-    ui->max_noaud_buf_lineEdit->setValidator(new QRegExpValidator(regExp,this));
-    ui->rate_limit_lineEdit->setValidator(new QRegExpValidator(regExp,this));
     kernAudParam.bignore = false;
     try
     {

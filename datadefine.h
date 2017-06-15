@@ -184,6 +184,8 @@ struct UserTag
     }
 };
 
+typedef QList<UserTag>   USERTAGLIST;//TE策略列表类型
+
 //TE 策略
 struct TERule
 {

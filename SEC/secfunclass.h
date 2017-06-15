@@ -4,9 +4,7 @@
 #include <QObject>
 #include "common.h"
 #include <QDate>
-extern "C" {
-#include <getsetlabel.h>
-}
+
 
 class SecFunClass : public QObject
 {
@@ -77,6 +75,8 @@ signals:
     void emitSetUserTagInfoDone(int res, Exception);   //用户安全标签管理多线程操作,设置完毕，返回结果
     void emitGetSafePolicyDone(int res, Exception exp, TELIST telist, F_PLIST fpList);      //获取安全策略结束
 
+    void emitGetUserTagInfoListDone(int,Exception, USERTAGLIST);
+
     //UKey
     void emitResetPINOfUkeyDone(int res, Exception);
     void emitSetUserOfUkeyDone(int res, Exception);
@@ -88,6 +88,7 @@ public slots:
     void resetPINOfUkeySlot(UkeyInfo ukeyInfo);
     void setUserOfUkeySlot(UkeyInfo ukeyInfo);
 
+    void getUserTagInfoListSlot();
 private:
     bool getUserListOfShaddow(QList<SecUserInfo> &secUserList); //判断/etc/passwd，用户是否已经被创建过
     bool getUserUkey(SecUserInfo &secUser);                         //获取绑定的Ukey

@@ -516,7 +516,7 @@ bool SecFunClass::getUserNames(QList<UserTag> &reslist)
 
 bool SecFunClass::getUserWholeTagInfo(UserTag &userTag)
 {
-    QString cmd = "wholetag -u "+userTag.username+"  2>&1; echo $?";
+    QString cmd = "wholetag -u "+userTag.userid+"  2>&1; echo $?";
     QString resStr =GetCmdRes(cmd).trimmed();
     QStringList strl = resStr.split('\n');
     if(strl.last().toInt()!=0)
@@ -610,6 +610,7 @@ bool SecFunClass::getUserTagInfoList(QList<UserTag> &reslist)
 
 bool SecFunClass::setUserTagInfo(UserTag usrtag, int opt)          //设置用户安全标签. opt=0添加用户，opt=1编辑用户
 {
+    qDebug()<<opt;
     if(usrtag.safeTag!=tr("不设置"))
     {
         QString cmd = "safetag -u "+usrtag.username+" -S "+usrtag.safeTag+" -s 2>&1; echo $?";
@@ -632,6 +633,19 @@ bool SecFunClass::setUserTagInfo(UserTag usrtag, int opt)          //设置用�
 //    }
 
     return true;
+}
+
+void SecFunClass::getUserTagInfoListSlot()
+{
+    USERTAGLIST userlist;
+    try
+    {
+        getUserTagInfoList(userlist);
+        emit emitGetUserTagInfoListDone(0, Exception("",""), userlist);
+    }catch(Exception exp)
+    {
+        emit emitGetUserTagInfoListDone(1,exp, userlist);
+    }
 }
 
 void SecFunClass::setUserTagInfoSlot(UserTag usrtag, int opt)

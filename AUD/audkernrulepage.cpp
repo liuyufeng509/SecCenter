@@ -8,9 +8,6 @@ AudKernRulePage::AudKernRulePage(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //QRegExp regExp("^0$|^\\+?[1-9]\\d*$");  //注意\为\\
-//    ui->max_noaud_buf_lineEdit->setValidator(new QRegExpValidator(regExp,this));
-//    ui->rate_limit_lineEdit->setValidator(new QRegExpValidator(regExp,this));
     QIntValidator * v = new QIntValidator (0, Max_INPUT, this);
      ui->max_noaud_buf_lineEdit->setValidator(v);
      ui->rate_limit_lineEdit->setValidator(v);

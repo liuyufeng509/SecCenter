@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent ),
     ui(new Ui::MainWindow)
 {
-
+//test
     ui->setupUi(this);
 
     initTitleBar();

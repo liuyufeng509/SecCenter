@@ -44,7 +44,7 @@ void AudConfPage::getAudConfigInfo()
 {
     QString iniFilePath = CONF_NAME;
     QSettings settings(iniFilePath,QSettings::IniFormat);
-
+    settings.setIniCodec("UTF-8");
     audCfgInfo.log_file = settings.value("log_file").toString();
     audCfgInfo.max_log_file = settings.value("max_log_file").toString();
     audCfgInfo.max_log_file_action = settings.value("max_log_file_action").toString();

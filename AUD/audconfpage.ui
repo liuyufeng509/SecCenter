@@ -590,6 +590,22 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>log_filelineEdit</tabstop>
+  <tabstop>max_log_filelineEdit</tabstop>
+  <tabstop>max_log_file_action_comboBox</tabstop>
+  <tabstop>num_logslineEdit</tabstop>
+  <tabstop>admin_space_left_lineEdit</tabstop>
+  <tabstop>admin_space_left_action_comboBox</tabstop>
+  <tabstop>space_left_lineEdit</tabstop>
+  <tabstop>space_left_action_comboBox</tabstop>
+  <tabstop>disk_full_action_comboBox</tabstop>
+  <tabstop>disk_error_action_comboBox</tabstop>
+  <tabstop>mail_lineEdit</tabstop>
+  <tabstop>msg_lineEdit</tabstop>
+  <tabstop>restartAduButton</tabstop>
+  <tabstop>okButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

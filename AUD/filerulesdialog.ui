@@ -366,6 +366,21 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>filePathEdit</tabstop>
+  <tabstop>browFileButton</tabstop>
+  <tabstop>rcheckBox</tabstop>
+  <tabstop>wcheckBox</tabstop>
+  <tabstop>xcheckBox</tabstop>
+  <tabstop>acheckBox</tabstop>
+  <tabstop>stTimeEdit</tabstop>
+  <tabstop>etTimeEdit</tabstop>
+  <tabstop>kwlineEdit</tabstop>
+  <tabstop>tracePathEdit</tabstop>
+  <tabstop>traceButton</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

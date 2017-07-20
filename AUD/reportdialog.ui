@@ -275,6 +275,29 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>res_checkBox</tabstop>
+  <tabstop>sucButton</tabstop>
+  <tabstop>failButton</tabstop>
+  <tabstop>tm_sec_checkBox</tabstop>
+  <tabstop>st_TimeEdit</tabstop>
+  <tabstop>et_TimeEdit</tabstop>
+  <tabstop>rep_gener_checkBox</tabstop>
+  <tabstop>avc_radioButton</tabstop>
+  <tabstop>file_radioButton</tabstop>
+  <tabstop>logt_radioButton</tabstop>
+  <tabstop>config_radioButton</tabstop>
+  <tabstop>acc_change_radioButton</tabstop>
+  <tabstop>pid_radioButton</tabstop>
+  <tabstop>sys_call_radioButton</tabstop>
+  <tabstop>term_radioButton</tabstop>
+  <tabstop>aud_evt_radioButton</tabstop>
+  <tabstop>exe_file_radioButton</tabstop>
+  <tabstop>user_radioButton</tabstop>
+  <tabstop>kw_radioButton</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

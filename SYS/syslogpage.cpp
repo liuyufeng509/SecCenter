@@ -65,7 +65,10 @@ void SysLogPage::findnext()
 {
 
     if(!browser->find(comBox->currentText()))
+    {
+        browser->moveCursor(QTextCursor::StartOfBlock);
         infoMsgBox(tr("未查找到关键字"), this);
+    }
 
 }
 
@@ -82,6 +85,15 @@ void SysLogPage::findPre()
 
 }
 
+void SysLogPage::keyPressEvent(QKeyEvent *event)
+{
+   // qDebug()<<event->key();
+    if(event->key()==Qt::Key_Return)
+        {
+            findnext();
+        }
+    QWidget::keyPressEvent(event);
+}
 
 void SysLogPage::browserIndex(QModelIndex index)
 {

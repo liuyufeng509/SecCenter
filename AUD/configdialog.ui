@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>471</width>
-    <height>443</height>
+    <height>468</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -204,6 +204,36 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>checkBox</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>checkBox_2</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>lineEdit_4</tabstop>
+  <tabstop>checkBox_3</tabstop>
+  <tabstop>checkBox_4</tabstop>
+  <tabstop>lineEdit_6</tabstop>
+  <tabstop>lineEdit_5</tabstop>
+  <tabstop>checkBox_5</tabstop>
+  <tabstop>lineEdit_8</tabstop>
+  <tabstop>lineEdit_7</tabstop>
+  <tabstop>checkBox_6</tabstop>
+  <tabstop>lineEdit_9</tabstop>
+  <tabstop>checkBox_7</tabstop>
+  <tabstop>lineEdit_10</tabstop>
+  <tabstop>checkBox_8</tabstop>
+  <tabstop>checkBox_9</tabstop>
+  <tabstop>lineEdit_11</tabstop>
+  <tabstop>checkBox_10</tabstop>
+  <tabstop>lineEdit_12</tabstop>
+  <tabstop>checkBox_11</tabstop>
+  <tabstop>lineEdit_13</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton_4</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

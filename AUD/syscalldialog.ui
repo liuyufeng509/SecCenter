@@ -377,11 +377,40 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>entry_radioButton</tabstop>
+  <tabstop>exit_radioButton</tabstop>
+  <tabstop>sys_call_st_TimeEdit</tabstop>
+  <tabstop>sys_call_et_TimeEdit</tabstop>
+  <tabstop>user_syscall_radioButton</tabstop>
+  <tabstop>exclude_radioButton</tabstop>
+  <tabstop>msgtype_lineEdit</tabstop>
+  <tabstop>never_radioButton</tabstop>
+  <tabstop>always_radioButton</tabstop>
+  <tabstop>open_radioButton</tabstop>
+  <tabstop>creat_radioButton</tabstop>
+  <tabstop>read_radioButton</tabstop>
+  <tabstop>write_radioButton</tabstop>
+  <tabstop>chmod_radioButton</tabstop>
+  <tabstop>chown_radioButton</tabstop>
+  <tabstop>stat_radioButton</tabstop>
+  <tabstop>link_radioButton</tabstop>
+  <tabstop>mount_radioButton</tabstop>
+  <tabstop>rename_radioButton</tabstop>
+  <tabstop>mkdir_radioButton</tabstop>
+  <tabstop>rmdir_radioButton</tabstop>
+  <tabstop>acct_radioButton</tabstop>
+  <tabstop>kill_radioButton</tabstop>
+  <tabstop>fork_radioButton</tabstop>
+  <tabstop>execve_radioButton</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_3"/>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>

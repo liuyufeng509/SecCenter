@@ -322,11 +322,24 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>max_noaud_buf_lineEdit</tabstop>
+  <tabstop>enable_radioButton</tabstop>
+  <tabstop>disable_radioButton</tabstop>
+  <tabstop>silent_radioButton</tabstop>
+  <tabstop>printk_radioButton</tabstop>
+  <tabstop>panic_radioButton</tabstop>
+  <tabstop>audctl_i_radioButton</tabstop>
+  <tabstop>audctl_c_radioButton</tabstop>
+  <tabstop>rate_limit_lineEdit</tabstop>
+  <tabstop>aplButton</tabstop>
+  <tabstop>forEverButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup_3"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>

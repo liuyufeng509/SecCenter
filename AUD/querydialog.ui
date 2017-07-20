@@ -394,6 +394,54 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>evidCheckBox</tabstop>
+  <tabstop>evid_lineEdit</tabstop>
+  <tabstop>gid_checkBox</tabstop>
+  <tabstop>gid_lineEdit</tabstop>
+  <tabstop>agid_checkBox</tabstop>
+  <tabstop>agid_lineEdit</tabstop>
+  <tabstop>egid_checkBox</tabstop>
+  <tabstop>egid_lineEdit</tabstop>
+  <tabstop>kw_checkBox</tabstop>
+  <tabstop>kw_lineEdit</tabstop>
+  <tabstop>hn_checkBox</tabstop>
+  <tabstop>hn_lineEdit</tabstop>
+  <tabstop>mt_checkBox</tabstop>
+  <tabstop>mt_lineEdit</tabstop>
+  <tabstop>rs_checkBox</tabstop>
+  <tabstop>rs_lineEdit</tabstop>
+  <tabstop>ppid_checkBox</tabstop>
+  <tabstop>ppid_lineEdit</tabstop>
+  <tabstop>pid_checkBox</tabstop>
+  <tabstop>pid_lineEdit</tabstop>
+  <tabstop>fn_checkBox</tabstop>
+  <tabstop>fn_lineEdit</tabstop>
+  <tabstop>word_checkBox</tabstop>
+  <tabstop>word_lineEdit</tabstop>
+  <tabstop>auid_checkBox</tabstop>
+  <tabstop>auid_lineEdit</tabstop>
+  <tabstop>term_checkBox</tabstop>
+  <tabstop>term_lineEdit</tabstop>
+  <tabstop>ef_checkBox</tabstop>
+  <tabstop>ef_lineEdit</tabstop>
+  <tabstop>euid_checkBox</tabstop>
+  <tabstop>euid_lineEdit</tabstop>
+  <tabstop>uid_checkBox</tabstop>
+  <tabstop>uid_lineEdit</tabstop>
+  <tabstop>luid_checkBox</tabstop>
+  <tabstop>luid_lineEdit</tabstop>
+  <tabstop>syscall_checkBox</tabstop>
+  <tabstop>syscall_lineEdit</tabstop>
+  <tabstop>st_checkBox</tabstop>
+  <tabstop>st_timeEdit</tabstop>
+  <tabstop>et_checkBox</tabstop>
+  <tabstop>et_timeEdit</tabstop>
+  <tabstop>query_sent_lineEdit</tabstop>
+  <tabstop>query_produceButton</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

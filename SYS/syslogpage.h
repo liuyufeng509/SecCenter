@@ -10,7 +10,7 @@
 #include<QPushButton>
 #include<QLineEdit>
 #include<QComboBox>
-
+#include<QKeyEvent>
 namespace Ui {
 class SysLogPage;
 }
@@ -27,7 +27,7 @@ public slots:
     void browserIndex(QModelIndex index);
     void findnext();
      void findPre();
-
+    void keyPressEvent(QKeyEvent *);
 private:
     Ui::SysLogPage *ui;
     QFileSystemModel *model;

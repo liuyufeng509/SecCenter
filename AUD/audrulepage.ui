@@ -294,6 +294,21 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>ruleListWidget</tabstop>
+  <tabstop>upButton</tabstop>
+  <tabstop>downButton</tabstop>
+  <tabstop>modButton</tabstop>
+  <tabstop>delButton</tabstop>
+  <tabstop>fileRadio</tabstop>
+  <tabstop>sysCallRadio</tabstop>
+  <tabstop>customRadio</tabstop>
+  <tabstop>addButton</tabstop>
+  <tabstop>forEverButton</tabstop>
+  <tabstop>nowButton</tabstop>
+  <tabstop>freshButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

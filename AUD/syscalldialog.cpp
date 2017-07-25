@@ -16,6 +16,10 @@ SysCallDialog::SysCallDialog(SysCallRule &sysCallRule,QWidget *parent) :
     ui->label_48->setHidden(true);
     ui->sys_call_et_TimeEdit->setHidden(true);
     ui->sys_call_st_TimeEdit->setHidden(true);
+    ui->user_syscall_radioButton->setHidden(true);
+    ui->exclude_radioButton->setHidden(true);
+    ui->label_51->setHidden(true);
+    ui->msgtype_lineEdit->setHidden(true);
 }
 
 void SysCallDialog::on_list_group_radioButton_clicked()

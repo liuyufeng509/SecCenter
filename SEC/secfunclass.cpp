@@ -1201,8 +1201,8 @@ bool SecFunClass::isBiBaOpened(bool &isOpen)
     }
     strl.removeLast();
     if(strl.count()>0)
-        isOpen = strl.last().toInt()==0?false:true;
-
+        isOpen = (strl.last().toInt()==0?true:false);
+  //  qDebug()<<"isOpen="<<isOpen;
     return true;
 }
 

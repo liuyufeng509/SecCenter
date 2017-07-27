@@ -135,6 +135,7 @@ void AudInfoPage::on_fresh_pushButton_clicked()
         read_and_display_file();
         break;
     default:
+        errMsgBox(tr("无法获取刷新类型！"), this);
         break;
     }
 }

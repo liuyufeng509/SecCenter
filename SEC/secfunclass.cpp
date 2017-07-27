@@ -528,7 +528,11 @@ bool SecFunClass::getUserWholeTagInfo(UserTag &userTag)
     }
     strl.removeLast();
     if(strl.count()>0)
-        userTag.wholeTag = strl.last();
+    {
+        userTag.wholeTag = strl.last().split(':').last();
+        userTag.wholeTag = "g"+userTag.wholeTag;
+    }
+
     return true;
 }
 
@@ -750,8 +754,13 @@ bool SecFunClass::getFileWholeTagInfo(FileTag &filetag)
         throw Exception(strl.last(), errContent);
     }
     strl.removeLast();
+//    if(strl.count()>0)
+//    filetag.wholeTag = strl.last();
     if(strl.count()>0)
-    filetag.wholeTag = strl.last();
+    {
+        filetag.wholeTag = strl.last().split(':').last();
+        filetag.wholeTag = "g"+filetag.wholeTag;
+    }
     return true;
 }
 

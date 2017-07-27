@@ -62,12 +62,12 @@
        <rect>
         <x>17</x>
         <y>25</y>
-        <width>255</width>
+        <width>261</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>允许的未完成审计缓冲区的最大数目：</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;允许的未完成审计缓冲区的最大数目(&lt;span style=&quot; color:#f01b1b;&quot;&gt;*&lt;/span&gt;)：&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="max_noaud_buf_lineEdit">
@@ -194,12 +194,12 @@
        <rect>
         <x>20</x>
         <y>230</y>
-        <width>244</width>
+        <width>261</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>以每秒钟消息条数为单位的速率限制:</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;以每秒钟消息条数为单位的速率限制(&lt;span style=&quot; color:#e61d1d;&quot;&gt;*&lt;/span&gt;):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="rate_limit_lineEdit">
@@ -338,8 +338,8 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup_3"/>
+  <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>

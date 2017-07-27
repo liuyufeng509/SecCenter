@@ -48,7 +48,7 @@ SysLogPage::SysLogPage(QWidget *parent) :
     hlayout->addWidget(preButton);
     hlayout->addWidget(nexButton);
     browser = new QTextBrowser;
-
+    //browser = new QPlainTextEdit;
     QVBoxLayout *vlayout = new QVBoxLayout;
     vlayout->addLayout(hlayout);
     vlayout->addWidget(browser);
@@ -103,18 +103,31 @@ void SysLogPage::browserIndex(QModelIndex index)
         return;
     else
     {
-        browser->setText("");
+        browser->setPlainText("");
 
         QFile file(model->fileInfo(index).absoluteFilePath());
+
+//        if ( file.open(QIODevice::ReadWrite) ) {
+//            uchar* fpr = file.map(0, file.size());
+//            if(fpr)
+//                  {
+//                      //do something   to fpr
+//                      //file.unmap(fpr);
+//                      browser->setText((char*)fpr);
+//                  }
+//            file.close();
+//        }
+        QFileInfo fileInfo(file);
+        if(fileInfo.size()>3*1024*1024)
+            {
+            if(warnMsgBox(tr("文件太大，可能造成上时间卡顿，是否依然打开？"), this)==QMessageBox::Cancel)
+                return;
+        }
         if ( file.open( QFile::ReadOnly | QFile::Text) ) {
                 QTextStream stream( &file );
-//                QString line;
-//                int n = 1;
-//                while ( !stream.atEnd() ) {
-//                    line = stream.readLine(); // 不包括“\n”的一行文本
-//                    browser->append(line+"\n");
-//                }
-                browser->setText(stream.readAll());
+                QString line;
+                line = stream.readAll();
+                browser->setPlainText(line);
                 file.close();
         }
     }

@@ -5,6 +5,7 @@
 #include<QCompleter>
 #include"common.h"
 #include "audfunclass.h"
+
 namespace Ui {
 class AudConfPage;
 }
@@ -19,6 +20,9 @@ public:
     void getAudConfigInfo();
     void UpdateUI();
     void saveDataFromUI();
+
+    bool IsValidChar(char ch);
+    bool IsValidEmail(QString strEmail);
 private slots:
     void on_okButton_clicked();
 

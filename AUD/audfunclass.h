@@ -28,6 +28,7 @@ public:
 
     bool delAllRules();                         //清空所有规则
     bool setRuleList(QStringList ruleList); //设置规则
+    bool setRule(QString rule); //设置规则
 
 private:
     explicit AudFunClass(QObject *parent = 0);

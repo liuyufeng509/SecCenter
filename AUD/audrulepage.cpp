@@ -185,23 +185,22 @@ void AudRulePage::on_nowButton_clicked()
 //        infoMsgBox(tr("当前规则未作更改"));
 //        return;
 //    }
-    try
-    {
         AudFunClass::getInstance()->delAllRules();
         QStringList ruleListTmp;
         for(int i=0; i<ui->ruleListWidget->count();i++)
+        {
+            try{
+                AudFunClass::getInstance()->setRule(ui->ruleListWidget->item(i)->text());
+                ruleListTmp<<ui->ruleListWidget->item(i)->text();
+            }catch(Exception exp)
             {
-            ruleListTmp<<ui->ruleListWidget->item(i)->text();
+                errMsgBox(exp.getErroWhat(), this);
+            }
         }
-        AudFunClass::getInstance()->setRuleList(ruleListTmp);
         isModify = false;
         ruleList = ruleListTmp;
         infoMsgBox(tr("审计规则设置成功"), this);
         updateUI();
-    }catch(Exception exp)
-            {
-        errMsgBox(exp.getErroWhat(), this);
-    }
 }
 
 void AudRulePage::updateUI()

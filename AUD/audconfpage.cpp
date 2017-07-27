@@ -34,11 +34,13 @@ AudConfPage::AudConfPage(QWidget *parent) :
         ui->restartAduButton->setHidden(false);
     else
         ui->restartAduButton->setHidden(true);
-    QIntValidator * v = new QIntValidator (0, Max_INPUT, this);
+    QIntValidator * v = new QIntValidator (100, Max_INPUT, this);
      ui->max_log_filelineEdit->setValidator(v);
-     ui->num_logslineEdit->setValidator(v);
      ui->admin_space_left_lineEdit->setValidator(v);
      ui->space_left_lineEdit->setValidator(v);
+     QIntValidator * v2 = new QIntValidator (2, 99, this);
+     ui->num_logslineEdit->setValidator(v2);
+
 }
 void AudConfPage::getAudConfigInfo()
 {
@@ -103,6 +105,7 @@ void AudConfPage::UpdateUI()
 
 void AudConfPage::saveDataFromUI()
 {
+
     audCfgInfo.log_file = ui->log_filelineEdit->text();
     audCfgInfo.max_log_file = ui->max_log_filelineEdit->text();
     audCfgInfo.max_log_file_action = ui->max_log_file_action_comboBox->currentText();
@@ -138,13 +141,31 @@ void AudConfPage::on_okButton_clicked()
 //        }
 //    }
 
+         audCfgInfo.log_file = ui->log_filelineEdit->text();
+         audCfgInfo.max_log_file = ui->max_log_filelineEdit->text();
+         audCfgInfo.max_log_file_action = ui->max_log_file_action_comboBox->currentText();
+         audCfgInfo.num_logs = ui->num_logslineEdit->text();
+         audCfgInfo.admin_space_left = ui->admin_space_left_lineEdit->text();
+         audCfgInfo.admin_space_left_action = ui->admin_space_left_action_comboBox->currentText();
+         audCfgInfo.space_left_action = ui->space_left_action_comboBox->currentText();
+         audCfgInfo.space_left = ui->space_left_lineEdit->text();
+         audCfgInfo.disk_full_action = ui->disk_full_action_comboBox->currentText();
+         audCfgInfo.disk_error_action = ui->disk_error_action_comboBox->currentText();
+    if(audCfgInfo.log_file.isEmpty() || audCfgInfo.max_log_file.isEmpty()
+            || audCfgInfo.num_logs.isEmpty() || audCfgInfo.admin_space_left.isEmpty()
+            ||audCfgInfo.space_left.isEmpty())
+    {
+        errMsgBox(tr("除报警方式外，其他参数不允许未空！"), this);
+        return;
+    }
     if(QGlobalClass::getInstance()->audCfgInfo.warn)
     {
         QStringList mails = audCfgInfo.warning_mail.split(',');
         QStringList tels = audCfgInfo.warning_tel.split(',');
         for(int i=0; i<mails.count(); i++)
         {
-            if(!mails[i].contains("@"))
+            //if(!mails[i].contains("@"))
+            if(!IsValidEmail(mails[i]))
             {
                 errMsgBox(tr("请填写正确的邮箱格式"), this);
                 return;
@@ -214,3 +235,62 @@ void AudConfPage::on_restartAduButton_clicked()
         errMsgBox(exp.getErroWhat(), this);
     }
 }
+
+
+bool AudConfPage::IsValidChar(char ch)
+{
+    if( (ch>=97) && (ch<=122) ) //26个小写字母
+        return true;
+    if( (ch>=65) && (ch<=90) ) //26个大写字母
+        return true;
+    if((ch>=48) && (ch<=57)) //0~9
+        return true;
+    if( ch==95 || ch==45 || ch==46 || ch==64 ) //_-.@
+        return true;
+    return false;
+}
+bool AudConfPage::IsValidEmail(QString strEmail)
+{
+    if( strEmail.length()<5 ) //26个小写字母
+        return false;
+
+    char ch = strEmail[0].toLatin1();
+    if( ((ch>=97) && (ch<=122)) || ((ch>=65) && (ch<=90)) )
+    {
+        int atCount =0;
+        int atPos = 0;
+        int dotCount = 0;
+        for(int i=1;i<strEmail.length();i++) //0已经判断过了，从1开始
+        {
+            ch = strEmail[i].toLatin1();
+            if(IsValidChar(ch))
+            {
+                if(ch==64) //"@"
+                {
+                    atCount ++;
+                    atPos = i;
+                }else if( (atCount>0) && (ch==46) )//@符号后的"."号
+                    dotCount ++;
+            }else
+                return false;
+        }
+    //6. 结尾不得是字符“@”或者“.”
+        if( ch == 46 )
+            return false;
+        //2. 必须包含一个并且只有一个符号“@”
+        //3. @后必须包含至少一个至多三个符号“.”
+        if( (atCount!=1) || (dotCount<1) || (dotCount>3) )
+            return false;
+        //5. 不允许出现“@.”或者.@
+        bool x,y;
+        x=strEmail.contains("@.");
+        y=strEmail.contains(".@");
+        if( x || y )
+        {
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+

@@ -44,7 +44,7 @@
       </size>
      </property>
      <property name="title">
-      <string>查询设置</string>
+      <string>查询设置(至少选一)</string>
      </property>
      <widget class="QCheckBox" name="st_checkBox">
       <property name="enabled">
@@ -81,14 +81,17 @@
      <widget class="QLabel" name="label_20">
       <property name="geometry">
        <rect>
-        <x>17</x>
-        <y>337</y>
-        <width>64</width>
+        <x>20</x>
+        <y>340</y>
+        <width>91</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>查询语句:</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;查询语句(&lt;span style=&quot; color:#e32000;&quot;&gt;*&lt;/span&gt;&lt;span style=&quot; color:#1c0c09;&quot;&gt;)&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
      <widget class="QLineEdit" name="query_sent_lineEdit">

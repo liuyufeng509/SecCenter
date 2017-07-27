@@ -11,6 +11,7 @@
 #include<QLineEdit>
 #include<QComboBox>
 #include<QKeyEvent>
+#include <QPlainTextEdit>
 namespace Ui {
 class SysLogPage;
 }
@@ -33,6 +34,7 @@ private:
     QFileSystemModel *model;
     QTreeView *treeView;
     QTextBrowser *browser;
+   // QPlainTextEdit *browser;
     QPushButton *nexButton;
     QPushButton *preButton;
    // QLineEdit *lineEdit;

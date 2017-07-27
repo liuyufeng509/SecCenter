@@ -79,6 +79,20 @@ bool AudFunClass::delAllRules()  //清空所有规则
     return true;
 }
 
+bool AudFunClass::setRule(QString rule)
+{
+    try
+    {
+        QString cmdstr = "auditctl "+rule;
+        QString rs;
+        excuteAudCmd(cmdstr, tr("设置审计规则"),rs);
+    }catch(Exception exp)
+            {
+        throw exp;
+    }
+    return true;
+}
+
 bool AudFunClass::setRuleList(QStringList ruleList) //设置规则
 {
     try

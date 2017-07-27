@@ -120,12 +120,12 @@
        <rect>
         <x>18</x>
         <y>26</y>
-        <width>131</width>
+        <width>141</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>审计日志保存位置：</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;审计日志保存位置(&lt;span style=&quot; color:#e50909;&quot;&gt;*&lt;/span&gt;)：&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="log_filelineEdit">
@@ -178,18 +178,18 @@
        <rect>
         <x>330</x>
         <y>60</y>
-        <width>81</width>
+        <width>101</width>
         <height>33</height>
        </rect>
       </property>
       <property name="text">
-       <string>保存最新的     </string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;保存最新的(&lt;span style=&quot; color:#ec0f0f;&quot;&gt;*&lt;/span&gt;)     &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="max_log_filelineEdit">
       <property name="geometry">
        <rect>
-        <x>121</x>
+        <x>120</x>
         <y>60</y>
         <width>30</width>
         <height>33</height>
@@ -237,7 +237,7 @@
      <widget class="QLineEdit" name="num_logslineEdit">
       <property name="geometry">
        <rect>
-        <x>420</x>
+        <x>430</x>
         <y>60</y>
         <width>30</width>
         <height>33</height>
@@ -259,20 +259,20 @@
      <widget class="QLabel" name="label_22">
       <property name="geometry">
        <rect>
-        <x>18</x>
+        <x>10</x>
         <y>60</y>
-        <width>97</width>
+        <width>111</width>
         <height>33</height>
        </rect>
       </property>
       <property name="text">
-       <string>当日志增长到      </string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;当日志增长到(&lt;span style=&quot; color:#f11717;&quot;&gt;*&lt;/span&gt;)      &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="admin_space_left_lineEdit">
       <property name="geometry">
        <rect>
-        <x>159</x>
+        <x>180</x>
         <y>140</y>
         <width>30</width>
         <height>33</height>
@@ -296,18 +296,18 @@
        <rect>
         <x>18</x>
         <y>143</y>
-        <width>135</width>
+        <width>161</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>当磁盘剩余空间达到</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;当磁盘剩余空间小于(&lt;span style=&quot; color:#f11717;&quot;&gt;*&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_16">
       <property name="geometry">
        <rect>
-        <x>195</x>
+        <x>215</x>
         <y>143</y>
         <width>59</width>
         <height>21</height>
@@ -320,7 +320,7 @@
      <widget class="QComboBox" name="admin_space_left_action_comboBox">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>280</x>
         <y>140</y>
         <width>92</width>
         <height>29</height>
@@ -366,7 +366,7 @@
      <widget class="QComboBox" name="space_left_action_comboBox">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>280</x>
         <y>180</y>
         <width>92</width>
         <height>29</height>
@@ -406,7 +406,7 @@
      <widget class="QLineEdit" name="space_left_lineEdit">
       <property name="geometry">
        <rect>
-        <x>159</x>
+        <x>179</x>
         <y>180</y>
         <width>30</width>
         <height>30</height>
@@ -430,18 +430,18 @@
        <rect>
         <x>18</x>
         <y>184</y>
-        <width>135</width>
+        <width>161</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>当磁盘剩余空间达到</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;当磁盘剩余空间小于(&lt;span style=&quot; color:#f11717;&quot;&gt;*&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_19">
       <property name="geometry">
        <rect>
-        <x>195</x>
+        <x>215</x>
         <y>184</y>
         <width>59</width>
         <height>21</height>
